@@ -1,0 +1,20 @@
+aaaa bbbb
+<app n="1" type="footnote" xml:id="begin_fn1"><rdg>cccc</rdg><anchor xml:id="end_fn1"/>
+</app>
+dddd eeee ffff
+<locus target="WW1">LL1</locus>
+gggg
+<app n="2" type="footnote" xml:id="begin_fn2"><rdg>hhhh iiii jjjj</rdg><anchor xml:id="end_fn2"/>
+</app>
+kkkk llll
+<app n="3" type="footnote" xml:id="begin_fn3"><rdg>mmmm</rdg><anchor xml:id="end_fn3"/>
+</app>
+nnnn
+<locus target="WW2">LL2</locus>
+oooo
+<app n="4" type="footnote" xml:id="begin_fn4"><rdg>pppp</rdg><anchor xml:id="end_fn4"/>
+</app>
+qqqq rrrr
+<app n="5" type="footnote" xml:id="begin_fn5"><rdg>ssss tttt</rdg><anchor xml:id="end_fn5"/>
+</app>
+uuuu vvvv

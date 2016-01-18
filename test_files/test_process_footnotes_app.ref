@@ -1,0 +1,33 @@
+<app> from="#begin_fn1" to="#end_fn1">
+    <rdg wit="#WW1">
+        <add reason="add_scribe">wwww xxxx yyyy</add>
+    </rdg>
+</app>
+<app> from="#begin_fn2" to="#end_fn2">
+    <rdg>
+        <choice>
+            <corr type="conjecture">hhhh iiii jjjj</corr>
+        </choice>
+    </rdg>
+    <rdg wit="#WW2">wwww xxxx yyyy</rdg>
+    <rdg wit="#WW1">wwww xxxx yyyy</rdg>
+</app>
+<app> from="#begin_fn3" to="#end_fn3">
+    <rdg>
+        <choice>
+            <corr>mmmm</corr>
+        </choice>
+    </rdg>
+    <rdg wit="#WW2">wwww xxxx yyyy</rdg>
+    <rdg wit="#WW1">wwww xxxx yyyy</rdg>
+</app>
+<app> from="#begin_fn4" to="#end_fn4">
+    <rdg wit="#WW1">pppp</rdg>
+    <rdg wit="#WW2">
+        <gap reason="omission"/>
+    </rdg>
+</app>
+<app> from="#begin_fn5" to="#end_fn5">
+    <rdg wit="#W1">ssss tttt</rdg>
+    <rdg wit="#WW2">wwww xxxx yyyy</rdg>
+</app>
