@@ -1,0 +1,1705 @@
+<TEI xml:space="preserve" xml:lang="en" xml:base="ex-epidoctemplate.xml" xmlns="http://www.tei-c.org/ns/1.0">
+<teiHeader>
+    <fileDesc>
+        <titleStmt>
+            <title>IAS TEI tag test</title>
+            <funder>ERC</funder>
+            <principal>Peter Pormann</principal>
+        </titleStmt>
+        <publicationStmt>
+            <publisher>Manchester University</publisher>
+            <date calendar="Gregorian">[Date when first made available]</date>
+            <pubPlace>
+                <address>
+                        <addrLine>School of Arts, Languages and Cultures </addrLine><addrLine>The University of Manchester</addrLine>
+                        <street>Oxford Road</street>
+                        <settlement>Manchester </settlement>
+                        <postCode>M13 9PL</postCode>
+                        <addrLine><ref target="http://www.arts.manchester.ac.uk/research/projects/hippocratic_aphorisms/">Arabic Commentaries on the Hippocratic Aphorisms
+                </ref></addrLine>
+                <addrLine><email>peter.pormann@manchester.ac.uk</email></addrLine>
+                </address>
+            </pubPlace>
+            <idno>Arabic Commentaries on the Hippocratic Aphorisms</idno>
+        </publicationStmt>
+        <sourceDesc>
+            <listWit>
+                <witness>H</witness>
+                <witness>Eh1</witness>
+                <witness>CB1</witness>
+                <witness>S3</witness>
+            </listWit>
+        </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+        <variantEncoding method="double-end-point" location= "external"/>
+   </encodingDesc>
+</teiHeader>
+    <text>
+        <body>   
+            <div n="7" type="Title_section">
+                <ab>
+                    المقالة السابعة
+                </ab>
+            </div>
+            <div n="1" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: برد الأطراف في الأمراض الحادّة دليل رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: برد الأطلاف كالأنف والأذنين والكفّين والقدمين في الأمراض الحادّة يدلّ على أنّ في الأعضاء الباطلة ورماً يبلغ من حرارته أن يجتذب الدم إليه بمنزلة جذب المحجمة الدم من البدن كلّه فتبرد الأطراف لنقصان الدم فيها وتلتهب الأحشاء التهاباً لا يقدر صاحبه أن يلقى عليه ثوب. وقد علمت في الرابعة أنّ برد الأطراف في الأمراض الحادّة قد يكون لنقصان الحارّ الغريزي وضعفه عن الانتشار إلى الأطراف، ولا يكون مع هذا الضرب التهاب في الداخل ولا شيء من علامات الورم. وأمّا في الأمراض المزمنة فليس برد الأطراف بدليل
+                        <locus target="CB1">202a</locus>
+                        سوء ويستعان في هذا الباب بالفصل السادس والعشرين من هذه المقالة.
+                    </p>
+                </div>
+            </div>
+            <div n="2" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا كانت في العظم علّة وكان لون اللحم عنها كمداً فذلك دليل رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: العظم إذا قبل عفونة شديدة فإنّ اللحم الذي ينبت بعد انكشافه يكمد لونه لأنّ الصديد الذي ينصبّ من ذلك العظم يكون حارًّا عفناً. وربّما اسودّ اللحم ويكون رخواً ويوجد الصديد
+                        <app n="1" type="footnote" xml:id="begin_fn1"><rdg>أشدّ</rdg><anchor xml:id="end_fn1"/>
+                        </app>
+                        نتناً ويكون
+                        <app n="2" type="footnote" xml:id="begin_fn2"><rdg>أكّالاً</rdg><anchor xml:id="end_fn2"/>
+                        </app>
+                        خبيثاً ويحتاج عند ذلك إلى العلاج بالكي لأنّ الدواء الحارّ
+                        <app n="3" type="footnote" xml:id="begin_fn3"><rdg>قلّما</rdg><anchor xml:id="end_fn3"/>
+                        </app>
+                        ينجح فيه والأسعى سعياً وحياً. وأمّا إذا كان الفساد والعفونة في العظم يسيراً لم يكن اللحم فاسداً للون، ولهذا علّق رداءة الدلالة بفساد اللون اللحم.
+                    </p>
+                </div>
+            </div>
+            <div n="3" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: حدوث الفواق وحمرة العينين بعد
+                        <app n="4" type="footnote" xml:id="begin_fn4"><rdg>القيء</rdg><anchor xml:id="end_fn4"/>
+                        </app>
+                        
+                        <locus target="V1">82a</locus>
+                        دليل رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير:
+                        <app n="5" type="footnote" xml:id="begin_fn5"><rdg>حمرة العينين تلزم الورم الحارّ في الدماغ لأنّ الآلات الخاصّية بهما ناشية إمّا من الدماغ نفسه أو من غشائه، ويلزم ورم المعدة لأنّ القيء الذي 
+                        <locus target="CB1">202b</locus>
+                         يعرض معه يملأ الدماغ مراراً أو أبخرة مرارية فتهتك</rdg><anchor xml:id="end_fn5"/>
+                        </app>
+                        الغشاء فتحمرّ له
+                        <app n="6" type="footnote" xml:id="begin_fn6"><rdg>العينان</rdg><anchor xml:id="end_fn6"/>
+                        </app>
+                        ، إلّا أنّها بورم الدماغ أخصّ. وأمّا الفواق فيلزم
+                        <app n="7" type="footnote" xml:id="begin_fn7"><rdg>من</rdg><anchor xml:id="end_fn7"/>
+                        </app>
+                        أذى المعدة إذا كان المؤذي في جرمها دون
+                        <app n="8" type="footnote" xml:id="begin_fn8"><rdg>تجويفها</rdg><anchor xml:id="end_fn8"/>
+                        </app>
+                        سيّما إذا كان المؤذي في فمها أو في المريء. ومتى لم يكن المؤذي فيها دلّ على أنّ الدماغ الذي هو مبدأ العصب قد حدث فيه ورم عظيم بالقرب من
+                        <app n="9" type="footnote" xml:id="begin_fn9"><rdg>زوج</rdg><anchor xml:id="end_fn9"/>
+                        </app>
+                        العصب المنحدر إلى المعدة. وكذلك
+                        <app n="10" type="footnote" xml:id="begin_fn10"><rdg>فإنّ</rdg><anchor xml:id="end_fn10"/>
+                        </app>
+                        الفواق الحادث عند القيء إذا اقترن به حمرة العينين دلّ على ورم إمّا في المعدة أو في
+                        <app n="11" type="footnote" xml:id="begin_fn11"><rdg>الدماغ</rdg><anchor xml:id="end_fn11"/>
+                        </app>
+                        . وقد يحدث الفواق بعد القيء المفرط وبعد جميع الاستفراغات الأخر إذا
+                        <app n="12" type="footnote" xml:id="begin_fn12"><rdg>أفرطت</rdg><anchor xml:id="end_fn12"/>
+                        </app>
+                        ويدلّ على الهلاك لأنّ حدوثه يكون من اليبس فالأوّل دليل رديء والثاني مهلك.
+                    </p>
+                </div>
+            </div>
+            <div n="4" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا حدث بعد العرق إقشعرار فليس ذلك بدليل محمود.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: القشعريرة بعد العرق تدلّ على أنّ الكيموس الذي اندفع بالعرق لم يكن نضيجاً وأنّ الطبيعة للم يمكنها
+                        <locus target="CB1">203a</locus>
+                        أن تمسكه إلى وقت الإنضاج التامّ بل دفعته للضرورة ثمّ لم تقو على إخراجه مع العرق. ولذلك يدلّ إمّا على خور الطبيعة وانهزامها فيعرض الهلاك وإمّا على تطاول المرض إن اقترن به سائر علامات السلامة.
+                    </p>
+                </div>
+            </div>
+            <div n="5" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا حدث بعد الجنون اختلاف دم أو استسقاء أو حيرة فذلك
+                        <app n="13" type="footnote" xml:id="begin_fn13"><rdg>دليل</rdg><anchor xml:id="end_fn13"/>
+                        </app>
+                        محمود.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: يمكن أن يكون عنى باختلاف الدم خروجه من أسفل عند انفتاح العروق التي في المقعدة. فإنّ الدم السوداوي والذي ناله ضرب من الاحتراق يستفرغ به، وذلك محمود. وقد يبرأ الجنون بالاستسقاء على طريق الانتقال من العلّة إلى العلّة، وذلك إذا عجزت الكبد عن دفع الفضلة الجنونية عن
+                        <app n="14" type="footnote" xml:id="begin_fn14"><rdg>نفسها</rdg><anchor xml:id="end_fn14"/>
+                        </app>
+                        فتحتبس فيها وتولّد الاستقساء، وليس ذلك بمحمود لأنّ أبقراط من عادته أن يطلق هذا الحكم على أمثال هذا اللهم إلّا أن يحتمل قوله «فذلك دليل محمود» على الاطّلاق بل
+                        <locus target="CB1">203b</locus>
+                        بحسب الإضافة وهو انتقال المرض من عضو أشرف
+                        <app n="15" type="footnote" xml:id="begin_fn15"><rdg>إلى</rdg><anchor xml:id="end_fn15"/>
+                        </app>
+                        آخر أقلّ شرفاً ممّا
+                        <app n="16" type="footnote" xml:id="begin_fn16"><rdg>يحمد</rdg><anchor xml:id="end_fn16"/>
+                        </app>
+                        والدماغ أشرف من الكبد إلّا أنّ في هذا بعد نظر لأنّ القوى الدماغية وإن كانت أشرف فإنّما يحتاج إليها في حسن الحياة والقوى الكبدية يحتاج إليها في إبقاء
+                        <app n="17" type="footnote" xml:id="begin_fn17"><rdg>الحيوة</rdg><anchor xml:id="end_fn17"/>
+                        </app>
+                        . وأمّا الحيرة فقد قال جالينوس إنّها
+                        <app n="18" type="footnote" xml:id="begin_fn18"><rdg>بالزيادة</rdg><anchor xml:id="end_fn18"/>
+                        </app>
+                        في الجنون أولى من أن يزيله
+                        <app n="19" type="footnote" xml:id="begin_fn19"><rdg>إلّا</rdg><anchor xml:id="end_fn19"/>
+                        </app>
+                        أن يفهم منه اشتداد الجنون فإنّ من الأمراض ما إذا اشتدّ جلب بحراناً فزال. ولذلك قال قد رأينا لمن به جنون يسير اشتدّ
+                        <app n="20" type="footnote" xml:id="begin_fn20"><rdg>به</rdg><anchor xml:id="end_fn20"/>
+                        </app>
+                        جنونه فقوي
+                        <app n="21" type="footnote" xml:id="begin_fn21"><rdg>ودام</rdg><anchor xml:id="end_fn21"/>
+                        </app>
+                        <app n="22" type="footnote" xml:id="begin_fn22"><rdg>فكان</rdg><anchor xml:id="end_fn22"/>
+                        </app>
+                        بذبك سكونه. ولعلّه عنى بالحيرة ضدّ الاشتداد وهو هدوء الجنون حتّى لا يكون معه توثّب وإقدام
+                        <locus target="V1">82b</locus>
+                        ولا محالة أنّ الطبيعة أقوى
+                        <app n="23" type="footnote" xml:id="begin_fn23"><rdg>معه</rdg><anchor xml:id="end_fn23"/>
+                        </app>
+                        على نضج مادّة العلّة ودفعها. وأنا أحسب أنّ هذا من الفصول المدلّسة فإنّ الاضطراب فيه كثير.
+                    </p>
+                </div>
+            </div>
+            <div n="6" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: ذهاب الشهوة في المرض المزمن والبراز الصرف دليل رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: ذهاب الشهوة بعد تطاول المرض يدلّ على موت القوّة الشهوانية. وقد كان يجب بعد
+                        <locus target="CB1">254a</locus>
+                        تطاول المرض أن تنهض الشهوة عند انخزال المرض، ولذلك صارت الهشاشة للطعام في كلّ مرض علامة جيّدة كما ذكر من قبل. وأمّا البراز الصرف فقد قال جالينوس إنّه الذي لا تخالطه مائية لكنّه من جنس المرار إمّا الأصفر أو الأحمر أو
+                        <app n="24" type="footnote" xml:id="begin_fn24"><rdg>الكراثي</rdg><anchor xml:id="end_fn24"/>
+                        </app>
+                        أو الزنجاري أو السوداوي، ويدلّ هذا على أنّ الحرارة قد أفنت مائية البدن، وذلك دليل رديء. وفي بعض النقول
+                        <app n="25" type="footnote" xml:id="begin_fn25"><rdg>«وولوع</rdg><anchor xml:id="end_fn25"/>
+                        </app>
+                        الاختلاف» فيكون المعنى فيه سقوط القوّة. والأولى عندي أن يكون أبقراط عنى بما قاله الجمع بين ذهاب الشهوة والبراز الصرف فإنّهما إذا اجتمعا
+                        <app n="26" type="footnote" xml:id="begin_fn26"><rdg>دلّا</rdg><anchor xml:id="end_fn26"/>
+                        </app>
+                        على الرداءة للعلّة التي عرفتها من قبل حيث قال الامتناع من الطعام في اختلاف الدم المزمن دليل رديء.
+                    </p>
+                </div>
+            </div>
+            <div n="7" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا حدث من كثرة
+                        <app n="27" type="footnote" xml:id="begin_fn27"><rdg>الشراب</rdg><anchor xml:id="end_fn27"/>
+                        </app>
+                        إقشعرار واختلاط ذهن فذلك دليل رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: شرب الشراب إذا بلغ من كثرته أن يخنق الحارّ الغريزي ويخمده صنيع الحطب الكثير بالنار فيولّد لذلك النافض
+                        <locus target="CB1">204b</locus>
+                        أو يملأ الدماغ دماً وريحاً حارّين، وذلك فيمن هو أسخن مزاجاً سيّما مزاج الرأس. ويولّد لذلك اختلاط العقل فبالحرى أن يكون ذلك دليلاً رديئاً.
+                    </p>
+                </div>
+            </div>
+            <div n="8" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا انفجر خراج إلى داخل حدث عن ذلك سقوط القوّة وقيء وذبول
+                        <app n="28" type="footnote" xml:id="begin_fn28"><rdg>نفس</rdg><anchor xml:id="end_fn28"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: عني بالخراج الدبيلة. فإذا انفجرت إلى داخل ثمّ كان انفجارها إلى المعدة حدث القيء. وإن كان إلى الصدر والرئة حدث الاختناق والسعال وإلى المعاء
+                        <app n="29" type="footnote" xml:id="begin_fn29"><rdg>اختلاف</rdg><anchor xml:id="end_fn29"/>
+                        </app>
+                        المدّة، وإنّما يعرض سقوط القوّة بسبب الانفجار دفعة، فإنّ كلّ انفجار دفعة مولّد للغشي والسقوط كما فهمته من قبل، وذلك لانحلال الروح الحيواني كثيراً. ولأنّ الأعضاء تتأذّى بالقيح جدًّا فيعرض لذلك دبول النفس، وإنّما يعرض
+                        <app n="30" type="footnote" xml:id="begin_fn30"><rdg>القيء</rdg><anchor xml:id="end_fn30"/>
+                        </app>
+                        لأنّ الانفجار على الأكثر يكون إلى المعدة والأمعاء.
+                    </p>
+                </div>
+            </div>
+            <div n="9" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا حدث عن سيلان الدم اختلاط في الذهن أو
+                        <app n="31" type="footnote" xml:id="begin_fn31"><rdg>تشنّج</rdg><anchor xml:id="end_fn31"/>
+                        </app>
+                        فذلك دليل رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير:
+                        <locus target="CB1">205a</locus>
+                        جالينوس يرى أنّه عنى باختلاط الذهن اضطراب أفعال الدماغ بسبب الخواء فإنّ العضو إذا ضعف شديداً اضطربت أفعاله كالحال في اليد والرجل المرتعشين
+                        <locus target="V1">83a</locus>
+                        إذا لم
+                        <app n="32" type="footnote" xml:id="begin_fn32"><rdg>يتمكّنا</rdg><anchor xml:id="end_fn32"/>
+                        </app>
+                        من الثبات لضعفهما، وهذا دليل رديء. ويمكن أن يكون اختلاط من اختلاف الدم غير هذا، فإنّ مع اختلالف الدم
+                        <app n="33" type="footnote" xml:id="begin_fn33"><rdg>به</rdg><anchor xml:id="end_fn33"/>
+                        </app>
+                        تحتدّ المرّة فإذا صارت إلى الدماغ حدث اختلاط قوي، وهذا
+                        <app n="34" type="footnote" xml:id="begin_fn34"><rdg>يدلّ</rdg><anchor xml:id="end_fn34"/>
+                        </app>
+                        على المكروه لأنّ مع الاختلاف يجب أن تنحدر المرّة إلى أسفل فإذا تصاعدت إلى فوق دلّت على رداءة الحال. والفرق بين الاختلاطين أنّ الحادث من الخواء لا يكون قوياً ويحدث بأخرة عند سقوط القوّة أو الإشراف عليه ،
+                        <app n="35" type="footnote" xml:id="begin_fn35"><rdg>وكأنّه</rdg><anchor xml:id="end_fn35"/>
+                        </app>
+                        حالته شبيهة بالهذيان عند الاستسقاط أو تقاربه والآخر يكون اختلاطاً تامًّا ويحدث قبل الاستسقاط. وأمّا التشنّج فيدلّ على جفاف الأعضاء الأصلية حتّى يبلغ الأمر بالأعصاب إن صارت إلى التشنّج،
+                        <locus target="CB1">205b</locus>
+                        فإن عنى أبقراط بأنّ اجتماع الأمرين
+                        <app n="36" type="footnote" xml:id="begin_fn36"><rdg>دالّ</rdg><anchor xml:id="end_fn36"/>
+                        </app>
+                        على غاية الرداءة،
+                        <app n="37" type="footnote" xml:id="begin_fn37"><rdg>وإن</rdg><anchor xml:id="end_fn37"/>
+                        </app>
+                        عنى به انفراد أحدهما فالتشنّج أقوى دلالة على الهلاك.
+                    </p>
+                </div>
+            </div>
+            <div n="10" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا حدث في القولنج المستعاذ منه قيء وفواق واختلاط ذهن
+                        <app n="38" type="footnote" xml:id="begin_fn38"><rdg>وتشنّج</rdg><anchor xml:id="end_fn38"/>
+                        </app>
+                        فذلك دليل سوء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: العرض الذي لا يفارق هذا الضرب من القولنج هو أنّه لا ينحدر شيء من الثفل إلى أسفل. وإنّما يعرض التهوّع عند اشتداد الأمر، وذلك إذا لم تقدر الطبيعة أن تدفع
+                        <app n="39" type="footnote" xml:id="begin_fn39"><rdg>شيئاً</rdg><anchor xml:id="end_fn39"/>
+                        </app>
+                        إلى أسفل لانسداد الطريق فتروم أن تدفع من فوق.
+                        <app n="40" type="footnote" xml:id="begin_fn40"><rdg>وإن</rdg><anchor xml:id="end_fn40"/>
+                        </app>
+                        اشتدّ التهوّع تقيّأ الرجيع لأنّ الأمعاء إذا اشتاقت إلى دفع ما فيها من
+                        <app n="41" type="footnote" xml:id="begin_fn41"><rdg>البراز</rdg><anchor xml:id="end_fn41"/>
+                        </app>
+                        لطول مكثه فيها ولم يتأتّ لها أن تدفعه إلى أسفل اضطرّت أن تتحرّك حركة مستكرهة بخلاف طبيعتها فتقذف
+                        <app n="42" type="footnote" xml:id="begin_fn42"><rdg>بما</rdg><anchor xml:id="end_fn42"/>
+                        </app>
+                        يؤذيها إلى فوق، ويكون ذلك عند الإشراف على الهلاك. والتشنّج والاختلاط يعرضان
+                        <app n="43" type="footnote" xml:id="begin_fn43"><rdg>لمشاركة</rdg><anchor xml:id="end_fn43"/>
+                        </app>
+                        الدماغ المعدة في الآفة.
+                    </p>
+                </div>
+            </div>
+            <div n="11" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        <locus target="CB1">206a</locus>
+                        قال أبقراط: إذا حدث عن ذات الجنب ذات الرئة فذلك دليل رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: رداءة هذا من قبل أنّ المادّة إذا كانت من الكثرة بحيث لا تسعها الأضلاع حتّى يفيض منها شيء إلى الرئة حدث ذات الرئة، ولا ينعكس هذا حتّى يحدث من ذات الرئة ذات الجنب لأنّ المادّة في ذات الرئة إن كانت يسيرة خرجت بالنفث، وإن كانت كثيرة أهلكت بالخنق. ويوجد هذا الفصل في بعض النسخ «من بعد ذات الجنب ذات الرئة». وهذا يحتمل وجهين أحدهما أنّ من شأن ذات الجنب أن ينتقل إلى ذات الرئة والآخر أنّ ذات الرئة يحدث بعد ذات الجنب. ومن البيّن أنّ ذات الجنب يسكن في الانتقال إلى ذات
+                        <app n="44" type="footnote" xml:id="begin_fn44"><rdg>الرئة</rdg><anchor xml:id="end_fn44"/>
+                        </app>
+                        وأنّهما يجتمعان إذا حدث ذات الرئة بعد ذات الجنب إمّا اجتماعهما فعلى الوجه الذي قلناه وإمّا حدوث ذات الرئة بعد سكون ذات الجنب فعلى طريق
+                        <locus target="V1">83b</locus>
+                        الانتقال في العلّة أو لأنّ المادّة تولد في انفجار في ذات الجنب سوء مزاج في الرئة يتبعه ورم فيحدث
+                        <locus target="CB1">206b</locus>
+                        ذات الرئة.
+                    </p>
+                </div>
+            </div>
+            <div n="12" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن ذات الرئة السرسام.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا ليس يعرض دائماً لكن إذا كان ذات الرئة من فضل حادّ كثير مراري يرتفع له إلى الرأس بخار حادّ كثير فإنّه يملأه ويولّد السرسام. ويوجد هذا الفصل في بعض النقول «إذا تبع ذات الرئة السرسام كان ذلك دليلاً رديئاً». وهذا إن فهم اجتماعهما
+                        <app n="45" type="footnote" xml:id="begin_fn45"><rdg>فالرداءة</rdg><anchor xml:id="end_fn45"/>
+                        </app>
+                        من قبل اجتماع المرضين معاً.
+                    </p>
+                </div>
+            </div>
+            <div n="13" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن الاحتراق الشديد التشنّج والتمدّد.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: التشنّج والتمدّد من أيّ احتراق كانا من الحمّى الشديدة أو من حرّ الهواء أو من الكي بالنار فإنّهما يحدثان عن يبس العصب، ولذلك فهما رديئان. ويمكن أن يفهم على أنّ الاحتراق يجلب المادّة بنفسه وبتوسّط ما يهيّجه من الوجع والمادّة
+                        <app n="46" type="footnote" xml:id="begin_fn46"><rdg>تورم</rdg><anchor xml:id="end_fn46"/>
+                        </app>
+                        فيحدث التشنّج والتمدّد
+                        <app n="47" type="footnote" xml:id="begin_fn47"><rdg>الامتلائين</rdg><anchor xml:id="end_fn47"/>
+                        </app>
+                        ، وذلك
+                        <app n="48" type="footnote" xml:id="begin_fn48"><rdg>شرّ</rdg><anchor xml:id="end_fn48"/>
+                        </app>
+                        إلّا
+                        <app n="49" type="footnote" xml:id="begin_fn49"><rdg>أنّه</rdg><anchor xml:id="end_fn49"/>
+                        </app>
+                        أقلّ شرًّا من الأوّل.
+                    </p>
+                </div>
+            </div>
+            <div n="14" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        <app n="50" type="footnote" xml:id="begin_fn50"><rdg>قال أبقراط: وعن الضربة على الرأس البهتة واختلاط الذهن رديء</rdg><anchor xml:id="end_fn50"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: البهتة هي أن يبقى الإنسان ساكناً
+                        <locus target="CB1">107a</locus>
+                        لا يعقل من أمره شيئاً،
+                        <app n="51" type="footnote" xml:id="begin_fn51"><rdg>وهذه</rdg><anchor xml:id="end_fn51"/>
+                        </app>
+                        واختلاط العقل يدلّان على أنّ الضربة وصلت إلى الداخل وأنّ الآفة قد نالت الدماغ نفسه وأنّ القوى الدماغية اضطربت أفعالها أو رجعت عن التصرّفاتها
+                        <app n="52" type="footnote" xml:id="begin_fn52"><rdg>أصلاً</rdg><anchor xml:id="end_fn52"/>
+                        </app>
+                        . وذلك أنّ الدماغ إمّا مبدأ
+                        <app n="53" type="footnote" xml:id="begin_fn53"><rdg>للقوّة</rdg><anchor xml:id="end_fn53"/>
+                        </app>
+                        المدبّرة أو آلة لتصرّفاتها، ولذلك بالحرى أن تعرض البهتة والاختلاط عند ما تناله الآفة.
+                    </p>
+                </div>
+            </div>
+            <div n="15" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن نفث الدم نفث المدّة.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: إنّما يتبع نفث الدم نفث المدّة إذا كان بقايا الدم الذي ينفث يستحيل في مجاري الرئة إلى المدّة، وذلك إذا كان الدم رديئاً سريع الاستحالة. وأحسب أنّ جالينوس هذا عناه بقوله إنّ ليس كلّ دم ينفث يتبعه نفث المدّة بل الدم الخبيث ودم الرئة على الأكثر هو بهذه الصفة. ويمكن في الدم المنفوث إذا كان حريفاً أن تقرح الرئة ويحدث لذلك
+                        <app n="54" type="footnote" xml:id="begin_fn54"><rdg>ورم</rdg><anchor xml:id="end_fn54"/>
+                        </app>
+                        فيها. فإذا تقيّح صار إلى نفث المدّة. وعلى هذا الوجه يحدث من نفث المدّة السلّ.
+                    </p>
+                </div>
+            </div>
+            <div n="16" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        <locus target="CB1">207b</locus>
+                        قال أبقراط: وعن نفث المدّة السلّ والسيلان، فإذا احتبس البصاق
+                        <app n="55" type="footnote" xml:id="begin_fn55"><rdg>مات</rdg><anchor xml:id="end_fn55"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: إذا كان نفث المدّة من الرئة تقرحها فمن البيّن أنّه قد يؤذي إلى السلّ وهو هزال البدن مع حمّى دقّية بسبب قرحة الرئة. والسيلان يطلق عند اليونانيين على انتثار الشعر. فإن كان هذا عناه
+                        <app n="56" type="footnote" xml:id="begin_fn56"><rdg>أبقراط</rdg><anchor xml:id="end_fn56"/>
+                        </app>
+                        فإنّما يحدث ذلك من فناء غذائه واستيلاء الجفاف على البدن عند غاية
+                        <locus target="V1">84a</locus>
+                        الهزال. وإن كان عنى به انطقال الطبيعة فإنّ ذلك قد يحدث أيضاً بأخرة من السلّ ويدلّ على ضعف القوّة، وكلاهما يعرضان عند قرب الهلاك. وإنّما يحتبس البصاق إذا ضعف العليل عن أن ينفث ما في رئته فيسدّ ذلك مجاري نفسه ويموت المريض ميتة المختنقين.
+                    </p>
+                </div>
+            </div>
+            <div n="17" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن ورم الكبد الفواق.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: إنّما يتبع الفواق ورم الكبد إذا كان الورم عظيماً قوي الحرارة
+                        <app n="57" type="footnote" xml:id="begin_fn57"><rdg>فتشاركها</rdg><anchor xml:id="end_fn57"/>
+                        </app>
+                        المعدة فيه بسبب العصب. وذلك أنّ العصب
+                        <locus target="CB1">208a</locus>
+                        الذي
+                        <app n="58" type="footnote" xml:id="begin_fn58"><rdg>يأتيهما</rdg><anchor xml:id="end_fn58"/>
+                        </app>
+                        إنّما يتشعّب من مبدأ واحد. وأيضاً فإنّ الورم إذا كان بالصفة المذكورة فإنّه يتولّد في الكبد
+                        <app n="59" type="footnote" xml:id="begin_fn59"><rdg>بسببه</rdg><anchor xml:id="end_fn59"/>
+                        </app>
+                        مرار شديد الحرارة. فإذا انصبّ إلى أعالي الأمعاء
+                        <app n="60" type="footnote" xml:id="begin_fn60"><rdg>وتراقى</rdg><anchor xml:id="end_fn60"/>
+                        </app>
+                        منها إلى المعدة حدث فيها لذع يهيّج الفواق. وقد يظنّ قوم أنّ عظم ورم الكبد يضغط المعدة. فإذا كان فيها ريح لا تجد منفذاً هيّجت الفواق.
+                    </p>
+                </div>
+            </div>
+            <div n="18" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن السهر التشنّج واختلاط الذهن.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: إفراط السهر يجفّف البدن لأنّ البدن يعدم معه الاغتذاء ويكثر منه التحلّل فيعرض التشنّج اليابس. وأمّا الاختلاط العقل فيعرض إمّا لإفراط اليبس فإنّ فرط يبس الدماغ كاف في إحداث الاختلاط أو لأنّ الدم يحتدّ ويميل إلى طبيعة المرار.
+                    </p>
+                </div>
+            </div>
+            <div n="19" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن انكشاف العظم الورم الذي يدعى الحمرة.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا ليس يعرض دائماً لكن إذا اتّفق أن
+                        <app n="61" type="footnote" xml:id="begin_fn61"><rdg>يكون</rdg><anchor xml:id="end_fn61"/>
+                        </app>
+                        مع القرحة وجع شديد فإنّه يهيّج الحرارة، وكلاهما يجلبان الموادّ إلى ذلك الموضع.
+                        <locus target="CB1">208b</locus>
+                        فإذا انكشف العظم في القرحة فربّما وجد اللحم الذي حوله قد حدث فيه الورم المعروف بالحمرة وهو عرض رديء من هذا الوجه ومن جهة أنّ الحمرة ربّما تفسد العظم وإنّما تمنع لسوء المزاج ورداءة المادّة من اندمال القرحة.
+                    </p>
+                </div>
+            </div>
+            <div n="20" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن الورم الذي يدعى الحمرة العفونة والتقيّح.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: أحسب أنّه في هذا الفصل يبيّن رداءة الحمرة التي توجد عند انكشاف العظم. وذلك أنّ المرار المولّد للحمرة إذا كان رديئاً أحدث العفونة في لحم القرحة أو في العظم المنكشف
+                        <app n="62" type="footnote" xml:id="begin_fn62"><rdg>وأحدث</rdg><anchor xml:id="end_fn62"/>
+                        </app>
+                        لا محالة في القرحة
+                        <app n="63" type="footnote" xml:id="begin_fn63"><rdg>تقيّحاً</rdg><anchor xml:id="end_fn63"/>
+                        </app>
+                        لا سبيل إلى برئها إلّا بزوال القيح.
+                    </p>
+                </div>
+            </div>
+            <div n="21" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن الضربان الشديد في القروح انفجار الدم.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير:: إذا كان مع القرحة ورم حارّ وقع الإحساس بحركة الشرايين لتزيّد حركتها بالحرارة
+                        <app n="64" type="footnote" xml:id="begin_fn64"><rdg>الحادثة</rdg><anchor xml:id="end_fn64"/>
+                        </app>
+                        <app n="65" type="footnote" xml:id="begin_fn65"><rdg>وللضيق</rdg><anchor xml:id="end_fn65"/>
+                        </app>
+                        الحادث بسبب الورم.
+                        <locus target="V1">84b</locus>
+                        ولأنّ ما في القرحة من اللحم لضعفه لا يحتمل حركتها وإن لم تكن متزيّدة ولا وجد هناك ضيق بل يناله مصادمتها إيّاه
+                        <app n="66" type="footnote" xml:id="begin_fn66"><rdg>حسن</rdg><anchor xml:id="end_fn66"/>
+                        </app>
+                        مؤلم وهو الوجع
+                        <app n="67" type="footnote" xml:id="begin_fn67"><rdg>الضرباني</rdg><anchor xml:id="end_fn67"/>
+                        </app>
+                        
+                        <locus target="CB1">209a</locus>
+                        <app n="68" type="footnote" xml:id="begin_fn68"><rdg>فكم</rdg><anchor xml:id="end_fn68"/>
+                        </app>
+                        بالحرى أن يكون ذلك إذا وجد معنيان آخران وإذا تشوّقت الطبيعة إلى دفع الأشياء المؤذيةة في العروق
+                        <app n="69" type="footnote" xml:id="begin_fn69"><rdg>جعلت</rdg><anchor xml:id="end_fn69"/>
+                        </app>
+                        حركتها أعظم عظيماً مستكرهاً وهو الذي سمّاه أبقراط اشتداد الضربان فيحدث انفجار الدم.
+                    </p>
+                </div>
+            </div>
+            <div n="22" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن الوجع المزمن فيما يلي المعدة التقيّح.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: الوجع
+                        <app n="70" type="footnote" xml:id="begin_fn70"><rdg>المزمن</rdg><anchor xml:id="end_fn70"/>
+                        </app>
+                        لا يمكن أن يكون إلّا لورم عسر النضج. وذلك أنّ البرد وسوء المزاج
+                        <app n="71" type="footnote" xml:id="begin_fn71"><rdg>المختلف</rdg><anchor xml:id="end_fn71"/>
+                        </app>
+                        والريح الغليظة والمرار الملذع لا تبقى طويلاً إذا دبّر بما ينبغي. فأمّا الورم فسيتقيّح لا محالة على أطول الزمان إذا أمهل ولم يقتل.
+                    </p>
+                </div>
+            </div>
+            <div n="23" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن البراز الصرف اختلاف دم.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: البراز الصرف هو أحد المرارين إذا انحدر وحده من غير رطوبة مائية. وهذا لا محالة يجرد الأمعاء ويولّد فيه قرحة تؤذي إلى اختلاف الدم.
+                    </p>
+                </div>
+            </div>
+            <div n="24" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: وعن قطع العظم اختلاط الذهن
+                        <app n="72" type="footnote" xml:id="begin_fn72"><rdg>إن</rdg><anchor xml:id="end_fn72"/>
+                        </app>
+                        نال الخالي.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: عنى بالعظم قحف الرأس
+                        <locus target="CB1">209b</locus>
+                        وبالخالي السطح الداخل من اللقحف وهو الموضع الذي يحوي الدماغ وغشائه. والقطع إذا وصل إلى هذا الموضع فقد وصل إلى غشاء الدماغ، وإذا وصل إليه فقد وصل إلى الدماغ نفسه، لأنّه يواصل الدماغ
+                        <app n="73" type="footnote" xml:id="begin_fn73"><rdg>بتوسّط</rdg><anchor xml:id="end_fn73"/>
+                        </app>
+                        الغشاء الآخر فيحدث لذلك الاختلاط. وماريوس ألحق قوله إن نال الخالي بقوله التشنّج من
+                        <app n="74" type="footnote" xml:id="begin_fn74"><rdg>مفتتح</rdg><anchor xml:id="end_fn74"/>
+                        </app>
+                        الفصل الآخر وهو حقّ، إلّا أنّ الفصل الأوّل يبقى كذباً لأنّه ليس يلحق قطع العظم لا في الرأس ولا في غيره من الأعضاء اختلاط ما لم تصل الآفة إلى أغشية الدماغ.
+                    </p>
+                </div>
+            </div>
+            <div n="25" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال بقراط: التشنّج من شرب الدواء مميت.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: الدواء المسهل أو المقيء إذا أفرط في فعله جفّف الأعضاء الأصلية ,يحدث بجفاف العصب التشنّج المهلك.
+                    </p>
+                </div>
+            </div>
+            <div n="26" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: برد الأطراف عن الوجع الشديد فيما يلي المعدة رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: برد الأطراف قد يكون لورم عظيم
+                        <locus target="CB1">210a</locus>
+                        في الأحشاء أو لتراجع الحرارة بالانطفاء أو لانغمار الحرارة بسبب كثرة المادّة عليها سيّما إذا كانت باردة، وقد فهمت هذا كلّه. وقد يكون لوجع شديد في الجوف ينقبض بسبب الحارّ الغريزي ويتبعه الدم فيخلو الرأس والكفّان والقدمان من الدم. وهذا هو الذي ذكره أبقراط هاهنا وهو جزء واحد من الجملة.
+                    </p>
+                </div>
+            </div>
+            <div n="27" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا حدث بالحامل زحير كان سبباً لأن تسقط.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: الزحير
+                        <app n="75" type="footnote" xml:id="begin_fn75"><rdg>قرحة</rdg><anchor xml:id="end_fn75"/>
+                        </app>
+                        تحدث في
+                        <locus target="V1">85a</locus>
+                        المعاء المستقيم وتطالب صاحبها بالقيام المتواتر وينال الرحم بسبب مجاورته المعاء المستقيم أن يتحرّك حركة المعاء لدفع المؤذي فيسقط ولأنّه ينال
+                        <app n="76" type="footnote" xml:id="begin_fn76"><rdg>بدن</rdg><anchor xml:id="end_fn76"/>
+                        </app>
+                        الحامل كلّه والرحم على الخصوص في الحركة المتواترة ومن أذى الزحير الشديد أن يتعب و=يضعف فيسقط.
+                    </p>
+                </div>
+            </div>
+            <div n="28" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        #قال أبقراط: إذا انقطع شيء من العظم أو الغضروف لم ينم.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا قد مرّ
+                        <app n="77" type="footnote" xml:id="begin_fn77"><rdg>تفسيره</rdg><anchor xml:id="end_fn77"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+            </div>
+            <div n="29" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط:
+                        <locus target="CB1">210b</locus>
+                        إذا حدث بمن غلب عليه البلغم الأبيض اختلاف قوي انحلّ
+                        <app n="78" type="footnote" xml:id="begin_fn78"><rdg>عنه</rdg><anchor xml:id="end_fn78"/>
+                        </app>
+                        مرضه.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: قد جرت عادة اليونانيين أن يسمّوا الاستسقاء اللحمي
+                        <app n="79" type="footnote" xml:id="begin_fn79"><rdg>بلغماً</rdg><anchor xml:id="end_fn79"/>
+                        </app>
+                        أبيض لأنّ البلغم يستولي فيه على جملة البدن ويغتذي الأعضاء بدم بلغمي، وينسب البلغم
+                        <app n="80" type="footnote" xml:id="begin_fn80"><rdg>إلى</rdg><anchor xml:id="end_fn80"/>
+                        </app>
+                        الأبيض وإن كان البلغم كلّه
+                        <app n="81" type="footnote" xml:id="begin_fn81"><rdg>أبيض</rdg><anchor xml:id="end_fn81"/>
+                        </app>
+                        <app n="82" type="footnote" xml:id="begin_fn82"><rdg>للتفرّقة</rdg><anchor xml:id="end_fn82"/>
+                        </app>
+                        كما يقال فقار الصلب والفقار لا يكون إلّا في الصلب والاختلاف القوي فيه يحلّ هذا المرض.
+                    </p>
+                </div>
+            </div>
+            <div n="30" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من كان به اختلاف وكان ما يختلف زبدياً فقد يكون سبب اختلافه شيء ينحدر من رأسه.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: الاختلاف لا يصير زبدياً إلّا وتخالط ريح غليظة ورطوبة لزجة وتتحرّك الريح في وقت مخالطتها الرطوبة حركة شديدة حتّى تتقطّع هي وتنقسم في نفسها وتقطع تلك الرطوبة
+                        <app n="83" type="footnote" xml:id="begin_fn83"><rdg>وتقسمها</rdg><anchor xml:id="end_fn83"/>
+                        </app>
+                        إلى أجزاء صغار كثيرة. وسبب حركة الريح إمّا حرارة كثيرة وإمّا أن تكون الريح متحرّكة في نفسها. والرطوبة قد تنحدر من الرأس إلى المعدة وقد تنصبّ إليها من العروق.
+                        <locus target="CB1">211a</locus>
+                        وقد يكون متولّده فيها أو في المعاء. وأحسب أنّ أبقراط إنّما خصّص هذا النوع من الاختلاف بالدماغ وإن كان قد يكون عن غيره لبعد المسافة فإنّ الريح يحتاج في
+                        <app n="84" type="footnote" xml:id="begin_fn84"><rdg>اشتباكها</rdg><anchor xml:id="end_fn84"/>
+                        </app>
+                        بالرطوبة إلى زمان
+                        <app n="85" type="footnote" xml:id="begin_fn85"><rdg>ما</rdg><anchor xml:id="end_fn85"/>
+                        </app>
+                        وحركة ما. والمسافة من العروق وإن كانت طويلة فإنّ تولّد الريح فيها يكون أقلّ وما يتولّد فيها يكون ألطف. وأمّا الدماغ فإنّ مادّة الزبد أعني الريح والرطوبة فيه كثيرة.
+                        <app n="86" type="footnote" xml:id="begin_fn86"><rdg>وأمّا</rdg><anchor xml:id="end_fn86"/>
+                        </app>
+                        الريح فبسبب ما يرد عليه الهواء بالاستنشاق. وأمّا الرطوبة فلما تلقيها العروق في بطونه ولأنّه يغتذي بالغذاء الرطب. وأمّا من ظنّ أنّ الرطوبة التي تصير من الدماغ إلى المعدة إنّما تصير زبدياً إذا صارت أوّلاً إلى الرئة فنكذّبه مشاهدتنا النوازل التي تنزل من الدماغ إلى
+                        <app n="87" type="footnote" xml:id="begin_fn87"><rdg>الرئة</rdg><anchor xml:id="end_fn87"/>
+                        </app>
+                        عادمة
+                        <app n="88" type="footnote" xml:id="begin_fn88"><rdg>للزبدية</rdg><anchor xml:id="end_fn88"/>
+                        </app>
+                        رأساً
+                        <app n="89" type="footnote" xml:id="begin_fn89"><rdg>ولا</rdg><anchor xml:id="end_fn89"/>
+                        </app>
+                        الدم
+                        <app n="90" type="footnote" xml:id="begin_fn90"><rdg>المنفوث</rdg><anchor xml:id="end_fn90"/>
+                        </app>
+                        من الرئة يكون في جميع الحالات زبدياً. وعلى أنّ ما ينحدر من الرأس إلى المعدة إن صار إلى الرئة أوّلاً فإنّه يحتاج أن يدخل بطون القلب أوّلاً ثمّ
+                        <app n="91" type="footnote" xml:id="begin_fn91"><rdg>ينفذ</rdg><anchor xml:id="end_fn91"/>
+                        </app>
+                        إمّا إلى
+                        <locus target="CB1">211b</locus>
+                        الأجوف ومنه إلى
+                        <app n="92" type="footnote" xml:id="begin_fn92"><rdg>حدبة</rdg><anchor xml:id="end_fn92"/>
+                        </app>
+                        الكبد
+                        <app n="93" type="footnote" xml:id="begin_fn93"><rdg>وإلى</rdg><anchor xml:id="end_fn93"/>
+                        </app>
+                        مقعّرها ثمّ يخرج من الباب إلى استدارات الأمعاء وإمّا أن يصير من بطون القلب إلى الأبهر ومنه إلى
+                        <locus target="V1">85b</locus>
+                        الشعب التي تنبثّ في الجداول فكيف يمكن أن يبقى زبدياً وقد خالطه الدم
+                        <app n="94" type="footnote" xml:id="begin_fn94"><rdg>ونفذ</rdg><anchor xml:id="end_fn94"/>
+                        </app>
+                        مسافة من العروق طويلة.
+                    </p>
+                </div>
+            </div>
+            <div n="31" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من كان به حمّى
+                        <app n="95" type="footnote" xml:id="begin_fn95"><rdg>فكان</rdg><anchor xml:id="end_fn95"/>
+                        </app>
+                        ما يرسب في بوله ثفل شبيه بالسويق الجريش فذلك يدلّ على أنّ مرضه طويل.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: البول الشبيه بالسويق الجريش هو الذي يسمّى
+                        <app n="96" type="footnote" xml:id="begin_fn96"><rdg>الدشيش</rdg><anchor xml:id="end_fn96"/>
+                        </app>
+                        . وذلك أنّ الدشيش هو
+                        <app n="97" type="footnote" xml:id="begin_fn97"><rdg>حلال</rdg><anchor xml:id="end_fn97"/>
+                        </app>
+                        السويق وكلّ من يبول مثل هذا البول فإمّا أن يموت سريعاً أو يطول مرضه جدًّا.
+                        <app n="98" type="footnote" xml:id="begin_fn98"><rdg>والسبب</rdg><anchor xml:id="end_fn98"/>
+                        </app>
+                        في ذلك أنّ هذا الثفل يدلّ تارة على تفتّت الأعضاء الأصلية، وهذا هو الذي يهلك سريعاً
+                        <app n="99" type="footnote" xml:id="begin_fn99"><rdg>ويكون</rdg><anchor xml:id="end_fn99"/>
+                        </app>
+                        لونه أبيض. ويدلّ تارة على أنّ الحرارة قد ميّزت بعض الدم من الكبد
+                        <app n="100" type="footnote" xml:id="begin_fn100"><rdg>فأخمدته</rdg><anchor xml:id="end_fn100"/>
+                        </app>
+                        بالاحتراق، وربّما
+                        <app n="101" type="footnote" xml:id="begin_fn101"><rdg>دلّ</rdg><anchor xml:id="end_fn101"/>
+                        </app>
+                        على انحلال اللحم وتفتّته
+                        <app n="102" type="footnote" xml:id="begin_fn102"><rdg>ويعمّها</rdg><anchor xml:id="end_fn102"/>
+                        </app>
+                        حمرة اللون.
+                        <locus target="CB1">212a</locus>
+                        ويفرق بينهما
+                        <app n="103" type="footnote" xml:id="begin_fn103"><rdg>بأنّ</rdg><anchor xml:id="end_fn103"/>
+                        </app>
+                        الأجزاء اللحمية أقلّ حمرة وأشدّ اتّصالاً وأسرع إجابة للتفتّت بالإصبع والأجزاء الدموية أشدّ حمرة وأقلّ اتّصالاً وأسرع إجابة للتفتّت. ويدلّ تارة على بلغم قد أحرقته الحرارة وجفّفته ويكون دماً ذي اللون. وهذه الضروب هي التي تدلّ على طول المرض لأنّ الطبيعة تحتاج في نضج
+                        <app n="104" type="footnote" xml:id="begin_fn104"><rdg>أمثال</rdg><anchor xml:id="end_fn104"/>
+                        </app>
+                        هذه الأثفال وإصلاحها إلى زمان طويل ويعمّ هذه الضروب أجمع
+                        <app n="105" type="footnote" xml:id="begin_fn105"><rdg>الحمّى</rdg><anchor xml:id="end_fn105"/>
+                        </app>
+                        والالتهاب وعدم دلائل النضج.
+                    </p>
+                </div>
+            </div>
+            <div n="32" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا كان الغالب على الثفل الذي فى البول المرار وكان أعلاه رقيقاً دلّ على أنّ المرض حادّ.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: المرار إذا أطلق من غير تقييد بالأصفر أو الأسود فإنّما يعني به المرّة الصفراء لا غير. ومتى غلبت على الثفل دلّت
+                        <app n="106" type="footnote" xml:id="begin_fn106"><rdg>على</rdg><anchor xml:id="end_fn106"/>
+                        </app>
+                        حدّة المرض وعلى الخبث والرداءة لأنّه يدلّ على أنّ المادّة حادّة مرارية أخذه إلى التعفّن والفساد ورداءته بحسب غلبة صفرته.
+                        <app n="107" type="footnote" xml:id="begin_fn107"><rdg>فإن</rdg><anchor xml:id="end_fn107"/>
+                        </app>
+                        كان مع بول أبيض رقيق نقص من حدّته لعدمه النضج
+                        <locus target="CB1">212b</locus>
+                        إلّا أنّه يدلّ على الهلاك لمعنيين معاً. وأمّا قوله وأعلاه رقيقاً فإنّ جالينوس فهم منه في الرقّة في المكان ثمّ أخذ يتعجّب أنّ هذا كيف يدلّ على الحدّة والرقيق غير نضيج ويدلّ على طول المرض ثمّ حكى أنّ قوماً فهموا من الأعلى الزمان يعني أنّ الثفل إذا كان في أوّل
+                        <app n="108" type="footnote" xml:id="begin_fn108"><rdg>أمره</rdg><anchor xml:id="end_fn108"/>
+                        </app>
+                        رقيقاً ثمّ يصير مرارياً من بعد دلّ على أنّ المرض حادّ، وهذا ليس بشيء. وذكر حنين أنّه عنى بالرقّة في الأعلى الانخراط في الشكل لأنّ الثفل إذا كان نياً كان ثقيلاً غليظاً مسطح الأعلى، وإذا كان نضيجاً كان مقبًب الأعلى. وقد أحسن في هذا لأنّه قد يكتسب تقدمة معرفة بأشكال أعالي الثفل وأسافله فقد قيل في الثفل المتعلّق إنّه إذا كان مائل الأهداب
+                        <locus target="V1">86a</locus>
+                        إلى فوق دلّ على طول المرض، وإذا كان مائلها إلى أسفل دلّ على سرعة البرء لأنّ الأوّل يدلّ على تولّد الرياح والثاني على انفشاشها.
+                    </p>
+                </div>
+            </div>
+            <div n="33" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من كان بوله
+                        <locus target="CB1">213a</locus>
+                        متشتّتاً دلّ على اضطراب قوي.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: تشتّت البول هو أن يكون مختلف الأجزاء أعني أن
+                        <app n="109" type="footnote" xml:id="begin_fn109"><rdg>يكون</rdg><anchor xml:id="end_fn109"/>
+                        </app>
+                        منقسماً إلى مائية وأجزاء أخر متفرّقة فيه وإذا رسبت تلك الأجزاء تسمّى أثفالاً نخالية ويدلّ على انحلال السطح الظاهر من الأعضاء الأصلية كما يدلّ الدشيشي على أنّ الانحلال والتفتّت قد بلغ إلى عمق الأعضاء والاضطراب القوي الذي قاله هو مقاومة المرض
+                        <app n="110" type="footnote" xml:id="begin_fn110"><rdg>للطبيعة</rdg><anchor xml:id="end_fn110"/>
+                        </app>
+                        <app n="111" type="footnote" xml:id="begin_fn111"><rdg>ومعاندته</rdg><anchor xml:id="end_fn111"/>
+                        </app>
+                        لها. وذلك أنّ الطبيعة لو كانت مستولية
+                        <app n="112" type="footnote" xml:id="begin_fn112"><rdg>كانت</rdg><anchor xml:id="end_fn112"/>
+                        </app>
+                        أجزاء البول واحدة مستويةـ، ولهذا متى كانت الأثفال النخالية أصغر كان الاضطراب أقوى كالحال في الدشيشي لأنّه يدلّ على استيلاء الفساد لأنّ الفساد إذا كان في العضو في مواضع متقاربة فهو شرّ منه إذا كان في مواضع متباعدة، ومع الأوّل أجزاء صغار ومع الثاني أجزاء كبار. وافهم أنّ مثل هذا البول
+                        <app n="113" type="footnote" xml:id="begin_fn113"><rdg>ربّما</rdg><anchor xml:id="end_fn113"/>
+                        </app>
+                        دلّ على جرب
+                        <app n="114" type="footnote" xml:id="begin_fn114"><rdg>في</rdg><anchor xml:id="end_fn114"/>
+                        </app>
+                        المثانة. ويفرق بينهما بأنّ مع الأوّل
+                        <app n="115" type="footnote" xml:id="begin_fn115"><rdg>التهاباً</rdg><anchor xml:id="end_fn115"/>
+                        </app>
+                        وحمّى وضعف قوّة وبول غير نضج
+                        <locus target="CB1">213b</locus>
+                        ومع الثاني بول نضيج والقوّة سليمة وليست الحمّى.
+                    </p>
+                </div>
+            </div>
+            <div n="34" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من كان فوق بوله عبب دلّ على أنّ علّته في الكلى وأنذر منها بطول.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: قد فهمت أنّ العبب هو امتداد رطوبة لزجة حول ريح غليظة. فمتى كان العبب أصغر
+                        <app n="116" type="footnote" xml:id="begin_fn116"><rdg>وأسرع</rdg><anchor xml:id="end_fn116"/>
+                        </app>
+                        انفشاشاً دلّ على أنّ الريح ألطف والرطوبة أقلّ لزوجة أو عادمة لها، ومتى كان أكبر وأبطأ انفقاء دلّ بالضدّ. وليس العبب يوجد في مرض الكلى وحدها بل قد يوجد في مواضع أخر، ثمّ ربّما دلّ باللون على نفس المرض كما يدلّ باجتماع السواد والشقرة معاً على اليرقان وبالبياض وحده على الصرع أو الصداع، وربّما وجد في انحلال بعض العلل البلغمية
+                        <app n="117" type="footnote" xml:id="begin_fn117"><rdg>كالفالج</rdg><anchor xml:id="end_fn117"/>
+                        </app>
+                        والسكتة والصرع والنقرس ولا يدوم بل لا يكون أكثر من أيّام قلائل ويكون مجيئه أكثر. وأحسب أنّ أبقراط إنّما خصّص كلامه بعلل الكلى لأنّ العبب فيها أردأ إذ يدلّ على ضعف الحارّ الغريزي فيكون الريح أغلظ
+                        <locus target="CB1">214a</locus>
+                        والرطوبة
+                        <app n="118" type="footnote" xml:id="begin_fn118"><rdg>ألزج</rdg><anchor xml:id="end_fn118"/>
+                        </app>
+                        ، ولذلك ينذر بطولها لأنّ الرياح الغليظة مع الرطوبة اللزجة أعسر نضجاً وتفشّياً. ولذلك ربّما وجد العبب في أبوال الأصحّاء من قبل ضعف الكلى بسبب من الأسباب التي يضعف الحارّ الغريزي فيها كالحال فيمن أفرط في استعمال الباه في غير حاجة إليها وهؤلاء يشكّون أبداً ضعفاً في الرجلين وعجزاً عن
+                        <locus target="V1">86b</locus>
+                        <app n="119" type="footnote" xml:id="begin_fn119"><rdg>الحركة</rdg><anchor xml:id="end_fn119"/>
+                        </app>
+                        ووجعاً ليس
+                        <app n="120" type="footnote" xml:id="begin_fn120"><rdg>بقوي</rdg><anchor xml:id="end_fn120"/>
+                        </app>
+                        في نواحي القطن سيّما في الانحناء
+                        <app n="121" type="footnote" xml:id="begin_fn121"><rdg>والانتصاب</rdg><anchor xml:id="end_fn121"/>
+                        </app>
+                        والانقلاب من
+                        <app n="122" type="footnote" xml:id="begin_fn122"><rdg>جنب</rdg><anchor xml:id="end_fn122"/>
+                        </app>
+                        وهؤلاء ومن شاكلهم ممّن ضعف الحارّ الغريزي في كلاهم يبولون بولاً أبيض كثير المقدار ذا
+                        <app n="123" type="footnote" xml:id="begin_fn123"><rdg>عبب</rdg><anchor xml:id="end_fn123"/>
+                        </app>
+                        كثير بطئ
+                        <app n="124" type="footnote" xml:id="begin_fn124"><rdg>الانفقاء</rdg><anchor xml:id="end_fn124"/>
+                        </app>
+                        . وربّما يوجد في بعض العلل الحادّة في الكلى بول عببي، وذلك إذا فتح البول بحدّته أفواه بعض العروق الضوارب حتّى
+                        <app n="125" type="footnote" xml:id="begin_fn125"><rdg>خرج</rdg><anchor xml:id="end_fn125"/>
+                        </app>
+                        منها شيء من الروح وينزرق مع المائية إلى خارج فاشتبك بها، وهذا خارج عمّا قاله أبقراط.
+                    </p>
+                </div>
+            </div>
+            <div n="35" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من رأى فوق بوله دسم جملة دلّ ذلك على أنّ في كلاه علّة حادّة.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        <locus target="CB1">214b</locus>
+                        التفسير: البول الدسمي يدلّ على حرارة نارية تذيب شحم الكلى أو
+                        <app n="126" type="footnote" xml:id="begin_fn126"><rdg>شحم</rdg><anchor xml:id="end_fn126"/>
+                        </app>
+                        سائر البدن أو اللحم السمين الذي للأعضاء أو الدسم الذي في جواهر الأعضاء. وعند ذلك تأخذ الأعضاء في التفتّت وتوجد الأثقال التي تقدّم  ذكرها. والفرق بين ذوبان شحم الكلى وذوبان شحم أو دسم غيرها من الأعضاء أنّ الذوبان
+                        <app n="127" type="footnote" xml:id="begin_fn127"><rdg>الكلوي</rdg><anchor xml:id="end_fn127"/>
+                        </app>
+                        يكون  كثيراً لكثرة الشحم فيها ويخرج دفعة لقربه من الإحليل. وهذا
+                        <app n="128" type="footnote" xml:id="begin_fn128"><rdg>هو</rdg><anchor xml:id="end_fn128"/>
+                        </app>
+                        الذي عناه أبقراط بقوله جملة. ويوجد متميّزاً  في البول لقلّة تموّجه مع المائية. وأمّا دسم الأعضاء الأخر فيكون قليلاً ويخرج شيئاً بعد شيء ومختلطاً بالمائية. وزعم الرازي أنّ من سبيل جالينوس كان أن يبيّن أنّ شحم الكلى وهو فوق الكلى كيف يخالط البول، فإن كان
+                        <app n="129" type="footnote" xml:id="begin_fn129"><rdg>يغوص</rdg><anchor xml:id="end_fn129"/>
+                        </app>
+                        فكيف ذلك، والشيء الذائب إنّما يسيل إلى أسهل المواضع
+                        <app n="130" type="footnote" xml:id="begin_fn130"><rdg>فكيف</rdg><anchor xml:id="end_fn130"/>
+                        </app>
+                        يسيل إلى خارج. وافهم أنّ الأجوف النازل إلى أسفل البدن قبل أن يتكيّ على الصلب يتشعّب منه شعب دقاق شعرية تنبت
+                        <locus target="CB1">215a</locus>
+                        في لفافة الكليتين وفي الأجسام التي هناك، وربّما كان
+                        <app n="131" type="footnote" xml:id="begin_fn131"><rdg>انشعابها</rdg><anchor xml:id="end_fn131"/>
+                        </app>
+                        من القناة الصائرة منه إلى الكلية
+                        <app n="132" type="footnote" xml:id="begin_fn132"><rdg>اليسرى</rdg><anchor xml:id="end_fn132"/>
+                        </app>
+                        . فكما يصير الغذاء في هذه الشعب إلى الشحم كذلك يرجع ذوبانه فيها إلى الكلى حسب الحال في سائر البدن فإنّ الذوبان فيها يرجع إلى الكلى في العروق التي يصير فيها الغذاء إلى البدن.
+                    </p>
+                </div>
+            </div>
+            <div n="36" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من كانت به علّة في كلاه وعرضت له هذه الأعراض التي تقدّم ذكرها وحدث به وجع في صلبه فإنّه إن كان ذلك الوجع في المواضع الخارجة فتوقّع خراجاً يخرج به من خارج، وإن كان ذلك الوجع في المواضع الداخلة فأحرى أن
+                        <app n="133" type="footnote" xml:id="begin_fn133"><rdg>تكون</rdg><anchor xml:id="end_fn133"/>
+                        </app>
+                        الدبيلة من داخل.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: من
+                        <app n="134" type="footnote" xml:id="begin_fn134"><rdg>كانت</rdg><anchor xml:id="end_fn134"/>
+                        </app>
+                        به علّته في كلاه وقد
+                        <app n="135" type="footnote" xml:id="begin_fn135"><rdg>تقدّمت</rdg><anchor xml:id="end_fn135"/>
+                        </app>
+                        له بعض الأعراض
+                        <app n="136" type="footnote" xml:id="begin_fn136"><rdg>الكلوية</rdg><anchor xml:id="end_fn136"/>
+                        </app>
+                        ثمّ حدث له وجع في موضع العضل من الصلب أنذر بخراج يخرج به إمّا في العضل الخارج من الصلب إن كان الوجع مائلاً  إلى خارج أو في العضل الداخل وهو المسمّى المتن
+                        <locus target="CB1">215b</locus>
+                        <app n="137" type="footnote" xml:id="begin_fn137"><rdg>إن</rdg><anchor xml:id="end_fn137"/>
+                        </app>
+                        كان الوجع في الداخل. وربّما يحدث الخراج في نفس الكلى إمّا أميل إلى خارج أو إلى داخل.
+                        <locus target="V1">87a</locus>
+                        وتفرّق بين الخراج في العضل الداخل أو في الكلى بأنّ وجع الكلى أكثر غوراً ويلزمه في أوائله حمّيات غير محرقة غير قوية مختلطة عادمة لنوبة
+                        <app n="138" type="footnote" xml:id="begin_fn138"><rdg>معلومة</rdg><anchor xml:id="end_fn138"/>
+                        </app>
+                        أصلاً مع قشعريرة، ويكون الإحساس عند الانبطاح بالشيء الثقيل كأنّه معلّق من قطنه أكثر. وأمّا وجع المتن فأقلّ غوراً وأكثر ضرباناً وصاحبه لا يقدر على أن يثنى صلبه أصلاً.
+                    </p>
+                </div>
+            </div>
+            <div n="37" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: الدم الذي يتقيّأ من غير حمّى سليم وينبغي أن يعالج صاحبه بالأشياء القابضة والدم الذي يتقيّأ مع الحمّى رديء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: الدم الذي يخرج بالقيء ولا حمّى معه فسببه إمّا انفتاح عرق أو قرحة لا ورم معها، ولذلك يبرأ بالأشياء القابضة سريعاً. وأمّا الذي مع حمّى فمع القرحة ورم، وليس يمكن أن يبرأ إلّا ويزايد عظماً وخبثاً لأنّ الورم يحتاج في برئه إلى أن ينضج ويتقيّح. وفهم قوم
+                        <locus target="CB1">216a</locus>
+                        من قوله يتقيّأ القذف من الرئة وقصبتها. وهذا ليس يصحّ لأنّ قذف الدم من الرئة وإن لم يكن مع حمّى فإنّه من بعد إذا طال تعرض الحمّى لا محالة لأنّ الرئة ترم.
+                    </p>
+                </div>
+            </div>
+            <div n="38" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: النزلة التي تنحدر إلى الجوف الأعلى
+                        <app n="139" type="footnote" xml:id="begin_fn139"><rdg>تتقيّح</rdg><anchor xml:id="end_fn139"/>
+                        </app>
+                        في عشرين يوماً.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: الجوف الأعلى هو الذي يحويه الصدر وتشغله الرئة والنزلة التي تنحدر من الرأس في قصبة الرئة إنّما تنحدر  إلى الرئة. وعنى بالتقيّح النضج. وصار يتقيّح في مدّة عشرين يوماً لأنّ اليوم العشرين هو يوم البحران لا يوم الحادي والعشر كما يوجبه عدد الأسابيع ولا الثاني والعشرين كما وجد في بعض النسخ فإنّ ذلك خطأ.
+                    </p>
+                </div>
+            </div>
+            <div n="39" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من بال دماً عبيطاً وكان به تقطير البول وأصابه وجع في نواحي الشرج والعانة دلّ ذلك على أنّ
+                        <app n="140" type="footnote" xml:id="begin_fn140"><rdg>ما</rdg><anchor xml:id="end_fn140"/>
+                        </app>
+                        يلي مثانته وجع.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا الفصل
+                        <app n="141" type="footnote" xml:id="begin_fn141"><rdg>مفسّر</rdg><anchor xml:id="end_fn141"/>
+                        </app>
+                        في أواخر المقالة الرابعة.
+                    </p>
+                </div>
+            </div>
+            <div n="40" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال
+                        <app n="142" type="footnote" xml:id="begin_fn142"><rdg>أبقراط</rdg><anchor xml:id="end_fn142"/>
+                        </app>
+                        : متى عدم اللسان بغتة
+                        <app n="143" type="footnote" xml:id="begin_fn143"><rdg>قوّته</rdg><anchor xml:id="end_fn143"/>
+                        </app>
+                        أو
+                        <app n="144" type="footnote" xml:id="begin_fn144"><rdg>استرخى</rdg><anchor xml:id="end_fn144"/>
+                        </app>
+                        
+                        <locus target="CB1">216b</locus>
+                        عضو من الأعضاء فالعلّة سوداوية.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: يمكن أن يكون عنى بعدم اللسان
+                        <app n="145" type="footnote" xml:id="begin_fn145"><rdg>قوّته</rdg><anchor xml:id="end_fn145"/>
+                        </app>
+                        أن لا يتمكّن من تبيين الألفاظ على حقائقها، ويمكن أن يكون عنى
+                        <locus target="H">103b</locus>
+                        به الاسترخاء وهو فقدان الحسّ والحركة، وهذا هو الأولى
+                        <app n="146" type="footnote" xml:id="begin_fn146"><rdg>كما</rdg><anchor xml:id="end_fn146"/>
+                        </app>
+                        قاله «أو استرخى عضو». وجالينوس
+                        <app n="147" type="footnote" xml:id="begin_fn147"><rdg>يفسّر</rdg><anchor xml:id="end_fn147"/>
+                        </app>
+                        بالحيرة في السبب الذي له
+                        <app n="148" type="footnote" xml:id="begin_fn148"><rdg>إذا</rdg><anchor xml:id="end_fn148"/>
+                        </app>
+                        استرخى في اللسان أو أيّ عضو آخر بغتة فالعلّة سوداوية لأنّ الاسترخاء قال
+                        <app n="149" type="footnote" xml:id="begin_fn149"><rdg>قد</rdg><anchor xml:id="end_fn149"/>
+                        </app>
+                        يحدث من السوداء أو قد يحدث من البلغم قال وإنّما قال بغتة لأنّ الاسترخاء قد يحدث قليلاً بعد قليل بسبب الورم الذي يصلب وبسبب سوء المزاج الذي يستولي قليلاً قليلاً. وافهم أنّ
+                        <app n="150" type="footnote" xml:id="begin_fn150"><rdg>الروح الحسّاس إذا خالطه البخار الغليظ السوداوي امتنع من النفوذ في آلات الحسّ فيعرض الخدر والاسترخاء دفعة. وقد حكى روفس أنّه شاهد ماليخوليا يزعم أنّه غير فاسد بالموت لأنّه ليس يحسّ بالجوع والعطش ولا بالألم إذا ضرب قال فأحميت حديدة بالنار 
+                        <locus target="CB1">217a</locus>
+                         ووضعتها على ساعده فاحتملها زماناً طويلاً بقول زِدني كَيّك، فإنّ نارك باردة ثمّ بعد الجهد الكبير لمّا رأى لحمه يحترق وشمّ رائحة القتار يسيراً، انتبه على أنّ ما قاله كاذب. وأيضاً فإنّ</rdg><anchor xml:id="end_fn150"/>
+                        </app>
+                        السوداء لغلظها وأرضيتها تصلب العصب وتفعل فيه
+                        <app n="151" type="footnote" xml:id="begin_fn151"><rdg>جسواً</rdg><anchor xml:id="end_fn151"/>
+                        </app>
+                        حسب ما تفعله في الورم المعروف بسقيروس
+                        <locus target="V1">87b</locus>
+                        <app n="152" type="footnote" xml:id="begin_fn152"><rdg>فتمنع</rdg><anchor xml:id="end_fn152"/>
+                        </app>
+                        مسالك الروح النفساني من أن
+                        <app n="153" type="footnote" xml:id="begin_fn153"><rdg>يعبرها</rdg><anchor xml:id="end_fn153"/>
+                        </app>
+                        الروح. وأمّا البلغم فيفعل بلينه ورخاوته وفرط رطوبته ما يفعله في الأورام الرخوة من سهولة الانغمار فلا يمنع الجسم الروحي من أن ينفذ فيه في أوّل الأمر بعض النفوذ. وأنت تعلم حقيقة هذا
+                        <app n="154" type="footnote" xml:id="begin_fn154"><rdg>ممّا</rdg><anchor xml:id="end_fn154"/>
+                        </app>
+                        قاله شمعون في كتابه في باب الصرع، فإنّه قال هناك إذا كان مع الصرع ارتعاش واضطراب فإنّه بلغمي لأنّه لا يمكن في البلغم أن يمنع جميع مجرى الروح في العصب. فأمّا من صرع فاستسقطت أعضاؤه كلّها فإنّه من السوداء وهو شرّ من الأوّل لأنّه يخاف منه أن
+                        <app n="155" type="footnote" xml:id="begin_fn155"><rdg>يسدّ</rdg><anchor xml:id="end_fn155"/>
+                        </app>
+                        جميع مسالك الروح فيقتل
+                        <locus target="CB1">217b</locus>
+                        العليل سريعاً، وهذا القدر يليق بالطبيب أن يقوله.
+                        <app n="156" type="footnote" xml:id="begin_fn156"><rdg>وأمّا</rdg><anchor xml:id="end_fn156"/>
+                        </app>
+                        التحقيق فيه فيليق
+                        <app n="157" type="footnote" xml:id="begin_fn157"><rdg>بالمباحث</rdg><anchor xml:id="end_fn157"/>
+                        </app>
+                        الطبيعية وهو أنّ كلّ واحد من الحسّ والحركة يتبع
+                        <app n="158" type="footnote" xml:id="begin_fn158"><rdg>مزاجاً</rdg><anchor xml:id="end_fn158"/>
+                        </app>
+                        يميل إلى الحرارة والرطوبة باعتدال
+                        <app n="159" type="footnote" xml:id="begin_fn159"><rdg>والسوداء</rdg><anchor xml:id="end_fn159"/>
+                        </app>
+                        تضادّ هذا المزاج بالكيفيتين جميعاً والبلغم يضادّه بكيفية واحدة. وذلك أن
+                        <app n="160" type="footnote" xml:id="begin_fn160"><rdg>تعلم</rdg><anchor xml:id="end_fn160"/>
+                        </app>
+                        أنّ الحسّ يحتاج إلى اعتدال من الحرارة
+                        <app n="161" type="footnote" xml:id="begin_fn161"><rdg>لأنّ</rdg><anchor xml:id="end_fn161"/>
+                        </app>
+                        اللحم أكثر إحساساً من
+                        <locus target="H">104a</locus>
+                        العصب. وذلك أنّ وجع العصب خدري أي قليل الحسّ ووجع اللحم شديد مبرّح وورم العصب مع عظمه لا يؤلم كثيراً، وإنّما يعلم عظمه من التشنّج الذي يصيبه من بعد،
+                        <app n="162" type="footnote" xml:id="begin_fn162"><rdg>وربّما</rdg><anchor xml:id="end_fn162"/>
+                        </app>
+                        وجد تحت بعض العروق التي
+                        <app n="163" type="footnote" xml:id="begin_fn163"><rdg>تفصد</rdg><anchor xml:id="end_fn163"/>
+                        </app>
+                        عصبة إذا انقطعت بنصفين في الفصد لم يشعر به صاحبه إلى أن يخدر
+                        <app n="164" type="footnote" xml:id="begin_fn164"><rdg>يده</rdg><anchor xml:id="end_fn164"/>
+                        </app>
+                        من بعد. ولو كشفت عصبة من حيوان،
+                        <app n="165" type="footnote" xml:id="begin_fn165"><rdg>وجد</rdg><anchor xml:id="end_fn165"/>
+                        </app>
+                        إذا غرز لحمه يضجً ويضطرب أكثر ممّا يفعل إذا غرز عصبة. وإنّما جعل كذلك لأنّ العصب كالمجاز لقوّة الحسّ واللحم كالمصبّ إليه
+                        <app n="166" type="footnote" xml:id="begin_fn166"><rdg>والحرارة قرينة للحسّ فأيّهما وجد تبعه قرينه. وأيضاً فإنّ الحرارة والحركة حليفتان فأيّهما وجدت هيّجت صاحبتها. وذلك أنّ الحركة تثير الحرارة والحرارة تبعث على الحركة وهما تجانسان الحياة لأنّ وجودهما شرط في وجود الحياة. وهكذا حال ضدّيهما اللّذين هما البرد والسكون فإنّ السكون يبرّد والبرد يجمّد وهو أبلغ من السكون وهما يناسبان الموت. وأيضاً فإنّ الإحساس انفعال واليبس مانع من سهولة الانفعال إذ هو أقوى الكيفيتين المنفعلتين، ولهذا لم يصلح أن يكون القلب مع كونه مبدأ القوّة الحسّ والحركة مبدأ للأعصاب إذ كان الحسّ يحتاج في حصوله إلى جوهر رطب يقبل سريعاً ويؤدّي إلى جوهر يابس يحفظه والحركة تحتاج إلى آلة مؤاتية للفعل والرطوبة تجعلها كذلك واليبس يعوّقها عن الانطباع والمؤاتاة</rdg><anchor xml:id="end_fn166"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+            </div>
+            <div n="41" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط:
+                        <app n="167" type="footnote" xml:id="begin_fn167"><rdg>إن</rdg><anchor xml:id="end_fn167"/>
+                        </app>
+                        حدث
+                        <app n="168" type="footnote" xml:id="begin_fn168"><rdg>بالشيخ</rdg><anchor xml:id="end_fn168"/>
+                        </app>
+                        بسبب
+                        <locus target="CB1">218a</locus>
+                        استفراغ
+                        <app n="169" type="footnote" xml:id="begin_fn169"><rdg>مشي</rdg><anchor xml:id="end_fn169"/>
+                        </app>
+                        أو
+                        <app n="170" type="footnote" xml:id="begin_fn170"><rdg>قيء</rdg><anchor xml:id="end_fn170"/>
+                        </app>
+                        فواق فليس ذلك بدليل محمود.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        <locus target="V1">88a</locus>
+                        التفسير: هذا الفواق يعرض من اليبس وإنّما خصّه
+                        <app n="171" type="footnote" xml:id="begin_fn171"><rdg>بالشيخ</rdg><anchor xml:id="end_fn171"/>
+                        </app>
+                        إمّا لأنّه أردأ فيه لضعفه بسبب اليبس أو لأنّه أسرع حدوثاً فيه بسبب جفاف
+                        <app n="172" type="footnote" xml:id="begin_fn172"><rdg>أعضائه</rdg><anchor xml:id="end_fn172"/>
+                        </app>
+                        الأصلية.
+                    </p>
+                </div>
+            </div>
+            <div n="42" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من أصابته حمّى ليست من مرار فصبّ على رأسه ماء حارّ كثير أنقضت بذلك حمّاه.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: أشار أبقراط بهذا إلى الحمّيات اليومية التي لا موادّ لها تحتاج أن تنضج ولا عفونة معها، فإنّ من حمّ هذه الحمّى من أيّ سبب كان انتفع في وقت الانحطاط بصبّ الماء الحارّ عليه، ولم يعن بصبّ الماء الحارّ على الرأس
+                        <app n="173" type="footnote" xml:id="begin_fn173"><rdg>تخصيص</rdg><anchor xml:id="end_fn173"/>
+                        </app>
+                        الرأس بصبّ الماء عليه لكنّه
+                        <app n="174" type="footnote" xml:id="begin_fn174"><rdg>عنى</rdg><anchor xml:id="end_fn174"/>
+                        </app>
+                        الاستحمام فإنّ العادة فد جرت إذا أريد صبّ الماء على البدن كلّه بأن يقال بقلب على رأسه الماء. وبالحقّ أنّ كلّ من حمّ من سخونة الروح فإنّه يحتاج بأخرة إلى أن يقلب عليه الماء الحارّ
+                        <app n="175" type="footnote" xml:id="begin_fn175"><rdg>لتنفش</rdg><anchor xml:id="end_fn175"/>
+                        </app>
+                        حرارة الحمّى وتتحلّل الأبخرة الحارّة. فأمّا من كانت حمّاه
+                        <locus target="CB1">218b</locus>
+                        لورم أو
+                        <app n="176" type="footnote" xml:id="begin_fn176"><rdg>كيموس</rdg><anchor xml:id="end_fn176"/>
+                        </app>
+                        وبالجملة إذا كانت
+                        <app n="177" type="footnote" xml:id="begin_fn177"><rdg>مع</rdg><anchor xml:id="end_fn177"/>
+                        </app>
+                        عفونة خلط فإنّ الاستحمام لا يوافقه ما لم يستفرغ وينضج المادّة.
+                    </p>
+                </div>
+            </div>
+            <div n="43" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: المرأة لا تكون ذات يمينين.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا لم يعن به أن تكون اليسرى أقوى من اليمنى، فإنّه داخل في حكم الأعسر وهو تشويه في الخلق وليس في التشويهات فضيلة، والحرارة في الأعسر لا تقوى على أن تمدّ الجانبين ولا في الرجال. وإنّما عنى بذلك أن يتمكّن من العمل باليسرى حسب
+                        <app n="178" type="footnote" xml:id="begin_fn178"><rdg>تمكّنه</rdg><anchor xml:id="end_fn178"/>
+                        </app>
+                        باليمنى، ويسمّي في الذكور أعسر. وإذا لم يكن ذلك
+                        <app n="179" type="footnote" xml:id="begin_fn179"><rdg>اعتياداً</rdg><anchor xml:id="end_fn179"/>
+                        </app>
+                        فهو لتوفّر القوّة في الجانبين بسبب توفّر الحارّ، فإنّ الحارّ أشدّ مناسبة للفعل والنساء لضعف الحارّ فيهنّ لا يوجدن كذلك ولا الرجال
+                        <app n="180" type="footnote" xml:id="begin_fn180"><rdg>إلّا</rdg><anchor xml:id="end_fn180"/>
+                        </app>
+                        الأقوياء بل غاية النساء أن يعملن باليد اليمنى أعمالاً معتدلة. ولهذا حكى أبقراط أنّ النساء الصقالبة يكونن اليد اليمنى منهنّ ليأتي اليد التي في ذلك الجانب غذاء أكثر فيزيد في قوّتها. وحكى جالينوس
+                        <locus target="CB1">219a</locus>
+                        عن قوم من
+                        <app n="181" type="footnote" xml:id="begin_fn181"><rdg>متخلّفي</rdg><anchor xml:id="end_fn181"/>
+                        </app>
+                        القدماء أنّهم قالوا
+                        <app n="182" type="footnote" xml:id="begin_fn182"><rdg>مكان</rdg><anchor xml:id="end_fn182"/>
+                        </app>
+                        ذات يمينين ذات يمين وفهموا منه أنّ المرأة لا تحمل في الجانب الأيمن من الرحم
+                        <app n="183" type="footnote" xml:id="begin_fn183"><rdg>وقوم</rdg><anchor xml:id="end_fn183"/>
+                        </app>
+                        قالوا ذات فرجين يعني أنّ الرجل قد يكون له مع الذكر فرج المرأة فيكون ذا فرجين وهو الخنثي.
+                        <app n="184" type="footnote" xml:id="begin_fn184"><rdg>فأمّا</rdg><anchor xml:id="end_fn184"/>
+                        </app>
+                        المرأة فلا يكون لها مع الفرج ذكر الرجال وهذا كلّه سخف من القول.
+                    </p>
+                </div>
+            </div>
+            <div n="44" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من
+                        <app n="185" type="footnote" xml:id="begin_fn185"><rdg>كوى</rdg><anchor xml:id="end_fn185"/>
+                        </app>
+                        من المتقيّحين فخرجت منه مدّة بيضاء نقية فإنّه يسلم، وإن خرجت منه مدّة حمّائية فإنّه يهلك.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: عنى بالمتقيّحين أصحاب المدّة في الصدر وهؤلاء قد يكون ليستخرج به تلك المدّة.
+                        <locus target="V1">88b</locus>
+                        فإن خرجت المدّة بيضاء نقية فإنّه يسلم لأنّ بياض المدّة يدلّ على أنّ الحرارة المولّدة لها لم يشبّها من
+                        <app n="186" type="footnote" xml:id="begin_fn186"><rdg>النارية العفنية</rdg><anchor xml:id="end_fn186"/>
+                        </app>
+                        إلّا اليسير النزر فلذلك سلكت بها سبيل الاستحالة والتشبّه بلون الأعضاء الأصلية وهو البياض. وإنّما لا تكون في بياض المني واستوائه لأنّ الحرارة في توليد المدّة لا بدّ من أن يشوبها
+                        <locus target="CB1">219b</locus>
+                        عفن. وإنّما تجمد الملساء لأنّها دالّة على استواء النضج في جميع الأجزاء. وذلك أنّ اختلاف النضج في أجزاء الخلط يجعل المدّة مختلفة الأجزاء. ومعنى قوله «نقية» أي لا تكون كريهة الرائحة لأنّ عدم الكراهة في الرائحة يدلّ على قلّة العفونة وقوّة الهضم. وأمّا إذا كانت المدّة حمّائية كانت
+                        <app n="187" type="footnote" xml:id="begin_fn187"><rdg>متغيّرة</rdg><anchor xml:id="end_fn187"/>
+                        </app>
+                        في اللون والقوام والرائحة وبالحرى أن يدلّ على فساد المدّة فتفسد آلات الصدر ولذلك يهكل. ولهذا ليس ينبغي متى كان ما ينفثه صاحب
+                        <app n="188" type="footnote" xml:id="begin_fn188"><rdg>القيح من المدّة</rdg><anchor xml:id="end_fn188"/>
+                        </app>
+                        غير أبيض ولا
+                        <app n="189" type="footnote" xml:id="begin_fn189"><rdg>نقي</rdg><anchor xml:id="end_fn189"/>
+                        </app>
+                        أن يقدم على كيّه لأنّ ذلك لا يجدي عليه نفعاً.
+                    </p>
+                </div>
+            </div>
+            <div n="45" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط:
+                        <app n="190" type="footnote" xml:id="begin_fn190"><rdg>من</rdg><anchor xml:id="end_fn190"/>
+                        </app>
+                        كانت في كبده مدّة فكوى فخرجت منه مدّة بيضاء نقية فإنّه يسلم وذلك أنّ المدّة في غشاء، وإن خرج منه شبيه بثفل الزيت هلك.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: ذكر جالينوس أنّ أبقراط أخبر بالعلّة التي لها يسلم بعض أصحاب هذه العلّة وذلك إذا كان جوهر الكبد سليماً لأنّ المدّة في غشائها وأنّ البعض يهلك إذا كان الفساد قد سعى إلى جوهر الكبد. وأمّا الرازي فإنّه
+                        <locus target="CB1">220a</locus>
+                        
+                        <app n="191" type="footnote" xml:id="begin_fn191"><rdg>بقي بالحيرة</rdg><anchor xml:id="end_fn191"/>
+                        </app>
+                        قائلاً بأنّ غشاء الكبد ليس يمكن أن يكون فيه ورم إذا تقيّح بلغ من كمّية أن تسيل المدّة فضلاً عن أن تحتاج أن تنفث فيخرج اللهم إلّا أن يفهم من الكبد موضع الكبد من مراق البطن وهو ما يعلوه، إلّا أنّ من فهم من قوله الغشاء غير غشاء الكبد بل ما يقرب منه كان قول أبقراط مكذباً له فإنّه قال من كان في كبده مدّة ثمّ أدخل الغشاء في جملة الكبد. وأنت فافهم أنّ النفاخات إذا كانت تتسارع إلى غشاء الكبد كما
+                        <app n="192" type="footnote" xml:id="begin_fn192"><rdg>يستفهمه</rdg><anchor xml:id="end_fn192"/>
+                        </app>
+                        من بعد فليس من المستبعد إذا كانت من داخل ثمّ تفقّأت أن يمتلئ الغشاء مدّة كما إذا كانت من خارج امتلاء البطن من تلك الرطوبة فكان منها الاستسقاء.
+                    </p>
+                </div>
+            </div>
+            <div n="46" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا كان في العينين وجع
+                        <app n="193" type="footnote" xml:id="begin_fn193"><rdg>فليسق</rdg><anchor xml:id="end_fn193"/>
+                        </app>
+                        صاحبه شراباً صرفاً ثمّ أدخل الحمام وصبّ
+                        <app n="194" type="footnote" xml:id="begin_fn194"><rdg>عليه</rdg><anchor xml:id="end_fn194"/>
+                        </app>
+                        ماء حارّ كثير ثمّ
+                        <app n="195" type="footnote" xml:id="begin_fn195"><rdg>فصد</rdg><anchor xml:id="end_fn195"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير:
+                        <app n="196" type="footnote" xml:id="begin_fn196"><rdg>هذه</rdg><anchor xml:id="end_fn196"/>
+                        </app>
+                        التدابير إذا
+                        <app n="197" type="footnote" xml:id="begin_fn197"><rdg>فرّقت</rdg><anchor xml:id="end_fn197"/>
+                        </app>
+                        فاستعمل كلّ ضرب منها
+                        <app n="198" type="footnote" xml:id="begin_fn198"><rdg>في</rdg><anchor xml:id="end_fn198"/>
+                        </app>
+                        موضعه
+                        <app n="199" type="footnote" xml:id="begin_fn199"><rdg>فقد</rdg><anchor xml:id="end_fn199"/>
+                        </app>
+                        مضى شرحه من قبل، وإن فهم على الترتيب الموصوف فليس هو
+                        <locus target="CB1">220b</locus>
+                        من كلام أبقراط. ومن زعم أنّ
+                        <app n="200" type="footnote" xml:id="begin_fn200"><rdg>الأجود</rdg><anchor xml:id="end_fn200"/>
+                        </app>
+                        فيمن في بدنه دم غليظ أن
+                        <app n="201" type="footnote" xml:id="begin_fn201"><rdg>يذاب</rdg><anchor xml:id="end_fn201"/>
+                        </app>
+                        ويرقّق ذلك الدم أوّلاً بشرب الشراب الصرف والحمام ثمّ يفصد فليعلم أنّ من في بدنه امتلاء دموي
+                        <locus target="V1">89a</locus>
+                        وفي عينيه وجع لم يحتمل شرب الشراب
+                        <app n="202" type="footnote" xml:id="begin_fn202"><rdg>ولا الاستحمام</rdg><anchor xml:id="end_fn202"/>
+                        </app>
+                        وأنّ فعلهما لم يؤمن أن تتمزّق صفاقات عينيه لكنّ شرب الشراب والاحتمام إنّما يصلحان لمن في عضو منه دم غليظ قد لحج فيه من غير امتلاء في البدن. ولهذا قال جالينوس إنّ هذا الفصل مدلّس.
+                    </p>
+                </div>
+            </div>
+            <div n="47" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا حدث بصاحب الاستسقاء سعال فليس يرجى.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا الفصل مفروغ من شرحه في المقالة السادسة.
+                    </p>
+                </div>
+            </div>
+            <div n="48" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: تقطير البول وعسره يحلّهما شرب الشراب والفصد وينبغي أن تقطع العروق الداخلة.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: تقطير البول قد يكون لحدّته، وينفع منه الفصد إذا كان في البدن امتلاء من دم. وقد يكون لضعف القوّة الماسكة بسبب
+                        <app n="203" type="footnote" xml:id="begin_fn203"><rdg>سوء</rdg><anchor xml:id="end_fn203"/>
+                        </app>
+                        مزاج مفرط ولا سيّما بارد، والشراب
+                        <locus target="CB1">221a</locus>
+                        ينفع منه. وأمّا عسر البول فمتى لم يكن مع وجع فقد يكون لبرد أو ريح غليظة أو شدّة حدثت بسبب دم غليظ من غير امتلاء في البدن، وشرب الشراب ينفع منه ويحلّه. وإن كان مع وجع فهو لورم، فإن كان معه امتلاء والقوّة قوية فالفصد
+                        <app n="204" type="footnote" xml:id="begin_fn204"><rdg>يشفيه</rdg><anchor xml:id="end_fn204"/>
+                        </app>
+                        لا محالة. والعروق الداخلة هي الأبطء من اليد والصافن من الرجل.
+                    </p>
+                </div>
+            </div>
+            <div n="49" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: إذا ظهر الورم والحمرة في مقدّم الصدر فيمن اعترته الذبحة كان ذلك
+                        <app n="205" type="footnote" xml:id="begin_fn205"><rdg>دليلاً محموداً</rdg><anchor xml:id="end_fn205"/>
+                        </app>
+                        
+                        <app n="206" type="footnote" xml:id="begin_fn206"><rdg>لأنّ المرض يكون قد مال إلى خارج</rdg><anchor xml:id="end_fn206"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا الفصل يقتضي أن
+                        <app n="207" type="footnote" xml:id="begin_fn207"><rdg>يكون</rdg><anchor xml:id="end_fn207"/>
+                        </app>
+                        ملحقاً بكلام أبقراط لأنّه مع إيثاره الإيجاز والإلغاز لا يعيد فصلاً قد مرّ له في المقالة السادسة لأجل الزيادة القائلة لأنّ المرض يكون قد مال إلى خارج.
+                    </p>
+                </div>
+            </div>
+            <div n="50" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من
+                        <app n="208" type="footnote" xml:id="begin_fn208"><rdg>أصابته</rdg><anchor xml:id="end_fn208"/>
+                        </app>
+                        في دماغه العلّة التي يقال لها
+                        <app n="209" type="footnote" xml:id="begin_fn209"><rdg>سفاقيلوس</rdg><anchor xml:id="end_fn209"/>
+                        </app>
+                        فإنّه يهلك في ثلاثة أيّام، فإن جاوزها فإنّه يبرأ.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: العضو إذا أخذ يفسد بالعفونة إلى أن يبتدئ يذهب نضارة لونه ويسكن
+                        <locus target="CB1">221b</locus>
+                        الضربان لأنّ الحسّ يخدر، سمّى غانغريا. فإذا استحكم هذا العارض حتّى يبطل الحسّ اصلاً ويموت العضو فهو
+                        <app n="210" type="footnote" xml:id="begin_fn210"><rdg>سفاقيلوس</rdg><anchor xml:id="end_fn210"/>
+                        </app>
+                        ويدعي عندنا الخبثية وهو ما يعرض من اسوداد أطراف اليدين والرجلين لدم غليظ ينصبّ إليها. فإنّه إذا عفن عفّن
+                        <app n="211" type="footnote" xml:id="begin_fn211"><rdg>العضو</rdg><anchor xml:id="end_fn211"/>
+                        </app>
+                        وسوّده، والعضو إذا فسد الفساد المسمّى
+                        <app n="212" type="footnote" xml:id="begin_fn212"><rdg>سفاقيلوس</rdg><anchor xml:id="end_fn212"/>
+                        </app>
+                        فليس يمكن أن يرجع إلى
+                        <app n="213" type="footnote" xml:id="begin_fn213"><rdg>حاله</rdg><anchor xml:id="end_fn213"/>
+                        </app>
+                        الأولى لأنّه ميّت. ولهذا يجب أن يفهم من قوله «من
+                        <app n="214" type="footnote" xml:id="begin_fn214"><rdg>أصابته</rdg><anchor xml:id="end_fn214"/>
+                        </app>
+                        في دماغه العلّة التي يقال لها
+                        <app n="215" type="footnote" xml:id="begin_fn215"><rdg>سفاقيلوس</rdg><anchor xml:id="end_fn215"/>
+                        </app>
+                        » أي من ابتدائه غانغريا في دماغه حتّى أشرف على الوقوع في
+                        <app n="216" type="footnote" xml:id="begin_fn216"><rdg>سفاقيلوس</rdg><anchor xml:id="end_fn216"/>
+                        </app>
+                        .
+                        <app n="217" type="footnote" xml:id="begin_fn217"><rdg>وكما</rdg><anchor xml:id="end_fn217"/>
+                        </app>
+                        أنّ غانغريا إذا وقع في اللحم
+                        <app n="218" type="footnote" xml:id="begin_fn218"><rdg>وفي</rdg><anchor xml:id="end_fn218"/>
+                        </app>
+                        سائر الأعضاء فإنّه برأ، كذلك الحال في الدماغ إلّا أنّ الدماغ لشرفه لا يحتمل غانغريا مع
+                        <app n="219" type="footnote" xml:id="begin_fn219"><rdg>صعوبتها</rdg><anchor xml:id="end_fn219"/>
+                        </app>
+                        كثيراً، ولذلك يهلك في الثلاثة الأيّام الأول. فإن جاوزها فإنّ العلّة تكون قد
+                        <app n="220" type="footnote" xml:id="begin_fn220"><rdg>انحطّت</rdg><anchor xml:id="end_fn220"/>
+                        </app>
+                        ،
+                        <locus target="V1">89b</locus>
+                        وقوّة الدماغ قد نهضت لمقامتها،
+                        <locus target="CB1">222a</locus>
+                        ولذلك يبرأ العليل.
+                    </p>
+                </div>
+            </div>
+            <div n="51" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: العطاس يكون من الرأس إذا سخن الدماغ ورطب الموضع الخالي الذي في الرأس وانحدر الهواء الذي فيه فسمع له صوت لأنّ نفوذه وخروجه تكون في موضع ضيق.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: إن فهم هذا الفصل على أنّ العطاس إنّما يكون من الدماغ، وذلك إذا سخن الدماغ ورطبت المواضع الخالية منه،
+                        <app n="221" type="footnote" xml:id="begin_fn221"><rdg>واقتضى</rdg><anchor xml:id="end_fn221"/>
+                        </app>
+                        أن لا يكون عطاس إلّا من الرأس لأنّ الدماغ قد سخن ورطب الموضع الخالي منه. ونحن نجد من أدخل في أنفه
+                        <app n="222" type="footnote" xml:id="begin_fn222"><rdg>ريشة</rdg><anchor xml:id="end_fn222"/>
+                        </app>
+                        أو سحاة يعطس. ولذلك فالأولى أن يفهم أنّ العطاس الذي يكون من الرأس إنّما يحدث إذا أسخن الدماغ ورطب الموضع الخالي منه. وخليق أن تكون رطوبة الموضع الخالي من الدماغ ليس يحتاج إليه في حدوث العطاس الكائن من الرأس لأنّ الرطوبة لا تهيج العطاس دون أن تنحلّ فتصير ريحاً على ما يظهر عياناً في
+                        <app n="223" type="footnote" xml:id="begin_fn223"><rdg>الرطوبات</rdg><anchor xml:id="end_fn223"/>
+                        </app>
+                        التي تنحدر من المنخرين من غير حدوث عطاس ضرورة.
+                        <locus target="CB1">222b</locus>
+                        وإنّما يكون
+                        <app n="224" type="footnote" xml:id="begin_fn224"><rdg>عطاس</rdg><anchor xml:id="end_fn224"/>
+                        </app>
+                        إذا كانت الرطوبة لذاعة فيعرض من ذلك ما يعرض لمن أدخل في أنفه شيئاً يلذعه. فالعطاس إذن على الإطلاق إنّما يعرض للذع ينال بعض آلات الشمّ فتنهض الطبيعة لا زالت بهواء كثير تجتذبه ثمّ تدفعه كما يفعل بالأنبوب الذي ينفخ ليخرج ما
+                        <app n="225" type="footnote" xml:id="begin_fn225"><rdg>فيه</rdg><anchor xml:id="end_fn225"/>
+                        </app>
+                        . وإنّما يحتاج في العطاس على الإطلاق إلى أن يستنشق الإنسان هواء
+                        <app n="226" type="footnote" xml:id="begin_fn226"><rdg>يملأ</rdg><anchor xml:id="end_fn226"/>
+                        </app>
+                        به رئته ودماغه ليرتفع ما في الرئة منه دفعة
+                        <app n="227" type="footnote" xml:id="begin_fn227"><rdg>بانقباض</rdg><anchor xml:id="end_fn227"/>
+                        </app>
+                        الصدر ويندفع ما في الدماغ بحركة من الطبيعة فيخفّف ثقل الرأس
+                        <app n="228" type="footnote" xml:id="begin_fn228"><rdg>وتنقى</rdg><anchor xml:id="end_fn228"/>
+                        </app>
+                        مجاري الأنف. أمّا تخفيفه ثقل الدماغ فلأنّ العطاس الدماغي إنّما يكون إذا انحلّت الرطوبات التي في المواضع الخالية من الدماغ حتّى تصير هواء، وإنّما هواء ينهض الحارّ الغريزي لأنّ اجتماع الرطوبات فيها إنّما يكون لضعفها. وعنى بالموضع الخالي بطون الدماغ، ويجوز أن يفهم منه الموضع المحيط به من خارجه، فإنّ ما هناك من الهواء يمكن أن ينفذ في جرمه
+                        <locus target="CB1">223a</locus>
+                        ويصير إلى بطونه. وأمّا تنقية مجاري الأنف إمّا التي
+                        <app n="229" type="footnote" xml:id="begin_fn229"><rdg>تصير إلى</rdg><anchor xml:id="end_fn229"/>
+                        </app>
+                        الدماغ فيما ينحدر من الهواء عن الدماغ وإمّا الذي يصير إلى الفم فيما يرتفع من الهواء من أسفل.
+                        <app n="230" type="footnote" xml:id="begin_fn230"><rdg>فأمّا</rdg><anchor xml:id="end_fn230"/>
+                        </app>
+                        الصوت فقد وصف أنّه يكون من العطاس لكثرة ما يخرج من الهواء دفعته من موضع ضيق.
+                    </p>
+                </div>
+            </div>
+            <div n="52" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من كان به وجع شديد في كبده فحدثت به حمّى حلّت ذلك الوجع عنه.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: الوجع الشديد في الكبد من غير حمّى لا يمكن أن يكون إلّا لريح نافخة. فإنّ الذي من ورم يكون معه لا محالة حمّى، والذي من السدد لا يكون شديداً بل يكون معه ثقل. وقول أبقراط «فحدثت به حمّى» يدلّ على أنّه لا حمّى مع الوجع. وإذا كان ذلك ثمّ حدثت الحمّى فإنّها تحلّ الريح ويسكن الوجع.
+                    </p>
+                </div>
+            </div>
+            <div n="53" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        <locus target="V1">90a</locus>
+                        قال أبقراط: من احتاج إلى أن يخرج من عروقه دم فينبغي أن يقطع له العرق في الربيع.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: هذا الفصل مفسّر في
+                        <app n="231" type="footnote" xml:id="begin_fn231"><rdg>أواخر</rdg><anchor xml:id="end_fn231"/>
+                        </app>
+                        المقالة السادسة.
+                    </p>
+                </div>
+            </div>
+            <div n="54" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من تخيّر فيه
+                        <locus target="CB1">223b</locus>
+                        بلغم
+                        <app n="232" type="footnote" xml:id="begin_fn232"><rdg>فيما</rdg><anchor xml:id="end_fn232"/>
+                        </app>
+                        بين المعدة والحجاب
+                        <app n="233" type="footnote" xml:id="begin_fn233"><rdg>وأحدث</rdg><anchor xml:id="end_fn233"/>
+                        </app>
+                        به وجعاً إذ كان لا منفذ له ولا إلى واحد من الفضائين فإنّ ذلك البلغم إذا جرى في العروق إلى المثانة انحلّت عنه علّته.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: أمّا مارينوس فكان يقول لو كان بلغم بين المعدة والحجاب لم يمكن أن يدخل إلى العروق كما تدخل الرطوبة المائية الرقيقة في أصحاب الاستسقاء فتجري في البول، بل كان ينحدر إلى أسفل حتّى يصير إلى عظم العانة. قال وإنّما أراد أبقراط أن يكون البلغم فيما بين جرم الحجاب الخالص الذي هو لحم وبين أعلى الغشاء الممدود على البطن. وجالينوس يقول إنّ الشكّ في مصير البلغم من هذا الموضع إلى العروق بعينه قائم. ومع ذلك فإنّه ليس يستعاد لهذا الموضع من الغشاء اسم المعدة. قال والأولى أن يفهم عمّا بين المعدة والحجاب الفضاء الذي هو دون الحجاب في جوف الغشاء المسمّى
+                        <app n="234" type="footnote" xml:id="begin_fn234"><rdg>فاراطنين</rdg><anchor xml:id="end_fn234"/>
+                        </app>
+                        ، وإنّ البلغم في هذا
+                        <locus target="CB1">224a</locus>
+                        الموضع تدفعه الطبيعة إلى العروق لأنّها متى
+                        <locus target="H">107a</locus>
+                        كانت قوية لم يعجزها طريق ينفذ فيه الشيء الذي تريد إنفاذه، وإن كان الشيء غليظاً والطريق ضيّقاً فإنّها تدفع المادّة في الوصل
+                        <app n="235" type="footnote" xml:id="begin_fn235"><rdg>التي</rdg><anchor xml:id="end_fn235"/>
+                        </app>
+                        بين الأعضاء وإن كانت عظاماً مثلاً، ولذلك فهي تدفع المدّة عن فضاء الصدر بالسعال وتدفع الدم من الجلد وهو صحيح في المواضع التي انكسر فيها عظم، وذلك
+                        <app n="236" type="footnote" xml:id="begin_fn236"><rdg>بأن</rdg><anchor xml:id="end_fn236"/>
+                        </app>
+                        تلطّفه
+                        <app n="237" type="footnote" xml:id="begin_fn237"><rdg>قليلاً</rdg><anchor xml:id="end_fn237"/>
+                        </app>
+                        تدفعه. ولهذا قال الرازي إنّ جالينوس ليس يطلب في هذا الموضع منفذاً
+                        <app n="238" type="footnote" xml:id="begin_fn238"><rdg>بزيخياً</rdg><anchor xml:id="end_fn238"/>
+                        </app>
+                        بل يرى أنّ البلغم ينفذ من ذلك الموضع إلى العروق على طريق الرشح. وافهم أنت أنّ من الممكن أن يكون
+                        <app n="239" type="footnote" xml:id="begin_fn239"><rdg>أبقراط</rdg><anchor xml:id="end_fn239"/>
+                        </app>
+                        عنى بالبلغم  الماء فإنّه يطلق لفظة البلغم على الاستسقاء كثيراً ويتحيّزه فيما بين المعدة والحجاب وفوقه في الفضاء الذي فيما دون الحجاب في جوف الصفاق الممدود على البطن على ما يراه جالينوس. وقد فهمت في الفصل القائل «إذا كان
+                        <locus target="CB1">224b</locus>
+                        بإنسان استسقاء فجرى الماء منه في عروقه إلى بطنه كان بذلك انقضاء مرضه» أنّ الماء كيف يصير من هذا الموضع في العروق إلى المثانة.
+                        <app n="240" type="footnote" xml:id="begin_fn240"><rdg>ويمكن أن يكون عنى به البلغم نفسه ويتحيّزه فيما بين المعدة والحجاب وفوقه في الموضع الذي قاله مارينوس لأنّ أبقراط قد صرّح بأنّه لا منفذ إلى أحد الفضائين وهما فضاء الصدر وفضاء البطن. وإذا وقف البلغم في ذلك الموضع أحدث وجعاً بالتمديد. فإن دخل منه في الأجوف الصاعد إلى الحجاب صار منه إلى المثانة وكان دخوله بطريق الرشح على ما يراه جالينوس. وإن اندفع #منه إلى الأجوف الصفاق صار منه إلى المثانة على الوجه الذي عرفت من قبل. وهذا الوجه أليق بنفصّ أبقراط. وإن كان قد قال لا منفذ له إلى أحد الفضائين فإنّه عنى بالمنفذ أن يكون معهوداً والمنفذ الذي في الصفاق إلى الكبد ليس بمعهود إلّا في الأجنّة</rdg><anchor xml:id="end_fn240"/>
+                        </app>
+                        .
+                    </p>
+                </div>
+            </div>
+            <div n="55" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من
+                        <app n="241" type="footnote" xml:id="begin_fn241"><rdg>امتلأت</rdg><anchor xml:id="end_fn241"/>
+                        </app>
+                        كبده ماء ثمّ انفجر ذلك الماء
+                        <locus target="CB1">225a</locus>
+                        إلى الغشاء الباطن امتلأ بطنه ماء ومات.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: إنّ الكبد يسرع إليها نفاخات الماء أكثر
+                        <app n="242" type="footnote" xml:id="begin_fn242"><rdg>من</rdg><anchor xml:id="end_fn242"/>
+                        </app>
+                        سائر الأعضاء، وتتولّد تلك النفاخات في غشاء الكبد، ويدلّنا على هذا كباد
+                        <locus target="V1">90b</locus>
+                        الحيوانات المذبوحة. فإنّه يوجد في أغشيتها هذه النفاخات كثيراً. فإذا اتّفق أن يتفقّأ تلك النفاخات حدث ما ذكرنا من اجتماع المدّة في الكبد. وإذا انفجر إلى خارج بالمنفذ الذي يدخله العرق الصائر من
+                        <app n="243" type="footnote" xml:id="begin_fn243"><rdg>سرّة</rdg><anchor xml:id="end_fn243"/>
+                        </app>
+                        الجنين إلى كبده انصبّ إلى الفضاء الذي تحت الحجاب حدث الاستسقاء لأنّ في هذا الفضاء بعينه يجتمع الماء في المستسقيين. وهذا هو الفضاء الذي فوق الثرب وتحت فاراطنين. والماء الذي يجتمع فيه من تفقّأ النالنفاخات يكون حارًّا حريفاً محدثاً
+                        <app n="244" type="footnote" xml:id="begin_fn244"><rdg>للتأكّل</rdg><anchor xml:id="end_fn244"/>
+                        </app>
+                        . والأولى أن يفهم قوله «الغشاء الباطن»
+                        <app n="245" type="footnote" xml:id="begin_fn245"><rdg>يعني</rdg><anchor xml:id="end_fn245"/>
+                        </app>
+                        ما يليه، وإلّا فالغشاء هو الثرب. وليس يمكن أن يجتمع في داخله شيء دون أن يعرض فيه
+                        <locus target="CB1">225b</locus>
+                        تأكّل إذ لا خرق ولا ثقب فيه. وأمّا حكمه بالموت على من حدث
+                        <app n="246" type="footnote" xml:id="begin_fn246"><rdg>له</rdg><anchor xml:id="end_fn246"/>
+                        </app>
+                        هذا العارض فهو على الأكثر فإنّ الواحد
+                        <app n="247" type="footnote" xml:id="begin_fn247"><rdg>فالواحد</rdg><anchor xml:id="end_fn247"/>
+                        </app>
+                        من المستسقيين قد يسلم.
+                    </p>
+                </div>
+            </div>
+            <div n="56" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: القلق والتثاوب
+                        <app n="248" type="footnote" xml:id="begin_fn248"><rdg>والاقشعرار</rdg><anchor xml:id="end_fn248"/>
+                        </app>
+                        يبرئه شرب الشراب إذا مزج واحد سواء بواحد سواء.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: ينبغي أن يفهم أنّ أبقراط عنى بحدوث هذه الأعراض للأصحّاء، فإنّ
+                        <app n="249" type="footnote" xml:id="begin_fn249"><rdg>من</rdg><anchor xml:id="end_fn249"/>
+                        </app>
+                        كان مريضاً أو مشرّفاً على الحمّى فيعرض له لذلك قلق أو تثاوب أو قشعريرة فليس يؤمر بشرب الشراب. وإذا كان الأمر كذلك فإنّ هذه الأعراض توجد للأصحّاء لسببين أحدهما من الأسباب البدنية والآخر من الأسباب
+                        <app n="250" type="footnote" xml:id="begin_fn250"><rdg>النفسية</rdg><anchor xml:id="end_fn250"/>
+                        </app>
+                        . أمّا البدنية فإنّه متى وجد في فم المعدة رطوبة مؤدّية غير
+                        <app n="251" type="footnote" xml:id="begin_fn251"><rdg>كثيرة</rdg><anchor xml:id="end_fn251"/>
+                        </app>
+                        ولا مصبوبة في فضائها، بل مداخلة لجرمها عرض لصاحبها القلق وهو أن يملّ الحال التي هو عليها ويشتهي أن ينتقل إلى أخرى. وعلى هذا النحو يوجد القلق
+                        <app n="252" type="footnote" xml:id="begin_fn252"><rdg>للمرضى</rdg><anchor xml:id="end_fn252"/>
+                        </app>
+                        ، وذلك إذا ثقل عليهم الشكل الذي
+                        <locus target="CB1">226a</locus>
+                        اضطجعوا عليه واشتهوا أن ينقلبوا إلى شكل آخر. وأمّا التثاوب فيعرض إذا كان في عضل الفكّين فضلة من جنس الريح كما إذا كانت هذه الفضلة في عضلات الكتفين واليدين والظهر حدث التمطّى. والقشعريرة تحدث إذا انصبّت رطوبة رديئة يسيرة تحت الجلد. ومن البيّن أنّ الشراب
+                        <app n="253" type="footnote" xml:id="begin_fn253"><rdg>الممزوج</rdg><anchor xml:id="end_fn253"/>
+                        </app>
+                        على النصف يشقى منها أجمع لأنّه
+                        <app n="254" type="footnote" xml:id="begin_fn254"><rdg>ينضج</rdg><anchor xml:id="end_fn254"/>
+                        </app>
+                        ويهضم ويعدّل ويحرك على الاستفراغ. والرازي لشغفه بالردّ على أهل الصواب يخطئ جالينوس في سقي الشراب لا زاله البلغم الغائص في جرم المعدة قائلاً بأنّ القيء أولى بأن يشفى ذلك من الشراب وذهب عليه ما لا يذهب على العوامّ
+                        <locus target="V1">91a</locus>
+                        <app n="255" type="footnote" xml:id="begin_fn255"><rdg>من</rdg><anchor xml:id="end_fn255"/>
+                        </app>
+                        أنّ القيء إنّما يخرج ما هو مصبوب في تجويف المعدة. فأمّا ما هو مداخل بجرمها وفيما بين طبقاتها فالقيء لا يخرجه أصلاً. وأمّا الأسباب النفسية فهي الوحدة وطول الفكر فإنّ الإنسان إذا ظلّ نهاره يفكّر في المطالب العلمية يضجر ويقلق ويتكسّر بدنه وتقع عليه
+                        <locus target="CB1">226b</locus>
+                        التمطّى والتثاوب وكلّما أمعن في الفكر واختار
+                        <app n="256" type="footnote" xml:id="begin_fn256"><rdg>الوحدة</rdg><anchor xml:id="end_fn256"/>
+                        </app>
+                        اشتدّ ذلك عليه حتّى يفرغ إلى مفاوضة صديق في بعض ما يتعاطاه من العلم أو مؤانسة إنسان تستأنس به أو يتفرّج بالانتقال من موضع إلى موضع أو يشرب أقداحاً ممزوجة بقدر ما
+                        <app n="257" type="footnote" xml:id="begin_fn257"><rdg>يثقل</rdg><anchor xml:id="end_fn257"/>
+                        </app>
+                        رأسه ويسخّن بدنه ويزيل ذلك عنه
+                        <app n="258" type="footnote" xml:id="begin_fn258"><rdg>أجمع.</rdg><anchor xml:id="end_fn258"/>
+                        </app>
+                    </p>
+                </div>
+            </div>
+            <div n="57" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من تزعزع دماغه فإنّه تصيبه في وقته سكتة.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير:
+                        <app n="259" type="footnote" xml:id="begin_fn259"><rdg>الزعزعة</rdg><anchor xml:id="end_fn259"/>
+                        </app>
+                        تحريك شديد خارج عن الطبيعة يعرض الدماغ عند ما يسقط الإنسان من موضع عالي فيقع على رأسه أو تناله ضربة قوية على الرأس. وربّما يعرض هذا بعينه للنخاع حتّى تضطرب مواضع تأليف الفقارات ويكاد بعض العصب الذي ينبت منه ينهتك، إلّا أنّ الذي ينال الدماغ من
+                        <app n="260" type="footnote" xml:id="begin_fn260"><rdg>الوهن</rdg><anchor xml:id="end_fn260"/>
+                        </app>
+                        التحرّك أكثر ممّا ينال النخاع بحسب ما له من الفضاء الذي ليس يوجد مثله للنخاع. ويعرض
+                        <locus target="CB1">227a</locus>
+                        للقوّة النفسانية في تلك الحال أن تنقبض لتأذّيها بتلك الحركة والإشراف على الخطر ويكمن ويسكن. ويعرض لبعض الأعصاب أن
+                        <app n="261" type="footnote" xml:id="begin_fn261"><rdg>يتمدّد</rdg><anchor xml:id="end_fn261"/>
+                        </app>
+                        تمدّداً شديداً، وللبعض أن ينهتك، ويعرض لكمون القوى الدماغية وسكونها عن التصرّفات أن يبقى الإنسان عادماً للحسّ والحركة والصوت. فإن لم ينهتك شيء من الأعصاب فإنّه يرجي له أن
+                        <app n="262" type="footnote" xml:id="begin_fn262"><rdg>ينتعش</rdg><anchor xml:id="end_fn262"/>
+                        </app>
+                        ، وإلّا فلا.
+                    </p>
+                </div>
+            </div>
+            <div n="58" type="aphorism_commentary_unit">
+                <div type="aphorism">
+                    <p>
+                        قال أبقراط: من كان لحمه رطباً فينبغي أن يجوع فإنّ الجوع يجفّف الأبدان.
+                    </p>
+                </div>
+                <div type="commentary">
+                    <p>
+                        التفسير: يمكن أن يكون أبقراط عنى بهؤلاء الأصحّاء فإنّ من كان منحرف المزاج عن الاعتدال إلى الرطوبة فإنّ التدبير المجفّف ينفعه على طريق
+                        <app n="263" type="footnote" xml:id="begin_fn263"><rdg>التقدّم</rdg><anchor xml:id="end_fn263"/>
+                        </app>
+                        بالحفظ. ويمكن أن يكون عنى
+                        <app n="264" type="footnote" xml:id="begin_fn264"><rdg>بهم</rdg><anchor xml:id="end_fn264"/>
+                        </app>
+                        المرضى فإنّ من كان مرضه من الرطوبة فإنّ التدبير المجفّف ينفعه على طريق المضادّة فإنّ المرض يداوي بالضدّ والجوع يجفّف بطريق العرض. وذلك أنّ البدن إذا عدم الأخلاف
+                        <locus target="CB1">227b</locus>
+                        بدل ما يتحلّل منه عرض له أن يتيبّس سيّما، والذي يتحلّل من كلّ عضو هو أرطب ما فيه. وإنّما لا يعرض الجفاف الذبولي للحيوانات التي تنحجر طول مدّة الشتاء لأنّ المحلّل من البدن هو الحرارة
+                        <app n="265" type="footnote" xml:id="begin_fn265"><rdg>إمّا</rdg><anchor xml:id="end_fn265"/>
+                        </app>
+                        الداخلة أو الخارجة. وقد عدمت هذه الحيوانات في الشتاء كلتي الحرارتين
+                        <app n="266" type="footnote" xml:id="begin_fn266"><rdg>فلذلك</rdg><anchor xml:id="end_fn266"/>
+                        </app>
+                        صار لا يتحلّل
+                        <locus target="V1">91b</locus>
+                        منها شيء إلّا النزر الذي
+                        <app n="267" type="footnote" xml:id="begin_fn267"><rdg>يوجد</rdg><anchor xml:id="end_fn267"/>
+                        </app>
+                        
+                        <app n="268" type="footnote" xml:id="begin_fn268"><rdg>لتضادّ عنّا ضرّه</rdg><anchor xml:id="end_fn268"/>
+                        </app>
+                        . وذلك القدر لا يؤثر فيه أكثر من الضعف الذي يناله إلى أن يعود إلى الاغتذاء
+                        <app n="269" type="footnote" xml:id="begin_fn269"><rdg>ثانياً.فصل</rdg><anchor xml:id="end_fn269"/>
+                        </app>
+                        أمّا الفصول العويصة من هذا الكتاب
+                        <app n="270" type="footnote" xml:id="begin_fn270"><rdg>والتي</rdg><anchor xml:id="end_fn270"/>
+                        </app>
+                        انتظمت ضرباً من الغموض فقد بالغناء في شرحها ما لم يبق بحسب ظنّي في شيء منها موضع أشكال بعد أن جعلنا كلام جالينوس فيها كلّها أصلاً وقانوناً. وأمّا الفصول السهلة فقد لخّصنا ما قاله فيها ثمّ قلّ ما مضى
+                        <app n="271" type="footnote" xml:id="begin_fn271"><rdg>منها</rdg><anchor xml:id="end_fn271"/>
+                        </app>
+                        فصل إلّا وألحقنا به ما يزداد بذلك بياناً ووضوحاً ممّا كنّا قد أخذنا منه في كتبه الأخر. فإنّ من
+                        <locus target="CB1">228a</locus>
+                        يخوض في شرح جزء من أجزاء الطبّ وقد سبق جالينوس ففحص عنه بعينه فهو في كلّ ذلك غارف من بحره
+                        <app n="272" type="footnote" xml:id="begin_fn272"><rdg>ومقتف</rdg><anchor xml:id="end_fn272"/>
+                        </app>
+                        أثر سعيه ومنزلته في ذلك
+                        <app n="273" type="footnote" xml:id="begin_fn273"><rdg>عندي</rdg><anchor xml:id="end_fn273"/>
+                        </app>
+                        منزلة ناقل
+                        <app n="274" type="footnote" xml:id="begin_fn274"><rdg>التمر</rdg><anchor xml:id="end_fn274"/>
+                        </app>
+                        إلى
+                        <app n="275" type="footnote" xml:id="begin_fn275"><rdg>هجر</rdg><anchor xml:id="end_fn275"/>
+                        </app>
+                        وجالب البرد إلى عدن. وأمّا الفصول المدلّسة والتي قد أعيذ ذكرها بأخرة من الكتاب فتركنا ذكرها شفقة على فوت الزمان بما لا يجدي نفعاً.
+                    </p>
+                </div>
+            </div>
+             
+        </body>
+    </text>
+</TEI>
