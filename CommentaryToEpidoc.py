@@ -1,6 +1,6 @@
 """
-This module has been written to convert transcribed Arabic commentaries from
-text files to EpiDoc compatible XML, see http://www.stoa.org/epidoc/gl/latest/ 
+This module has been written to convert transcribed commentaries from text
+files to EpiDoc compatible XML, see http://www.stoa.org/epidoc/gl/latest/ 
 and http://sourceforge.net/p/epidoc/wiki/Home/ for more information on EpiDoc.
 
 Funding is provided by an ERC funded project studying Arabic commentaries on
@@ -8,11 +8,29 @@ the Hippocratic Aphorisms. The Principal Investigator is Peter E. Pormann,
 The University of Manchester.
 
 
-It is assumed the commentaries are utf-8 text files with the following format.
+It is anticipated the module will be used via the function process_text_files()
+which attempts to to process any file with a .txt extension within a specified
+directory. Each text file base name should end in an underscore followed by a
+numerical value, e.g. file_1.txt, file_2.txt, etc. The numerical value is
+subsequently used when creating the title section <div> element, e.g. 
+<div n="1" type="Title_section"> for file_1.txt. 
+
+If processing succeeds two XML files will be created in a folder called XML.
+The XML file names start with the text file base name and end in _main.xml (for
+the main XML) and _apps.xml (for the apparatus XML). For example for file_1.txt
+the XML files will be file_1_main.xml and file_1_app.xml.
+
+If processing fails error messages will be saved to a file with the .err 
+extension in the folder ./errors
+
+
+The commentaries should be utf-8 text files with the following format.
 
 Part 1. A main body of text consisting of:
 
-i.  A first line containing the title
+i.  A first block of text containing an optional intro section and the title,
+    if an intro section exists a line containing '++' identifies the division
+    between the intro (which comes first) and the title
 ii. A series of numbered aphorism/commentary pairs each consisting of: 
     a. A first line containing the aphorism number, this is a numerical value
        followed by the '.' character, i.e. the string 'n.' for aphorism n.
@@ -103,6 +121,13 @@ additional EpiDoc XML should be inserted, e.g.
 </TEI>
 
 
+The XML <div> elements generated are:
+ - intro (optional)
+ - Title_section (numbered)
+ - aphorism_commentary_unit (numbered)
+ - commentary (within aphorism_commentary_unit)
+ - aphorism (within aphorism_commentary_unit)
+
 Written by Jonathan Boyle, IT Services, The University of Manchester. 
 """
 
@@ -116,8 +141,7 @@ class StringProcessingException(Exception):
     pass
 
 
-def process_references(text):
-    
+def process_references(text): 
     """
 This helper function searches a line of text for witness references with the
 form [WW LL] and returns a string containing the original text with each
@@ -582,7 +606,7 @@ from the main document body.
         if len(sep) == 0:
             # Add text_before_symbol to the XML and stop processing      
             for next_line in text_before_symbol.splitlines():
-                xml_main.append(oss*n_offset + next_line)
+                xml_main.append(oss*n_offset + next_line.strip())
             break
     
         # We know sep has non-zero length and we are dealing with a footnote.
@@ -981,6 +1005,13 @@ It is intended this function is called by process_text_files().
         message.append('  Can only find one instance of "*1*"\n')  
         save_error(base_name, message)        
         return False
+        
+    # Check whether this document has an optional intro section, if it has it
+    # will contain the characters '++' in the main text
+    if '++' in full_text[:fn_start]:
+        include_intro = True
+    else:
+        include_intro = False        
     
     # Split the file into the main text and the footnotes
     # NOTE: this wastes memory as it takes an extra copy of the text in the 
@@ -1012,9 +1043,64 @@ It is intended this function is called by process_text_files().
     # inserting the main XML
     template_marker = '#INSERT#'
 
-    # Deal with the first line of text which should contain the title
-    # ===============================================================
+    # Deal with the first block of text which should contain an optional intro and the title
+    # ======================================================================================
 
+    # First deal with intro (if there is one)
+    # ---------------------
+    if include_intro:
+        # Generate the opening XML for the intro
+        xml_main.append(oss*n_offset + '<div type="intro">')
+        xml_main.append(oss*(n_offset+1) + '<p>')
+        
+        # Get the next line of text
+        line, next_line_to_process = get_next_non_empty_line(main_text, next_line_to_process)        
+        
+        # Loop over lines of text containing the intro
+        process_more_intro = True
+        
+        while process_more_intro:
+            
+            # Process any witnesses in this line. If this fails with a 
+            # StringProcessingException print an error and return
+            try:
+                line_ref = process_references(line)
+            except StringProcessingException as err:
+                message = ['Error processing document: {}'.format(text_file)]
+                message.append('  Unable to process references in line {} (document intro)\n'.format(next_line_to_process))
+                message.append('  Message: ' + str(err))
+                save_error(base_name, message)
+                return False
+            
+            # Process any footnotes in line_ref. If this fails with a 
+            # StringProcessingException print an error and return
+            try:
+                xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
+                process_footnotes(line_ref, next_footnote_to_find, footnotes, n_offset+2,oss)
+            except StringProcessingException as err:
+                message = ['Error processing document: {}'.format(text_file)]
+                message.append('  Unable to process footnotes in line {} (document intro)'.format(next_line_to_process))
+                message.append('  Message: ' + str(err))
+                save_error(base_name, message)
+                return False
+            
+            # Add to the XML
+            xml_main.extend(xml_main_to_add)
+            xml_app.extend(xml_app_to_add)
+            
+            # Get the next line and test if we have reached the end of the intro
+            line, next_line_to_process = get_next_non_empty_line(main_text, next_line_to_process)       
+            if '++' == line:
+                process_more_intro = False
+        
+        # Add XML to close the intro section
+        xml_main.append(oss*(n_offset+1) + '</p>')
+        xml_main.append(oss*n_offset + '</div>')
+     
+     
+    # Now process the title 
+    # ---------------------
+       
     # Generate the opening XML for the title
     xml_main.append(oss*n_offset + '<div n="' + doc_num + '" type="Title_section">')
     xml_main.append(oss*(n_offset+1) + '<ab>')
@@ -1022,32 +1108,44 @@ It is intended this function is called by process_text_files().
     # Get the first non-empty line of text
     line, next_line_to_process = get_next_non_empty_line(main_text, next_line_to_process)
     
-    # Process any witnesses in this line. If this raises an exception then
-    # print an error message and return
-    try:
-        line_ref = process_references(line)
-    except StringProcessingException as err:
-        message = ['Error processing document: {}'.format(text_file)]
-        message.append('  Unable to process references in line {} (title line)'.format(next_line_to_process))
-        message.append('  Message: ' + str(err))
-        save_error(base_name, message)
-        return False
+    # Loop over the lines in the title
+    process_more_title = True
     
-    # Process any footnotes in line_ref, if this fails print to the error file
-    # and return
-    try:
-        xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-            process_footnotes(line_ref, next_footnote_to_find, footnotes, n_offset+2,oss)
-    except StringProcessingException as err:
-        message = ['Error processing document: {}'.format(text_file)]
-        message.append('  Unable to process footnotes in line {} (title line)'.format(next_line_to_process))
-        message.append('  Message: ' + str(err))
-        save_error(base_name, message)
-        return False
+    while process_more_title:
+    
+        # Process any witnesses in this line. If this raises an exception then
+        # print an error message and return
+        try:
+            line_ref = process_references(line)
+        except StringProcessingException as err:
+            message = ['Error processing document: {}'.format(text_file)]
+            message.append('  Unable to process references in line {} (title line)'.format(next_line_to_process))
+            message.append('  Message: ' + str(err))
+            save_error(base_name, message)
+            return False
+    
+        # Process any footnotes in line_ref, if this fails print to the error
+        # file and return
+        try:
+            xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
+                process_footnotes(line_ref, next_footnote_to_find, footnotes, n_offset+2,oss)
+        except StringProcessingException as err:
+            message = ['Error processing document: {}'.format(text_file)]
+            message.append('  Unable to process footnotes in line {} (title line)'.format(next_line_to_process))
+            message.append('  Message: ' + str(err))
+            save_error(base_name, message)
+            return False
         
-    # Add the return values to the XML lists
-    xml_main.extend(xml_main_to_add)
-    xml_app.extend(xml_app_to_add)
+        # Add the return values to the XML lists
+        xml_main.extend(xml_main_to_add)
+        xml_app.extend(xml_app_to_add)
+        
+        # Get the next line of text
+        line, next_line_to_process = get_next_non_empty_line(main_text, next_line_to_process)
+        
+        # Test if we have reached the first aphorism
+        if line == '1.':
+            process_more_title = False
             
     # Close the XML for the title
     xml_main.append(oss*(n_offset+1) + '</ab>')
@@ -1058,10 +1156,7 @@ It is intended this function is called by process_text_files().
     
     # Initialise n_aphorism    
     n_aphorism = 1
-    
-    # Get next non-empty line
-    line, next_line_to_process = get_next_non_empty_line(main_text, next_line_to_process)
-    
+        
     while next_line_to_process < len(main_text):
         
         # Check the text in this line contains the correct aphorism number
@@ -1160,9 +1255,6 @@ It is intended this function is called by process_text_files().
             xml_main.append(oss*(n_offset+2) + '</p>')
             xml_main.append(oss*(n_offset+1) + '</div>')
             
-            # Close the XML for the aphorism + commentary unit
-            xml_main.append(oss*n_offset +'</div>')
-            
             # If there are more lines to process then get the next line and
             # test if we have reached the next aphorism
             if next_line_to_process < len(main_text):
@@ -1171,6 +1263,9 @@ It is intended this function is called by process_text_files().
                     process_more_commentary = False
             else:
                 break
+            
+        # Close the XML for the aphorism + commentary unit
+        xml_main.append(oss*n_offset +'</div>')
         
         # Increment the aphorism number          
         n_aphorism += 1

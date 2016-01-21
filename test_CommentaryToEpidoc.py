@@ -93,8 +93,10 @@ test_process_omission.ref
 def test_process_addition():
     """
 Runs the function process_addition(...) on the text in 
-test_process_addition.in, and compare the output against the text in 
-test_process_addition.ref    
+test_process_addition1.in, test_process_addition2.in and
+test_process_addition3.in and compares the output against the text in 
+test_process_addition1.ref, test_process_addition2.ref and
+test_process_addition3.ref
     """
     
     ok = False
@@ -132,8 +134,8 @@ test_process_addition.ref
 def test_process_correxi():
     """
 Runs the function process_correxi(...) on the text in 
-test_process_correxi.in, and compare the output against the text in 
-test_process_correxi.ref    
+test_process_correxi1.in and test_process_correxi2.in, and compares the output
+against the text in test_process_correxi1.ref and test_process_correxi2.ref
     """
     
     ok = False
@@ -172,8 +174,8 @@ test_process_correxi.ref
 def test_process_conieci():
     """
 Runs the function process_conieci(...) on the text in 
-test_process_conieci.in, and compare the output against the text in 
-test_process_conieci.ref    
+test_process_conieci1.in and test_process_conieci2.in, and compares the output
+against the text in test_process_conieci1.ref and test_process_conieci2.ref   
     """
     
     ok = False
