@@ -1,0 +1,10 @@
+.ipynb_checkpoints
+.idea
+*.egg-info
+build
+_build
+*.pyc
+.pydev*
+*~
+.project
+*.tmp
