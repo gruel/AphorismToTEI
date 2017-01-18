@@ -32,11 +32,13 @@ test_process_references.ref
     ok = False
     
     # Load text from input file
-    with open('./test_files/test_process_references.in','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_references.in', 'r',
+              encoding="utf-8") as f:
         text_in = f.read()
    
     # Load text from reference file
-    with open('./test_files/test_process_references.ref','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_references.ref', 'r',
+              encoding="utf-8") as f:
         text_ref = f.read()
     
     # Run the function with the input
@@ -56,19 +58,21 @@ test_process_references.ref
     
 def test_process_omission():
     """
-Runs the function process_omission(...) on the text in 
-test_process_omission.in, and compare the output against the text in 
-test_process_omission.ref    
+    Runs the function process_omission(...) on the text in
+    test_process_omission.in, and compare the output against the text in
+    test_process_omission.ref
     """
     
     ok = False
     
     # Load text from input file
-    with open('./test_files/test_process_omission.in','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_omission.in', 'r',
+              encoding="utf-8") as f:
         text_in = f.read()
          
     # Load text from reference file
-    with open('./test_files/test_process_omission.ref','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_omission.ref', 'r',
+              encoding="utf-8") as f:
         text_ref = f.read()
     
     # Run the function with the input
@@ -130,7 +134,8 @@ test_process_addition3.ref
             print(text_out)
     
     return ok
-    
+
+
 def test_process_correxi():
     """
 Runs the function process_correxi(...) on the text in 
@@ -169,7 +174,7 @@ against the text in test_process_correxi1.ref and test_process_correxi2.ref
             print(text_out)
     
     return ok
-    
+
 
 def test_process_conieci():
     """
@@ -297,7 +302,7 @@ compares the output against the text in test_process_footnotes.ref
 ###############################################################################   
 # RUN THE TESTS
 ###############################################################################
-import CommentaryToEpidoc
+from hyppocratic import CommentaryToEpidoc
 
 test_process_references()
 test_process_omission()
