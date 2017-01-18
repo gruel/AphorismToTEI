@@ -4,6 +4,9 @@ Created on Fri Nov 13 14:14:17 2015
 
 @author: mcbicjb2
 """
+import sys
+
+from docopt import docopt
 
 from importlib import reload
 
@@ -16,19 +19,42 @@ except ImportError:
 reload(CommentaryToEpidoc)
 
 
-def main():
-    # Call ArabicToXML.process_text_files with the following arguements
+def main(args=None):
+    """Run CommentaryToEpidoc scripts to produce the Epidoc XML
+
+    Usage:
+        CommentaryToEpidoc <directory> [--xml_template=<tmpl>] [--offsets=<n>] [--space=<n>]
+        CommentaryToEpidoc -h | --help
+        CommentaryToEpidoc --version
+
+    Options:
+        -h --help              Show this screen.
+        --version              Show version.
+        --xml_template=<name>  Name of the XML template [default: xml_template.txt]
+        --offsets=<n>          Offsets to use when adding XML to the <body> element [default: 3]
+        --space=<n>            Space characters to use for each XML offset [default: 4]
+
+    Example:
+        CommentaryToEpidoc TextFiles
+    TODO: add an option for the output
+    """
+
+    arguments = docopt(main.__doc__, argv=args,
+                       version="CommentaryToEpidoc testing version")
+
+    # Convert docopt results in the proper variable (change type when needed)
+    directory = arguments['<directory>']
+    template_file = arguments['--xml_template']
+    n_offsets = int(arguments['--offsets'])
+    n_space = int(arguments['--space'])
+
+    # Call ArabicToXML.process_text_files with the following arguments
     # 1st - the folder containing the text file
     # 2nd - the name of the XML template file
     # 3rd - the number of offsets to use when adding XML to the <body> element
     # 4th - the number of space characters to use for each XML offset
 
-    location_of_files = "./TextFiles"
-    template_file = "xml_template.txt"
-    n_offsets = 3
-    n_space = 4
-
-    CommentaryToEpidoc.process_text_files(location_of_files,
+    CommentaryToEpidoc.process_text_files(directory,
                                           template_file,
                                           n_offsets,
                                           n_space)
