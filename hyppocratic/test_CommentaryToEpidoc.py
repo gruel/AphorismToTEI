@@ -22,6 +22,7 @@ data is in files ending in .in, reference output is in files ending in .ref
 # FUNCTIONS TO DO THE TESTING
 ###############################################################################
 
+
 def test_process_references():
     """
 Runs the function process_references(...) on the text in 
@@ -106,14 +107,16 @@ test_process_addition3.ref
     ok = False
     n_test = 3
     
-    for test in range(1,n_test+1):
+    for test in range(1, n_test+1):
     
         # Load text from input file
-        with open('./test_files/test_process_addition' + str(test) + '.in','r',encoding="utf-8") as f:
+        with open('./test_files/test_process_addition' + str(test) + '.in',
+                  'r', encoding="utf-8") as f:
             text_in = f.read()
             
         # Load text from reference file
-        with open('./test_files/test_process_addition' + str(test) + '.ref','r',encoding="utf-8") as f:
+        with open('./test_files/test_process_addition' + str(test) + '.ref',
+                  'r', encoding="utf-8") as f:
             text_ref = f.read()
     
         # Run the function with the input
@@ -138,28 +141,30 @@ test_process_addition3.ref
 
 def test_process_correxi():
     """
-Runs the function process_correxi(...) on the text in 
+Runs the function process_correxi(...) on the text in
 test_process_correxi1.in and test_process_correxi2.in, and compares the output
 against the text in test_process_correxi1.ref and test_process_correxi2.ref
     """
-    
+
     ok = False
     n_test = 2
-    
-    for test in range(1,n_test+1):
-    
+
+    for test in range(1, n_test+1):
+
         # Load text from input file
-        with open('./test_files/test_process_correxi' + str(test) + '.in','r',encoding="utf-8") as f:
+        with open('./test_files/test_process_correxi' + str(test) + '.in',
+                  'r', encoding="utf-8") as f:
             text_in = f.read()
-            
+
         # Load text from reference file
-        with open('./test_files/test_process_correxi' + str(test) + '.ref','r',encoding="utf-8") as f:
+        with open('./test_files/test_process_correxi' + str(test) + '.ref',
+                  'r', encoding="utf-8") as f:
             text_ref = f.read()
-    
+
         # Run the function with the input
         list_out = []
         CommentaryToEpidoc.process_correxi(text_in, list_out)
-    
+
         # Convert the output list to a string with each element on a new line
         text_out = '\n'.join(list_out)
 
@@ -186,14 +191,16 @@ against the text in test_process_conieci1.ref and test_process_conieci2.ref
     ok = False
     n_test = 2
     
-    for test in range(1,n_test+1):
+    for test in range(1, n_test+1):
     
         # Load text from input file
-        with open('./test_files/test_process_conieci' + str(test) + '.in','r',encoding="utf-8") as f:
+        with open('./test_files/test_process_conieci' + str(test) + '.in',
+                  'r', encoding="utf-8") as f:
             text_in = f.read()
             
         # Load text from reference file
-        with open('./test_files/test_process_conieci' + str(test) + '.ref','r',encoding="utf-8") as f:
+        with open('./test_files/test_process_conieci' + str(test) + '.ref',
+                  'r', encoding="utf-8") as f:
             text_ref = f.read()
     
         # Run the function with the input
@@ -226,11 +233,13 @@ test_process_standard_variant.ref
     ok = False
     
     # Load text from input file
-    with open('./test_files/test_process_standard_variant.in','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_standard_variant.in',
+              'r', encoding="utf-8") as f:
         text_in = f.read()
          
     # Load text from reference file
-    with open('./test_files/test_process_standard_variant.ref','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_standard_variant.ref',
+              'r', encoding="utf-8") as f:
         text_ref = f.read()
     
     # Run the function with the input
@@ -263,24 +272,29 @@ compares the output against the text in test_process_footnotes.ref
     ok = False
     
     # Load text string from input file
-    with open('./test_files/test_process_footnotes_str.in','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_footnotes_str.in',
+              'r', encoding="utf-8") as f:
         text_in = f.read()
         
     # Load footnotes string from input file and convert to list
-    with open('./test_files/test_process_footnotes_fn.in','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_footnotes_fn.in',
+              'r', encoding="utf-8") as f:
         footnotes_in = f.read()
     footnotes_in = footnotes_in.splitlines()
        
     # Load main XML from reference file
-    with open('./test_files/test_process_footnotes_main.ref','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_footnotes_main.ref',
+              'r', encoding="utf-8") as f:
         main_ref = f.read()
         
     # Load app XML from reference file
-    with open('./test_files/test_process_footnotes_app.ref','r',encoding="utf-8") as f:
+    with open('./test_files/test_process_footnotes_app.ref',
+              'r', encoding="utf-8") as f:
         app_ref = f.read()
     
     # Run the function with the input
-    main_out, app_out, junk = CommentaryToEpidoc.process_footnotes(text_in, 1, footnotes_in)
+    main_out, app_out, junk = \
+        CommentaryToEpidoc.process_footnotes(text_in, 1, footnotes_in)
     
     # Convert the output lists to strings with each element on a new line
     main_out = '\n'.join(main_out)
@@ -299,16 +313,17 @@ compares the output against the text in test_process_footnotes.ref
     
     return ok
  
-###############################################################################   
+################
 # RUN THE TESTS
-###############################################################################
-from hyppocratic import CommentaryToEpidoc
+################
 
-test_process_references()
-test_process_omission()
-test_process_addition()
-test_process_correxi()
-test_process_conieci()
-test_process_standard_variant()
-test_process_footnotes()
+if __name__ == '__main__':
+    from hyppocratic import CommentaryToEpidoc
 
+    test_process_references()
+    test_process_omission()
+    test_process_addition()
+    test_process_correxi()
+    test_process_conieci()
+    test_process_standard_variant()
+    test_process_footnotes()
