@@ -1,14 +1,14 @@
 import os
+import sys
 import unittest
 
-from hyppocratic import CommentaryToEpidoc
+from context import CommentaryToEpidoc
 
-# TODO: Move to proper Data set directory. UGLY HACK but it worked :)
-# TODO: modify the default path of the unittest so it is working with pycharm
-path = os.path.realpath(__file__)
-directory = os.path.dirname(path)
-path_testdata = directory + os.sep + 'test_files' + os.sep
-os.chdir(path_testdata)
+file_path = os.path.realpath(__file__)
+path = os.path.dirname(file_path)
+sys.path.append(path)
+
+path_testdata = path + os.sep + 'test_files' + os.sep
 
 
 class TestCommentaryToEpidoc(unittest.TestCase):
@@ -98,8 +98,9 @@ class TestCommentaryToEpidoc(unittest.TestCase):
     def test_process_correxi(self):
         """
         Runs the function process_correxi(...) on the text in
-        test_process_correxi1.in and test_process_correxi2.in, and compares the output
-        against the text in test_process_correxi1.ref and test_process_correxi2.ref
+        test_process_correxi1.in and test_process_correxi2.in,
+        and compares the output against the text in test_process_correxi1.ref
+        and test_process_correxi2.ref
         """
 
         n_test = 2
@@ -119,7 +120,8 @@ class TestCommentaryToEpidoc(unittest.TestCase):
             list_out = []
             CommentaryToEpidoc.process_correxi(text_in, list_out)
 
-            # Convert the output list to a string with each element on a new line
+            # Convert the output list to a string with each element
+            # on a new line
             text_out = '\n'.join(list_out)
 
             self.assertEqual(text_out, text_ref)
@@ -127,8 +129,9 @@ class TestCommentaryToEpidoc(unittest.TestCase):
     def test_process_conieci(self):
         """
         Runs the function process_conieci(...) on the text in
-        test_process_conieci1.in and test_process_conieci2.in, and compares the output
-        against the text in test_process_conieci1.ref and test_process_conieci2.ref
+        test_process_conieci1.in and test_process_conieci2.in, and compares
+        the output against the text in test_process_conieci1.ref and
+        test_process_conieci2.ref
         """
 
         n_test = 2
@@ -149,7 +152,8 @@ class TestCommentaryToEpidoc(unittest.TestCase):
             list_out = []
             CommentaryToEpidoc.process_conieci(text_in, list_out)
 
-            # Convert the output list to a string with each element on a new line
+            # Convert the output list to a string with each element on a
+            # new line
             text_out = '\n'.join(list_out)
 
             self.assertEqual(text_out, text_ref)
@@ -157,10 +161,9 @@ class TestCommentaryToEpidoc(unittest.TestCase):
     def test_process_standard_variant(self):
         """
         Runs the function process_standard_variant(...) on the text in
-        test_process_standard_variant.in, and compare the output against the text in
-        test_process_standard_variant.ref
+        test_process_standard_variant.in, and compare the output against
+        the text in test_process_standard_variant.ref
         """
-
 
         # Load text from input file
         with open(path_testdata + 'test_process_standard_variant.in', 'r',
@@ -185,8 +188,9 @@ class TestCommentaryToEpidoc(unittest.TestCase):
     def test_process_footnotes(self):
         """
         Runs the function process_footnotes(...) on the text in
-        test_process_footnotes_string.in (which contains a fabricated text string) and
-        test_process_footnotes_fn.in (which contains fabricated footnotes), and
+        test_process_footnotes_string.in (which contains a fabricated
+        text string) and test_process_footnotes_fn.in
+        (which contains fabricated footnotes), and
         compares the output against the text in test_process_footnotes.ref
         """
 
