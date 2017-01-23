@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+import pytest
 
 from context import CommentaryToEpidoc
 
@@ -226,3 +227,6 @@ class TestCommentaryToEpidoc(unittest.TestCase):
         # Test the return value matches the expected output
         self.assertEqual(main_out, main_ref)
         self.assertEqual(app_out, app_ref)
+
+if __name__ == '__main__':
+    pytest.main()
