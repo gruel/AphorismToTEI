@@ -4,14 +4,22 @@
 
 from setuptools import setup
 
+import os
+
 setup(name='hyppocratic',
       version='0.1',
       description='Software to convert text files to EpiDoc compatible XML.',
       author='Johathan Boyle, Nicolas Gruel',
       packages=['hyppocratic'],
-      install_requires=['docopt'],
+      install_requires=['docopt', 'nose', 'pytest'],
       entry_points={
           'console_scripts': [
               'CommentaryToEpidoc = hyppocratic.driver:main']
                     }
       )
+
+# TODO: python setup.py does not use setup.cfg. Need to investigate
+
+# Run the test should be put before if failed abort installation?
+#os.system('py.test')
+# TODO: add pytest here see documentation.
