@@ -1,5 +1,6 @@
 .ipynb_checkpoints
 .idea
+.cache
 *.egg-info
 dist
 __pycache__
@@ -10,3 +11,4 @@ _build
 *~
 .project
 *.tmp
+*.log
