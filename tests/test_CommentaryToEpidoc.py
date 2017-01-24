@@ -9,7 +9,9 @@ file_path = os.path.realpath(__file__)
 path = os.path.dirname(file_path)
 sys.path.append(path)
 
-path_testdata = path + os.sep + 'test_files' + os.sep
+path_testdata = os.path.join(path, 'test_files') + os.sep
+# examples = os.path.join(path, '..', 'Examples', 'TextFiles') + os.sep
+template_file = os.path.join(path, '..', 'hyppocratic', 'xml_template.txt')
 
 
 class TestCommentaryToEpidoc(unittest.TestCase):
@@ -227,6 +229,32 @@ class TestCommentaryToEpidoc(unittest.TestCase):
         # Test the return value matches the expected output
         self.assertEqual(main_out, main_ref)
         self.assertEqual(app_out, app_ref)
+
+    def test_process_text_files(self):
+        result = CommentaryToEpidoc.process_text_files(path_testdata,
+                                                       template_file,
+                                                       n_offset=0,
+                                                       offset_size=4)
+        self.assertTrue(CommentaryToEpidoc.CommentaryToEpidocException)
+
+    def test_process_text_files_no_template(self):
+        template_file = 'xml_template.txt'
+        self.assertRaises(CommentaryToEpidoc.CommentaryToEpidocException,
+                          CommentaryToEpidoc.process_text_files,
+                                path_testdata,
+                                template_file,
+                                n_offset=0,
+                                offset_size=4)
+
+    def test_process_text_files(self):
+        path_testdata = os.path.join('path_failed')
+        self.assertRaises(CommentaryToEpidoc.CommentaryToEpidocException,
+                          CommentaryToEpidoc.process_text_files,
+                          path_testdata,
+                          template_file,
+                          n_offset=0,
+                          offset_size=4)
+
 
 if __name__ == '__main__':
     pytest.main()
