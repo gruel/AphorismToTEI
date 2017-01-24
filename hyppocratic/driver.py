@@ -18,15 +18,14 @@ except ImportError:
 # Logging
 
 import logging.config
-from conf import LOGGING
+try:
+    from hyppocratic.conf import LOGGING
+except ImportError:
+    from conf import LOGGING
 
 # Read logging configuration and create logger
 logging.config.dictConfig(LOGGING)
 logger = logging.getLogger('hyppocratic')
-
-
-# We need to reload if the package code has been modified
-reload(CommentaryToEpidoc)
 
 
 def main(args=None):
@@ -64,11 +63,8 @@ def main(args=None):
     # 3rd - the number of offsets to use when adding XML to the <body> element
     # 4th - the number of space characters to use for each XML offset
 
-    CommentaryToEpidoc.process_text_files(directory,
-                                          template_file,
-                                          n_offsets,
-                                          n_space)
-
+    comtoepi = CommentaryToEpidoc.CommentaryToEpidoc()
+    comtoepi.process_text_files(directory, template_file, n_offsets, n_space)
 
     logger.info("Finished "  + logger.name)
 
