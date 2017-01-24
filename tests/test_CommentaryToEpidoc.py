@@ -230,12 +230,12 @@ class TestCommentaryToEpidoc(unittest.TestCase):
         self.assertEqual(main_out, main_ref)
         self.assertEqual(app_out, app_ref)
 
-    def test_process_text_files(self):
-        result = CommentaryToEpidoc.process_text_files(path_testdata,
-                                                       template_file,
-                                                       n_offset=0,
-                                                       offset_size=4)
-        self.assertTrue(CommentaryToEpidoc.CommentaryToEpidocException)
+    # def test_process_text_files(self):
+    #     result = CommentaryToEpidoc.process_text_files(path_testdata,
+    #                                                    template_file,
+    #                                                    n_offset=0,
+    #                                                    offset_size=4)
+    #     self.assertTrue(result)
 
     def test_process_text_files_no_template(self):
         template_file = 'xml_template.txt'
@@ -255,6 +255,14 @@ class TestCommentaryToEpidoc(unittest.TestCase):
                           n_offset=0,
                           offset_size=4)
 
+    def test_process_text_file_bad_format(self):
+        self.assertRaises(CommentaryToEpidoc.CommentaryToEpidocException,
+                          CommentaryToEpidoc.process_file,
+                          path_testdata,
+                          'bug_break_file_name_test.txt',
+                          template_file,
+                          n_offset=0,
+                          offset_size=4)
 
 if __name__ == '__main__':
     pytest.main()
