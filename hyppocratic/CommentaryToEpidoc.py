@@ -994,7 +994,7 @@ def save_error(base_name, error_messages):
             f.write(e + '\n')
 
 
-def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
+def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
     """
     A function to process a text file containing symbols representing references
     to witnesses and symbols and footnotes defining textual variations,
@@ -1016,9 +1016,9 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
         The number of offsets to use when creating the XML inserted in
         the ``<body>`` element in the main XML template file.
         The default value is 0.
-    oss: str
-        A string defining the unit of offset in the XML, default value
-        is four space characters.
+    offset_size: int
+        The number of space characters to use for each XML offset. The
+        default value is 4.
 
     The text file base name is expected to end with an underscore followed by a
     numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical value is
@@ -1038,6 +1038,8 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
 
     It is intended this function is called by process_text_files().
     """
+
+    oss = ' '*offset_size
 
     # Open the file
     with open(folder+'/'+text_file, 'r', encoding="utf-8") as f:
@@ -1494,9 +1496,10 @@ def process_text_files(text_folder, template_file, n_offset=0, offset_size=4):
         if file.endswith(".txt"):
             logger.info('Processing: "{}"'.format(file))
             success = process_file(text_folder, file, template_file, n_offset,
-                                   ' '*offset_size)
+                                   offset_size)
             
             # Test for success
             if not success:
                 logger.error('Error: unable to process "{}", '
                              'see log file.'.format(file))
+
