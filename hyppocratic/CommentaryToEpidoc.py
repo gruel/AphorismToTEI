@@ -134,12 +134,16 @@ Written by Jonathan Boyle, IT Services, The University of Manchester.
 
 # Import the string and os modules
 import os
+import logging.config
+from conf import LOGGING
 
-# from docopt import docopt
+# Read logging configuration and create logger
+logging.config.dictConfig(LOGGING)
+logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
 
 
 # Define an Exception
-class StringProcessingException(Exception):
+class CommentaryToEpidocException(Exception):
     pass
 
 
@@ -184,8 +188,9 @@ def process_references(text):
     
         # If this partition failed then something went wrong, so throw an error
         if len(sep) == 0:
-            raise StringProcessingException('Unable to partition string at "]" '
-                                            'when looking for a reference')
+            logger.error('Unable to partition string at "]" '
+                         'when looking for a reference')
+            raise CommentaryToEpidocException
             
         # Partition the reference into witness and location (these are 
         # separated by the ' ' character)
@@ -193,9 +198,10 @@ def process_references(text):
         
         # If this partition failed there is an error
         if len(sep) == 0:
-            raise StringProcessingException('Unable to partition reference {} '
-                                            'because missing " " '
-                                            'character'.format(reference))
+            logger.error('Unable to partition reference {} '
+                         'because missing " " '
+                         'character'.format(reference))
+            raise CommentaryToEpidocException
 
         # Add the witness and location XML to the result string
         result += '<locus target="' + witness + '">' + page + '</locus>'
@@ -653,9 +659,9 @@ def process_footnotes(string_to_process, next_footnote, footnotes, n_offset=0,
         # Check we succeeded in partitioning the text before the footnote
         # at '#' or ' '. If we didn't there's an error.
         if len(sep) == 0:
-            raise StringProcessingException('Unable to partition text before '
-                                            'footnote symbol '
-                                            '{}'.format(footnote_symbol))
+            logger.error('Unable to partition text before footnote symbol '
+                         '{}'.format(footnote_symbol))
+            raise CommentaryToEpidocException
             
         # Add the next_text_for_xml to xml_main
         for next_line in next_text_for_xml.splitlines():
@@ -785,7 +791,6 @@ def test_footnotes(footnotes):
     n_footnote = 1
 
     # Initialise list to hold error messages
-    errors = [] 
     
     for footnote in footnotes:
        
@@ -795,146 +800,179 @@ def test_footnotes(footnotes):
         # Discard any empty lines
         if len(footnote) == 0:
             continue
-        
+
         # Test there are two '*' characters
-        if footnote.count('*') != 2:
-            error = ('Error in footnote ' + str(n_footnote) +
-                     ': should contain two "*" characters')
-            errors.append(error)        
-         
+        try:
+            if footnote.count('*') != 2:
+                error = ('Error in footnote ' + str(n_footnote) +
+                         ': should contain two "*" characters')
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            logger.error(error)
+
         # Test the first character is a '*' and remove it
-        if footnote[0] != '*':
-            error = ('Error in footnote ' + str(n_footnote) +
-                     ': first character is not an "*"')
-            errors.append(error)
+        try:
+            if footnote[0] != '*':
+                error = ('Error in footnote ' + str(n_footnote) +
+                         ': first character is not an "*"')
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            logger.error(error)
         footnote = footnote.lstrip('*')
-        
+
         # Test the last character is a '.'
-        if footnote[-1] != '.':
-            error = ('Error in footnote ' + str(n_footnote) +
-                     ': last character is not an "."')
-            errors.append(error)
+        try:
+            if footnote[-1] != '.':
+                error = ('Error in footnote ' + str(n_footnote) +
+                         ': last character is not an "."')
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            logger.error(error)
 
         # Partition at the next '*' and check the footnote number
-        n, sep, footnote = footnote.partition('*')
-        
-        if int(n) != n_footnote:
-            error = ('Error in footnote ' + str(n_footnote) +
-                     ': expected footnote ' +
-                     str(n_footnote) + ' but found footnote ' + n)
-            errors.append(error)
-        
+        try:
+            n, sep, footnote = footnote.partition('*')
+            if int(n) != n_footnote:
+                error = ('Error in footnote ' + str(n_footnote) +
+                         ': expected footnote ' +
+                         str(n_footnote) + ' but found footnote ' + n)
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            logger.error(error)
+
         # Check the footnote contains one ']'
-        if footnote.count(']') != 1:
-            error = ('Error in footnote ' + str(n_footnote) +
-                     ': should contain one "]" character')
-            errors.append(error)        
-        
+        # we must notice that most of the editor will show the opposite symbol [
+        try:
+            if footnote.count(']') != 1:
+                error = ('Error in footnote ' + str(n_footnote) +
+                         ': should contain one "]" character')
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            logger.error(error)
+
         # Check for known illegal characters
         # If contains a 'codd' give an error and stop further processing
-        if 'codd' in footnote:
-            error = 'Error in footnote ' + str(n_footnote) + ': contains "codd"'
-            errors.append(error)    
-            n_footnote += 1
-            continue
-        
+        try:
+            if 'codd' in footnote:
+                error = ('Error in footnote ' + str(n_footnote) +
+                         ': contains "codd"')
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            logger.error(error)
+
         # If contains a ';' give an error and stop further processing
-        if ';' in footnote:
-            error = 'Error in footnote ' + str(n_footnote) + ': contains ";"'
-            errors.append(error)
-            n_footnote += 1
-            continue
-        
-        processed = False
-                    
+        try:
+            if ';' in footnote:
+                error = ('Error in footnote ' + str(n_footnote) +
+                         ': contains ";"')
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            logger.error(error)
+
         # Test omission has the correct format
         # Errors tested for:
         # - should not contain any ','
         # - should contain one ':'
         # - text after ':' should be ' om. '
-        if not processed and 'om.' in footnote:
+        if 'om.' in footnote:
 
-            processed = True
-            
-            if ',' in footnote:
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': omission should not contain "," character'
-                errors.append(error)
-                
-            if footnote.count(':') != 1:
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': omission should contain one ":" character'
-                errors.append(error)
-               
-            part1, sep, part2 = footnote.partition(':')
-            if part2[0:5] != ' om. ':
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': omission must contain " om. " after ":"'
-                errors.append(error)
+            try:
+                if ',' in footnote:
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': omission should not contain "," character')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
+
+            try:
+                if footnote.count(':') != 1:
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': omission should contain one ":" character')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
+
+            try:
+                part1, sep, part2 = footnote.partition(':')
+                if part2[0:5] != ' om. ':
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': omission must contain " om. " after ":"')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
 
         # Test addition has the correct format
         # Errors tested for:
         #  - text after ']' should be ' add. '
-        if not processed and 'add.' in footnote:
-            
-            processed = True
-            
-            part1, sep, part2 = footnote.partition(']')
-            if part2[0:6] != ' add. ':
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': addition must contain " add. " after "]"'
-                errors.append(error)
-    
+        elif 'add.' in footnote:
+
+            try:
+                part1, sep, part2 = footnote.partition(']')
+                if part2[0:6] != ' add. ':
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': addition must contain " add. " after "]"')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
+
         # Test correxi have the correct format
         # Errors tested for:
         # - text after ']' should be ' correxi: '
-        if not processed and 'correxi' in footnote:
+        elif 'correxi' in footnote:
+
+            try:
+                # Partition at ']'
+                part1, sep, part2 = footnote.partition(']')
             
-            processed = True
-            
-            # Partition at ']'
-            part1, sep, part2 = footnote.partition(']')
-            
-            if part2[0:10] != ' correxi: ':
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': correxi must contain " correxi: " after "]"'
-                errors.append(error)
-    
+                if part2[0:10] != ' correxi: ':
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': correxi must contain " correxi: " after "]"')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
+
         # Test conieci have the correct format
         # Errors tested for:
         # - text after ']' should be ' conieci: '
-        if not processed and 'conieci' in footnote:
+        elif 'conieci' in footnote:
+
+            try:
+                # Partition at ']'
+                part1, sep, part2 = footnote.partition(']')
             
-            processed = True
-            
-            # Partition at ']'
-            part1, sep, part2 = footnote.partition(']')
-            
-            if part2[0:10] != ' conieci: ':
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': conieci must contain " conieci: " after "]"'
-                errors.append(error)
-         
+                if part2[0:10] != ' conieci: ':
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': conieci must contain " conieci: " after "]"')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
+
         # Test standard variations have the correct format
         # Errors tested for:
         # - should not contain any ','
         # - should contain one ':'
-        if not processed:
+        else:
       
-            if ',' in footnote:
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': standard variation should not contain "," character'
-                errors.append(error)
-                
-            if footnote.count(':') != 1:
-                error = 'Error in footnote ' + str(n_footnote) + \
-                    ': standard variation should contain one ":" character'
-                errors.append(error)
-    
+            try:
+                if ',' in footnote:
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': standard variation should not contain '
+                             '"," character')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
+
+            try:
+                if footnote.count(':') != 1:
+                    error = ('Error in footnote ' + str(n_footnote) +
+                             ': standard variation should contain one '
+                             '":" character')
+                    raise CommentaryToEpidocException
+            except CommentaryToEpidocException:
+                logger.error(error)
+
         # Increment footnote number
         n_footnote += 1
-        
-    return errors
 
 
 def save_error(base_name, error_messages):
@@ -1000,20 +1038,23 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
 
     It is intended this function is called by process_text_files().
     """
-    
+
     # Open the file
     with open(folder+'/'+text_file, 'r', encoding="utf-8") as f:
         # Read in file
         full_text = f.read()
-        
-    # Extract the file basename
-    base_name, sep, rhs = text_file.rpartition('.')
-    if len(sep) == 0:
-        message = list('Error processing document: {}'.format(text_file))
-        message.append('  File name has incorrect format')
-        save_error(text_file, message)
-        return False
-        
+
+    # TODO: to be removed here ot in the other function
+    # # Extract the file basename. There are a test before so this test is useless
+    # try:
+    #     base_name, sep = os.path.splitext(os.path.basename(text_file))
+    #     if len(sep) == 0:
+    #         error = 'File name {} has incorrect format'.format(text_file)
+    #         raise CommentaryToEpidocException
+    # except CommentaryToEpidocException:
+    #     logger.error(error)
+
+    base_name, sep = os.path.splitext(os.path.basename(text_file))
     # Delete any error file associated with this text file
     if os.path.isfile('./errors/' + base_name + '.err'):
         os.remove('./errors/' + base_name + '.err')
@@ -1022,7 +1063,8 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
     xml_main_file = './XML/' + base_name + '_main.xml'
     xml_app_file = './XML/' + base_name + '_app.xml'
     
-    # Extract the document number, it is expected this is at the end of the 
+    # TODO: file name format is too strict. Relax it.
+    # Extract the document number, it is expected this is at the end of the
     # base name following an '_'
     junk, sep, doc_num = base_name.rpartition('_')
     if len(sep) == 0:
@@ -1031,25 +1073,37 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
         save_error(base_name, message)
         return False
 
+    # TODO: Verify that footnote are absolutely a need in the format?
     # Find where text containing the block of footnotes starts, i.e. the 
     # last line containing '*1*', if this fails write to the error file and 
     # return
-    fn_start = full_text.rfind('*1*')
-    if fn_start == -1:
-        message = list('Error processing document: {}'.format(text_file))
-        message.append('  Problem finding location of "*1*"')
-        save_error(base_name, message)
-        return False
-    
+    try:
+        fn_start = full_text.rfind('*1*')
+        if fn_start == -1:
+            error = 'Problem finding location of the first footnote "*1*"'
+            raise CommentaryToEpidocException
+    except CommentaryToEpidocException:
+        logger.error(error)
+
     # Check this is different to the first location of *1*, if this isn't true
     # write to the error file and return
+    # fn1_ref_loc = full_text.find('*1*')
+    # if fn1_ref_loc == fn_start:
+    #     message = list('Error processing document: {}\n'.format(text_file))
+    #     message.append('  Can only find one instance of "*1*"\n')
+    #     save_error(base_name, message)
+    #     return False
+
     fn1_ref_loc = full_text.find('*1*')
-    if fn1_ref_loc == fn_start:
-        message = list('Error processing document: {}\n'.format(text_file))
-        message.append('  Can only find one instance of "*1*"\n')  
-        save_error(base_name, message)        
+    try:
+
+        if fn1_ref_loc == fn_start:
+            error = 'Can only find one instance of "*1*"'
+            raise CommentaryToEpidocException
+    except CommentaryToEpidocException:
+        logger.error(error)
         return False
-        
+
     # Check whether this document has an optional intro section, if it has it
     # will contain the characters '++' in the main text
     if '++' in full_text[:fn_start]:
@@ -1065,12 +1119,7 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
     footnotes = full_text[fn_start:].splitlines()
     
     # Test the footnotes
-    errors = test_footnotes(footnotes)
-    
-    # If there are errors save them to file and return
-    if len(errors) != 0:
-        save_error(base_name, errors)      
-        return False
+    test_footnotes(footnotes)
          
     # Create lists to contain the XML
     xml_main = []
@@ -1111,14 +1160,13 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
             # StringProcessingException print an error and return
             try:
                 line_ref = process_references(line)
-            except StringProcessingException as err:
-                message = list('Error processing document: '
-                               '{}'.format(text_file))
-                message.append('  Unable to process references in line {}'
-                               ' (document intro)'
-                               '\n'.format(next_line_to_process))
-                message.append('  Message: ' + str(err))
-                save_error(base_name, message)
+            except CommentaryToEpidocException as err:
+                error = ('Unable to process references in line {}'
+                         ' (document intro)'
+                         '\n\tMessage: '.format(next_line_to_process,
+                                                str(err)))
+
+                logger.error(error)
                 return False
             
             # Process any footnotes in line_ref. If this fails with a 
@@ -1127,13 +1175,12 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
                     process_footnotes(line_ref, next_footnote_to_find,
                                       footnotes, n_offset+2, oss)
-            except StringProcessingException as err:
-                message = list('Error processing document: '
-                               '{}'.format(text_file))
-                message.append('  Unable to process footnotes in line {} '
-                               '(document intro)'.format(next_line_to_process))
-                message.append('  Message: ' + str(err))
-                save_error(base_name, message)
+            except CommentaryToEpidocException as err:
+                error = ('Unable to process references in line {}'
+                         ' (document intro)'
+                         '\n\tMessage: '.format(next_line_to_process,
+                                                str(err)))
+                logger.error(error)
                 return False
             
             # Add to the XML
@@ -1171,7 +1218,7 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
         # print an error message and return
         try:
             line_ref = process_references(line)
-        except StringProcessingException as err:
+        except CommentaryToEpidocException as err:
             message = list('Error processing document: {}'.format(text_file))
             message.append('  Unable to process references in line {} '
                            '(title line)'.format(next_line_to_process))
@@ -1185,7 +1232,7 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
             xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
                 process_footnotes(line_ref, next_footnote_to_find, footnotes,
                                   n_offset+2, oss)
-        except StringProcessingException as err:
+        except CommentaryToEpidocException as err:
             message = list('Error processing document: {}'.format(text_file))
             message.append('  Unable to process footnotes in line {} '
                            '(title line)'.format(next_line_to_process))
@@ -1245,7 +1292,7 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
         # StringProcessingException print an error and return
         try:
             line_ref = process_references(line)
-        except StringProcessingException as err:
+        except CommentaryToEpidocException as err:
             message = list('Error processing document: {}'.format(text_file))
             message.append('  Unable to process references in line {} '
                            '(aphorism {})'.format(next_line_to_process,
@@ -1260,7 +1307,7 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
             xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
                 process_footnotes(line_ref, next_footnote_to_find, footnotes,
                                   n_offset+3, oss)
-        except StringProcessingException as err:
+        except CommentaryToEpidocException as err:
             message = list('Error processing document: {}'.format(text_file))
             message.append('  Unable to process footnotes in line {} '
                            '(aphorism {})'.format(next_line_to_process,
@@ -1294,7 +1341,7 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
             # StringProcessingException print an error and return
             try:
                 line_ref = process_references(line)
-            except StringProcessingException as err:
+            except CommentaryToEpidocException as err:
                 message = list('Error processing document: '
                                '{}'.format(text_file))
                 message.append('  Unable to process references in line {} '
@@ -1310,7 +1357,7 @@ def process_file(folder, text_file, template_file, n_offset=0, oss='    '):
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
                     process_footnotes(line_ref, next_footnote_to_find,
                                       footnotes, n_offset+3, oss)
-            except StringProcessingException as err:
+            except CommentaryToEpidocException as err:
                 message = list('Error processing document: '
                                '{}'.format(text_file))
                 message.append('  Unable to process footnotes in line {}'
@@ -1431,25 +1478,25 @@ def process_text_files(text_folder, template_file, n_offset=0, offset_size=4):
     """
 
     # Test that the template file exists
-    if not os.path.isfile('./' + template_file):
-        print('Error: template file {} not found'.format(template_file))
-        return    
+    if not os.path.isfile(template_file):
+        logger.error('Error: template file {} not found'.format(template_file))
+        raise CommentaryToEpidocException
 
     # Test that the working folder exists
     if not os.path.exists(text_folder):
-        print('Error: path {} for text files not found'.format(text_folder))
-        return
-    
+        logger.error('Error: path {} for text files '
+                     'not found'.format(text_folder))
+        raise CommentaryToEpidocException
+
     files = os.listdir(text_folder)
     
     for file in files:
         if file.endswith(".txt"):
-            print('Processing: {}'.format(file))
+            logger.info('Processing: "{}"'.format(file))
             success = process_file(text_folder, file, template_file, n_offset,
                                    ' '*offset_size)
             
             # Test for success
             if not success:
-                print('Error: unable to process {}, see file in '
-                      'errors folder.'.format(file))
-
+                logger.error('Error: unable to process "{}", '
+                             'see log file.'.format(file))
