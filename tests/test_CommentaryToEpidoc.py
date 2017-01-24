@@ -3,7 +3,7 @@ import sys
 import unittest
 import pytest
 
-from context import CommentaryToEpidoc
+from context import CommentaryToEpidoc, CommentaryToEpidocException
 
 file_path = os.path.realpath(__file__)
 path = os.path.dirname(file_path)
@@ -15,6 +15,9 @@ template_file = os.path.join(path, '..', 'hyppocratic', 'xml_template.txt')
 
 
 class TestCommentaryToEpidoc(unittest.TestCase):
+
+    def setUp(self):
+        self.comtoepi = CommentaryToEpidoc()
 
     def test_process_references(self):
         """
@@ -33,7 +36,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
             text_ref = f.read()
 
         # Run the function with the input
-        text_out = CommentaryToEpidoc.process_references(text_in)
+        text_out = self.comtoepi.process_references(text_in)
 
         self.assertEqual(text_out, text_ref)
 
@@ -56,7 +59,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        CommentaryToEpidoc.process_omission(text_in, list_out)
+        self.comtoepi.process_omission(text_in, list_out)
 
         # Convert the output list to a string with each element on a new line
         # This is not good in a test you should not modify the results
@@ -90,7 +93,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
             # Run the function with the input
             list_out = []
-            CommentaryToEpidoc.process_addition(text_in, list_out)
+            self.comtoepi.process_addition(text_in, list_out)
 
             # Convert the output list to a string with each element
             # on a new line
@@ -121,7 +124,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
             # Run the function with the input
             list_out = []
-            CommentaryToEpidoc.process_correxi(text_in, list_out)
+            self.comtoepi.process_correxi(text_in, list_out)
 
             # Convert the output list to a string with each element
             # on a new line
@@ -153,7 +156,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
             # Run the function with the input
             list_out = []
-            CommentaryToEpidoc.process_conieci(text_in, list_out)
+            self.comtoepi.process_conieci(text_in, list_out)
 
             # Convert the output list to a string with each element on a
             # new line
@@ -180,7 +183,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        CommentaryToEpidoc.process_standard_variant(text_in, list_out)
+        self.comtoepi.process_standard_variant(text_in, list_out)
 
         # Convert the output list to a string with each element on a new line
         text_out = '\n'.join(list_out)
@@ -220,7 +223,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
         # Run the function with the input
         main_out, app_out, junk = \
-            CommentaryToEpidoc.process_footnotes(text_in, 1, footnotes_in)
+            self.comtoepi.process_footnotes(text_in, 1, footnotes_in)
 
         # Convert the output lists to strings with each element on a new line
         main_out = '\n'.join(main_out)
@@ -231,7 +234,7 @@ class TestCommentaryToEpidoc(unittest.TestCase):
         self.assertEqual(app_out, app_ref)
 
     # def test_process_text_files(self):
-    #     result = CommentaryToEpidoc.process_text_files(path_testdata,
+    #     result = self.comtoepi.process_text_files(path_testdata,
     #                                                    template_file,
     #                                                    n_offset=0,
     #                                                    offset_size=4)
@@ -239,8 +242,8 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
     def test_process_text_files_no_template(self):
         template_file = 'xml_template.txt'
-        self.assertRaises(CommentaryToEpidoc.CommentaryToEpidocException,
-                          CommentaryToEpidoc.process_text_files,
+        self.assertRaises(CommentaryToEpidocException,
+                          self.comtoepi.process_text_files,
                                 path_testdata,
                                 template_file,
                                 n_offset=0,
@@ -248,16 +251,16 @@ class TestCommentaryToEpidoc(unittest.TestCase):
 
     def test_process_text_files(self):
         path_testdata = os.path.join('path_failed')
-        self.assertRaises(CommentaryToEpidoc.CommentaryToEpidocException,
-                          CommentaryToEpidoc.process_text_files,
+        self.assertRaises(CommentaryToEpidocException,
+                          self.comtoepi.process_text_files,
                           path_testdata,
                           template_file,
                           n_offset=0,
                           offset_size=4)
 
     def test_process_text_file_bad_format(self):
-        self.assertRaises(CommentaryToEpidoc.CommentaryToEpidocException,
-                          CommentaryToEpidoc.process_file,
+        self.assertRaises(CommentaryToEpidocException,
+                          self.comtoepi.process_file,
                           path_testdata,
                           'bug_break_file_name_test.txt',
                           template_file,
