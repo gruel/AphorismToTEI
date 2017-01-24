@@ -975,25 +975,6 @@ def test_footnotes(footnotes):
         n_footnote += 1
 
 
-def save_error(base_name, error_messages):
-    """
-    A helper function to save error messages to file. The input arguments are
-
-    base_name: the base name for the error file
-    error_messages: a list containing the error messages
-
-    Error messages will be saved to a file with the .err extension in the folder
-    ./errors
-    """
-    
-    if not os.path.exists('./errors'):
-        os.mkdir('./errors')
-        
-    with open('./errors/' + base_name + '.err', 'w', encoding="utf-8") as f:
-        for e in error_messages:
-            f.write(e + '\n')
-
-
 def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
     """
     A function to process a text file containing symbols representing references
@@ -1041,51 +1022,42 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
 
     oss = ' '*offset_size
 
-    # Open the file
-    with open(folder+'/'+text_file, 'r', encoding="utf-8") as f:
-        # Read in file
-        full_text = f.read()
-
-    # TODO: to be removed here ot in the other function
-    # # Extract the file basename. There are a test before so this test is useless
-    # try:
-    #     base_name, sep = os.path.splitext(os.path.basename(text_file))
-    #     if len(sep) == 0:
-    #         error = 'File name {} has incorrect format'.format(text_file)
-    #         raise CommentaryToEpidocException
-    # except CommentaryToEpidocException:
-    #     logger.error(error)
-
     base_name, sep = os.path.splitext(os.path.basename(text_file))
-    # Delete any error file associated with this text file
-    if os.path.isfile('./errors/' + base_name + '.err'):
-        os.remove('./errors/' + base_name + '.err')
-        
-    # Set XML file names
-    xml_main_file = './XML/' + base_name + '_main.xml'
-    xml_app_file = './XML/' + base_name + '_app.xml'
-    
+
     # TODO: file name format is too strict. Relax it.
     # Extract the document number, it is expected this is at the end of the
     # base name following an '_'
     junk, sep, doc_num = base_name.rpartition('_')
-    if len(sep) == 0:
-        message = list('Error processing document: {}'.format(text_file))
-        message.append('  File name has incorrect format')
-        save_error(base_name, message)
-        return False
+    try:
+        doc_num = int(doc_num)
+        if len(sep) == 0:
+            raise CommentaryToEpidocException
+    except ValueError:
+        error = ('File name {} has incorrect format'.format(text_file))
+        logger.error(error)
+        raise CommentaryToEpidocException
+
+    # Set XML file names
+    xml_main_file = os.path.join('XML', base_name + '_main.xml')
+    xml_app_file = os.path.join('XML', base_name + '_app.xml')
+
+    # Open the file to process
+    with open(os.path.join(folder, text_file), 'r', encoding="utf-8") as f:
+        # Read in file
+        full_text = f.read()
 
     # TODO: Verify that footnote are absolutely a need in the format?
-    # Find where text containing the block of footnotes starts, i.e. the 
-    # last line containing '*1*', if this fails write to the error file and 
+    # TODO: move outside of this function
+    # Find where text containing the block of footnotes starts, i.e. the
+    # last line containing '*1*', if this fails write to the error file and
     # return
-    try:
-        fn_start = full_text.rfind('*1*')
-        if fn_start == -1:
-            error = 'Problem finding location of the first footnote "*1*"'
-            raise CommentaryToEpidocException
-    except CommentaryToEpidocException:
+    fn_start = full_text.rfind('*1*')
+
+    if fn_start == -1:
+        error = ('Problem finding location of the first footnote "*1*" '
+                 'in file {}'.format(text_file))
         logger.error(error)
+        raise CommentaryToEpidocException
 
     # Check this is different to the first location of *1*, if this isn't true
     # write to the error file and return
@@ -1097,29 +1069,25 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
     #     return False
 
     fn1_ref_loc = full_text.find('*1*')
-    try:
-
-        if fn1_ref_loc == fn_start:
-            error = 'Can only find one instance of "*1*"'
-            raise CommentaryToEpidocException
-    except CommentaryToEpidocException:
+    if fn1_ref_loc == fn_start:
+        error = 'Can only find one instance of "*1*"'
         logger.error(error)
-        return False
+        raise CommentaryToEpidocException
 
     # Check whether this document has an optional intro section, if it has it
     # will contain the characters '++' in the main text
     if '++' in full_text[:fn_start]:
         include_intro = True
     else:
-        include_intro = False        
-    
+        include_intro = False
+
     # Split the file into the main text and the footnotes
-    # NOTE: this wastes memory as it takes an extra copy of the text in the 
+    # NOTE: this wastes memory as it takes an extra copy of the text in the
     # file, hence for large files it would be better to modify to use
     # fn_txt_start to define an offset when accessing the footnotes.
     main_text = full_text[:fn_start].splitlines()
     footnotes = full_text[fn_start:].splitlines()
-    
+
     # Test the footnotes
     test_footnotes(footnotes)
          
@@ -1159,31 +1127,30 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
         while process_more_intro:
             
             # Process any witnesses in this line. If this fails with a 
-            # StringProcessingException print an error and return
+            # CommentaryToEpidocException print an error and return
             try:
                 line_ref = process_references(line)
             except CommentaryToEpidocException as err:
                 error = ('Unable to process references in line {}'
-                         ' (document intro)'
-                         '\n\tMessage: '.format(next_line_to_process,
-                                                str(err)))
-
+                         ' (document intro)'.format(next_line_to_process))
                 logger.error(error)
-                return False
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
             
             # Process any footnotes in line_ref. If this fails with a 
-            # StringProcessingException print an error and return
+            # CommentaryToEpidocException print an error and return
             try:
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
                     process_footnotes(line_ref, next_footnote_to_find,
                                       footnotes, n_offset+2, oss)
             except CommentaryToEpidocException as err:
                 error = ('Unable to process references in line {}'
-                         ' (document intro)'
-                         '\n\tMessage: '.format(next_line_to_process,
-                                                str(err)))
+                         ' (document intro)'.format(next_line_to_process))
                 logger.error(error)
-                return False
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
             
             # Add to the XML
             xml_main.extend(xml_main_to_add)
@@ -1203,8 +1170,8 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
     # ---------------------
        
     # Generate the opening XML for the title
-    xml_main.append(oss*n_offset + '<div n="' + doc_num +
-                    '" type="Title_section">')
+    xml_main.append(oss*n_offset + '<div n="{}" '
+                                   'type="Title_section">'.format(doc_num))
     xml_main.append(oss*(n_offset+1) + '<ab>')
 
     # Get the first non-empty line of text
@@ -1221,12 +1188,12 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
         try:
             line_ref = process_references(line)
         except CommentaryToEpidocException as err:
-            message = list('Error processing document: {}'.format(text_file))
-            message.append('  Unable to process references in line {} '
-                           '(title line)'.format(next_line_to_process))
-            message.append('  Message: ' + str(err))
-            save_error(base_name, message)
-            return False
+            error = ('Unable to process references in line {} '
+                     '(title line)'.format(next_line_to_process))
+            logger.error(error)
+            error = 'Error message: {}'.format(err)
+            logger.error(error)
+            raise CommentaryToEpidocException
     
         # Process any footnotes in line_ref, if this fails print to the error
         # file and return
@@ -1235,12 +1202,12 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
                 process_footnotes(line_ref, next_footnote_to_find, footnotes,
                                   n_offset+2, oss)
         except CommentaryToEpidocException as err:
-            message = list('Error processing document: {}'.format(text_file))
-            message.append('  Unable to process footnotes in line {} '
-                           '(title line)'.format(next_line_to_process))
-            message.append('  Message: ' + str(err))
-            save_error(base_name, message)
-            return False
+            error = ('Unable to process footnotes in line {} '
+                     '(title line)'.format(next_line_to_process))
+            logger.error(error)
+            error = 'Error message: {}'.format(err)
+            logger.error(error)
+            raise CommentaryToEpidocException
         
         # Add the return values to the XML lists
         xml_main.extend(xml_main_to_add)
@@ -1269,14 +1236,14 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
         # Check the text in this line contains the correct aphorism number
         # If it doesn't print a message and stop
         if line[:-1] != str(n_aphorism):
-            message = list('Error processing document: {}'.format(text_file))
-            message.append('  Unable to find expected aphorism number ({}) '
-                           'in line {}'.format(n_aphorism,
-                                               next_line_to_process))
-            message.append('  Instead line {} contains the value: '
-                           '{}\n'.format(next_line_to_process-1, line[:-1]))
-            save_error(base_name, message)
-            return False
+            error = ('Unable to find expected aphorism number ({}) '
+                     'in line {}'.format(n_aphorism,
+                                         next_line_to_process))
+            logger.error(error)
+            error = ('Instead line {} contains the value: '
+                     '{}'.format(next_line_to_process-1, line[:-1]))
+            logger.error(error)
+            raise CommentaryToEpidocException
             
         # Add initial XML for the aphorism + commentary unit
         xml_main.append(oss*n_offset + '<div n="' + str(n_aphorism) +
@@ -1291,17 +1258,17 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
             get_next_non_empty_line(main_text, next_line_to_process)
         
         # Now process any witnesses in it. If this fails with a 
-        # StringProcessingException print an error and return
+        # CommentaryToEpidocException print an error and return
         try:
             line_ref = process_references(line)
         except CommentaryToEpidocException as err:
-            message = list('Error processing document: {}'.format(text_file))
-            message.append('  Unable to process references in line {} '
-                           '(aphorism {})'.format(next_line_to_process,
-                                                  n_aphorism))
-            message.append('  Message: ' + str(err))
-            save_error(base_name, message)
-            return False
+            error = ('Unable to process references in line {} '
+                     '(aphorism {})'.format(next_line_to_process,
+                                            n_aphorism))
+            logger.error(error)
+            error = 'Error message: {}'.format(err)
+            logger.error(error)
+            raise CommentaryToEpidocException
 
         # Process any footnotes in line_ref, if there are errors write to the 
         # error file and return
@@ -1310,13 +1277,13 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
                 process_footnotes(line_ref, next_footnote_to_find, footnotes,
                                   n_offset+3, oss)
         except CommentaryToEpidocException as err:
-            message = list('Error processing document: {}'.format(text_file))
-            message.append('  Unable to process footnotes in line {} '
-                           '(aphorism {})'.format(next_line_to_process,
-                                                  n_aphorism))
-            message.append('  Message: ' + str(err))
-            save_error(base_name, message)
-            return False
+            error = ('Unable to process footnotes in line {} '
+                     '(aphorism {})'.format(next_line_to_process,
+                                            n_aphorism))
+            logger.error(error)
+            error = 'Error message: {}'.format(err)
+            logger.error(error)
+            raise CommentaryToEpidocException
             
         # Add the XML
         xml_main.extend(xml_main_to_add)
@@ -1340,34 +1307,32 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
             xml_main.append(oss*(n_offset+2) + '<p>')
         
             # Now process any witnesses in this line. If this fails with a 
-            # StringProcessingException print an error and return
+            # CommentaryToEpidocException and log an error
             try:
                 line_ref = process_references(line)
             except CommentaryToEpidocException as err:
-                message = list('Error processing document: '
-                               '{}'.format(text_file))
-                message.append('  Unable to process references in line {} '
-                               '(commentary for aphorism '
-                               '{})\n'.format(next_line_to_process, n_aphorism))
-                message.append('  Message: ' + str(err))
-                save_error(base_name, message)
-                return False
+                error = ('Unable to process references in line {} '
+                         '(commentary for aphorism '
+                         '{})'.format(next_line_to_process, n_aphorism))
+                logger.error(error)
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
                 
             # Process any footnotes in line_ref. If this fails with a 
-            # StringProcessingException print an error and return
+            # CommentaryToEpidocException and log an error
             try:
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
                     process_footnotes(line_ref, next_footnote_to_find,
                                       footnotes, n_offset+3, oss)
             except CommentaryToEpidocException as err:
-                message = list('Error processing document: '
-                               '{}'.format(text_file))
-                message.append('  Unable to process footnotes in line {}'
-                               ' (commentary for aphorism '
-                               '{})'.format(next_line_to_process, n_aphorism))
-                message.append('  Message: ' + str(err))
-                save_error(base_name, message)
-                return False
+                error = ('Unable to process footnotes in line {}'
+                         ' (commentary for aphorism '
+                         '{})'.format(next_line_to_process, n_aphorism))
+                logger.error(error)
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
         
             # Add the XML
             xml_main.extend(xml_main_to_add)
@@ -1397,8 +1362,8 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
     # ===================
     
     # Create folder for XML
-    if not os.path.exists('./XML'):
-        os.mkdir('./XML')
+    if not os.path.exists('XML'):
+        os.mkdir('XML')
     
     # Embed xml_main into the XML in the template
     
@@ -1414,11 +1379,10 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
 
     # Test the split worked     
     if len(sep) == 0:
-        message = list('Error processing document: {}'.format(text_file))
-        message.append('  Unable to find template marker text ({}) '
-                       'in file {}'.format(template_marker, template_file))
-        save_error(base_name, message)
-        return False
+        error = ('Unable to find template marker text ({}) '
+                 'in file {}'.format(template_marker, template_file))
+        logger.error(error)
+        raise CommentaryToEpidocException
                 
     # Save main XML to file
     with open(xml_main_file, 'w', encoding="utf-8") as f:
@@ -1434,8 +1398,6 @@ def process_file(folder, text_file, template_file, n_offset=0, offset_size=4):
 
         for s in xml_app:
             f.write(s + '\n')
-    
-    return True
 
 
 def process_text_files(text_folder, template_file, n_offset=0, offset_size=4):    
@@ -1495,11 +1457,10 @@ def process_text_files(text_folder, template_file, n_offset=0, offset_size=4):
     for file in files:
         if file.endswith(".txt"):
             logger.info('Processing: "{}"'.format(file))
-            success = process_file(text_folder, file, template_file, n_offset,
-                                   offset_size)
-            
-            # Test for success
-            if not success:
+            try:
+                success = process_file(text_folder, file, template_file, n_offset,
+                                       offset_size)
+            except CommentaryToEpidocException:
                 logger.error('Error: unable to process "{}", '
                              'see log file.'.format(file))
 
