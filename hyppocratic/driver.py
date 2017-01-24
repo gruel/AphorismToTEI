@@ -15,6 +15,16 @@ try:
 except ImportError:
     import CommentaryToEpidoc
 
+# Logging
+
+import logging.config
+from conf import LOGGING
+
+# Read logging configuration and create logger
+logging.config.dictConfig(LOGGING)
+logger = logging.getLogger('hyppocratic')
+
+
 # We need to reload if the package code has been modified
 reload(CommentaryToEpidoc)
 
@@ -59,7 +69,8 @@ def main(args=None):
                                           n_offsets,
                                           n_space)
 
-    print("Finished")
+
+    logger.info("Finished "  + logger.name)
 
 if __name__ == '__main__':
     main()
