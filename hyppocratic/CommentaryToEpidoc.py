@@ -277,7 +277,8 @@ class CommentaryToEpidoc(object):
         text = text.strip()
 
         # Add the witness to the XML (remember to strip whitespace)
-        xml_app.append(oss + '<rdg wit="#' + wit.strip() + '">' + text + '</rdg>')
+        xml_app.append(oss + '<rdg wit="#' + wit.strip() + '">' + text +
+                       '</rdg>')
 
         # Partition part2 at 'om.' to extract witness
         junk, sep, wit = part2.partition('om.')
@@ -343,8 +344,8 @@ class CommentaryToEpidoc(object):
 
                 # Add to the XML
                 xml_app.append(oss + '<rdg wit="#' + wit + '">')
-                xml_app.append(oss*2 + '<add reason="add_scribe">' + text.strip() +
-                               '</add>')
+                xml_app.append(oss*2 + '<add reason="add_scribe">' +
+                               text.strip() + '</add>')
                 xml_app.append(oss + '</rdg>')
 
         else:
@@ -429,7 +430,8 @@ class CommentaryToEpidoc(object):
                 text, sep, wit = var.strip().rpartition(' ')
 
                 # Add to the XML
-                xml_app.append(oss + '<rdg wit="#' + wit + '">' + text + '</rdg>')
+                xml_app.append(oss + '<rdg wit="#' + wit + '">' +
+                               text + '</rdg>')
 
         else:
                 # Deal with case 2
@@ -447,8 +449,8 @@ class CommentaryToEpidoc(object):
 
                 # Add the witness XML
                 for wit in wits:
-                    xml_app.append(oss + '<rdg wit="#' + wit + '">' + text.strip()
-                                   + '</rdg>')
+                    xml_app.append(oss + '<rdg wit="#' + wit + '">' +
+                                   text.strip() + '</rdg>')
 
     def process_conieci(self, footnote, xml_app, oss='    '):
         """
@@ -511,7 +513,8 @@ class CommentaryToEpidoc(object):
                 text, sep, wit = var.strip().rpartition(' ')
 
                 # Add to the XML
-                xml_app.append(oss + '<rdg wit="#' + wit + '">' + text + '</rdg>')
+                xml_app.append(oss + '<rdg wit="#' + wit + '">' + text +
+                               '</rdg>')
 
         else:
             # Deal with case 2
@@ -529,8 +532,8 @@ class CommentaryToEpidoc(object):
 
             # Add the witness XML
             for wit in wits:
-                xml_app.append(oss + '<rdg wit="#' + wit + '">' + text.strip() +
-                               '</rdg>')
+                xml_app.append(oss + '<rdg wit="#' + wit + '">' +
+                               text.strip() + '</rdg>')
 
     def process_standard_variant(self, footnote, xml_app, oss='    '):
         """
@@ -571,7 +574,8 @@ class CommentaryToEpidoc(object):
         # Split this footnote line at the ':' character
         part1, sep, part2 = footnote.partition(':')
 
-        # Split part 1 at the ']' character to separate the text from the witness
+        # Split part 1 at the ']' character to separate the text
+        # from the witness
         text, sep, wits = part1.partition(']')
 
         # Remove whitespace from text
@@ -585,10 +589,11 @@ class CommentaryToEpidoc(object):
         text, sep, wit = part2.rpartition(' ')
 
         # Add the single witness to the XML (remember to strip whitespace)
-        xml_app.append(oss + '<rdg wit="#' + wit + '">' + text.strip() + '</rdg>')
+        xml_app.append(oss + '<rdg wit="#' + wit + '">' + text.strip() +
+                       '</rdg>')
 
-    def process_footnotes(self, string_to_process, next_footnote, footnotes, n_offset=0,
-                          oss='    '):
+    def process_footnotes(self, string_to_process, next_footnote, footnotes,
+                          n_offset=0, oss='    '):
         """
         This helper function takes a single string containing text and processes any
         embedded footnote symbols (describing additions, omissions, correxi, conieci
@@ -644,17 +649,20 @@ class CommentaryToEpidoc(object):
                 string_to_process.partition(footnote_symbol)
 
             # If the partition failed sep will have zero length and the next
-            # footnote is not in this line, hence we can stop processing and return
+            # footnote is not in this line, hence we can stop
+            # processing and return
             if len(sep) == 0:
                 # Add text_before_symbol to the XML and stop processing
                 for next_line in text_before_symbol.splitlines():
                     xml_main.append(oss*n_offset + next_line.strip())
                 break
 
-            # We know sep has non-zero length and we are dealing with a footnote.
-            # Now use string partition to try to split text_before_symbol at a '#'
-            # character.
-            next_text_for_xml, sep, base_text = text_before_symbol.partition('#')
+            # We know sep has non-zero length and we are dealing with
+            # a footnote.
+            # Now use string partition to try to split text_before_symbol
+            # at a '#' character.
+            next_text_for_xml, sep, base_text = \
+                text_before_symbol.partition('#')
 
             # If the above partition failed the footnote refers to a single word
             if len(sep) == 0:
@@ -707,8 +715,8 @@ class CommentaryToEpidoc(object):
             # footnote_line
             junk, sep, footnote_line = footnote_line.partition(footnote_symbol)
 
-            # Now process the footnote line - deal with each case individually to
-            # aid readability and make future additions easier
+            # Now process the footnote line - deal with each case individually
+            # to aid readability and make future additions easier
             processed = False
 
             # Now process the footnote
@@ -846,7 +854,8 @@ class CommentaryToEpidoc(object):
                 logger.error(error)
 
             # Check the footnote contains one ']'
-            # we must notice that most of the editor will show the opposite symbol [
+            # we must notice that most of the editor will show
+            # the opposite symbol [
             try:
                 if footnote.count(']') != 1:
                     error = ('Error in footnote ' + str(n_footnote) +
@@ -947,7 +956,8 @@ class CommentaryToEpidoc(object):
 
                     if part2[0:10] != ' conieci: ':
                         error = ('Error in footnote ' + str(n_footnote) +
-                                 ': conieci must contain " conieci: " after "]"')
+                                 ': conieci must contain " conieci: " '
+                                 'after "]"')
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
@@ -980,7 +990,8 @@ class CommentaryToEpidoc(object):
             n_footnote += 1
 
 
-    def process_file(self, folder, text_file, template_file, n_offset=0, offset_size=4):
+    def process_file(self, folder, text_file, template_file, n_offset=0,
+                     offset_size=4):
         """
         A function to process a text file containing symbols representing references
         to witnesses and symbols and footnotes defining textual variations,
@@ -1064,23 +1075,16 @@ class CommentaryToEpidoc(object):
             logger.error(error)
             raise CommentaryToEpidocException
 
-        # Check this is different to the first location of *1*, if this isn't true
-        # write to the error file and return
-        # fn1_ref_loc = full_text.find('*1*')
-        # if fn1_ref_loc == fn_start:
-        #     message = list('Error processing document: {}\n'.format(text_file))
-        #     message.append('  Can only find one instance of "*1*"\n')
-        #     save_error(base_name, message)
-        #     return False
-
+        # Check this is different to the first location of *1*,
+        # if this isn't true write to the log file and raise exception
         fn1_ref_loc = full_text.find('*1*')
         if fn1_ref_loc == fn_start:
             error = 'Can only find one instance of "*1*"'
             logger.error(error)
             raise CommentaryToEpidocException
 
-        # Check whether this document has an optional intro section, if it has it
-        # will contain the characters '++' in the main text
+        # Check whether this document has an optional intro section,
+        # if it has it will contain the characters '++' in the main text
         if '++' in full_text[:fn_start]:
             include_intro = True
         else:
@@ -1111,9 +1115,10 @@ class CommentaryToEpidoc(object):
         # inserting the main XML
         template_marker = '#INSERT#'
 
-        # Deal with the first block of text which should contain an optional intro
+        # Deal with the first block of text which should contain
+        # an optional intro
         # and the title
-        # =========================================================================
+        # =======================================================
 
         # First deal with intro (if there is one)
         # ---------------------
@@ -1161,9 +1166,11 @@ class CommentaryToEpidoc(object):
                 xml_main.extend(xml_main_to_add)
                 xml_app.extend(xml_app_to_add)
 
-                # Get the next line and test if we have reached the end of the intro
+                # Get the next line and test if we have reached the end of
+                #  the intro
                 line, next_line_to_process = \
-                    self.get_next_non_empty_line(main_text, next_line_to_process)
+                    self.get_next_non_empty_line(main_text,
+                                                 next_line_to_process)
                 if '++' == line:
                     process_more_intro = False
 
@@ -1180,16 +1187,16 @@ class CommentaryToEpidoc(object):
         xml_main.append(oss*(n_offset+1) + '<ab>')
 
         # Get the first non-empty line of text
-        line, next_line_to_process = self.get_next_non_empty_line(main_text,
-                                                             next_line_to_process)
+        line, next_line_to_process = \
+            self.get_next_non_empty_line(main_text, next_line_to_process)
 
         # Loop over the lines in the title
         process_more_title = True
 
         while process_more_title:
 
-            # Process any witnesses in this line. If this raises an exception then
-            # print an error message and return
+            # Process any witnesses in this line.
+            # If this raises an exception then print an error message and return
             try:
                 line_ref = self.process_references(line)
             except CommentaryToEpidocException as err:
@@ -1200,12 +1207,12 @@ class CommentaryToEpidoc(object):
                 logger.error(error)
                 raise CommentaryToEpidocException
 
-            # Process any footnotes in line_ref, if this fails print to the error
-            # file and return
+            # Process any footnotes in line_ref,
+            # if this fails print to the error file and return
             try:
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                    self.process_footnotes(line_ref, next_footnote_to_find, footnotes,
-                                      n_offset+2, oss)
+                    self.process_footnotes(line_ref, next_footnote_to_find,
+                                           footnotes, n_offset+2, oss)
             except CommentaryToEpidocException as err:
                 error = ('Unable to process footnotes in line {} '
                          '(title line)'.format(next_line_to_process))
@@ -1279,8 +1286,8 @@ class CommentaryToEpidoc(object):
             # error file and return
             try:
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                    self.process_footnotes(line_ref, next_footnote_to_find, footnotes,
-                                      n_offset+3, oss)
+                    self.process_footnotes(line_ref, next_footnote_to_find,
+                                           footnotes, n_offset+3, oss)
             except CommentaryToEpidocException as err:
                 error = ('Unable to process footnotes in line {} '
                          '(aphorism {})'.format(next_line_to_process,
@@ -1329,7 +1336,7 @@ class CommentaryToEpidoc(object):
                 try:
                     xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
                         self.process_footnotes(line_ref, next_footnote_to_find,
-                                          footnotes, n_offset+3, oss)
+                                               footnotes, n_offset+3, oss)
                 except CommentaryToEpidocException as err:
                     error = ('Unable to process footnotes in line {}'
                              ' (commentary for aphorism '
@@ -1351,7 +1358,8 @@ class CommentaryToEpidoc(object):
                 # test if we have reached the next aphorism
                 if next_line_to_process < len(main_text):
                     line, next_line_to_process = \
-                        self.get_next_non_empty_line(main_text, next_line_to_process)
+                        self.get_next_non_empty_line(main_text,
+                                                     next_line_to_process)
                     if line[:-1].isdigit():
                         process_more_commentary = False
                 else:
@@ -1404,7 +1412,8 @@ class CommentaryToEpidoc(object):
             for s in xml_app:
                 f.write(s + '\n')
 
-    def process_text_files(self, text_folder, template_file, n_offset=0, offset_size=4):
+    def process_text_files(self, text_folder, template_file, n_offset=0,
+                           offset_size=4):
         """
         A function to process all files with the .txt extension in a directory.
         These files are expected to be utf-8 text files containing symbols
@@ -1447,7 +1456,8 @@ class CommentaryToEpidoc(object):
 
         # Test that the template file exists
         if not os.path.isfile(template_file):
-            logger.error('Error: template file {} not found'.format(template_file))
+            logger.error('Error: template file {} '
+                         'not found'.format(template_file))
             raise CommentaryToEpidocException
 
         # Test that the working folder exists
