@@ -131,7 +131,6 @@ The XML <div> elements generated are:
 Written by Jonathan Boyle, IT Services, The University of Manchester. 
 """
 
-
 # Import the string and os modules
 import os
 import logging.config
@@ -151,28 +150,26 @@ class CommentaryToEpidocException(Exception):
     pass
 
 
-class CommentaryToEpidoc(object):
+class Process(object):
+    def __init__(self, folder='', fname='', n_offset=3, offset_size=4):
+        self.folder = folder
+        self.fname = fname
+        self.n_offset = n_offset
+        self.offset_size = offset_size
 
-    def __init__(self): #, folder='', fname='', n_offset=0, offset_size=4):
-        # self.folder = folder
-        # self.fname = fname
-        # self.n_offset = n_offset
-        # self.offset_size = offset_size
-        pass
-
-    def process_references(self, text):
+    def _references(self, line):
         """
-        This helper function searches a line of text for witness references with the
-        form ``[WW LL]`` and returns a string containing the original text with each
-        witness reference replaced with XML with the form
+        This helper function searches a line of text for witness references
+        with the form ``[WW LL]`` and returns a string containing the original
+        text with each witness reference replaced with XML with the form
         ``<locus target="WW">LL</locus>``.
 
         ``\n`` characters are added at the start and end of each XML insertion
         so each instance of XML is on its own line.
 
-        It is intended this function is called by function process_file() for each
-        line of text from the main body of the text document before processing
-        footnote references using the process_footnotes() function.
+        It is intended this function is called by function process_file()
+        for each line of text from the main body of the text document before
+        processing footnote references using the _footnotes() function.
         """
 
         # Create a string to contain the return value
@@ -180,7 +177,7 @@ class CommentaryToEpidoc(object):
 
         while True:
             # Try to partition this line at the first '[' character
-            text_before, sep, text_after = text.partition('[')
+            text_before, sep, text_after = line.partition('[')
 
             # Note: if sep is zero there are no more witnesses to add
 
@@ -192,14 +189,15 @@ class CommentaryToEpidoc(object):
                     result += '\n'
 
             # If sep has zero length we can stop because there are no more
-            # witness references
+            # witness _references
             if len(sep) == 0:
                 break
 
             # Try to split text_after at the first ']' character
-            reference, sep, text = text_after.partition(']')
+            reference, sep, line = text_after.partition(']')
 
-            # If this partition failed then something went wrong, so throw an error
+            # If this partition failed then something went wrong,
+            # so throw an error
             if len(sep) == 0:
                 logger.error('Unable to partition string at "]" '
                              'when looking for a reference')
@@ -220,7 +218,7 @@ class CommentaryToEpidoc(object):
             result += '<locus target="' + witness + '">' + page + '</locus>'
 
             # If text has zero length we can stop
-            if len(text) == 0:
+            if len(line) == 0:
                 break
             else:
                 # There is more text to process so start a new line
@@ -228,15 +226,16 @@ class CommentaryToEpidoc(object):
 
         return result
 
-    def process_omission(self, footnote, xml_app, oss='    '):
+    def _omission(self, footnote, xml_app, oss='    '):
         """Helper function processes a footnote line describing an omission
 
-        This helper function processes a footnote line describing an omission, i.e.
-        footnotes which contain the string ``om.``.
+        This helper function processes a footnote line describing an omission,
+        i.e. footnotes which contain the string ``om.``.
 
-        The textual variation MUST include only only two witnesses, hence omissions
-        with two witnesses are not allowed since it would make no sense for both
-        witnesses to omit the same text. Therefore the following should be true:
+        The textual variation MUST include only only two witnesses,
+        hence omissions with two witnesses are not allowed since it would make
+        no sense for both witnesses to omit the same text. Therefore
+        the following should be true:
 
         1. The footnote line contains one colon character.
         2. The footnote line doesn't contain commas.
@@ -260,11 +259,11 @@ class CommentaryToEpidoc(object):
         The second input argument should be a list containing the apparatus XML,
         this function will add XML to this list.
 
-        The third input argument is the string defining a unit of offset in the XML,
-        this defaults to four space characters.
+        The third input argument is the string defining a unit of offset in
+        the XML, this defaults to four space characters.
 
-        It is intended this function is called by process_footnotes() for omission
-        footnotes.
+        It is intended this function is called by _footnotes()
+        for omission footnotes.
         """
 
         # Partition the footnote line at ':'
@@ -285,17 +284,17 @@ class CommentaryToEpidoc(object):
 
         # Add witness to the XML
         xml_app.append(oss + '<rdg wit="#' + wit.strip() + '">')
-        xml_app.append(oss*2 + '<gap reason="omission"/>')
+        xml_app.append(oss * 2 + '<gap reason="omission"/>')
         xml_app.append(oss + '</rdg>')
 
-    def process_addition(self, footnote, xml_app, oss='    '):
+    def _addition(self, footnote, xml_app, oss='    '):
         """
-        This helper function processes a footnote line describing an addition, i.e.
-        footnotes containing the string 'add.'
+        This helper function processes a footnote line describing an addition,
+        i.e. footnotes containing the string 'add.'
 
         The textual variation must include only only two witnesses, however
-        additions with two witnesses are are allowed, and this function will work
-        with multiple witnesses.
+        additions with two witnesses are are allowed, and this function will
+        work with multiple witnesses.
 
         The first input argument must be the footnote line with the following
         stripped from the start and end of the string:
@@ -321,8 +320,8 @@ class CommentaryToEpidoc(object):
         The third input argument is the string defining the unit of offset
         for the XML, this default to four space characters.
 
-        It is intended this function is called by process_footnotes() for addition
-        footnotes.
+        It is intended this function is called by _footnotes()
+        for addition footnotes.
         """
 
         # Partition the footnote line at add.
@@ -344,32 +343,32 @@ class CommentaryToEpidoc(object):
 
                 # Add to the XML
                 xml_app.append(oss + '<rdg wit="#' + wit + '">')
-                xml_app.append(oss*2 + '<add reason="add_scribe">' +
+                xml_app.append(oss * 2 + '<add reason="add_scribe">' +
                                text.strip() + '</add>')
                 xml_app.append(oss + '</rdg>')
 
         else:
-                # Deal with case 2
-                wits = []
-                text = part2
+            # Deal with case 2
+            wits = []
+            text = part2
 
-                # First deal with sources after ',' by partitioning at last comma
-                while ',' in text:
-                    text, sep, wit = text.rpartition(',')
-                    wits.append(wit.strip())
+            # First deal with sources after ',' by partitioning at last comma
+            while ',' in text:
+                text, sep, wit = text.rpartition(',')
+                wits.append(wit.strip())
 
-                # Partition at last ' '
-                text, sep, wit = text.rpartition(' ')
-                wits.append(wit)
+            # Partition at last ' '
+            text, sep, wit = text.rpartition(' ')
+            wits.append(wit)
 
-                # Add the witness XML
-                for wit in wits:
-                    xml_app.append(oss + '<rdg wit="#' + wit + '">')
-                    xml_app.append(oss*2 + '<add reason="add_scribe">' +
-                                   text.strip() + '</add>')
-                    xml_app.append(oss + '</rdg>')
+            # Add the witness XML
+            for wit in wits:
+                xml_app.append(oss + '<rdg wit="#' + wit + '">')
+                xml_app.append(oss * 2 + '<add reason="add_scribe">' +
+                               text.strip() + '</add>')
+                xml_app.append(oss + '</rdg>')
 
-    def process_correxi(self, footnote, xml_app, oss='    '):
+    def _correxi(self, footnote, xml_app, oss='    '):
         """
         This helper function processes a footnote line describing correxi, i.e.
         corrections by the editor, these contain the string 'correxi'.
@@ -384,12 +383,14 @@ class CommentaryToEpidoc(object):
         The footnote is expected to contain at least one ``:`` character and
         have the following format:
 
-        1. The footnote line before the first ``:`` character contains a string of
-           witness text, followed by a ``]`` character.
+        1. The footnote line before the first ``:`` character contains a string
+           of witness text, followed by a ``]`` character.
+
         2. The footnote line after the ':' character has one of two formats:
 
-            a. multiple pairs of witness text + witness code, each pair separated
-               by a ``:`` character
+            a. multiple pairs of witness text + witness code, each pair
+               separated by a ``:`` character
+
             b. a single witness text followed by a space and a list of comma
                separated witness codes
 
@@ -399,8 +400,8 @@ class CommentaryToEpidoc(object):
         The third input argument is a string defining the unit of offset
         for the XML, this defaults to four space characters.
 
-        It is intended this function is called by process_footnotes() for correxi
-        footnotes.
+        It is intended this function is called by _footnotes()
+        for correxi footnotes.
         """
 
         # Partition at first ':'
@@ -411,14 +412,15 @@ class CommentaryToEpidoc(object):
 
         # Add text xml_app
         xml_app.append(oss + '<rdg>')
-        xml_app.append(oss*2 + '<choice>')
-        xml_app.append(oss*3 + '<corr>' + text.strip() + '</corr>')
-        xml_app.append(oss*2 + '</choice>')
+        xml_app.append(oss * 2 + '<choice>')
+        xml_app.append(oss * 3 + '<corr>' + text.strip() + '</corr>')
+        xml_app.append(oss * 2 + '</choice>')
         xml_app.append(oss + '</rdg>')
 
         # Now process part2, which could have one of two formats
         # 1. Multiple text/witness pairs, each separated by :
-        # 2. Single text and witness(es), multiple witnesses are separated by ','
+        # 2. Single text and witness(es), multiple witnesses are separated
+        #    by ','
 
         # Deal with case 1
         if ':' in part2:
@@ -434,46 +436,46 @@ class CommentaryToEpidoc(object):
                                text + '</rdg>')
 
         else:
-                # Deal with case 2
-                wits = []
-                text = part2
+            # Deal with case 2
+            wits = []
+            text = part2
 
-                # First deal with sources after ','
-                while ',' in text:
-                    text, sep, wit = text.rpartition(',')
-                    wits.append(wit.strip())
+            # First deal with sources after ','
+            while ',' in text:
+                text, sep, wit = text.rpartition(',')
+                wits.append(wit.strip())
 
-                # Partition at last ' '
-                text, sep, wit = text.rpartition(' ')
-                wits.append(wit)
+            # Partition at last ' '
+            text, sep, wit = text.rpartition(' ')
+            wits.append(wit)
 
-                # Add the witness XML
-                for wit in wits:
-                    xml_app.append(oss + '<rdg wit="#' + wit + '">' +
-                                   text.strip() + '</rdg>')
+            # Add the witness XML
+            for wit in wits:
+                xml_app.append(oss + '<rdg wit="#' + wit + '">' +
+                               text.strip() + '</rdg>')
 
-    def process_conieci(self, footnote, xml_app, oss='    '):
+    def _conieci(self, footnote, xml_app, oss='    '):
         """
-        This helper function processes a footnote line describing a conieci, i.e.
-        conjectures by the editor, these contain the string 'conieci'.
+        This helper function processes a footnote line describing a _conieci,
+        i.e. conjectures by the editor, these contain the string '_conieci'.
 
-        The first input argument is the footnote line with following stripped from
-        the start and end of the string:
+        The first input argument is the footnote line with following stripped
+        from the start and end of the string:
 
         1. All whitespace
         2. ``*n*`` (where n is the footnote number) from the start of the string
         3. ``.`` character from the end of the string
 
-        The footnote is expected to contain at least one ``:`` character and have
-        the following format:
+        The footnote is expected to contain at least one ``:`` character and
+        have the following format:
 
-        1. The footnote line before the first ``:`` character contains a string of
-           witness text followed by a ``]`` character.
+        1. The footnote line before the first ``:`` character contains a string
+           of witness text followed by a ``]`` character.
         2. The footnote line after the ``:`` character has one of two formats:
             a. multiple pairs of variant + witness, each separated by the ``:``
                character
-            b. a single variant followed by a space and a list of comma separated
-               witnesses
+            b. a single variant followed by a space and a list of comma
+            separated witnesses
 
         The second input argument should be a list containing the apparatus XML,
         this function will add XML to this list.
@@ -481,8 +483,8 @@ class CommentaryToEpidoc(object):
         The third input argument is the string defining a unit of offset
         for the XML, this defaults to four space characters.
 
-        It is intended this function is called by process_footnotes() for conieci
-        footnotes.
+        It is intended this function is called by _footnotes()
+        for _conieci _footnotes.
         """
 
         # Partition at first ':'
@@ -493,10 +495,10 @@ class CommentaryToEpidoc(object):
 
         # Add text xml_app
         xml_app.append(oss + '<rdg>')
-        xml_app.append(oss*2 + '<choice>')
-        xml_app.append(oss*3 + '<corr type="conjecture">' + text.strip() +
+        xml_app.append(oss * 2 + '<choice>')
+        xml_app.append(oss * 3 + '<corr type="conjecture">' + text.strip() +
                        '</corr>')
-        xml_app.append(oss*2 + '</choice>')
+        xml_app.append(oss * 2 + '</choice>')
         xml_app.append(oss + '</rdg>')
 
         # Now process part 2, which could have one of two formats
@@ -535,10 +537,10 @@ class CommentaryToEpidoc(object):
                 xml_app.append(oss + '<rdg wit="#' + wit + '">' +
                                text.strip() + '</rdg>')
 
-    def process_standard_variant(self, footnote, xml_app, oss='    '):
+    def _standard_variant(self, footnote, xml_app, oss='    '):
         """
-        This helper function processes a footnote line describing a standard textual
-        variation, i.e. not an omission, addition, correxi or conieci.
+        This helper function processes a footnote line describing a standard
+        textual variation, i.e. not an _omission, _addition, _correxi or _conieci.
 
         The textual variation MUST include only only two witnesses, hence
         the following should be true:
@@ -546,18 +548,18 @@ class CommentaryToEpidoc(object):
         1. The footnote line should contain one colon character.
         2. The footnote line should not contain commas.
 
-        The first input argument is the footnote line with the following stripped
-        from the start and end of the string:
+        The first input argument is the footnote line with the following
+        stripped from the start and end of the string:
 
         1. All whitespace
         2. ``*n*`` (where n is the footnote number) from the start of the string
         3. ``.`` character from the end of the string
 
-        The footnote is expected to contain one ':' character and have the following
-        format:
+        The footnote is expected to contain one ':' character and have
+        the following format:
 
-        1. Before the colon is witness text, followed by a ']' character, followed
-           by a witness code.
+        1. Before the colon is witness text, followed by a ']' character,
+           followed by a witness code.
         2. After the colon is witness text, followed by a final space character,
            followed by a witnesses code.
 
@@ -567,8 +569,8 @@ class CommentaryToEpidoc(object):
         The third input argument is the string defining a unit of offset
         for the XML, this defaults to four space characters.
 
-        It is intended this function is called by process_footnotes() for footnotes
-        describing standard variations.
+        It is intended this function is called by _footnotes()
+        for _footnotes describing standard variations.
         """
 
         # Split this footnote line at the ':' character
@@ -582,8 +584,9 @@ class CommentaryToEpidoc(object):
         text = text.strip()
 
         # Add the single witness to the XML (remember to strip whitespace)
-        xml_app.append(oss + '<rdg wit="#' + wits.strip() + '">' + text.strip() +
-                       '</rdg>')
+        xml_app.append(
+            oss + '<rdg wit="#' + wits.strip() + '">' + text.strip() +
+            '</rdg>')
 
         # Process the single witness by partitioning part2 at last ' '
         text, sep, wit = part2.rpartition(' ')
@@ -592,13 +595,15 @@ class CommentaryToEpidoc(object):
         xml_app.append(oss + '<rdg wit="#' + wit + '">' + text.strip() +
                        '</rdg>')
 
-    def process_footnotes(self, string_to_process, next_footnote, footnotes,
-                          n_offset=0, oss='    '):
+    def _footnotes(self, string_to_process, next_footnote,
+                   n_offset=0, oss='    '):
         """
-        This helper function takes a single string containing text and processes any
-        embedded footnote symbols (describing additions, omissions, correxi, conieci
-        and standard textual variations) to generate XML. It also deals with any XML
-        generated using function process_references().
+        This helper function takes a single string containing text and
+        processes any embedded footnote symbols (describing additions,
+        omissions, correxi, conieci and standard textual variations)
+        to generate XML. It also deals with any XML generated using
+        function _references().
+
         The output is two lists of XML, one for the main text, the other for the
         apparatus.
 
@@ -606,22 +611,26 @@ class CommentaryToEpidoc(object):
         ----------
 
         string_to_process: str
+
             This string contains the text to be processed. This should contain
-            a single line from the text file being processed, e.g. a title, aphorism
-            or commentary. This string may already contain XML generated using
-            the process_references() function i.e. XML identifying witnesses with
-            each <locus> XML on a new line.
+            a single line from the text file being processed, e.g. a title,
+            aphorism or commentary. This string may already contain XML
+            generated using the _references() function i.e. XML
+            identifying witnesses with each <locus> XML on a new line.
+
         next_footnote: int
+
             This is the number of the next footnote to be located and
             processed.
-        footnotes: list
-                This is a Python list containing all the footnotes, i.e.
-                obtained from the end of the text file being processed.
+
         n_offset: int
+
             This is the number of offsets to use when creating the main
             XML to be inserted in the <body> element in the XML template
             file. The default value is 0.
+
         oss: str
+
             A string defining the unit of offset in the XML, the default value
             is four space characters.
 
@@ -636,7 +645,6 @@ class CommentaryToEpidoc(object):
         It is intended this function is called by process_file() on each line
         of text from the main document body.
         """
-
         # Create lists to contain the XML
         xml_main = []
         xml_app = []
@@ -654,7 +662,7 @@ class CommentaryToEpidoc(object):
             if len(sep) == 0:
                 # Add text_before_symbol to the XML and stop processing
                 for next_line in text_before_symbol.splitlines():
-                    xml_main.append(oss*n_offset + next_line.strip())
+                    xml_main.append(oss * n_offset + next_line.strip())
                 break
 
             # We know sep has non-zero length and we are dealing with
@@ -680,7 +688,7 @@ class CommentaryToEpidoc(object):
 
             # Add the next_text_for_xml to xml_main
             for next_line in next_text_for_xml.splitlines():
-                xml_main.append(oss*n_offset + next_line.strip())
+                xml_main.append(oss * n_offset + next_line.strip())
 
             # Create XML for this textural variation for xml_main
             next_string = ('<app n="' +
@@ -695,17 +703,17 @@ class CommentaryToEpidoc(object):
             # Add next_string to the xml_main, remember this may contain '\n'
             # characters and XML from a witness reference
             for next_line in next_string.splitlines():
-                xml_main.append(oss*n_offset + next_line)
+                xml_main.append(oss * n_offset + next_line)
 
             # Close the XML for the main text
-            xml_main.append(oss*n_offset + '</app>')
+            xml_main.append(oss * n_offset + '</app>')
 
             # Add initial XML to xml_app (for the apparatus XML file)
             xml_app.append('<app> from="#begin_fn' + str(next_footnote) +
                            '" to="#end_fn' + str(next_footnote) + '">')
 
             # Get the corresponding footnote
-            footnote_line = footnotes[next_footnote-1]
+            footnote_line = self.footnotes[next_footnote - 1]
 
             # Use rstrip to remove whitespace and the '.' character from the end
             # of the footnote string
@@ -723,27 +731,27 @@ class CommentaryToEpidoc(object):
 
             # Case 1 - omission
             if not processed and 'om.' in footnote_line:
-                self.process_omission(footnote_line, xml_app, oss)
+                self._omission(footnote_line, xml_app, oss)
                 processed = True
 
             # Case 2 - addition
             if not processed and 'add.' in footnote_line:
-                self.process_addition(footnote_line, xml_app, oss)
+                self._addition(footnote_line, xml_app, oss)
                 processed = True
 
             # Case 3 - correxi
             if not processed and 'correxi' in footnote_line:
-                self.process_correxi(footnote_line, xml_app, oss)
+                self._correxi(footnote_line, xml_app, oss)
                 processed = True
 
             # Case 4 - conieci
             if not processed and 'conieci' in footnote_line:
-                self.process_conieci(footnote_line, xml_app, oss)
+                self._conieci(footnote_line, xml_app, oss)
                 processed = True
 
             # Remaining case - standard variation
             if not processed:
-                self.process_standard_variant(footnote_line, xml_app, oss)
+                self._standard_variant(footnote_line, xml_app, oss)
                 # processed = True
 
             # Close the XML
@@ -760,8 +768,8 @@ class CommentaryToEpidoc(object):
 
     def get_next_non_empty_line(self, text, next_line_to_process=0):
         """
-        A helper function to get the next non-empty line in a list of strings, i.e.
-        a function to bypass empty lines.
+        A helper function to get the next non-empty line in a list of strings,
+        i.e. a function to bypass empty lines.
 
         Parameters
         ----------
@@ -793,10 +801,10 @@ class CommentaryToEpidoc(object):
         next_line_to_process += 1
         return line, next_line_to_process
 
-    def test_footnotes(self, footnotes):
+    def test_footnotes(self):
         """
-        A function to test all footnotes have the correct format. The input argument
-        should be a python list containing the footnotes.
+        A function to test all footnotes have the correct format.
+        The input argument should be a python list containing the footnotes.
         The function returns a python list containing the error messages.
         """
 
@@ -805,7 +813,7 @@ class CommentaryToEpidoc(object):
 
         # Initialise list to hold error messages
 
-        for footnote in footnotes:
+        for footnote in self.footnotes:
 
             # Strip any whitespace
             footnote = footnote.strip()
@@ -940,7 +948,8 @@ class CommentaryToEpidoc(object):
 
                     if part2[0:10] != ' correxi: ':
                         error = ('Error in footnote ' + str(n_footnote) +
-                                 ': correxi must contain " correxi: " after "]"')
+                                 ': correxi must contain " correxi: " '
+                                 'after "]"')
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
@@ -989,9 +998,7 @@ class CommentaryToEpidoc(object):
             # Increment footnote number
             n_footnote += 1
 
-
-    def process_file(self, folder, text_file, template_file, n_offset=0,
-                     offset_size=4):
+    def process_file(self, folder, text_file, template_file):
         """
         A function to process a text file containing symbols representing references
         to witnesses and symbols and footnotes defining textual variations,
@@ -1017,9 +1024,9 @@ class CommentaryToEpidoc(object):
             The number of space characters to use for each XML offset. The
             default value is 4.
 
-        The text file base name is expected to end with an underscore followed by a
-        numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical value is
-        used when creating the title section <div> element, e.g.
+        The text file base name is expected to end with an underscore followed
+        by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical
+        value is used when creating the title section <div> element, e.g.
         <div n="1" type="Title_section"> for file_1.txt.
 
         If processing succeeds two XML files will be created in folder ./XML
@@ -1033,10 +1040,10 @@ class CommentaryToEpidoc(object):
         After successful processing the function returns True, if an error
         is detected this function returns False.
 
-        It is intended this function is called by process_text_files().
+        It is intended this function is called by process_folder().
         """
 
-        oss = ' '*offset_size
+        oss = ' ' * self.offset_size
 
         base_name, sep = os.path.splitext(os.path.basename(text_file))
 
@@ -1095,14 +1102,15 @@ class CommentaryToEpidoc(object):
         # file, hence for large files it would be better to modify to use
         # fn_txt_start to define an offset when accessing the footnotes.
         main_text = full_text[:fn_start].splitlines()
-        footnotes = full_text[fn_start:].splitlines()
+        self.footnotes = full_text[fn_start:].splitlines()
 
-        # Test the footnotes
-        self.test_footnotes(footnotes)
+        # TODO: The test is useless as it is since it is not used anywhere
+        # Test the _footnotes
+        self.test_footnotes()
 
         # Create lists to contain the XML
-        xml_main = []
-        xml_app = []
+        self.xml_main = []
+        self.xml_app = []
 
         # Initialise footnote number
         next_footnote_to_find = 1
@@ -1124,8 +1132,8 @@ class CommentaryToEpidoc(object):
         # ---------------------
         if include_intro:
             # Generate the opening XML for the intro
-            xml_main.append(oss*n_offset + '<div type="intro">')
-            xml_main.append(oss*(n_offset+1) + '<p>')
+            self.xml_main.append(oss * self.n_offset + '<div type="intro">')
+            self.xml_main.append(oss * (self.n_offset + 1) + '<p>')
 
             # Get the next line of text
             line, next_line_to_process = \
@@ -1139,9 +1147,9 @@ class CommentaryToEpidoc(object):
                 # Process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException print an error and return
                 try:
-                    line_ref = self.process_references(line)
+                    line_ref = self._references(line)
                 except CommentaryToEpidocException as err:
-                    error = ('Unable to process references in line {}'
+                    error = ('Unable to process _references in line {}'
                              ' (document intro)'.format(next_line_to_process))
                     logger.error(error)
                     error = 'Error message: {}'.format(err)
@@ -1152,10 +1160,12 @@ class CommentaryToEpidoc(object):
                 # CommentaryToEpidocException print an error and return
                 try:
                     xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                        self.process_footnotes(line_ref, next_footnote_to_find,
-                                          footnotes, n_offset+2, oss)
+                        self._footnotes(line_ref,
+                                        next_footnote_to_find,
+                                        self.n_offset + 2,
+                                        oss)
                 except CommentaryToEpidocException as err:
-                    error = ('Unable to process references in line {}'
+                    error = ('Unable to process _references in line {}'
                              ' (document intro)'.format(next_line_to_process))
                     logger.error(error)
                     error = 'Error message: {}'.format(err)
@@ -1163,8 +1173,8 @@ class CommentaryToEpidoc(object):
                     raise CommentaryToEpidocException
 
                 # Add to the XML
-                xml_main.extend(xml_main_to_add)
-                xml_app.extend(xml_app_to_add)
+                self.xml_main.extend(xml_main_to_add)
+                self.xml_app.extend(xml_app_to_add)
 
                 # Get the next line and test if we have reached the end of
                 #  the intro
@@ -1175,16 +1185,17 @@ class CommentaryToEpidoc(object):
                     process_more_intro = False
 
             # Add XML to close the intro section
-            xml_main.append(oss*(n_offset+1) + '</p>')
-            xml_main.append(oss*n_offset + '</div>')
+            self.xml_main.append(oss * (self.n_offset + 1) + '</p>')
+            self.xml_main.append(oss * self.n_offset + '</div>')
 
         # Now process the title
         # ---------------------
 
         # Generate the opening XML for the title
-        xml_main.append(oss*n_offset + '<div n="{}" '
-                                       'type="Title_section">'.format(doc_num))
-        xml_main.append(oss*(n_offset+1) + '<ab>')
+        self.xml_main.append(oss * self.n_offset +
+                             '<div n="{}" type="Title_section">'.format(
+                                 doc_num))
+        self.xml_main.append(oss * (self.n_offset + 1) + '<ab>')
 
         # Get the first non-empty line of text
         line, next_line_to_process = \
@@ -1198,9 +1209,9 @@ class CommentaryToEpidoc(object):
             # Process any witnesses in this line.
             # If this raises an exception then print an error message and return
             try:
-                line_ref = self.process_references(line)
+                line_ref = self._references(line)
             except CommentaryToEpidocException as err:
-                error = ('Unable to process references in line {} '
+                error = ('Unable to process _references in line {} '
                          '(title line)'.format(next_line_to_process))
                 logger.error(error)
                 error = 'Error message: {}'.format(err)
@@ -1211,10 +1222,12 @@ class CommentaryToEpidoc(object):
             # if this fails print to the error file and return
             try:
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                    self.process_footnotes(line_ref, next_footnote_to_find,
-                                           footnotes, n_offset+2, oss)
+                    self._footnotes(line_ref,
+                                    next_footnote_to_find,
+                                    self.n_offset + 2,
+                                    oss)
             except CommentaryToEpidocException as err:
-                error = ('Unable to process footnotes in line {} '
+                error = ('Unable to process _footnotes in line {} '
                          '(title line)'.format(next_line_to_process))
                 logger.error(error)
                 error = 'Error message: {}'.format(err)
@@ -1222,8 +1235,8 @@ class CommentaryToEpidoc(object):
                 raise CommentaryToEpidocException
 
             # Add the return values to the XML lists
-            xml_main.extend(xml_main_to_add)
-            xml_app.extend(xml_app_to_add)
+            self.xml_main.extend(xml_main_to_add)
+            self.xml_app.extend(xml_app_to_add)
 
             # Get the next line of text
             line, next_line_to_process = \
@@ -1234,8 +1247,8 @@ class CommentaryToEpidoc(object):
                 process_more_title = False
 
         # Close the XML for the title
-        xml_main.append(oss*(n_offset+1) + '</ab>')
-        xml_main.append(oss*n_offset + '</div>')
+        self.xml_main.append(oss * (self.n_offset + 1) + '</ab>')
+        self.xml_main.append(oss * self.n_offset + '</div>')
 
         # Now process the rest of the main text
         # =====================================
@@ -1253,17 +1266,19 @@ class CommentaryToEpidoc(object):
                                              next_line_to_process))
                 logger.error(error)
                 error = ('Instead line {} contains the value: '
-                         '{}'.format(next_line_to_process-1, line[:-1]))
+                         '{}'.format(next_line_to_process - 1, line[:-1]))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
             # Add initial XML for the aphorism + commentary unit
-            xml_main.append(oss*n_offset + '<div n="' + str(n_aphorism) +
-                            '" type="aphorism_commentary_unit">')
+            self.xml_main.append(oss * self.n_offset + '<div n="' +
+                                 str(n_aphorism) +
+                                 '" type="aphorism_commentary_unit">')
 
             # Add initial XML for this aphorism
-            xml_main.append(oss*(n_offset+1) + '<div type="aphorism">')
-            xml_main.append(oss*(n_offset+2) + '<p>')
+            self.xml_main.append(oss * (self.n_offset + 1) +
+                                 '<div type="aphorism">')
+            self.xml_main.append(oss * (self.n_offset + 2) + '<p>')
 
             # Get the next line of text
             line, next_line_to_process = \
@@ -1272,9 +1287,9 @@ class CommentaryToEpidoc(object):
             # Now process any witnesses in it. If this fails with a
             # CommentaryToEpidocException print an error and return
             try:
-                line_ref = self.process_references(line)
+                line_ref = self._references(line)
             except CommentaryToEpidocException as err:
-                error = ('Unable to process references in line {} '
+                error = ('Unable to process _references in line {} '
                          '(aphorism {})'.format(next_line_to_process,
                                                 n_aphorism))
                 logger.error(error)
@@ -1282,14 +1297,16 @@ class CommentaryToEpidoc(object):
                 logger.error(error)
                 raise CommentaryToEpidocException
 
-            # Process any footnotes in line_ref, if there are errors write to the
-            # error file and return
+            # Process any footnotes in line_ref, if there are errors write
+            # to the log file and return
             try:
                 xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                    self.process_footnotes(line_ref, next_footnote_to_find,
-                                           footnotes, n_offset+3, oss)
+                    self._footnotes(line_ref,
+                                    next_footnote_to_find,
+                                    self.n_offset + 3,
+                                    oss)
             except CommentaryToEpidocException as err:
-                error = ('Unable to process footnotes in line {} '
+                error = ('Unable to process _footnotes in line {} '
                          '(aphorism {})'.format(next_line_to_process,
                                                 n_aphorism))
                 logger.error(error)
@@ -1298,12 +1315,12 @@ class CommentaryToEpidoc(object):
                 raise CommentaryToEpidocException
 
             # Add the XML
-            xml_main.extend(xml_main_to_add)
-            xml_app.extend(xml_app_to_add)
+            self.xml_main.extend(xml_main_to_add)
+            self.xml_app.extend(xml_app_to_add)
 
             # Close the XML for the aphorism
-            xml_main.append(oss*(n_offset+2) + '</p>')
-            xml_main.append(oss*(n_offset+1) + '</div>')
+            self.xml_main.append(oss * (self.n_offset + 2) + '</p>')
+            self.xml_main.append(oss * (self.n_offset + 1) + '</div>')
 
             # Get the next line of text
             line, next_line_to_process = \
@@ -1315,15 +1332,16 @@ class CommentaryToEpidoc(object):
             while process_more_commentary:
 
                 # Add initial XML for this aphorism's commentary
-                xml_main.append(oss*(n_offset+1) + '<div type="commentary">')
-                xml_main.append(oss*(n_offset+2) + '<p>')
+                self.xml_main.append(
+                    oss * (self.n_offset + 1) + '<div type="commentary">')
+                self.xml_main.append(oss * (self.n_offset + 2) + '<p>')
 
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    line_ref = self.process_references(line)
+                    line_ref = self._references(line)
                 except CommentaryToEpidocException as err:
-                    error = ('Unable to process references in line {} '
+                    error = ('Unable to process _references in line {} '
                              '(commentary for aphorism '
                              '{})'.format(next_line_to_process, n_aphorism))
                     logger.error(error)
@@ -1331,14 +1349,14 @@ class CommentaryToEpidoc(object):
                     logger.error(error)
                     raise CommentaryToEpidocException
 
-                # Process any footnotes in line_ref. If this fails with a
+                # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
                     xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                        self.process_footnotes(line_ref, next_footnote_to_find,
-                                               footnotes, n_offset+3, oss)
+                        self._footnotes(line_ref, next_footnote_to_find,
+                                        self.n_offset + 3, oss)
                 except CommentaryToEpidocException as err:
-                    error = ('Unable to process footnotes in line {}'
+                    error = ('Unable to process _footnotes in line {}'
                              ' (commentary for aphorism '
                              '{})'.format(next_line_to_process, n_aphorism))
                     logger.error(error)
@@ -1347,12 +1365,12 @@ class CommentaryToEpidoc(object):
                     raise CommentaryToEpidocException
 
                 # Add the XML
-                xml_main.extend(xml_main_to_add)
-                xml_app.extend(xml_app_to_add)
+                self.xml_main.extend(xml_main_to_add)
+                self.xml_app.extend(xml_app_to_add)
 
                 # Close the XML for this commentary
-                xml_main.append(oss*(n_offset+2) + '</p>')
-                xml_main.append(oss*(n_offset+1) + '</div>')
+                self.xml_main.append(oss * (self.n_offset + 2) + '</p>')
+                self.xml_main.append(oss * (self.n_offset + 1) + '</div>')
 
                 # If there are more lines to process then get the next line and
                 # test if we have reached the next aphorism
@@ -1366,7 +1384,7 @@ class CommentaryToEpidoc(object):
                     break
 
             # Close the XML for the aphorism + commentary unit
-            xml_main.append(oss*n_offset + '</div>')
+            self.xml_main.append(oss * self.n_offset + '</div>')
 
             # Increment the aphorism number
             n_aphorism += 1
@@ -1401,7 +1419,7 @@ class CommentaryToEpidoc(object):
         with open(xml_main_file, 'w', encoding="utf-8") as f:
             f.write(part1)
 
-            for s in xml_main:
+            for s in self.xml_main:
                 f.write(s + '\n')
 
             f.write(part2)
@@ -1409,11 +1427,10 @@ class CommentaryToEpidoc(object):
         # Save app XML to file
         with open(xml_app_file, 'w', encoding="utf-8") as f:
 
-            for s in xml_app:
+            for s in self.xml_app:
                 f.write(s + '\n')
 
-    def process_text_files(self, text_folder, template_file, n_offset=0,
-                           offset_size=4):
+    def process_folder(self, text_folder, template_file):
         """
         A function to process all files with the .txt extension in a directory.
         These files are expected to be utf-8 text files containing symbols
@@ -1422,25 +1439,32 @@ class CommentaryToEpidoc(object):
         For each text file this function will attempt to use the symbols
         to produce files containing EpiDoc compatible XML.
 
-        The text file base name is expected to end with an underscore followed by a
-        numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical value is
-        used when creating the title section <div> element, e.g.
-        <div n="1" type="Title_section"> for file_1.txt.
+        The text file base name is expected to end with an underscore followed
+        by a numerical value, e.g. file_1.txt, file_2.txt, etc.
+        This numerical value is used when creating the title section
+        <div> element, e.g. <div n="1" type="Title_section"> for file_1.txt.
 
         Parameters
         ----------
 
         text_folder: str
+
             The folder containing the text file
+
         template_file: str
+
             The name of the XML template file containing the string
             ``#INSERT#`` at the location in which to insert XML for the
             ``<body>`` element.
+
         n_offset: int
+
             The number of offsets to use when creating the XML inserted in
             the <body> element in the main XML template file.
             The default value is 0.
+
         offset_size: int
+
             The number of space characters to use for each XML offset. The
             default value is 4.
 
@@ -1472,9 +1496,7 @@ class CommentaryToEpidoc(object):
             if file.endswith(".txt"):
                 logger.info('Processing: "{}"'.format(file))
                 try:
-                    self.process_file(text_folder, file, template_file,
-                                      n_offset, offset_size)
+                    self.process_file(text_folder, file, template_file)
                 except CommentaryToEpidocException:
                     logger.error('Error: unable to process "{}", '
                                  'see log file.'.format(file))
-
