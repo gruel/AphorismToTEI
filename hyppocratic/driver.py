@@ -40,7 +40,7 @@ def main(args=None):
         -h --help              Show this screen.
         --version              Show version.
         --xml_template=<name>  Name of the XML template [default: xml_template.txt]
-        --offsets=<n>          Offsets to use when adding XML to the <body> element [default: 3]
+        --offsets=<n>          Offsets to use when adding XML to the <body> element [default: 0]
         --space=<n>            Space characters to use for each XML offset [default: 4]
 
     Example:
@@ -55,18 +55,18 @@ def main(args=None):
     directory = arguments['<directory>']
     template_file = arguments['--xml_template']
     n_offsets = int(arguments['--offsets'])
-    n_space = int(arguments['--space'])
+    offset_size = int(arguments['--space'])
 
-    # Call ArabicToXML.process_text_files with the following arguments
+    # Call ArabicToXML.process_folder with the following arguments
     # 1st - the folder containing the text file
     # 2nd - the name of the XML template file
     # 3rd - the number of offsets to use when adding XML to the <body> element
     # 4th - the number of space characters to use for each XML offset
 
-    comtoepi = CommentaryToEpidoc.CommentaryToEpidoc()
-    comtoepi.process_text_files(directory, template_file, n_offsets, n_space)
+    comtoepi = CommentaryToEpidoc.Process(n_offsets, offset_size)
+    comtoepi.process_folder(directory, template_file)
 
-    logger.info("Finished "  + logger.name)
+    logger.info("Finished " + logger.name)
 
 if __name__ == '__main__':
     main()

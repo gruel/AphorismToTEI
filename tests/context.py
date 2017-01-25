@@ -11,6 +11,6 @@ path = os.path.dirname(file_path) + os.sep + '..'
 sys.path.append(path)
 
 import hyppocratic
-from hyppocratic.CommentaryToEpidoc import CommentaryToEpidoc, \
+from hyppocratic.CommentaryToEpidoc import Process, \
     CommentaryToEpidocException
 
