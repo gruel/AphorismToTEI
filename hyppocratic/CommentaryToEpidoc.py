@@ -133,6 +133,7 @@ Written by Jonathan Boyle, IT Services, The University of Manchester.
 
 # Import the string and os modules
 import os
+import sys
 import logging.config
 
 try:
@@ -151,11 +152,158 @@ class CommentaryToEpidocException(Exception):
 
 
 class Process(object):
-    def __init__(self, folder='', fname='', n_offset=3, offset_size=4):
+    def __init__(self,
+                 folder=None,
+                 fname=None,
+                 template_folder='.',
+                 template_fname='xml_template.txt',
+                 template_marker='#INSERT#',
+                 n_offset=0,
+                 offset_size=4):
+
         self.folder = folder
         self.fname = fname
+        self.template_folder = template_folder
+        self.template_fname = template_fname
         self.n_offset = n_offset
         self.offset_size = offset_size
+        # Define string in template_file which identifies the location for
+        # inserting the main XML
+        self.template_marker = template_marker
+
+    def open_document(self):
+        """Method to open and read the hyppocratic document.
+
+        """
+        self.base_name, sep = os.path.splitext(os.path.basename(self.fname))
+
+        # TODO: file name format is too strict. Relax it.
+        # Extract the document number, it is expected this is at the end of the
+        # base name following an '_'
+        junk, sep, doc_num = self.base_name.rpartition('_')
+        try:
+            self.doc_num = int(doc_num)
+            if len(sep) == 0:
+                raise CommentaryToEpidocException
+        except ValueError:
+            error = ('File name {} has incorrect format'.format(self.fname))
+            logger.error(error)
+            raise CommentaryToEpidocException
+
+        # Open the file to process
+        with open(os.path.join(self.folder, self.fname), 'r',
+                  encoding="utf-8") as f:
+            # Read in file
+            self.full_text = f.read()
+
+    def divide_document(self):
+        """Method to divide the document in the three main parts.
+
+        An hyppocratic document si composed in three or four main parts:
+
+        - The introduction (optional)
+        - The title
+        - The aphorisms
+        - The footnotes
+
+        This method will divide the document in the three or four parts.
+
+        Attribute
+        ---------
+        document : dict
+
+            A dictionary which will contains the different parts of
+            the document.
+        """
+
+
+
+        pass
+
+    def read_template(self):
+        """Method to read the XML template used for the transformation
+
+        Attributes
+        ==========
+
+        template: str
+            Contain the text of the XML template provided.
+
+        Exceptions
+        ==========
+        SystemExit if template cannot be read.
+        """
+        _template = os.path.join(self.template_folder, self.template_fname)
+        # Open the template file. Kill the process if not there.
+        # Template is not optional.
+
+        try:
+            with open(_template, 'r', encoding="utf-8") as f:
+                template = f.read()
+        except FileNotFoundError:
+            error = 'Template file {} not found in folder {}'.format(
+                self.template_fname, self.template_folder)
+            logger.error(error)
+            sys.exit(1)
+
+        # Split the template at template_marker
+        self.template_part1, sep, self.template_part2 = template.partition(
+            self.template_marker)
+
+        # Test the split worked
+        if len(sep) == 0:
+            error = ('Unable to find template marker text ({}) '
+                     'in the template file {} '
+                     'located in the folder'.format(self.template_marker,
+                                                    self.template_fname,
+                                                    self.template_folder))
+            logger.error(error)
+            sys.exit(1)
+
+        logger.info('Found and split properly the '
+                    'template file {} in folder {}'.format(self.template_fname,
+                                                           self.template_folder)
+                    )
+
+    def save_xml(self):
+        """Method to save the XML files expected
+
+        Two XML files are created as result to the transformation in the EPIDOC
+        format
+
+        Exceptions
+        ==========
+
+        """
+        # Create folder for XML
+        if not os.path.exists('XML'):
+            os.mkdir('XML')
+
+        # Embed xml_main into the XML in the template
+        self.read_template()
+
+        # Set XML file names
+        xml_main_file = os.path.join('XML', self.base_name + '_main.xml')
+        xml_app_file = os.path.join('XML', self.base_name + '_app.xml')
+
+        # Save main XML to file
+        with open(xml_main_file, 'w', encoding="utf-8") as f:
+            f.write(self.template_part1)
+            for s in self.xml_main:
+                f.write(s + '\n')
+            f.write(self.template_part2)
+
+        # Save app XML to file
+        with open(xml_app_file, 'w', encoding="utf-8") as f:
+            for s in self.xml_app:
+                f.write(s + '\n')
+
+    def _introduction(self, text):
+        """Method to treat the optional part of the introduction.
+
+
+        """
+        pass
 
     def _references(self, line):
         """
@@ -998,7 +1146,7 @@ class Process(object):
             # Increment footnote number
             n_footnote += 1
 
-    def process_file(self, folder, text_file, template_file):
+    def process_file(self):
         """
         A function to process a text file containing symbols representing references
         to witnesses and symbols and footnotes defining textual variations,
@@ -1045,46 +1193,31 @@ class Process(object):
 
         oss = ' ' * self.offset_size
 
-        base_name, sep = os.path.splitext(os.path.basename(text_file))
+        # Open and read the hyppocratic document
+        self.open_document()
 
-        # TODO: file name format is too strict. Relax it.
-        # Extract the document number, it is expected this is at the end of the
-        # base name following an '_'
-        junk, sep, doc_num = base_name.rpartition('_')
-        try:
-            doc_num = int(doc_num)
-            if len(sep) == 0:
-                raise CommentaryToEpidocException
-        except ValueError:
-            error = ('File name {} has incorrect format'.format(text_file))
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        # Set XML file names
-        xml_main_file = os.path.join('XML', base_name + '_main.xml')
-        xml_app_file = os.path.join('XML', base_name + '_app.xml')
-
-        # Open the file to process
-        with open(os.path.join(folder, text_file), 'r', encoding="utf-8") as f:
-            # Read in file
-            full_text = f.read()
+        # Initialisation of the xml_main and xml_app list
+        # They are created here and not in the __init__ to have
+        # the reinitialisation where it is needed.
+        self.xml_main = []
+        self.xml_app = []
 
         # TODO: Verify that footnote are absolutely a need in the format?
         # TODO: move outside of this function
         # Find where text containing the block of footnotes starts, i.e. the
         # last line containing '*1*', if this fails write to the error file and
         # return
-        fn_start = full_text.rfind('*1*')
+        fn_start = self.full_text.rfind('*1*')
 
         if fn_start == -1:
             error = ('Problem finding location of the first footnote "*1*" '
-                     'in file {}'.format(text_file))
+                     'in file {}'.format(self.fname))
             logger.error(error)
             raise CommentaryToEpidocException
 
         # Check this is different to the first location of *1*,
         # if this isn't true write to the log file and raise exception
-        fn1_ref_loc = full_text.find('*1*')
+        fn1_ref_loc = self.full_text.find('*1*')
         if fn1_ref_loc == fn_start:
             error = 'Can only find one instance of "*1*"'
             logger.error(error)
@@ -1092,7 +1225,7 @@ class Process(object):
 
         # Check whether this document has an optional intro section,
         # if it has it will contain the characters '++' in the main text
-        if '++' in full_text[:fn_start]:
+        if '++' in self.full_text[:fn_start]:
             include_intro = True
         else:
             include_intro = False
@@ -1101,16 +1234,12 @@ class Process(object):
         # NOTE: this wastes memory as it takes an extra copy of the text in the
         # file, hence for large files it would be better to modify to use
         # fn_txt_start to define an offset when accessing the footnotes.
-        main_text = full_text[:fn_start].splitlines()
-        self.footnotes = full_text[fn_start:].splitlines()
+        main_text = self.full_text[:fn_start].splitlines()
+        self.footnotes = self.full_text[fn_start:].splitlines()
 
-        # TODO: The test is useless as it is since it is not used anywhere
-        # Test the _footnotes
+        # TODO: The test is useless as the result are not used anywhere
+        # Test the footnotes
         self.verification_footnotes()
-
-        # Create lists to contain the XML
-        self.xml_main = []
-        self.xml_app = []
 
         # Initialise footnote number
         next_footnote_to_find = 1
@@ -1119,9 +1248,6 @@ class Process(object):
         # (Python indexing starts at 0)
         next_line_to_process = 0
 
-        # Define string in template_file which identifies the location for
-        # inserting the main XML
-        template_marker = '#INSERT#'
 
         # Deal with the first block of text which should contain
         # an optional intro
@@ -1194,7 +1320,7 @@ class Process(object):
         # Generate the opening XML for the title
         self.xml_main.append(oss * self.n_offset +
                              '<div n="{}" type="Title_section">'.format(
-                                 doc_num))
+                                 self.doc_num))
         self.xml_main.append(oss * (self.n_offset + 1) + '<ab>')
 
         # Get the first non-empty line of text
@@ -1389,48 +1515,9 @@ class Process(object):
             # Increment the aphorism number
             n_aphorism += 1
 
-        # Create output files
-        # ===================
+        self.save_xml()
 
-        # Create folder for XML
-        if not os.path.exists('XML'):
-            os.mkdir('XML')
-
-        # Embed xml_main into the XML in the template
-
-        # Open the template file
-        f = open(template_file, 'r', encoding="utf-8")
-
-        # Read in template file
-        template = f.read()
-        f.close()
-
-        # Split the template at template_marker
-        part1, sep, part2 = template.partition(template_marker)
-
-        # Test the split worked
-        if len(sep) == 0:
-            error = ('Unable to find template marker text ({}) '
-                     'in file {}'.format(template_marker, template_file))
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        # Save main XML to file
-        with open(xml_main_file, 'w', encoding="utf-8") as f:
-            f.write(part1)
-
-            for s in self.xml_main:
-                f.write(s + '\n')
-
-            f.write(part2)
-
-        # Save app XML to file
-        with open(xml_app_file, 'w', encoding="utf-8") as f:
-
-            for s in self.xml_app:
-                f.write(s + '\n')
-
-    def process_folder(self, text_folder, template_file):
+    def process_folder(self, text_folder):
         """
         A function to process all files with the .txt extension in a directory.
         These files are expected to be utf-8 text files containing symbols
@@ -1478,11 +1565,7 @@ class Process(object):
         extension in the folder ./errors
         """
 
-        # Test that the template file exists
-        if not os.path.isfile(template_file):
-            logger.error('Error: template file {} '
-                         'not found'.format(template_file))
-            raise CommentaryToEpidocException
+        self.folder = text_folder
 
         # Test that the working folder exists
         if not os.path.exists(text_folder):
@@ -1492,11 +1575,12 @@ class Process(object):
 
         files = os.listdir(text_folder)
 
-        for file in files:
-            if file.endswith(".txt"):
-                logger.info('Processing: "{}"'.format(file))
+        for fname in files:
+            if fname.endswith(".txt"):
+                logger.info('Processing: "{}"'.format(fname))
                 try:
-                    self.process_file(text_folder, file, template_file)
+                    self.fname = fname
+                    self.process_file()
                 except CommentaryToEpidocException:
                     logger.error('Error: unable to process "{}", '
-                                 'see log file.'.format(file))
+                                 'see log file.'.format(self.fname))

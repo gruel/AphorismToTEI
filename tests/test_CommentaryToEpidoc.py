@@ -241,26 +241,45 @@ class TestProcess(unittest.TestCase):
     #                                                    offset_size=4)
     #     self.assertTrue(result)
 
-    def test_process_text_files_no_template(self):
-        template_file = 'xml_template.txt'
-        self.assertRaises(CommentaryToEpidocException,
-                          self.comtoepi.process_folder,
-                          path_testdata,
-                          template_file)
+    def test_read_template_missing_template(self):
+        self.comtoepi.template_folder = 'ttttt'
 
-    def test_process_text_files(self):
-        path_testdata = os.path.join('path_failed')
+        with self.assertRaises(SystemExit) as cm:
+            self.comtoepi.read_template()
+        self.assertEqual(cm.exception.code, 1)
+
+    def test_read_template_missing_template(self):
+        self.comtoepi.template_folder = 'ttttt'
+
+        with self.assertRaises(SystemExit) as cm:
+            self.comtoepi.read_template()
+        self.assertEqual(cm.exception.code, 1)
+
+    def test_read_template(self):
+        # Read the template comparison manually
+        with open('xml_template.txt', 'r') as f:
+            template = f.read()
+        # split it as in the method
+        part1, sep, part2 = template.partition(self.comtoepi.template_marker)
+
+        self.comtoepi.read_template()
+        self.assertEqual(part1, self.comtoepi.template_part1)
+        self.assertEqual(part2, self.comtoepi.template_part2)
+
+    def test_process_text_files_raise_error_folder_not_present(self):
+        folder = os.path.join('path_failed')
         self.assertRaises(CommentaryToEpidocException,
                           self.comtoepi.process_folder,
-                          path_testdata,
-                          template_file)
+                          folder)
 
     def test_process_text_file_bad_format(self):
+        self.comtoepi.folder = path_testdata
+        self.comtoepi.fname = 'bug_break_file_name_test.txt'
         self.assertRaises(CommentaryToEpidocException,
-                          self.comtoepi.process_file,
-                          path_testdata,
-                          'bug_break_file_name_test.txt',
-                          template_file)
+                          self.comtoepi.process_file)
+
+    def test_process_text_files_success(self):
+        pass
 
 if __name__ == '__main__':
     pytest.main()
