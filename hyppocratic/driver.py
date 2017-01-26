@@ -4,7 +4,7 @@ Created on Fri Nov 13 14:14:17 2015
 
 @author: mcbicjb2
 """
-import sys
+import os
 
 from docopt import docopt
 
@@ -32,7 +32,7 @@ def main(args=None):
     """Run CommentaryToEpidoc scripts to produce the Epidoc XML
 
     Usage:
-        CommentaryToEpidoc <directory> [--xml_template=<tmpl>] [--offsets=<n>] [--space=<n>]
+        CommentaryToEpidoc <directory> [--xml_template=<tmpl>] [--offset=<n>] [--offset_size=<n>]
         CommentaryToEpidoc -h | --help
         CommentaryToEpidoc --version
 
@@ -40,8 +40,8 @@ def main(args=None):
         -h --help              Show this screen.
         --version              Show version.
         --xml_template=<name>  Name of the XML template [default: xml_template.txt]
-        --offsets=<n>          Offsets to use when adding XML to the <body> element [default: 0]
-        --space=<n>            Space characters to use for each XML offset [default: 4]
+        --offset=<n>         Offsets to use when adding XML to the <body> element [default: 3]
+        --offset_size=<n>      Space characters to use for each XML offset [default: 4]
 
     Example:
         CommentaryToEpidoc TextFiles
@@ -54,8 +54,8 @@ def main(args=None):
     # Convert docopt results in the proper variable (change type when needed)
     directory = arguments['<directory>']
     template_file = arguments['--xml_template']
-    n_offsets = int(arguments['--offsets'])
-    offset_size = int(arguments['--space'])
+    n_offset = int(arguments['--offset'])
+    offset_size = int(arguments['--offset_size'])
 
     # Call ArabicToXML.process_folder with the following arguments
     # 1st - the folder containing the text file
@@ -63,8 +63,11 @@ def main(args=None):
     # 3rd - the number of offsets to use when adding XML to the <body> element
     # 4th - the number of space characters to use for each XML offset
 
-    comtoepi = CommentaryToEpidoc.Process(n_offsets, offset_size)
-    comtoepi.process_folder(directory, template_file)
+    comtoepi = CommentaryToEpidoc.Process(n_offset=n_offset,
+                                          offset_size=offset_size)
+
+    #comtoepi.template_folder = os.path.join('..', 'templates')
+    comtoepi.process_folder(directory)
 
     logger.info("Finished " + logger.name)
 
