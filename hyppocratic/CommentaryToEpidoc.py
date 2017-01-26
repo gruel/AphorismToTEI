@@ -801,7 +801,7 @@ class Process(object):
         next_line_to_process += 1
         return line, next_line_to_process
 
-    def test_footnotes(self):
+    def verification_footnotes(self):
         """
         A function to test all footnotes have the correct format.
         The input argument should be a python list containing the footnotes.
@@ -1106,7 +1106,7 @@ class Process(object):
 
         # TODO: The test is useless as it is since it is not used anywhere
         # Test the _footnotes
-        self.test_footnotes()
+        self.verification_footnotes()
 
         # Create lists to contain the XML
         self.xml_main = []
