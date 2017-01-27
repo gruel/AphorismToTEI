@@ -19,7 +19,47 @@ class TestProcess(unittest.TestCase):
     def setUp(self):
         self.comtoepi = Process(n_offset=0, offset_size=4)
 
-    def test_process_references(self):
+    # ################# open_document ###################
+
+    # ################# divide_document ###################
+
+    def test_divide_document(self):
+
+        # Read test introduction
+        with open(path_testdata + 'introduction.txt', 'r',
+                  encoding="utf-8") as f:
+            introduction = f.read().strip()
+
+        # Read test title
+        with open(path_testdata + 'title.txt', 'r',
+                  encoding="utf-8") as f:
+            title = f.read().strip()
+
+        # Read test text
+        with open(path_testdata + 'text.txt', 'r',
+                  encoding="utf-8") as f:
+            text = f.read().strip()
+
+        # Read test footnotes
+        with open(path_testdata + 'footnotes.txt', 'r',
+                  encoding="utf-8") as f:
+            footnotes = f.read().strip()
+
+        # Read full text file
+        with open(path_testdata +
+                  'aphorysm_with_intro_title_text_footnotes.txt', 'r',
+                  encoding="utf-8") as f:
+            self.comtoepi.text = f.read().strip()
+
+        self.comtoepi.divide_document()
+        self.assertEqual(self.comtoepi.introduction, introduction)
+        self.assertEqual(self.comtoepi.title, title)
+        self.assertEqual(self.comtoepi.text, text)
+        self.assertEqual(self.comtoepi.footnotes, footnotes)
+
+    # ################# _references ###################
+
+    def test__references(self):
         """
         Runs the function _references(...) on the text in
         test_process_references.in, and compares the output against the text in
@@ -40,7 +80,9 @@ class TestProcess(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
-    def test_process_omission(self):
+    # ################# _omission ###################
+
+    def test__omission(self):
         """
         Runs the function _omission(...) on the text in
         test_process_omission.in, and compare the output against the text in
@@ -68,7 +110,9 @@ class TestProcess(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
-    def test_process_addition(self):
+    # ################# _addition ###################
+
+    def test__addition(self):
         """
         Runs the function _addition(...) on the text in
         test_process_addition1.in, test_process_addition2.in and
@@ -101,7 +145,9 @@ class TestProcess(unittest.TestCase):
 
             self.assertEqual(text_out, text_ref)
 
-    def test_process_correxi(self):
+    # ################# _correxi ###################
+
+    def test__correxi(self):
         """
         Runs the function _correxi(...) on the text in
         test_process_correxi1.in and test_process_correxi2.in,
@@ -132,7 +178,9 @@ class TestProcess(unittest.TestCase):
 
             self.assertEqual(text_out, text_ref)
 
-    def test_process_conieci(self):
+    # ################# _conieci ###################
+
+    def test__conieci(self):
         """
         Runs the function _conieci(...) on the text in
         test_process_conieci1.in and test_process_conieci2.in, and compares
@@ -164,7 +212,9 @@ class TestProcess(unittest.TestCase):
 
             self.assertEqual(text_out, text_ref)
 
-    def test_process_standard_variant(self):
+    # ################# _standard_variant ###################
+
+    def test__standard_variant(self):
         """
         Runs the function _standard_variant(...) on the text in
         test_process_standard_variant.in, and compare the output against
@@ -191,7 +241,9 @@ class TestProcess(unittest.TestCase):
         # Test the return value matches the expected output
         self.assertEqual(text_out, text_ref)
 
-    def test_process_footnotes(self):
+    # ################# _footnotes ###################
+
+    def test__footnotes(self):
         """
         Runs the function _footnotes(...) on the text in
         test_process_footnotes_string.in (which contains a fabricated
@@ -234,19 +286,7 @@ class TestProcess(unittest.TestCase):
         self.assertEqual(main_out, main_ref)
         self.assertEqual(app_out, app_ref)
 
-    # def test_process_text_files(self):
-    #     result = self.comtoepi.process_folder(path_testdata,
-    #                                                    template_file,
-    #                                                    n_offset=0,
-    #                                                    offset_size=4)
-    #     self.assertTrue(result)
-
-    def test_read_template_missing_template(self):
-        self.comtoepi.template_folder = 'ttttt'
-
-        with self.assertRaises(SystemExit) as cm:
-            self.comtoepi.read_template()
-        self.assertEqual(cm.exception.code, 1)
+    # ################# read_template ###################
 
     def test_read_template_missing_template(self):
         self.comtoepi.template_folder = 'ttttt'
@@ -257,29 +297,34 @@ class TestProcess(unittest.TestCase):
 
     def test_read_template(self):
         # Read the template comparison manually
-        with open('xml_template.txt', 'r') as f:
+        with open(path_testdata + 'xml_template.txt', 'r') as f:
             template = f.read()
         # split it as in the method
         part1, sep, part2 = template.partition(self.comtoepi.template_marker)
 
+        self.comtoepi.template_folder = path_testdata
         self.comtoepi.read_template()
         self.assertEqual(part1, self.comtoepi.template_part1)
         self.assertEqual(part2, self.comtoepi.template_part2)
 
-    def test_process_text_files_raise_error_folder_not_present(self):
-        folder = os.path.join('path_failed')
-        self.assertRaises(CommentaryToEpidocException,
-                          self.comtoepi.process_folder,
-                          folder)
+    # ################# process_file ###################
 
-    def test_process_text_file_bad_format(self):
+    def test_process_file_bad_format(self):
         self.comtoepi.folder = path_testdata
         self.comtoepi.fname = 'bug_break_file_name_test.txt'
         self.assertRaises(CommentaryToEpidocException,
                           self.comtoepi.process_file)
 
-    def test_process_text_files_success(self):
-        pass
+    # ################# process_folder ###################
+
+    def test_process_folder(self):
+        self.assertTrue(self.comtoepi.process_folder(path_testdata))
+
+    def test_process_folder_raise_error_folder_not_present(self):
+        folder = os.path.join('path_failed')
+        self.assertRaises(CommentaryToEpidocException,
+                          self.comtoepi.process_folder,
+                          folder)
 
 if __name__ == '__main__':
     pytest.main()
