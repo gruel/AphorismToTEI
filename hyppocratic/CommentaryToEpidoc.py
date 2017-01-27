@@ -194,7 +194,7 @@ class Process(object):
         with open(os.path.join(self.folder, self.fname), 'r',
                   encoding="utf-8") as f:
             # Read in file
-            self.full_text = f.read()
+            self.text = f.read().strip()
 
     def divide_document(self):
         """Method to divide the document in the three main parts.
@@ -216,9 +216,34 @@ class Process(object):
             the document.
         """
 
+        # Not sure that is the best way to do but this is just a trial
 
+        # cut the portion of the test, starting from the end, until the
+        # characters footnotes_sep
+        footnotes_sep = '*1*'
+        loc_footnotes = self.text.rfind(footnotes_sep)
+        if loc_footnotes != -1:
+            self.footnotes = self.text[loc_footnotes:].strip()
+            self.text = self.text[:loc_footnotes]
+        else:
+            self.introduction = ''
+            logger.info('There are no footnotes present.'.format(self.fname))
 
-        pass
+        # Cut the intro (if present)
+        intro_sep = '++\n'
+        loc_intro = self.text.find(intro_sep, 3)
+        # Cut the intro (remove the '++\n' at the beginning and the end.
+        if loc_intro != -1:
+            self.introduction = self.text[3:loc_intro].strip()
+            self.text = self.text[loc_intro+3:]
+        else:
+            self.introduction = ''
+            logger.info('There are no introduction present.'.format(self.fname))
+
+        title_sep = '1.'
+        loc_title = self.text.find(title_sep)
+        self.title = self.text[:loc_title].strip()
+        self.text = self.text[loc_title:].strip()
 
     def read_template(self):
         """Method to read the XML template used for the transformation
@@ -240,6 +265,9 @@ class Process(object):
         try:
             with open(_template, 'r', encoding="utf-8") as f:
                 template = f.read()
+                logger.info('Template file {} found '
+                            'in the folder {}.'.format(self.fname,
+                                                       self.folder))
         except FileNotFoundError:
             error = 'Template file {} not found in folder {}'.format(
                 self.template_fname, self.template_folder)
@@ -260,10 +288,7 @@ class Process(object):
             logger.error(error)
             sys.exit(1)
 
-        logger.info('Found and split properly the '
-                    'template file {} in folder {}'.format(self.template_fname,
-                                                           self.template_folder)
-                    )
+        logger.info('Template file splitted.')
 
     def save_xml(self):
         """Method to save the XML files expected
@@ -1196,6 +1221,9 @@ class Process(object):
         # Open and read the hyppocratic document
         self.open_document()
 
+        # Divide the document in the different part (intro, title,
+        # text, footnotes)
+
         # Initialisation of the xml_main and xml_app list
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
@@ -1207,7 +1235,7 @@ class Process(object):
         # Find where text containing the block of footnotes starts, i.e. the
         # last line containing '*1*', if this fails write to the error file and
         # return
-        fn_start = self.full_text.rfind('*1*')
+        fn_start = self.text.rfind('*1*')
 
         if fn_start == -1:
             error = ('Problem finding location of the first footnote "*1*" '
@@ -1217,7 +1245,7 @@ class Process(object):
 
         # Check this is different to the first location of *1*,
         # if this isn't true write to the log file and raise exception
-        fn1_ref_loc = self.full_text.find('*1*')
+        fn1_ref_loc = self.text.find('*1*')
         if fn1_ref_loc == fn_start:
             error = 'Can only find one instance of "*1*"'
             logger.error(error)
@@ -1225,7 +1253,7 @@ class Process(object):
 
         # Check whether this document has an optional intro section,
         # if it has it will contain the characters '++' in the main text
-        if '++' in self.full_text[:fn_start]:
+        if '++' in self.text[:fn_start]:
             include_intro = True
         else:
             include_intro = False
@@ -1234,8 +1262,8 @@ class Process(object):
         # NOTE: this wastes memory as it takes an extra copy of the text in the
         # file, hence for large files it would be better to modify to use
         # fn_txt_start to define an offset when accessing the footnotes.
-        main_text = self.full_text[:fn_start].splitlines()
-        self.footnotes = self.full_text[fn_start:].splitlines()
+        main_text = self.text[:fn_start].splitlines()
+        self.footnotes = self.text[fn_start:].splitlines()
 
         # TODO: The test is useless as the result are not used anywhere
         # Test the footnotes
@@ -1584,3 +1612,4 @@ class Process(object):
                 except CommentaryToEpidocException:
                     logger.error('Error: unable to process "{}", '
                                  'see log file.'.format(self.fname))
+        return True
