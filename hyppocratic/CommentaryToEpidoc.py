@@ -152,6 +152,7 @@ class CommentaryToEpidocException(Exception):
 
 
 class Process(object):
+
     def __init__(self,
                  folder=None,
                  fname=None,
@@ -222,11 +223,17 @@ class Process(object):
         # characters footnotes_sep
         footnotes_sep = '*1*'
         loc_footnotes = self.text.rfind(footnotes_sep)
+
+        if loc_footnotes == self.text.find(footnotes_sep):
+            logger.error('Footnote referenced in the text but '
+                         'no footnote section present')
+            raise CommentaryToEpidocException
+
         if loc_footnotes != -1:
             self.footnotes = self.text[loc_footnotes:].strip()
             self.text = self.text[:loc_footnotes]
         else:
-            self.introduction = ''
+            self.footnotes = ''
             logger.info('There are no footnotes present.'.format(self.fname))
 
         # Cut the intro (if present)
@@ -366,9 +373,8 @@ class Process(object):
             # Process any footnotes in line_ref. If this fails with a
             # CommentaryToEpidocException print an error and return
             try:
-                xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
+                xml_main_to_add, xml_app_to_add = \
                     self._footnotes(line_ref,
-                                    next_footnote_to_find,
                                     self.n_offset + 2,
                                     self.oss)
             except CommentaryToEpidocException as err:
@@ -393,6 +399,79 @@ class Process(object):
 
         # Add XML to close the intro section
         self.xml_main.append(self.oss * (self.n_offset + 1) + '</p>')
+        self.xml_main.append(self.oss * self.n_offset + '</div>')
+
+    def _title(self):
+        """Method to treat the title
+
+        """
+        # TODO: clean this function.
+        self.title += '\n1.' # Add artificially the characters which stop the function
+        self.title = self.title.splitlines()
+
+        next_line_to_process = 0
+        next_footnote_to_find = 1
+
+        # Now process the title
+        # ---------------------
+
+        # Generate the opening XML for the title
+        self.xml_main.append(self.oss * self.n_offset +
+                             '<div n="{}" type="Title_section">'.format(
+                              self.doc_num))
+        self.xml_main.append(self.oss * (self.n_offset + 1) + '<ab>')
+
+        # Get the first non-empty line of text
+        line, next_line_to_process = \
+            self.get_next_non_empty_line(self.title, next_line_to_process)
+
+        # Loop over the lines in the title
+        process_more_title = True
+
+        while process_more_title:
+
+            # Process any witnesses in this line.
+            # If this raises an exception then print an error message and return
+            try:
+                line_ref = self._references(line)
+            except CommentaryToEpidocException as err:
+                error = ('Unable to process _references in line {} '
+                         '(title line)'.format(next_line_to_process))
+                logger.error(error)
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
+
+            # Process any footnotes in line_ref,
+            # if this fails print to the error file and return
+            try:
+                xml_main_to_add, xml_app_to_add = \
+                    self._footnotes(line_ref,
+                                    self.n_offset + 2,
+                                    self.oss)
+            except CommentaryToEpidocException as err:
+                error = ('Unable to process _footnotes in line {} '
+                         '(title line)'.format(next_line_to_process))
+                logger.error(error)
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
+
+            # Add the return values to the XML lists
+            self.xml_main.extend(xml_main_to_add)
+            self.xml_app.extend(xml_app_to_add)
+
+            # Get the next line of text
+            line, next_line_to_process = \
+                self.get_next_non_empty_line(self.title,
+                                             next_line_to_process)
+
+            # Test if we have reached the first aphorism
+            if line == '1.':
+                process_more_title = False
+
+        # Close the XML for the title
+        self.xml_main.append(self.oss * (self.n_offset + 1) + '</ab>')
         self.xml_main.append(self.oss * self.n_offset + '</div>')
 
     def _references(self, line):
@@ -833,8 +912,7 @@ class Process(object):
         xml_app.append(oss + '<rdg wit="#' + wit + '">' + text.strip() +
                        '</rdg>')
 
-    def _footnotes(self, string_to_process, next_footnote,
-                   n_offset=0, oss='    '):
+    def _footnotes(self, string_to_process, n_offset=0, oss='    '):
         """
         This helper function takes a single string containing text and
         processes any embedded footnote symbols (describing additions,
@@ -887,6 +965,7 @@ class Process(object):
         xml_main = []
         xml_app = []
 
+        next_footnote = self.next_footnote_to_find
         while True:
             # Use string partition to try to split this text at
             # the next footnote symbol
@@ -1002,7 +1081,8 @@ class Process(object):
             if len(string_to_process) == 0:
                 break
 
-        return xml_main, xml_app, next_footnote
+        self.next_footnote_to_find = next_footnote
+        return xml_main, xml_app
 
     def get_next_non_empty_line(self, text, next_line_to_process=0):
         """
@@ -1078,6 +1158,7 @@ class Process(object):
             except CommentaryToEpidocException:
                 logger.error(error)
             footnote = footnote.lstrip('*')
+
 
             # Test the last character is a '.'
             try:
@@ -1238,10 +1319,10 @@ class Process(object):
 
     def process_file(self):
         """
-        A function to process a text file containing symbols representing references
-        to witnesses and symbols and footnotes defining textual variations,
-        omissions, additions, correxi or conieci. This function uses these symbols
-        to produce files containing EpiDoc compatible XML.
+        A function to process a text file containing symbols representing
+        references to witnesses and symbols and footnotes defining textual
+        variations, omissions, additions, correxi or conieci. This function
+        uses these symbols to produce files containing EpiDoc compatible XML.
 
         Parameters
         ----------
@@ -1281,6 +1362,13 @@ class Process(object):
         It is intended this function is called by process_folder().
         """
 
+        # Initialise footnote number
+        self.next_footnote_to_find = 1
+
+        # Initialise number of the next line of text to process
+        # (Python indexing starts at 0)
+        next_line_to_process = 0
+
         oss = ' ' * self.offset_size
         self.oss = oss
 
@@ -1291,11 +1379,6 @@ class Process(object):
         # text, footnotes)
         self.divide_document()
 
-        # TODO: create the pseudo text (working on the split)
-        self.text = self.title + '\n' + \
-            self.text + '\n' + \
-            self.footnotes
-
         # Initialisation of the xml_main and xml_app list
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
@@ -1305,116 +1388,25 @@ class Process(object):
         logger.info('Treat the introduction if present.')
         if self.introduction is not '':
             self._introduction()
-            logger.error('TEST')
 
-        # TODO: Verify that footnote are absolutely a need in the format?
-        # TODO: move outside of this function
-        # Find where text containing the block of footnotes starts, i.e. the
-        # last line containing '*1*', if this fails write to the error file and
-        # return
-        fn_start = self.text.rfind('*1*')
-
-        if fn_start == -1:
-            error = ('Problem finding location of the first footnote "*1*" '
-                     'in file {}'.format(self.fname))
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        # Check this is different to the first location of *1*,
-        # if this isn't true write to the log file and raise exception
-        fn1_ref_loc = self.text.find('*1*')
-        if fn1_ref_loc == fn_start:
-            error = 'Can only find one instance of "*1*"'
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        # Split the file into the main text and the footnotes
-        # NOTE: this wastes memory as it takes an extra copy of the text in the
-        # file, hence for large files it would be better to modify to use
-        # fn_txt_start to define an offset when accessing the footnotes.
-        main_text = self.text[:fn_start].splitlines()
-        self.footnotes = self.text[fn_start:].splitlines()
+        main_text = self.text.splitlines()
+        self.footnotes = self.footnotes.splitlines()
 
         # TODO: The test is useless as the result are not used anywhere
         # Test the footnotes
         self.verification_footnotes()
 
-        # Initialise footnote number
-        next_footnote_to_find = 1
-
-        # Initialise number of the next line of text to process
-        # (Python indexing starts at 0)
-        next_line_to_process = 0
-
         # Deal with the first block of text which should contain
         # an optional intro
         # and the title
         # =======================================================
-
-        # Now process the title
-        # ---------------------
-
-        # Generate the opening XML for the title
-        self.xml_main.append(oss * self.n_offset +
-                             '<div n="{}" type="Title_section">'.format(
-                                 self.doc_num))
-        self.xml_main.append(oss * (self.n_offset + 1) + '<ab>')
-
-        # Get the first non-empty line of text
-        line, next_line_to_process = \
-            self.get_next_non_empty_line(main_text, next_line_to_process)
-
-        # Loop over the lines in the title
-        process_more_title = True
-
-        while process_more_title:
-
-            # Process any witnesses in this line.
-            # If this raises an exception then print an error message and return
-            try:
-                line_ref = self._references(line)
-            except CommentaryToEpidocException as err:
-                error = ('Unable to process _references in line {} '
-                         '(title line)'.format(next_line_to_process))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Process any footnotes in line_ref,
-            # if this fails print to the error file and return
-            try:
-                xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                    self._footnotes(line_ref,
-                                    next_footnote_to_find,
-                                    self.n_offset + 2,
-                                    oss)
-            except CommentaryToEpidocException as err:
-                error = ('Unable to process _footnotes in line {} '
-                         '(title line)'.format(next_line_to_process))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Add the return values to the XML lists
-            self.xml_main.extend(xml_main_to_add)
-            self.xml_app.extend(xml_app_to_add)
-
-            # Get the next line of text
-            line, next_line_to_process = \
-                self.get_next_non_empty_line(main_text, next_line_to_process)
-
-            # Test if we have reached the first aphorism
-            if line == '1.':
-                process_more_title = False
-
-        # Close the XML for the title
-        self.xml_main.append(oss * (self.n_offset + 1) + '</ab>')
-        self.xml_main.append(oss * self.n_offset + '</div>')
+        self._title()
 
         # Now process the rest of the main text
         # =====================================
+
+        line, next_line_to_process = \
+            self.get_next_non_empty_line(main_text, next_line_to_process)
 
         # Initialise n_aphorism
         n_aphorism = 1
@@ -1463,9 +1455,8 @@ class Process(object):
             # Process any footnotes in line_ref, if there are errors write
             # to the log file and return
             try:
-                xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
+                xml_main_to_add, xml_app_to_add = \
                     self._footnotes(line_ref,
-                                    next_footnote_to_find,
                                     self.n_offset + 3,
                                     oss)
             except CommentaryToEpidocException as err:
@@ -1515,8 +1506,8 @@ class Process(object):
                 # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                        self._footnotes(line_ref, next_footnote_to_find,
+                    xml_main_to_add, xml_app_to_add = \
+                        self._footnotes(line_ref,
                                         self.n_offset + 3, oss)
                 except CommentaryToEpidocException as err:
                     error = ('Unable to process _footnotes in line {}'
