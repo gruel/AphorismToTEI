@@ -323,12 +323,77 @@ class Process(object):
             for s in self.xml_app:
                 f.write(s + '\n')
 
-    def _introduction(self, text):
+    def _introduction(self):
         """Method to treat the optional part of the introduction.
 
 
         """
-        pass
+
+        # TODO check that
+        next_line_to_process = 0
+        next_footnote_to_find = 1
+        introduction = self.introduction.splitlines()
+
+        # TODO: Add the final character used to test the end of the introduction by Jonathan TO BE REMOVED
+        introduction.append('\n++')
+
+        # Generate the opening XML for the intro
+        self.xml_main.append(self.oss * self.n_offset + '<div type="intro">')
+        self.xml_main.append(self.oss * (self.n_offset + 1) + '<p>')
+
+        # Get the next line of text
+        line, next_line_to_process = \
+            self.get_next_non_empty_line(introduction,
+                                         next_line_to_process)
+
+        # Loop over lines of text containing the intro
+        process_more_intro = True
+
+        while process_more_intro:
+
+            # Process any witnesses in this line. If this fails with a
+            # CommentaryToEpidocException print an error and return
+            try:
+                line_ref = self._references(line)
+            except CommentaryToEpidocException as err:
+                error = ('Unable to process _references in line {}'
+                         ' (document intro)'.format(next_line_to_process))
+                logger.error(error)
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
+
+            # Process any footnotes in line_ref. If this fails with a
+            # CommentaryToEpidocException print an error and return
+            try:
+                xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
+                    self._footnotes(line_ref,
+                                    next_footnote_to_find,
+                                    self.n_offset + 2,
+                                    self.oss)
+            except CommentaryToEpidocException as err:
+                error = ('Unable to process _references in line {}'
+                         ' (document intro)'.format(next_line_to_process))
+                logger.error(error)
+                error = 'Error message: {}'.format(err)
+                logger.error(error)
+                raise CommentaryToEpidocException
+
+            # Add to the XML
+            self.xml_main.extend(xml_main_to_add)
+            self.xml_app.extend(xml_app_to_add)
+
+            # Get the next line and test if we have reached the end of
+            #  the intro
+            line, next_line_to_process = \
+                self.get_next_non_empty_line(introduction,
+                                             next_line_to_process)
+            if '++' == line:
+                process_more_intro = False
+
+        # Add XML to close the intro section
+        self.xml_main.append(self.oss * (self.n_offset + 1) + '</p>')
+        self.xml_main.append(self.oss * self.n_offset + '</div>')
 
     def _references(self, line):
         """
@@ -1217,18 +1282,30 @@ class Process(object):
         """
 
         oss = ' ' * self.offset_size
+        self.oss = oss
 
         # Open and read the hyppocratic document
         self.open_document()
 
         # Divide the document in the different part (intro, title,
         # text, footnotes)
+        self.divide_document()
+
+        # TODO: create the pseudo text (working on the split)
+        self.text = self.title + '\n' + \
+            self.text + '\n' + \
+            self.footnotes
 
         # Initialisation of the xml_main and xml_app list
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
         self.xml_main = []
         self.xml_app = []
+
+        logger.info('Treat the introduction if present.')
+        if self.introduction is not '':
+            self._introduction()
+            logger.error('TEST')
 
         # TODO: Verify that footnote are absolutely a need in the format?
         # TODO: move outside of this function
@@ -1251,13 +1328,6 @@ class Process(object):
             logger.error(error)
             raise CommentaryToEpidocException
 
-        # Check whether this document has an optional intro section,
-        # if it has it will contain the characters '++' in the main text
-        if '++' in self.text[:fn_start]:
-            include_intro = True
-        else:
-            include_intro = False
-
         # Split the file into the main text and the footnotes
         # NOTE: this wastes memory as it takes an extra copy of the text in the
         # file, hence for large files it would be better to modify to use
@@ -1276,71 +1346,10 @@ class Process(object):
         # (Python indexing starts at 0)
         next_line_to_process = 0
 
-
         # Deal with the first block of text which should contain
         # an optional intro
         # and the title
         # =======================================================
-
-        # First deal with intro (if there is one)
-        # ---------------------
-        if include_intro:
-            # Generate the opening XML for the intro
-            self.xml_main.append(oss * self.n_offset + '<div type="intro">')
-            self.xml_main.append(oss * (self.n_offset + 1) + '<p>')
-
-            # Get the next line of text
-            line, next_line_to_process = \
-                self.get_next_non_empty_line(main_text, next_line_to_process)
-
-            # Loop over lines of text containing the intro
-            process_more_intro = True
-
-            while process_more_intro:
-
-                # Process any witnesses in this line. If this fails with a
-                # CommentaryToEpidocException print an error and return
-                try:
-                    line_ref = self._references(line)
-                except CommentaryToEpidocException as err:
-                    error = ('Unable to process _references in line {}'
-                             ' (document intro)'.format(next_line_to_process))
-                    logger.error(error)
-                    error = 'Error message: {}'.format(err)
-                    logger.error(error)
-                    raise CommentaryToEpidocException
-
-                # Process any footnotes in line_ref. If this fails with a
-                # CommentaryToEpidocException print an error and return
-                try:
-                    xml_main_to_add, xml_app_to_add, next_footnote_to_find = \
-                        self._footnotes(line_ref,
-                                        next_footnote_to_find,
-                                        self.n_offset + 2,
-                                        oss)
-                except CommentaryToEpidocException as err:
-                    error = ('Unable to process _references in line {}'
-                             ' (document intro)'.format(next_line_to_process))
-                    logger.error(error)
-                    error = 'Error message: {}'.format(err)
-                    logger.error(error)
-                    raise CommentaryToEpidocException
-
-                # Add to the XML
-                self.xml_main.extend(xml_main_to_add)
-                self.xml_app.extend(xml_app_to_add)
-
-                # Get the next line and test if we have reached the end of
-                #  the intro
-                line, next_line_to_process = \
-                    self.get_next_non_empty_line(main_text,
-                                                 next_line_to_process)
-                if '++' == line:
-                    process_more_intro = False
-
-            # Add XML to close the intro section
-            self.xml_main.append(oss * (self.n_offset + 1) + '</p>')
-            self.xml_main.append(oss * self.n_offset + '</div>')
 
         # Now process the title
         # ---------------------
