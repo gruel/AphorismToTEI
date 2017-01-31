@@ -373,10 +373,9 @@ class Process(object):
             # Process any footnotes in line_ref. If this fails with a
             # CommentaryToEpidocException print an error and return
             try:
-                xml_main_to_add, xml_app_to_add = \
-                    self._footnotes(line_ref,
-                                    self.n_offset + 2,
-                                    self.oss)
+                self.n_offset += 2
+                xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
+                self.n_offset -= 2
             except CommentaryToEpidocException as err:
                 error = ('Unable to process _references in line {}'
                          ' (document intro)'.format(next_line_to_process))
@@ -445,10 +444,10 @@ class Process(object):
             # Process any footnotes in line_ref,
             # if this fails print to the error file and return
             try:
+                self.n_offset += 2
                 xml_main_to_add, xml_app_to_add = \
-                    self._footnotes(line_ref,
-                                    self.n_offset + 2,
-                                    self.oss)
+                    self._footnotes(line_ref)
+                self.n_offset -= 2
             except CommentaryToEpidocException as err:
                 error = ('Unable to process _footnotes in line {} '
                          '(title line)'.format(next_line_to_process))
@@ -543,7 +542,7 @@ class Process(object):
 
         return result
 
-    def _omission(self, footnote, xml_app, oss='    '):
+    def _omission(self, footnote, xml_app):
         """Helper function processes a footnote line describing an omission
 
         This helper function processes a footnote line describing an omission,
@@ -593,18 +592,18 @@ class Process(object):
         text = text.strip()
 
         # Add the witness to the XML (remember to strip whitespace)
-        xml_app.append(oss + '<rdg wit="#' + wit.strip() + '">' + text +
+        xml_app.append(self.oss + '<rdg wit="#' + wit.strip() + '">' + text +
                        '</rdg>')
 
         # Partition part2 at 'om.' to extract witness
         junk, sep, wit = part2.partition('om.')
 
         # Add witness to the XML
-        xml_app.append(oss + '<rdg wit="#' + wit.strip() + '">')
-        xml_app.append(oss * 2 + '<gap reason="omission"/>')
-        xml_app.append(oss + '</rdg>')
+        xml_app.append(self.oss + '<rdg wit="#' + wit.strip() + '">')
+        xml_app.append(self.oss * 2 + '<gap reason="omission"/>')
+        xml_app.append(self.oss + '</rdg>')
 
-    def _addition(self, footnote, xml_app, oss='    '):
+    def _addition(self, footnote, xml_app):
         """
         This helper function processes a footnote line describing an addition,
         i.e. footnotes containing the string 'add.'
@@ -659,10 +658,10 @@ class Process(object):
                 text, sep, wit = variant.strip().rpartition(' ')
 
                 # Add to the XML
-                xml_app.append(oss + '<rdg wit="#' + wit + '">')
-                xml_app.append(oss * 2 + '<add reason="add_scribe">' +
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
+                xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
                                text.strip() + '</add>')
-                xml_app.append(oss + '</rdg>')
+                xml_app.append(self.oss + '</rdg>')
 
         else:
             # Deal with case 2
@@ -680,12 +679,12 @@ class Process(object):
 
             # Add the witness XML
             for wit in wits:
-                xml_app.append(oss + '<rdg wit="#' + wit + '">')
-                xml_app.append(oss * 2 + '<add reason="add_scribe">' +
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
+                xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
                                text.strip() + '</add>')
-                xml_app.append(oss + '</rdg>')
+                xml_app.append(self.oss + '</rdg>')
 
-    def _correxi(self, footnote, xml_app, oss='    '):
+    def _correxi(self, footnote, xml_app):
         """
         This helper function processes a footnote line describing correxi, i.e.
         corrections by the editor, these contain the string 'correxi'.
@@ -728,11 +727,11 @@ class Process(object):
         text, sep, junk = part1.partition(']')
 
         # Add text xml_app
-        xml_app.append(oss + '<rdg>')
-        xml_app.append(oss * 2 + '<choice>')
-        xml_app.append(oss * 3 + '<corr>' + text.strip() + '</corr>')
-        xml_app.append(oss * 2 + '</choice>')
-        xml_app.append(oss + '</rdg>')
+        xml_app.append(self.oss + '<rdg>')
+        xml_app.append(self.oss * 2 + '<choice>')
+        xml_app.append(self.oss * 3 + '<corr>' + text.strip() + '</corr>')
+        xml_app.append(self.oss * 2 + '</choice>')
+        xml_app.append(self.oss + '</rdg>')
 
         # Now process part2, which could have one of two formats
         # 1. Multiple text/witness pairs, each separated by :
@@ -749,7 +748,7 @@ class Process(object):
                 text, sep, wit = var.strip().rpartition(' ')
 
                 # Add to the XML
-                xml_app.append(oss + '<rdg wit="#' + wit + '">' +
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
                                text + '</rdg>')
 
         else:
@@ -768,10 +767,10 @@ class Process(object):
 
             # Add the witness XML
             for wit in wits:
-                xml_app.append(oss + '<rdg wit="#' + wit + '">' +
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
                                text.strip() + '</rdg>')
 
-    def _conieci(self, footnote, xml_app, oss='    '):
+    def _conieci(self, footnote, xml_app):
         """
         This helper function processes a footnote line describing a _conieci,
         i.e. conjectures by the editor, these contain the string '_conieci'.
@@ -811,12 +810,12 @@ class Process(object):
         text, sep, junk = part1.partition(']')
 
         # Add text xml_app
-        xml_app.append(oss + '<rdg>')
-        xml_app.append(oss * 2 + '<choice>')
-        xml_app.append(oss * 3 + '<corr type="conjecture">' + text.strip() +
-                       '</corr>')
-        xml_app.append(oss * 2 + '</choice>')
-        xml_app.append(oss + '</rdg>')
+        xml_app.append(self.oss + '<rdg>')
+        xml_app.append(self.oss * 2 + '<choice>')
+        xml_app.append(self.oss * 3 + '<corr type="conjecture">'
+                       + text.strip() + '</corr>')
+        xml_app.append(self.oss * 2 + '</choice>')
+        xml_app.append(self.oss + '</rdg>')
 
         # Now process part 2, which could have one of two formats
         # 1. Multiple variants/witnesses separated by :
@@ -832,7 +831,7 @@ class Process(object):
                 text, sep, wit = var.strip().rpartition(' ')
 
                 # Add to the XML
-                xml_app.append(oss + '<rdg wit="#' + wit + '">' + text +
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text +
                                '</rdg>')
 
         else:
@@ -851,13 +850,14 @@ class Process(object):
 
             # Add the witness XML
             for wit in wits:
-                xml_app.append(oss + '<rdg wit="#' + wit + '">' +
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
                                text.strip() + '</rdg>')
 
-    def _standard_variant(self, footnote, xml_app, oss='    '):
+    def _standard_variant(self, footnote, xml_app):
         """
         This helper function processes a footnote line describing a standard
-        textual variation, i.e. not an _omission, _addition, _correxi or _conieci.
+        textual variation, i.e. not an _omission, _addition, _correxi or
+         _conieci.
 
         The textual variation MUST include only only two witnesses, hence
         the following should be true:
@@ -902,17 +902,17 @@ class Process(object):
 
         # Add the single witness to the XML (remember to strip whitespace)
         xml_app.append(
-            oss + '<rdg wit="#' + wits.strip() + '">' + text.strip() +
+            self.oss + '<rdg wit="#' + wits.strip() + '">' + text.strip() +
             '</rdg>')
 
         # Process the single witness by partitioning part2 at last ' '
         text, sep, wit = part2.rpartition(' ')
 
         # Add the single witness to the XML (remember to strip whitespace)
-        xml_app.append(oss + '<rdg wit="#' + wit + '">' + text.strip() +
+        xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text.strip() +
                        '</rdg>')
 
-    def _footnotes(self, string_to_process, n_offset=0, oss='    '):
+    def _footnotes(self, string_to_process):
         """
         This helper function takes a single string containing text and
         processes any embedded footnote symbols (describing additions,
@@ -979,7 +979,8 @@ class Process(object):
             if len(sep) == 0:
                 # Add text_before_symbol to the XML and stop processing
                 for next_line in text_before_symbol.splitlines():
-                    xml_main.append(oss * n_offset + next_line.strip())
+                    xml_main.append(self.oss * self.n_offset +
+                                    next_line.strip())
                 break
 
             # We know sep has non-zero length and we are dealing with
@@ -1005,7 +1006,7 @@ class Process(object):
 
             # Add the next_text_for_xml to xml_main
             for next_line in next_text_for_xml.splitlines():
-                xml_main.append(oss * n_offset + next_line.strip())
+                xml_main.append(self.oss * self.n_offset + next_line.strip())
 
             # Create XML for this textural variation for xml_main
             next_string = ('<app n="' +
@@ -1020,10 +1021,10 @@ class Process(object):
             # Add next_string to the xml_main, remember this may contain '\n'
             # characters and XML from a witness reference
             for next_line in next_string.splitlines():
-                xml_main.append(oss * n_offset + next_line)
+                xml_main.append(self.oss * self.n_offset + next_line)
 
             # Close the XML for the main text
-            xml_main.append(oss * n_offset + '</app>')
+            xml_main.append(self.oss * self.n_offset + '</app>')
 
             # Add initial XML to xml_app (for the apparatus XML file)
             xml_app.append('<app> from="#begin_fn' + str(next_footnote) +
@@ -1048,27 +1049,27 @@ class Process(object):
 
             # Case 1 - omission
             if not processed and 'om.' in footnote_line:
-                self._omission(footnote_line, xml_app, oss)
+                self._omission(footnote_line, xml_app)
                 processed = True
 
             # Case 2 - addition
             if not processed and 'add.' in footnote_line:
-                self._addition(footnote_line, xml_app, oss)
+                self._addition(footnote_line, xml_app)
                 processed = True
 
             # Case 3 - correxi
             if not processed and 'correxi' in footnote_line:
-                self._correxi(footnote_line, xml_app, oss)
+                self._correxi(footnote_line, xml_app)
                 processed = True
 
             # Case 4 - conieci
             if not processed and 'conieci' in footnote_line:
-                self._conieci(footnote_line, xml_app, oss)
+                self._conieci(footnote_line, xml_app)
                 processed = True
 
             # Remaining case - standard variation
             if not processed:
-                self._standard_variant(footnote_line, xml_app, oss)
+                self._standard_variant(footnote_line, xml_app)
                 # processed = True
 
             # Close the XML
@@ -1158,7 +1159,6 @@ class Process(object):
             except CommentaryToEpidocException:
                 logger.error(error)
             footnote = footnote.lstrip('*')
-
 
             # Test the last character is a '.'
             try:
@@ -1369,8 +1369,7 @@ class Process(object):
         # (Python indexing starts at 0)
         next_line_to_process = 0
 
-        oss = ' ' * self.offset_size
-        self.oss = oss
+        self.oss = ' ' * self.offset_size
 
         # Open and read the hyppocratic document
         self.open_document()
@@ -1426,14 +1425,14 @@ class Process(object):
                 raise CommentaryToEpidocException
 
             # Add initial XML for the aphorism + commentary unit
-            self.xml_main.append(oss * self.n_offset + '<div n="' +
+            self.xml_main.append(self.oss * self.n_offset + '<div n="' +
                                  str(n_aphorism) +
                                  '" type="aphorism_commentary_unit">')
 
             # Add initial XML for this aphorism
-            self.xml_main.append(oss * (self.n_offset + 1) +
+            self.xml_main.append(self.oss * (self.n_offset + 1) +
                                  '<div type="aphorism">')
-            self.xml_main.append(oss * (self.n_offset + 2) + '<p>')
+            self.xml_main.append(self.oss * (self.n_offset + 2) + '<p>')
 
             # Get the next line of text
             line, next_line_to_process = \
@@ -1455,10 +1454,10 @@ class Process(object):
             # Process any footnotes in line_ref, if there are errors write
             # to the log file and return
             try:
-                xml_main_to_add, xml_app_to_add = \
-                    self._footnotes(line_ref,
-                                    self.n_offset + 3,
-                                    oss)
+                self.n_offset += 3
+                xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
+                self.n_offset -= 3
+
             except CommentaryToEpidocException as err:
                 error = ('Unable to process _footnotes in line {} '
                          '(aphorism {})'.format(next_line_to_process,
@@ -1473,8 +1472,8 @@ class Process(object):
             self.xml_app.extend(xml_app_to_add)
 
             # Close the XML for the aphorism
-            self.xml_main.append(oss * (self.n_offset + 2) + '</p>')
-            self.xml_main.append(oss * (self.n_offset + 1) + '</div>')
+            self.xml_main.append(self.oss * (self.n_offset + 2) + '</p>')
+            self.xml_main.append(self.oss * (self.n_offset + 1) + '</div>')
 
             # Get the next line of text
             line, next_line_to_process = \
@@ -1487,8 +1486,8 @@ class Process(object):
 
                 # Add initial XML for this aphorism's commentary
                 self.xml_main.append(
-                    oss * (self.n_offset + 1) + '<div type="commentary">')
-                self.xml_main.append(oss * (self.n_offset + 2) + '<p>')
+                    self.oss * (self.n_offset + 1) + '<div type="commentary">')
+                self.xml_main.append(self.oss * (self.n_offset + 2) + '<p>')
 
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
@@ -1506,9 +1505,10 @@ class Process(object):
                 # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    xml_main_to_add, xml_app_to_add = \
-                        self._footnotes(line_ref,
-                                        self.n_offset + 3, oss)
+                    self.n_offset += 3
+                    xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
+                    self.n_offset -= 3
+
                 except CommentaryToEpidocException as err:
                     error = ('Unable to process _footnotes in line {}'
                              ' (commentary for aphorism '
@@ -1523,8 +1523,8 @@ class Process(object):
                 self.xml_app.extend(xml_app_to_add)
 
                 # Close the XML for this commentary
-                self.xml_main.append(oss * (self.n_offset + 2) + '</p>')
-                self.xml_main.append(oss * (self.n_offset + 1) + '</div>')
+                self.xml_main.append(self.oss * (self.n_offset + 2) + '</p>')
+                self.xml_main.append(self.oss * (self.n_offset + 1) + '</div>')
 
                 # If there are more lines to process then get the next line and
                 # test if we have reached the next aphorism
@@ -1538,7 +1538,7 @@ class Process(object):
                     break
 
             # Close the XML for the aphorism + commentary unit
-            self.xml_main.append(oss * self.n_offset + '</div>')
+            self.xml_main.append(self.oss * self.n_offset + '</div>')
 
             # Increment the aphorism number
             n_aphorism += 1
