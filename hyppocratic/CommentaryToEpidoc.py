@@ -153,6 +153,44 @@ class CommentaryToEpidocException(Exception):
 
 class Process(object):
 
+    """Class to process hypocratic aphorysm text to produce a TEI XML file.
+
+
+    Attributes
+    ----------
+
+    folder: str, optional
+        Name of the folder where are the files to convert
+
+    fname: str
+        Name of the file to convert.
+        The text file base name is expected to end with an underscore followed
+        by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical
+        value is used when creating the title section <div> element, e.g.
+        <div n="1" type="Title_section"> for file_1.txt.
+
+    template_folder: str, optional
+        Name of the folder where are the XML template is located
+
+    template_marker: str, optional
+            string which will be replace in the template file.
+            Default=``#INSERT#``
+
+    template_fname: str, optional
+        The name of the XML template file containing the string
+        ``#INSERT#`` at the location in which to insert XML for the
+        ``<body>`` element.
+
+    n_offset: int
+        The number of offsets to use when creating the XML inserted in
+        the <body> element in the main XML template file.
+        The default value is 0.
+
+    offset_size: int
+        The number of space characters to use for each XML offset. The
+        default value is 4.
+    """
+
     def __init__(self,
                  folder=None,
                  fname=None,
@@ -168,22 +206,42 @@ class Process(object):
         self.template_fname = template_fname
         self.n_offset = n_offset
         self.offset_size = offset_size
-        # Define string in template_file which identifies the location for
-        # inserting the main XML
         self.template_marker = template_marker
+
+        #
+        self.oss = ' ' * self.offset_size
+
+        # Create basename file.
+        if self.fname is not None:
+            self.setbasename()
+        else:
+            self.base_name = None
 
         # Initialise footnote number
         self.next_footnote_to_find = 1
 
-        self.oss = ' ' * self.offset_size
+        # Initialisation of the xml_main and xml_app list
+        # They are created here and not in the __init__ to have
+        # the reinitialisation where it is needed.
+        self.xml_main = []
+        self.xml_app = []
 
-
+    def setbasename(self):
+        """Method to set the basename attribute if fname is not None
+        """
+        logger.error('setbasename =' +self.fname)
+        self.base_name = os.path.splitext(os.path.basename(self.fname))[0]
 
     def open_document(self):
         """Method to open and read the hyppocratic document.
 
         """
-        self.base_name, sep = os.path.splitext(os.path.basename(self.fname))
+        if self.base_name is None and self.fname is not None:
+            self.setbasename()
+
+        if self.base_name is None:
+            logger.error("There are no file to treat.")
+            raise CommentaryToEpidocException
 
         # TODO: file name format is too strict. Relax it.
         # Extract the document number, it is expected this is at the end of the
@@ -342,10 +400,7 @@ class Process(object):
 
 
         """
-
-        # TODO check that
         next_line_to_process = 0
-        next_footnote_to_find = 1
         introduction = self.introduction.splitlines()
 
         # TODO: Add the final character used to test the end of the introduction by Jonathan TO BE REMOVED
@@ -941,22 +996,6 @@ class Process(object):
             generated using the _references() function i.e. XML
             identifying witnesses with each <locus> XML on a new line.
 
-        next_footnote: int
-
-            This is the number of the next footnote to be located and
-            processed.
-
-        n_offset: int
-
-            This is the number of offsets to use when creating the main
-            XML to be inserted in the <body> element in the XML template
-            file. The default value is 0.
-
-        oss: str
-
-            A string defining the unit of offset in the XML, the default value
-            is four space characters.
-
         Returns
         -------
 
@@ -1331,29 +1370,9 @@ class Process(object):
         variations, omissions, additions, correxi or conieci. This function
         uses these symbols to produce files containing EpiDoc compatible XML.
 
-        Parameters
-        ----------
 
-        folder: str
-            The folder containing the text file
-        text_file: str
-            The name of the text file
-        template_file: str
-           The name of the XML template file containing the string
-           ``#INSERT#`` at the location in which to insert XML for the
-            ``<body>`` element.
-        n_offset: int
-            The number of offsets to use when creating the XML inserted in
-            the ``<body>`` element in the main XML template file.
-            The default value is 0.
-        offset_size: int
-            The number of space characters to use for each XML offset. The
-            default value is 4.
 
-        The text file base name is expected to end with an underscore followed
-        by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical
-        value is used when creating the title section <div> element, e.g.
-        <div n="1" type="Title_section"> for file_1.txt.
+
 
         If processing succeeds two XML files will be created in folder ./XML
         with file names that start with the text file base name and ending in
@@ -1368,6 +1387,9 @@ class Process(object):
 
         It is intended this function is called by process_folder().
         """
+
+        # Initialise footnote number
+        self.next_footnote_to_find = 1
 
         # Initialise number of the next line of text to process
         # (Python indexing starts at 0)
@@ -1547,7 +1569,7 @@ class Process(object):
 
         self.save_xml()
 
-    def process_folder(self, text_folder):
+    def process_folder(self, folder=None):
         """
         A function to process all files with the .txt extension in a directory.
         These files are expected to be utf-8 text files containing symbols
@@ -1561,30 +1583,6 @@ class Process(object):
         This numerical value is used when creating the title section
         <div> element, e.g. <div n="1" type="Title_section"> for file_1.txt.
 
-        Parameters
-        ----------
-
-        text_folder: str
-
-            The folder containing the text file
-
-        template_file: str
-
-            The name of the XML template file containing the string
-            ``#INSERT#`` at the location in which to insert XML for the
-            ``<body>`` element.
-
-        n_offset: int
-
-            The number of offsets to use when creating the XML inserted in
-            the <body> element in the main XML template file.
-            The default value is 0.
-
-        offset_size: int
-
-            The number of space characters to use for each XML offset. The
-            default value is 4.
-
         If processing succeeds two XML files will be created in folder ./XML
         with file names starting with the text file base name and ending
         in _main.xml (for the main XML) and _apps.xml (for the apparatus XML).
@@ -1593,23 +1591,31 @@ class Process(object):
 
         If processing fails error messages will be saved to a file with the .err
         extension in the folder ./errors
+
+        Parameters
+        ----------
+
+        folder: str, optional
+            The folder containing the text file
         """
 
-        self.folder = text_folder
+        if folder is not None:
+            self.folder = folder
 
         # Test that the working folder exists
-        if not os.path.exists(text_folder):
+        if not os.path.exists(self.folder):
             logger.error('Error: path {} for text files '
-                         'not found'.format(text_folder))
+                         'not found'.format(self.folder))
             raise CommentaryToEpidocException
 
-        files = os.listdir(text_folder)
+        files = os.listdir(self.folder)
 
         for fname in files:
             if fname.endswith(".txt"):
                 logger.info('Processing: "{}"'.format(fname))
                 try:
                     self.fname = fname
+                    self.setbasename()
                     self.process_file()
                 except CommentaryToEpidocException:
                     logger.error('Error: unable to process "{}", '
