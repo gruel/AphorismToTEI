@@ -172,6 +172,13 @@ class Process(object):
         # inserting the main XML
         self.template_marker = template_marker
 
+        # Initialise footnote number
+        self.next_footnote_to_find = 1
+
+        self.oss = ' ' * self.offset_size
+
+
+
     def open_document(self):
         """Method to open and read the hyppocratic document.
 
@@ -1362,14 +1369,9 @@ class Process(object):
         It is intended this function is called by process_folder().
         """
 
-        # Initialise footnote number
-        self.next_footnote_to_find = 1
-
         # Initialise number of the next line of text to process
         # (Python indexing starts at 0)
         next_line_to_process = 0
-
-        self.oss = ' ' * self.offset_size
 
         # Open and read the hyppocratic document
         self.open_document()

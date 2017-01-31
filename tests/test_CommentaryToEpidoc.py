@@ -275,8 +275,7 @@ class TestProcess(unittest.TestCase):
 
         self.comtoepi.footnotes = footnotes_in
         # Run the function with the input
-        main_out, app_out, junk = \
-            self.comtoepi._footnotes(text_in, 1)
+        main_out, app_out = self.comtoepi._footnotes(text_in)
 
         # Convert the output lists to strings with each element on a new line
         main_out = '\n'.join(main_out)
