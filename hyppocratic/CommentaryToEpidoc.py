@@ -229,7 +229,6 @@ class Process(object):
     def setbasename(self):
         """Method to set the basename attribute if fname is not None
         """
-        logger.error('setbasename =' +self.fname)
         self.base_name = os.path.splitext(os.path.basename(self.fname))[0]
 
     def open_document(self):
@@ -240,7 +239,7 @@ class Process(object):
             self.setbasename()
 
         if self.base_name is None:
-            logger.error("There are no file to treat.")
+            logger.error("There are no file to convert.")
             raise CommentaryToEpidocException
 
         # TODO: file name format is too strict. Relax it.
@@ -862,7 +861,7 @@ class Process(object):
         for the XML, this defaults to four space characters.
 
         It is intended this function is called by _footnotes()
-        for _conieci _footnotes.
+        for conieci footnotes.
         """
 
         # Partition at first ':'
@@ -882,7 +881,7 @@ class Process(object):
         # Now process part 2, which could have one of two formats
         # 1. Multiple variants/witnesses separated by :
         # 2. Single textual variant and witnesses separated by ','
-
+        wits = []
         # Deal with case 1
         if ':' in part2:
             # Split part2 at ':' (remove whitespace first)
@@ -891,14 +890,14 @@ class Process(object):
             for var in lvar:
                 # Strip whitespace and partition at last ' '
                 text, sep, wit = var.strip().rpartition(' ')
-
+                wits.append(wit)
                 # Add to the XML
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text +
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
+                               text.strip() +
                                '</rdg>')
 
         else:
             # Deal with case 2
-            wits = []
             text = part2
 
             # First deal with sources after ','
@@ -910,6 +909,7 @@ class Process(object):
             text, sep, wit = text.rpartition(' ')
             wits.append(wit)
 
+            # TODO: This is weird. Only the last text is saved
             # Add the witness XML
             for wit in wits:
                 xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
@@ -1412,7 +1412,7 @@ class Process(object):
         if self.introduction is not '':
             self._introduction()
 
-        main_text = self.text.splitlines()
+        self.text = self.text.splitlines()
         self.footnotes = self.footnotes.splitlines()
 
         # TODO: The test is useless as the result are not used anywhere
@@ -1429,12 +1429,12 @@ class Process(object):
         # =====================================
 
         line, next_line_to_process = \
-            self.get_next_non_empty_line(main_text, next_line_to_process)
+            self.get_next_non_empty_line(self.text, next_line_to_process)
 
         # Initialise n_aphorism
         n_aphorism = 1
 
-        while next_line_to_process < len(main_text):
+        while next_line_to_process < len(self.text):
 
             # Check the text in this line contains the correct aphorism number
             # If it doesn't print a message and stop
@@ -1460,7 +1460,7 @@ class Process(object):
 
             # Get the next line of text
             line, next_line_to_process = \
-                self.get_next_non_empty_line(main_text, next_line_to_process)
+                self.get_next_non_empty_line(self.text, next_line_to_process)
 
             # Now process any witnesses in it. If this fails with a
             # CommentaryToEpidocException print an error and return
@@ -1501,7 +1501,7 @@ class Process(object):
 
             # Get the next line of text
             line, next_line_to_process = \
-                self.get_next_non_empty_line(main_text, next_line_to_process)
+                self.get_next_non_empty_line(self.text, next_line_to_process)
 
             # Now loop over commentaries
             process_more_commentary = True
@@ -1552,9 +1552,9 @@ class Process(object):
 
                 # If there are more lines to process then get the next line and
                 # test if we have reached the next aphorism
-                if next_line_to_process < len(main_text):
+                if next_line_to_process < len(self.text):
                     line, next_line_to_process = \
-                        self.get_next_non_empty_line(main_text,
+                        self.get_next_non_empty_line(self.text,
                                                      next_line_to_process)
                     if line[:-1].isdigit():
                         process_more_commentary = False
