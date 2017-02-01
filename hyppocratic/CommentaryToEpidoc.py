@@ -143,11 +143,13 @@ except ImportError:
 
 # Read logging configuration and create logger
 logging.config.dictConfig(LOGGING)
+# pylint: disable=locally-disabled, invalid-name
 logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
-
 
 # Define an Exception
 class CommentaryToEpidocException(Exception):
+    """Class for exception
+    """
     pass
 
 
@@ -290,7 +292,7 @@ class Process(object):
         # TODO: file name format is too strict. Relax it.
         # Extract the document number, it is expected this is at the end of the
         # base name following an '_'
-        junk, sep, doc_num = self.base_name.rpartition('_')
+        sep, doc_num = self.base_name.rpartition('_')[1:]
         try:
             self.doc_num = int(doc_num)
             if len(sep) == 0:
@@ -301,6 +303,7 @@ class Process(object):
             raise CommentaryToEpidocException
 
         # Open the file to process
+        # pylint: disable=locally-disabled, invalid-name
         with open(os.path.join(self.folder, self.fname), 'r',
                   encoding="utf-8") as f:
             # Read in file
@@ -638,7 +641,8 @@ class Process(object):
                 raise CommentaryToEpidocException
 
             # Add the witness and location XML to the result string
-            result += '<locus target="' + witness + '">' + page + '</locus>'
+            result += '<locus target="' + witness.strip() + \
+                      '">' + page.strip() + '</locus>'
 
             # If text has zero length we can stop
             if len(line) == 0:
@@ -691,23 +695,23 @@ class Process(object):
         """
 
         # Partition the footnote line at ':'
-        part1, sep, part2 = footnote.partition(':')
+        _tmp = footnote.partition(':')
+        part1 = _tmp[0]
+        part2 = _tmp[2]
 
         # Partition part1 at ']'
-        text, sep, wit = part1.partition(']')
-
-        # Remove whitespace from text
-        text = text.strip()
+        _tmp = part1.partition(']')
+        text = _tmp[0].strip()
+        wit = _tmp[2].strip()
 
         # Add the witness to the XML (remember to strip whitespace)
-        xml_app.append(self.oss + '<rdg wit="#' + wit.strip() + '">' + text +
-                       '</rdg>')
+        xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text + '</rdg>')
 
         # Partition part2 at 'om.' to extract witness
-        junk, sep, wit = part2.partition('om.')
+        wit = part2.partition('om.')[2].strip()
 
         # Add witness to the XML
-        xml_app.append(self.oss + '<rdg wit="#' + wit.strip() + '">')
+        xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
         xml_app.append(self.oss * 2 + '<gap reason="omission"/>')
         xml_app.append(self.oss + '</rdg>')
 
@@ -750,7 +754,7 @@ class Process(object):
         """
 
         # Partition the footnote line at add.
-        junk, sep, part2 = footnote.partition('add.')
+        part2 = footnote.partition('add.')[2]
 
         # Now process part2, which could have one of two formats
         # 1. Multiple text/witness pairs, each separated by :
@@ -764,12 +768,14 @@ class Process(object):
 
             for variant in part2:
                 # Strip whitespace and partition at last ' '
-                text, sep, wit = variant.strip().rpartition(' ')
+                _tmp = variant.strip().rpartition(' ')
+                text = _tmp[0].strip()
+                wit = _tmp[2].strip()
 
                 # Add to the XML
                 xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
                 xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
-                               text.strip() + '</add>')
+                               text + '</add>')
                 xml_app.append(self.oss + '</rdg>')
 
         else:
@@ -779,18 +785,22 @@ class Process(object):
 
             # First deal with sources after ',' by partitioning at last comma
             while ',' in text:
-                text, sep, wit = text.rpartition(',')
-                wits.append(wit.strip())
+                _tmp = text.rpartition(',')
+                text = _tmp[0].strip()
+                wit = _tmp[2].strip()
+                wits.append(wit)
 
             # Partition at last ' '
-            text, sep, wit = text.rpartition(' ')
+            _tmp = text.rpartition(' ')
+            text = _tmp[0].strip()
+            wit = _tmp[2].strip()
             wits.append(wit)
 
             # Add the witness XML
             for wit in wits:
                 xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
                 xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
-                               text.strip() + '</add>')
+                               text + '</add>')
                 xml_app.append(self.oss + '</rdg>')
 
     def _correxi(self, footnote, xml_app):
@@ -831,10 +841,12 @@ class Process(object):
         """
 
         # Partition at first ':'
-        part1, sep, part2 = footnote.partition(':')
+        _tmp = footnote.partition(':')
+        part1 = _tmp[0]
+        part2 = _tmp[2]
 
         # Partition part 1 at ']'
-        text, sep, junk = part1.partition(']')
+        text, part1 = part1.partition(']')[:2]
 
         # Add text xml_app
         xml_app.append(self.oss + '<rdg>')
@@ -855,7 +867,9 @@ class Process(object):
 
             for var in variants:
                 # Strip whitespace and partition at last ' '
-                text, sep, wit = var.strip().rpartition(' ')
+                _tmp = var.strip().rpartition(' ')
+                text = _tmp[0].strip()
+                wit = _tmp[2].strip()
 
                 # Add to the XML
                 xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
@@ -868,17 +882,22 @@ class Process(object):
 
             # First deal with sources after ','
             while ',' in text:
-                text, sep, wit = text.rpartition(',')
-                wits.append(wit.strip())
+                _tmp = text.rpartition(',')
+                text = _tmp[0]
+                wit = _tmp[2].strip()
+                wits.append(wit)
 
             # Partition at last ' '
-            text, sep, wit = text.rpartition(' ')
+
+            _tmp = text.rpartition(' ')
+            text = _tmp[0].strip()
+            wit = _tmp[2].strip()
             wits.append(wit)
 
             # Add the witness XML
             for wit in wits:
                 xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
-                               text.strip() + '</rdg>')
+                               text + '</rdg>')
 
     def _conieci(self, footnote, xml_app):
         """
@@ -915,10 +934,12 @@ class Process(object):
         """
 
         # Partition at first ':'
-        part1, sep, part2 = footnote.partition(':')
+        _tmp = footnote.partition(':')
+        part1 = _tmp[0]
+        part2 = _tmp[2]
 
         # Partition part 1 at ']'
-        text, sep, junk = part1.partition(']')
+        text = part1.partition(']')[0]
 
         # Add text xml_app
         xml_app.append(self.oss + '<rdg>')
@@ -939,12 +960,13 @@ class Process(object):
 
             for var in lvar:
                 # Strip whitespace and partition at last ' '
-                text, sep, wit = var.strip().rpartition(' ')
+                _tmp = var.strip().rpartition(' ')
+                text = _tmp[0].strip()
+                wit = _tmp[2].strip()
                 wits.append(wit)
                 # Add to the XML
                 xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
-                               text.strip() +
-                               '</rdg>')
+                               text + '</rdg>')
 
         else:
             # Deal with case 2
@@ -952,18 +974,22 @@ class Process(object):
 
             # First deal with sources after ','
             while ',' in text:
-                text, sep, wit = text.rpartition(',')
-                wits.append(wit.strip())
+                _tmp = text.rpartition(',')
+                text = _tmp[0]
+                wit = _tmp[2].strip()
+                wits.append(wit)
 
             # Partition at last ' '
-            text, sep, wit = text.rpartition(' ')
+            _tmp = text.rpartition(' ')
+            text = _tmp[0].strip()
+            wit = _tmp[2].strip()
             wits.append(wit)
 
             # TODO: This is weird. Only the last text is saved
             # Add the witness XML
             for wit in wits:
                 xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
-                               text.strip() + '</rdg>')
+                               text + '</rdg>')
 
     def _standard_variant(self, footnote, xml_app):
         """
@@ -1004,26 +1030,27 @@ class Process(object):
         """
 
         # Split this footnote line at the ':' character
-        part1, sep, part2 = footnote.partition(':')
+        _tmp = footnote.partition(':')
+        part1 = _tmp[0]
+        part2 = _tmp[2]
 
         # Split part 1 at the ']' character to separate the text
         # from the witness
-        text, sep, wits = part1.partition(']')
-
-        # Remove whitespace from text
-        text = text.strip()
+        _tmp = part1.partition(']')
+        text = _tmp[0].strip()
+        wits = _tmp[2].strip()
 
         # Add the single witness to the XML (remember to strip whitespace)
         xml_app.append(
-            self.oss + '<rdg wit="#' + wits.strip() + '">' + text.strip() +
-            '</rdg>')
+            self.oss + '<rdg wit="#' + wits + '">' + text + '</rdg>')
 
         # Process the single witness by partitioning part2 at last ' '
-        text, sep, wit = part2.rpartition(' ')
+        _tmp = part2.rpartition(' ')
+        text = _tmp[0].strip()
+        wit = _tmp[2].strip()
 
         # Add the single witness to the XML (remember to strip whitespace)
-        xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text.strip() +
-                       '</rdg>')
+        xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text + '</rdg>')
 
     def _footnotes(self, string_to_process):
         """
@@ -1138,7 +1165,7 @@ class Process(object):
 
             # Use partition to remove the footnote symbol from the start of
             # footnote_line
-            junk, sep, footnote_line = footnote_line.partition(footnote_symbol)
+            footnote_line = footnote_line.partition(footnote_symbol)[2]
 
             # Now process the footnote line - deal with each case individually
             # to aid readability and make future additions easier
@@ -1200,6 +1227,7 @@ class Process(object):
 
             # Strip any whitespace
             footnote = footnote.strip()
+            _footnote = footnote
 
             # Discard any empty lines
             if len(footnote) == 0:
@@ -1213,7 +1241,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnotes: {}'.format(_footnote)
                 logger.error(error)
 
             # Test the first character is a '*' and remove it
@@ -1224,7 +1252,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnotes: {}'.format(_footnote)
                 logger.error(error)
             footnote = footnote.lstrip('*')
 
@@ -1236,12 +1264,14 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnotes: {}'.format(_footnote)
                 logger.error(error)
 
             # Partition at the next '*' and check the footnote number
             try:
-                n, sep, footnote = footnote.partition('*')
+                _tmp = footnote.partition('*')
+                n = _tmp[0]
+                footnote = _tmp[2]
                 if int(n) != n_footnote:
                     error = ('Error in footnote ' + str(n_footnote) +
                              ': expected footnote ' +
@@ -1249,7 +1279,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnotes: {}'.format(_footnote)
                 logger.error(error)
 
             # Check the footnote contains one ']'
@@ -1262,7 +1292,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnotes: {}'.format(_footnote)
                 logger.error(error)
 
             # Check for known illegal characters
@@ -1274,7 +1304,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnotes: {}'.format(_footnote)
                 logger.error(error)
 
             # If contains a ';' give an error and stop further processing
@@ -1285,7 +1315,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnotes: {}'.format(_footnote)
                 logger.error(error)
 
             # Test omission has the correct format
@@ -1302,7 +1332,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
                 try:
@@ -1312,18 +1342,18 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
                 try:
-                    part1, sep, part2 = footnote.partition(':')
+                    part2 = footnote.partition(':')[2]
                     if part2[0:5] != ' om. ':
                         error = ('Error in footnote ' + str(n_footnote) +
                                  ': omission must contain " om. " after ":"')
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
             # Test addition has the correct format
@@ -1332,14 +1362,14 @@ class Process(object):
             elif 'add.' in footnote:
 
                 try:
-                    part1, sep, part2 = footnote.partition(']')
+                    part2 = footnote.partition(']')[2]
                     if part2[0:6] != ' add. ':
                         error = ('Error in footnote ' + str(n_footnote) +
                                  ': addition must contain " add. " after "]"')
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
             # Test correxi have the correct format
@@ -1349,7 +1379,7 @@ class Process(object):
 
                 try:
                     # Partition at ']'
-                    part1, sep, part2 = footnote.partition(']')
+                    part2 = footnote.partition(']')[2]
 
                     if part2[0:10] != ' correxi: ':
                         error = ('Error in footnote ' + str(n_footnote) +
@@ -1358,7 +1388,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
             # Test conieci have the correct format
@@ -1368,7 +1398,7 @@ class Process(object):
 
                 try:
                     # Partition at ']'
-                    part1, sep, part2 = footnote.partition(']')
+                    part2 = footnote.partition(']')[2]
 
                     if part2[0:10] != ' conieci: ':
                         error = ('Error in footnote ' + str(n_footnote) +
@@ -1377,7 +1407,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
             # Test standard variations have the correct format
@@ -1394,7 +1424,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
                 try:
@@ -1405,7 +1435,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnotes: {}'.format(_footnote)
                     logger.error(error)
 
             # Increment footnote number
