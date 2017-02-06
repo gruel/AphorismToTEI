@@ -1,5 +1,6 @@
 import os
 import sys
+from collections import OrderedDict
 import unittest
 import pytest
 
@@ -56,6 +57,77 @@ class TestProcess(unittest.TestCase):
         self.assertEqual(self.comtoepi.title, title)
         self.assertEqual(self.comtoepi.text, text)
         self.assertEqual(self.comtoepi.footnotes, footnotes)
+
+    def test_divide_document_no_intro(self):
+
+        # Read test title
+        with open(path_testdata + 'title.txt', 'r',
+                  encoding="utf-8") as f:
+            title = f.read().strip()
+
+        # Read test text
+        with open(path_testdata + 'text.txt', 'r',
+                  encoding="utf-8") as f:
+            text = f.read().strip()
+
+        # Read test footnotes
+        with open(path_testdata + 'footnotes.txt', 'r',
+                  encoding="utf-8") as f:
+            footnotes = f.read().strip()
+
+        # Read full text file
+        with open(path_testdata +
+                  'aphorysm_no_intro_title_text_footnotes.txt', 'r',
+                  encoding="utf-8") as f:
+            self.comtoepi.text = f.read().strip()
+
+        self.comtoepi.divide_document()
+        self.assertEqual(self.comtoepi.title, title)
+        self.assertEqual(self.comtoepi.text, text)
+        self.assertEqual(self.comtoepi.footnotes, footnotes)
+
+
+    def test_divide_document_no_footnotes(self):
+
+        # Read test title
+        with open(path_testdata + 'title.txt', 'r',
+                  encoding="utf-8") as f:
+            title = f.read().strip()
+
+        # Read test text
+        with open(path_testdata + 'text.txt', 'r',
+                  encoding="utf-8") as f:
+            text = f.read().strip()
+
+        # Read full text file
+        with open(path_testdata +
+                  'aphorysm_no_intro_title_text_no_footnotes.txt', 'r',
+                  encoding="utf-8") as f:
+            self.comtoepi.text = f.read().strip()
+
+        self.assertRaises(CommentaryToEpidocException,
+                          self.comtoepi.divide_document)
+
+    # ################# read_template ###################
+
+    def test_read_template_missing_template(self):
+        self.comtoepi.template_folder = 'ttttt'
+
+        with self.assertRaises(SystemExit) as cm:
+            self.comtoepi.read_template()
+        self.assertEqual(cm.exception.code, 1)
+
+    def test_read_template(self):
+        # Read the template comparison manually
+        with open(path_testdata + 'xml_template.txt', 'r') as f:
+            template = f.read()
+        # split it as in the method
+        part1, sep, part2 = template.partition(self.comtoepi.template_marker)
+
+        self.comtoepi.template_folder = path_testdata
+        self.comtoepi.read_template()
+        self.assertEqual(part1, self.comtoepi.template_part1)
+        self.assertEqual(part2, self.comtoepi.template_part2)
 
     # ################# _references ###################
 
@@ -273,7 +345,11 @@ class TestProcess(unittest.TestCase):
                   encoding="utf-8") as f:
             app_ref = f.read()
 
-        self.comtoepi.footnotes = footnotes_in
+        # convert the footnotes in OrderDict
+        # key is equale to the numeration of the footnote
+        self.comtoepi.footnotes = OrderedDict([(i+1, _tmp)
+                                               for i, _tmp
+                                               in enumerate(footnotes_in)])
         # Run the function with the input
         main_out, app_out = self.comtoepi._footnotes(text_in)
 
@@ -284,27 +360,6 @@ class TestProcess(unittest.TestCase):
         # Test the return value matches the expected output
         self.assertEqual(main_out, main_ref)
         self.assertEqual(app_out, app_ref)
-
-    # ################# read_template ###################
-
-    def test_read_template_missing_template(self):
-        self.comtoepi.template_folder = 'ttttt'
-
-        with self.assertRaises(SystemExit) as cm:
-            self.comtoepi.read_template()
-        self.assertEqual(cm.exception.code, 1)
-
-    def test_read_template(self):
-        # Read the template comparison manually
-        with open(path_testdata + 'xml_template.txt', 'r') as f:
-            template = f.read()
-        # split it as in the method
-        part1, sep, part2 = template.partition(self.comtoepi.template_marker)
-
-        self.comtoepi.template_folder = path_testdata
-        self.comtoepi.read_template()
-        self.assertEqual(part1, self.comtoepi.template_part1)
-        self.assertEqual(part2, self.comtoepi.template_part2)
 
     # ################# process_file ###################
 
