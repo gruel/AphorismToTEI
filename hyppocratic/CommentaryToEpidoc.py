@@ -134,7 +134,9 @@ Written by Jonathan Boyle, IT Services, The University of Manchester.
 # Import the string and os modules
 import os
 import sys
+import re
 import logging.config
+from collections import OrderedDict
 
 try:
     from hyppocratic.conf import LOGGING
@@ -145,6 +147,7 @@ except ImportError:
 logging.config.dictConfig(LOGGING)
 # pylint: disable=locally-disabled, invalid-name
 logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
+
 
 # Define an Exception
 class CommentaryToEpidocException(Exception):
@@ -230,8 +233,8 @@ class Process(object):
     """
 
     def __init__(self,
-                 folder=None,
                  fname=None,
+                 folder=None,
                  template_folder='.',
                  template_fname='xml_template.txt',
                  template_marker='#INSERT#',
@@ -278,10 +281,14 @@ class Process(object):
         """
         self.base_name = os.path.splitext(os.path.basename(self.fname))[0]
 
-    def open_document(self):
+    def open_document(self, fname=None):
         """Method to open and read the hyppocratic document.
 
         """
+        if fname is not None:
+            self.folder, self.fname = os.path.split(fname)
+            self.setbasename()
+
         if self.base_name is None and self.fname is not None:
             self.setbasename()
 
@@ -345,7 +352,6 @@ class Process(object):
             self.footnotes = self.text[loc_footnotes:].strip()
             self.text = self.text[:loc_footnotes]
         else:
-            self.footnotes = ''
             logger.info('There are no footnotes present.')
 
         # Cut the intro (if present)
@@ -356,13 +362,45 @@ class Process(object):
             self.introduction = self.text[3:loc_intro].strip()
             self.text = self.text[loc_intro+3:]
         else:
-            self.introduction = ''
             logger.info('There are no introduction present.')
 
         title_sep = '1.'
         loc_title = self.text.find(title_sep)
         self.title = self.text[:loc_title].strip()
         self.text = self.text[loc_title:].strip()
+
+    def footnotes_dictionary(self):
+        """Create an ordered dictionary (OrderedDict object) with the footnotes
+
+        """
+        # Split the footnotes by lines (in theory one line per footnote) TODO
+        if self.footnotes != '' and type(self._footnotes) is not list:
+            _tmp = self.footnotes.splitlines()
+
+        # Check that the number of footnote is in agreement
+        # with their numeration
+        _size = len(_tmp)
+        if not re.findall(str(_size), _tmp[-1])[0] == str(_size):
+            error = 'Number of footnotes {} not in agreement ' \
+                    'with their numeration in the file'.format(_size)
+            logger.error(error)
+            raise CommentaryToEpidocException
+
+        # Create the ordere dictionary and remove the '.'
+        _dic = OrderedDict()
+        for line in _tmp:
+            try:
+                key, value = line.rsplit('*')[1:]
+            except ValueError:
+                error = 'There are a problem in footnote: {}'.format(line)
+                logger.error(error)
+                raise CommentaryToEpidocException
+
+            #Remove space and '.'
+            _dic[int(key)] = value.strip().strip('.')
+
+        self.footnotes_dict = _dic
+        return _dic
 
     def read_template(self):
         """Method to read the XML template used for the transformation
@@ -1157,7 +1195,7 @@ class Process(object):
                            '" to="#end_fn' + str(next_footnote) + '">')
 
             # Get the corresponding footnote
-            footnote_line = self.footnotes[next_footnote - 1]
+            footnote_line = self.footnotes[next_footnote]
 
             # Use rstrip to remove whitespace and the '.' character
             # from the end of the footnote string
@@ -1196,7 +1234,6 @@ class Process(object):
             # Remaining case - standard variation
             if not processed:
                 self._standard_variant(footnote_line, xml_app)
-                # processed = True
 
             # Close the XML
             xml_app.append('</app>')
@@ -1223,11 +1260,8 @@ class Process(object):
 
         # Initialise list to hold error messages
 
-        for footnote in self.footnotes:
-
-            # Strip any whitespace
-            footnote = footnote.strip()
-            _footnote = footnote
+        for i in self.footnotes:
+            footnote = self.footnotes[i]
 
             # Discard any empty lines
             if len(footnote) == 0:
@@ -1241,7 +1275,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(_footnote)
+                error = 'Footnotes: {}'.format(footnote)
                 logger.error(error)
 
             # Test the first character is a '*' and remove it
@@ -1252,7 +1286,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(_footnote)
+                error = 'Footnotes: {}'.format(footnote)
                 logger.error(error)
             footnote = footnote.lstrip('*')
 
@@ -1264,7 +1298,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(_footnote)
+                error = 'Footnotes: {}'.format(footnote)
                 logger.error(error)
 
             # Partition at the next '*' and check the footnote number
@@ -1279,7 +1313,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(_footnote)
+                error = 'Footnotes: {}'.format(footnote)
                 logger.error(error)
 
             # Check the footnote contains one ']'
@@ -1292,7 +1326,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(_footnote)
+                error = 'Footnotes: {}'.format(footnote)
                 logger.error(error)
 
             # Check for known illegal characters
@@ -1304,7 +1338,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(_footnote)
+                error = 'Footnotes: {}'.format(footnote)
                 logger.error(error)
 
             # If contains a ';' give an error and stop further processing
@@ -1315,7 +1349,7 @@ class Process(object):
                     raise CommentaryToEpidocException
             except CommentaryToEpidocException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(_footnote)
+                error = 'Footnotes: {}'.format(footnote)
                 logger.error(error)
 
             # Test omission has the correct format
@@ -1332,7 +1366,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
                 try:
@@ -1342,7 +1376,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
                 try:
@@ -1353,7 +1387,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
             # Test addition has the correct format
@@ -1369,7 +1403,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
             # Test correxi have the correct format
@@ -1388,7 +1422,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
             # Test conieci have the correct format
@@ -1407,7 +1441,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
             # Test standard variations have the correct format
@@ -1424,7 +1458,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
                 try:
@@ -1435,7 +1469,7 @@ class Process(object):
                         raise CommentaryToEpidocException
                 except CommentaryToEpidocException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(_footnote)
+                    error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
             # Increment footnote number
@@ -1490,7 +1524,12 @@ class Process(object):
             self._introduction()
 
         self.text = self.text.splitlines()
-        self.footnotes = self.footnotes.splitlines()
+        _tmp = self.footnotes_dictionary()
+        for i in _tmp:
+            _tmp[i] = '*'+str(i)+'*'+_tmp[i]+'.'
+
+        self.footnotes = _tmp
+        #self.footnotes = self.footnotes.splitlines()
 
         # TODO: The test is useless as the result are not used anywhere
         # Test the footnotes
