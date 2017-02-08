@@ -1,0 +1,9 @@
+    <rdg>
+        <choice>
+            <corr>ssss tttt</corr>
+        </choice>
+    </rdg>
+    <rdg wit="#L5">aaaa bbbb</rdg>
+    <rdg wit="#Y">
+        <gap reason="omission"/>
+    </rdg>

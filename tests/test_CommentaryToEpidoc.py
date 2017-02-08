@@ -182,6 +182,63 @@ class TestProcess(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
+    def test__omission_and_correxi(self):
+        """
+        Runs the function _omission(...) on the text in
+        test_process_omission.in, and compare the output against the text in
+        test_process_omission.ref
+        """
+
+        # Load text from input file
+        with open(path_testdata + 'test_omission_and_correxi.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
+
+        # Load text from reference file
+        with open(path_testdata + 'test_omission_and_correxi.ref', 'r',
+                  encoding="utf-8") as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._omission(text_in, list_out)
+
+        # Convert the output list to a string with each element on a new line
+        # This is not good in a test you should not modify the results
+        # before the test.
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+    def test__omission_and_conieci(self):
+        """
+        Runs the function _omission(...) on the text in
+        test_process_omission.in, and compare the output against the text in
+        test_process_omission.ref
+        """
+
+        # Load text from input file
+        with open(path_testdata + 'test_omission_and_conieci.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
+
+        # Load text from reference file
+        with open(path_testdata + 'test_omission_and_conieci.ref', 'r',
+                  encoding="utf-8") as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._omission(text_in, list_out)
+
+        # Convert the output list to a string with each element on a new line
+        # This is not good in a test you should not modify the results
+        # before the test.
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+
     # ################# _addition ###################
 
     def test__addition(self):
