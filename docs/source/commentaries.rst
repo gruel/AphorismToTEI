@@ -11,7 +11,7 @@ footnotes describing:
 1. :ref:`Omissions <omissions>`
 
 2. :ref:`Additions <additions>`
-   
+
 3. :ref:`Correxi <correxi>`
 
 4. :ref:`Conieci <conieci>`
@@ -56,11 +56,11 @@ referring to witnesses (``WW``) and footnotes.
    word of text with a variant, and ``n`` is the footnote number then
    single word variants use form (a) and multiple word variations
    use form (b) where the ``#`` marks the end of the variation.
-   
+
    a. ``ttt tttt *n*vvvv tttt tttt``
 
    b. ``ttt tttt *n*vvvv vvvv vvvv# tttt tttt``
-	  
+
 After the main body of text is a list of numbered and ordered
 footnotes, each footnote has a corresponding reference in the main
 text. A footnote is a single line with the following format.
@@ -71,7 +71,7 @@ text. A footnote is a single line with the following format.
 2. Following the footnote number is a mix of witness text
    (i.e. title, aphorism or commentary) and symbols defining
    omissions, additions, correxi, conieci and other variations
-       
+
 3. The footnote line ends with a period ``.`` character
 
 The formats for the five footnote types are now described where ``n`` is
@@ -84,11 +84,23 @@ one or more words in length).
 Omissions
 ---------
 
-Omissions have only one form, i.e.
+Omissions have only three forms, i.e.
 
-``*n*ssss ] W1: om. W2.``
+a. Form 1: ``*n*ssss ] W1: om. W2.``
 
-This means the segment of text 'ssss' is found in witness ``W1`` but not ``W2``.
+   This means the segment of text ``ssss`` is found in witness ``W1`` but
+   not ``W2``.
+
+b. Form 2: ``*n*ssss ] correxi: tttt W1: om. W2.``
+
+   This means the segment of text ``ssss`` is found in witness ``W1`` but
+   not ``W2`` however the editor has corrected ``ssss`` to ``tttt``.
+
+b. Form 2: ``*n*ssss ] conieci: tttt W1: om. W2.``
+
+   This means the segment of text ``ssss`` is found in witness ``W1`` but
+   not ``W2`` however the editor has conjonctured that it should be ``ssss``
+   instead of ``tttt``.
 
 .. _additions:
 
@@ -101,7 +113,7 @@ whether the addition is the same or not for both witnesses.
 
 a. Form 1: ``*n*ssss ] add. tttt W1.``
 
-  This means both witnesses have 'ssss' and W1 adds ``tttt``.
+  This means both witnesses have ``ssss`` and W1 adds ``tttt``.
 
 b. Form 2: ``*n*ssss ] add. tttt W1, W2.``
 

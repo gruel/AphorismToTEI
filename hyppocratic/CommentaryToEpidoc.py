@@ -266,6 +266,7 @@ class Process(object):
         self.title = ''
         self.text = ''
         self.footnotes = ''
+        self.n_footnote = 1
         self.template_part1 = ''
         self.template_part2 = ''
         self.doc_num = 0
@@ -510,11 +511,9 @@ class Process(object):
             # CommentaryToEpidocException print an error and return
             try:
                 line_ref = self._references(line)
-            except CommentaryToEpidocException as err:
+            except CommentaryToEpidocException:
                 error = ('Unable to process _references in line {}'
                          ' (document intro)'.format(next_line_to_process))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -524,11 +523,9 @@ class Process(object):
                 self.n_offset += 2
                 xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
                 self.n_offset -= 2
-            except CommentaryToEpidocException as err:
+            except CommentaryToEpidocException:
                 error = ('Unable to process _references in line {}'
                          ' (document intro)'.format(next_line_to_process))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -581,11 +578,9 @@ class Process(object):
             # and return
             try:
                 line_ref = self._references(line)
-            except CommentaryToEpidocException as err:
+            except CommentaryToEpidocException:
                 error = ('Unable to process _references in line {} '
                          '(title line)'.format(next_line_to_process))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -596,11 +591,9 @@ class Process(object):
                 xml_main_to_add, xml_app_to_add = \
                     self._footnotes(line_ref)
                 self.n_offset -= 2
-            except CommentaryToEpidocException as err:
+            except CommentaryToEpidocException:
                 error = ('Unable to process _footnotes in line {} '
                          '(title line)'.format(next_line_to_process))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -713,6 +706,8 @@ class Process(object):
            the string
         3. ``.`` character from the end of the string
 
+        TODO: update that dosctring this is wrong
+
         The footnote is expected to contain a single ':' character and have the
         following format:
 
@@ -731,25 +726,67 @@ class Process(object):
         It is intended this function is called by _footnotes()
         for omission footnotes.
         """
+        reason = None
+        corr = None
+        #Split the footnote
+        try:
+            # Split to get the text and remove the space
+            _tmp = footnote.split(']')
+            text = _tmp[0].strip()
 
-        # Partition the footnote line at ':'
-        _tmp = footnote.partition(':')
-        part1 = _tmp[0]
-        part2 = _tmp[2]
+            # split around om. to
+            _tmp = _tmp[1].split('om.')
+            wit2 = _tmp[-1].strip()
+            _tmp = _tmp[0].strip().split()
 
-        # Partition part1 at ']'
-        _tmp = part1.partition(']')
-        text = _tmp[0].strip()
-        wit = _tmp[2].strip()
+            if len(_tmp) == 1:
+                wit1 = _tmp[0].strip(':').strip()
+            else:
+                reason = _tmp[0].strip(':').strip()
+                # join all the other element to get the full original text
+                corr = ' '.join(_tmp[1:-1])
+                wit1 = _tmp[-1].strip(':').strip()
+        except IndexError:
+            error = 'Error in footnote: {}'.format(self.n_footnote)
+            logger.error(error)
+            error = 'omission footnote error: {}'.format(footnote)
+            logger.error(error)
+            raise CommentaryToEpidocException
+        # else:
+        #     error = "footnote: {} has a formatting problem. ".format(footnote)
+        #     logger.error(error)
+        #     raise CommentaryToEpidocException
+
+        # TODO: check with Hammood that it is what do they want.
+        # Add the correxi or conieci if needed
+        if reason == 'correxi':
+            # Add text xml_app
+            xml_app.append(self.oss + '<rdg>')
+            xml_app.append(self.oss * 2 + '<choice>')
+            xml_app.append(self.oss * 3 + '<corr>' + text + '</corr>')
+            xml_app.append(self.oss * 2 + '</choice>')
+            xml_app.append(self.oss + '</rdg>')
+            text = corr
+        elif reason == 'conieci':
+            # Add text xml_app
+            xml_app.append(self.oss + '<rdg>')
+            xml_app.append(self.oss * 2 + '<choice>')
+            xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
+                           text + '</corr>')
+            xml_app.append(self.oss * 2 + '</choice>')
+            xml_app.append(self.oss + '</rdg>')
+            text = corr
+        elif reason is not None:
+            error = 'Type of correction unexpected: {}'.format(reason)
+            logger.error(error)
+            raise CommentaryToEpidocException
 
         # Add the witness to the XML (remember to strip whitespace)
-        xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text + '</rdg>')
-
-        # Partition part2 at 'om.' to extract witness
-        wit = part2.partition('om.')[2].strip()
+        xml_app.append(
+            self.oss + '<rdg wit="#' + wit1 + '">' + text + '</rdg>')
 
         # Add witness to the XML
-        xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
+        xml_app.append(self.oss + '<rdg wit="#' + wit2 + '">')
         xml_app.append(self.oss * 2 + '<gap reason="omission"/>')
         xml_app.append(self.oss + '</rdg>')
 
@@ -1249,11 +1286,11 @@ class Process(object):
         return xml_main, xml_app
 
     def verification_footnotes(self):
-        """
-        A function to test all footnotes have the correct format.
+        """A function to test all footnotes have the correct format.
         The input argument should be a python list containing the footnotes.
         The function returns a python list containing the error messages.
         """
+        error = ''
 
         # Initialise n_footnote
         n_footnote = 1
@@ -1261,8 +1298,8 @@ class Process(object):
         # Initialise list to hold error messages
 
         for i in self.footnotes:
-            footnote = self.footnotes[i]
-
+            footnote = self.footnotes[int(i)]
+            self.n_footnote = n_footnote
             # Discard any empty lines
             if len(footnote) == 0:
                 continue
@@ -1356,7 +1393,13 @@ class Process(object):
             # Errors tested for:
             # - should not contain any ','
             # - should contain one ':'
-            # - text after ':' should be ' om. '
+            # - text after ':' should be ' om. ' # TODO: This is not true
+
+            # TODO: Bug it is possible to have omission and other commentaries.
+            #       It should not be a if/elif/elif but if ... if
+            #       It is not possible to just change the elif by if since there
+            #       some raise error which will break the tests
+
             if 'om.' in footnote:
 
                 try:
@@ -1369,26 +1412,28 @@ class Process(object):
                     error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
-                try:
-                    if footnote.count(':') != 1:
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': omission should contain one ":" character')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
+                # try:
+                #     n_column = footnote.count(':')
+                #     if n_column != 1 and n_column !=2:
+                #         error = ('Error in footnote ' + str(n_footnote) +
+                #                  ': omission should contain one or two ":" '
+                #                  'character and there are: ' + str(n_column))
+                #         raise CommentaryToEpidocException
+                # except CommentaryToEpidocException:
+                #     logger.error(error)
+                #     error = 'Footnotes: {}'.format(footnote)
+                #     logger.error(error)
 
-                try:
-                    part2 = footnote.partition(':')[2]
-                    if part2[0:5] != ' om. ':
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': omission must contain " om. " after ":"')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
+                # try:
+                #     part2 = footnote.split()[-2]
+                #     if part2 != ' om. ':
+                #         error = ('Error in footnote ' + str(n_footnote) +
+                #                  ': omission must contain " om. " after ":"')
+                #         raise CommentaryToEpidocException
+                # except CommentaryToEpidocException:
+                #     logger.error(error)
+                #     error = 'Footnotes: {}'.format(footnote)
+                #     logger.error(error)
 
             # Test addition has the correct format
             # Errors tested for:
@@ -1582,12 +1627,10 @@ class Process(object):
             # CommentaryToEpidocException print an error and return
             try:
                 line_ref = self._references(line)
-            except CommentaryToEpidocException as err:
+            except CommentaryToEpidocException:
                 error = ('Unable to process _references in line {} '
                          '(aphorism {})'.format(next_line_to_process,
                                                 n_aphorism))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -1598,12 +1641,10 @@ class Process(object):
                 xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
                 self.n_offset -= 3
 
-            except CommentaryToEpidocException as err:
-                error = ('Unable to process _footnotes in line {} '
+            except CommentaryToEpidocException:
+                error = ('Unable to process footnotes in line {} '
                          '(aphorism {})'.format(next_line_to_process,
                                                 n_aphorism))
-                logger.error(error)
-                error = 'Error message: {}'.format(err)
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -1633,12 +1674,10 @@ class Process(object):
                 # CommentaryToEpidocException and log an error
                 try:
                     line_ref = self._references(line)
-                except CommentaryToEpidocException as err:
+                except CommentaryToEpidocException:
                     error = ('Unable to process _references in line {} '
                              '(commentary for aphorism '
                              '{})'.format(next_line_to_process, n_aphorism))
-                    logger.error(error)
-                    error = 'Error message: {}'.format(err)
                     logger.error(error)
                     raise CommentaryToEpidocException
 
@@ -1649,12 +1688,12 @@ class Process(object):
                     xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
                     self.n_offset -= 3
 
-                except CommentaryToEpidocException as err:
+                except CommentaryToEpidocException:
                     error = ('Unable to process _footnotes in line {}'
                              ' (commentary for aphorism '
                              '{})'.format(next_line_to_process, n_aphorism))
                     logger.error(error)
-                    error = 'Error message: {}'.format(err)
+                    error = "Aphorism {}: {}".format(n_aphorism, line_ref)
                     logger.error(error)
                     raise CommentaryToEpidocException
 
@@ -1704,9 +1743,6 @@ class Process(object):
         in _main.xml (for the main XML) and _apps.xml (for the apparatus XML).
         For example for file_1.txt the XML files will be file_1_main.xml and
         file_1_app.xml.
-
-        If processing fails error messages will be saved to a file with
-        the .err extension in the folder ./errors
 
         Parameters
         ----------
