@@ -684,7 +684,7 @@ class Process(object):
 
         return result
 
-    def _omission(self, footnote, xml_app):
+    def _omission(self, footnote, next_footnote, xml_app):
         """Helper function processes a footnote line describing an omission
 
         This helper function processes a footnote line describing an omission,
@@ -749,13 +749,9 @@ class Process(object):
         except IndexError:
             error = 'Error in footnote: {}'.format(self.n_footnote)
             logger.error(error)
-            error = 'omission footnote error: {}'.format(footnote)
+            error = 'Omission footnote error: {}'.format(footnote)
             logger.error(error)
             raise CommentaryToEpidocException
-        # else:
-        #     error = "footnote: {} has a formatting problem. ".format(footnote)
-        #     logger.error(error)
-        #     raise CommentaryToEpidocException
 
         # TODO: check with Hammood that it is what do they want.
         # Add the correxi or conieci if needed
@@ -790,95 +786,7 @@ class Process(object):
         xml_app.append(self.oss * 2 + '<gap reason="omission"/>')
         xml_app.append(self.oss + '</rdg>')
 
-    def _addition(self, footnote, xml_app):
-        """
-        This helper function processes a footnote line describing an addition,
-        i.e. footnotes containing the string 'add.'
-
-        The textual variation must include only only two witnesses, however
-        additions with two witnesses are are allowed, and this function will
-        work with multiple witnesses.
-
-        The first input argument must be the footnote line with the following
-        stripped from the start and end of the string:
-
-        1. All whitespace
-        2. ``*n*`` (where n is the footnote number) from the start of
-           the string
-        3. ``.`` character from the end of the string
-
-        The footnote is expected to include the string ``add.``. The text
-        after ``add.`` should have one of the following formats:
-
-        1. the witness text followed by a space and a single witness code
-        2. the witness text followed by a space and multiple witnesses
-           codes separated by commas
-        3. multiple pairs of witness text + witness code, each pair separated
-           by a ``:`` character
-
-        The text before the string ``add`` is not important for this function.
-
-        The second input argument should be a list containing
-        the apparatus XML, this function will add XML to this list.
-
-        The third input argument is the string defining the unit of offset
-        for the XML, this default to four space characters.
-
-        It is intended this function is called by _footnotes()
-        for addition footnotes.
-        """
-
-        # Partition the footnote line at add.
-        part2 = footnote.partition('add.')[2]
-
-        # Now process part2, which could have one of two formats
-        # 1. Multiple text/witness pairs, each separated by :
-        # 2. Single text and one or more witness(es), multiple witnesses are
-        #    separated by ','
-
-        # Deal with case 1
-        if ':' in part2:
-            # Split part2 at ':' (remove whitespace first)
-            part2 = part2.strip().split(':')
-
-            for variant in part2:
-                # Strip whitespace and partition at last ' '
-                _tmp = variant.strip().rpartition(' ')
-                text = _tmp[0].strip()
-                wit = _tmp[2].strip()
-
-                # Add to the XML
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
-                xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
-                               text + '</add>')
-                xml_app.append(self.oss + '</rdg>')
-
-        else:
-            # Deal with case 2
-            wits = []
-            text = part2
-
-            # First deal with sources after ',' by partitioning at last comma
-            while ',' in text:
-                _tmp = text.rpartition(',')
-                text = _tmp[0].strip()
-                wit = _tmp[2].strip()
-                wits.append(wit)
-
-            # Partition at last ' '
-            _tmp = text.rpartition(' ')
-            text = _tmp[0].strip()
-            wit = _tmp[2].strip()
-            wits.append(wit)
-
-            # Add the witness XML
-            for wit in wits:
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
-                xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
-                               text + '</add>')
-                xml_app.append(self.oss + '</rdg>')
-
-    def _correction(self, footnote, xml_app):
+    def _correction(self, reason, footnote, n_footnote, xml_app):
         """
         This helper function processes a footnote line describing correxi, i.e.
         corrections by the editor, these contain the string 'correxi'.
@@ -914,123 +822,104 @@ class Process(object):
         It is intended this function is called by _footnotes()
         for correxi footnotes.
         """
-
-        reason = None
-        # Split the footnote
         try:
-            # Split to get the text and remove the space
+            # Split to get the text, the reason and remove the space
             _tmp = footnote.split(']')
             text = _tmp[0].strip()
-            _tmp = _tmp[1].split(':')
-            reason = _tmp[0].strip()
+            _tmp = _tmp[1]
 
-            # split the first form
-            if len(_tmp) == 2:
-                _tmp = _tmp[1].split(',')
+            if reason in ['correxi', 'conieci']:
+                _tmp = _tmp.split(reason+':')
+                _tmp = _tmp[1].strip()
+            elif reason is 'add':
+                _tmp = _tmp.split('add.')
+                _tmp = _tmp[1].strip()
+
+            if reason == 'add' and ',' not in _tmp and ':' not in _tmp:
+                _tmp = _tmp.split()
+                wit1 = _tmp[-1].strip()
+                wit2 = None
+                corr1 = ' '.join(_tmp[:-1]).strip()
+                # logger.debug(reason + ' footnote with form1')
+                # logger.debug('form 1 wit:{} corr:{}'.format(wit1, corr1))
+            elif ',' in _tmp:
+                _tmp = _tmp.split(',')
                 wit2 = _tmp[-1].strip()
                 _tmp = _tmp[0].split()
                 wit1 = _tmp[-1].strip()
-                corr1 = ' '.join(_tmp[:-1]).strip()
+                corr1 = ' '.join(_tmp[:-1])
                 corr2 = corr1
-            # split the second form
-            elif len(_tmp) == 3:
-                _tmp1 = _tmp[1].split()
+                # logger.debug(reason + ' footnote with form2')
+                # logger.debug('wit1:{} and wit2:{} '
+                #              'with corr:{}'.format(wit1, wit2, corr1))
+            elif ':' in _tmp:
+                _tmp = _tmp.split(':')
+                _tmp1 = _tmp[0].split()
                 wit1 = _tmp1[-1].strip()
                 corr1 = ' '.join(_tmp1[:-1]).strip()
 
-                _tmp2 = _tmp[2].split()
+                _tmp2 = _tmp[1].split()
                 wit2 = _tmp2[-1].strip()
                 corr2 = ' '.join(_tmp2[:-1]).strip()
+                # logger.debug(reason + ' footnote with form3')
+                # logger.debug('wit1:{} with corr1:{}'.format(wit1, corr1))
+                # logger.debug('wit2:{} with corr2:{}'.format(wit2, corr2))
+
             else:
                 raise CommentaryToEpidocException
         except IndexError:
-                raise CommentaryToEpidocException
+            error = 'Error in footnote: {}'.format(n_footnote)
+            logger.error(error)
+            error = 'Footnote error: {}'.format(footnote)
+            logger.error(error)
+            raise CommentaryToEpidocException
         except CommentaryToEpidocException:
-            error = 'Error in footnote: {}'.format(self.n_footnote)
+            error = 'Error in footnote: {}'.format(n_footnote)
             logger.error(error)
-            error = 'omission footnote error: {}'.format(footnote)
+            error = 'Footnote error: {}'.format(footnote)
             logger.error(error)
             raise CommentaryToEpidocException
 
-        # Add text xml_app
-        xml_app.append(self.oss + '<rdg>')
-        xml_app.append(self.oss * 2 + '<choice>')
-        if reason == 'correxi':
-            xml_app.append(self.oss * 3 + '<corr>' + text + '</corr>')
-        elif reason == 'conieci':
-            xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
-                           text + '</corr>')
-        else:
-            raise CommentaryToEpidocException
-        xml_app.append(self.oss * 2 + '</choice>')
-        xml_app.append(self.oss + '</rdg>')
 
-       # Add to the XML
+        # Add to the XML  TODO: move it to it own method
+        if reason == 'add':
+            if wit2 is not None:
+                wits = [wit1, wit2]
+                corrs = [corr1, corr2]
+            else:
+                wits = [wit1]
+                corrs = [corr1]
+            for i in range(len(wits)):
+                xml_app.append(self.oss + '<rdg wit="#' + wits[i] + '">')
+                xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
+                               corrs[i] + '</add>')
+                xml_app.append(self.oss + '</rdg>')
+            return
+
+        if reason == 'standard':
+            corr1 = text
+
+        if reason == 'correxi' or reason == 'conieci':
+            # Add text xml_app
+            xml_app.append(self.oss + '<rdg>')
+            xml_app.append(self.oss * 2 + '<choice>')
+
+            if reason == 'correxi':
+                xml_app.append(self.oss * 3 + '<corr>' + text + '</corr>')
+            elif reason == 'conieci':
+                xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
+                               text + '</corr>')
+            else:
+                raise CommentaryToEpidocException
+
+            xml_app.append(self.oss * 2 + '</choice>')
+            xml_app.append(self.oss + '</rdg>')
+
         xml_app.append(self.oss + '<rdg wit="#' + wit1 + '">' +
                        corr1 + '</rdg>')
+
         xml_app.append(self.oss + '<rdg wit="#' + wit2 + '">' +
                        corr2 + '</rdg>')
-
-    def _standard_variant(self, footnote, xml_app):
-        """
-        This helper function processes a footnote line describing a standard
-        textual variation, i.e. not an _omission, _addition, _correxi or
-         _conieci.
-
-        The textual variation MUST include only only two witnesses, hence
-        the following should be true:
-
-        1. The footnote line should contain one colon character.
-        2. The footnote line should not contain commas.
-
-        The first input argument is the footnote line with the following
-        stripped from the start and end of the string:
-
-        1. All whitespace
-        2. ``*n*`` (where n is the footnote number) from the start of
-           the string
-        3. ``.`` character from the end of the string
-
-        The footnote is expected to contain one ':' character and have
-        the following format:
-
-        1. Before the colon is witness text, followed by a ']' character,
-           followed by a witness code.
-        2. After the colon is witness text, followed by a final space
-           character, followed by a witnesses code.
-
-        The second input argument should be a list containing
-        the apparatus XML, this function will add XML to this list.
-
-        The third input argument is the string defining a unit of offset
-        for the XML, this defaults to four space characters.
-
-        It is intended this function is called by _footnotes()
-        for _footnotes describing standard variations.
-        """
-
-        # Split this footnote line at the ':' character
-        _tmp = footnote.partition(':')
-        part1 = _tmp[0]
-        part2 = _tmp[2]
-
-        # Split part 1 at the ']' character to separate the text
-        # from the witness
-        _tmp = part1.partition(']')
-        text = _tmp[0].strip()
-        wits = _tmp[2].strip()
-
-        # Add the single witness to the XML (remember to strip whitespace)
-        xml_app.append(
-            self.oss + '<rdg wit="#' + wits + '">' + text + '</rdg>')
-
-        # Process the single witness by partitioning part2 at last ' '
-        _tmp = part2.rpartition(' ')
-        text = _tmp[0].strip()
-        wit = _tmp[2].strip()
-
-        # Add the single witness to the XML (remember to strip whitespace)
-        xml_app.append(self.oss + '<rdg wit="#' + wit + '">' + text + '</rdg>')
 
     def _footnotes(self, string_to_process):
         """
@@ -1155,23 +1044,31 @@ class Process(object):
 
             # Case 1 - omission
             if not processed and 'om.' in footnote_line:
-                self._omission(footnote_line, xml_app)
+                self._omission(footnote_line, next_footnote, xml_app )
                 processed = True
 
             # Case 2 - addition
             if not processed and 'add.' in footnote_line:
-                self._addition(footnote_line, xml_app)
+                self._correction('add', footnote_line, next_footnote,
+                                 xml_app)
                 processed = True
 
-            # Case 3 and 4 - correxi and conieci
-            if (not processed and
-                    ('correxi' in footnote_line or 'conieci' in footnote_line)):
-                self._correction(footnote_line, xml_app)
+            # Case 3 - correxi
+            if not processed and 'correxi' in footnote_line:
+                self._correction('correxi', footnote_line, next_footnote,
+                                 xml_app)
+                processed = True
+
+            # Case4 - conieci
+            if (not processed and 'conieci' in footnote_line):
+                self._correction('conieci', footnote_line, next_footnote,
+                                 xml_app)
                 processed = True
 
             # Remaining case - standard variation
             if not processed:
-                self._standard_variant(footnote_line, xml_app)
+                self._correction('standard', footnote_line, next_footnote,
+                                 xml_app)
 
             # Close the XML
             xml_app.append('</app>')
@@ -1295,12 +1192,6 @@ class Process(object):
             # - should not contain any ','
             # - should contain one ':'
             # - text after ':' should be ' om. ' # TODO: This is not true
-
-            # TODO: Bug it is possible to have omission and other commentaries.
-            #       It should not be a if/elif/elif but if ... if
-            #       It is not possible to just change the elif by if since there
-            #       some raise error which will break the tests
-
             if 'om.' in footnote:
 
                 try:
@@ -1312,29 +1203,6 @@ class Process(object):
                     logger.error(error)
                     error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
-
-                # try:
-                #     n_column = footnote.count(':')
-                #     if n_column != 1 and n_column !=2:
-                #         error = ('Error in footnote ' + str(n_footnote) +
-                #                  ': omission should contain one or two ":" '
-                #                  'character and there are: ' + str(n_column))
-                #         raise CommentaryToEpidocException
-                # except CommentaryToEpidocException:
-                #     logger.error(error)
-                #     error = 'Footnotes: {}'.format(footnote)
-                #     logger.error(error)
-
-                # try:
-                #     part2 = footnote.split()[-2]
-                #     if part2 != ' om. ':
-                #         error = ('Error in footnote ' + str(n_footnote) +
-                #                  ': omission must contain " om. " after ":"')
-                #         raise CommentaryToEpidocException
-                # except CommentaryToEpidocException:
-                #     logger.error(error)
-                #     error = 'Footnotes: {}'.format(footnote)
-                #     logger.error(error)
 
             # Test addition has the correct format
             # Errors tested for:
@@ -1352,43 +1220,10 @@ class Process(object):
                     error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
 
-            # Test correxi have the correct format
-            # Errors tested for:
-            # - text after ']' should be ' correxi: '
             elif 'correxi' in footnote:
-
-                try:
-                    # Partition at ']'
-                    part2 = footnote.partition(']')[2]
-
-                    if part2[0:10] != ' correxi: ':
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': correxi must contain " correxi: " '
-                                 'after "]"')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
-
-            # Test conieci have the correct format
-            # Errors tested for:
-            # - text after ']' should be ' conieci: '
+                pass
             elif 'conieci' in footnote:
-
-                try:
-                    # Partition at ']'
-                    part2 = footnote.partition(']')[2]
-
-                    if part2[0:10] != ' conieci: ':
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': conieci must contain " conieci: " '
-                                 'after "]"')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
+                pass
 
             # Test standard variations have the correct format
             # Errors tested for:
