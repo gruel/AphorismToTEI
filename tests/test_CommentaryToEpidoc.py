@@ -173,7 +173,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._omission(text_in, list_out)
+        self.comtoepi._omission(text_in, 1, list_out)
 
         # Convert the output list to a string with each element on a new line
         # This is not good in a test you should not modify the results
@@ -201,7 +201,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._omission(text_in, list_out)
+        self.comtoepi._omission(text_in, 1, list_out)
 
         # Convert the output list to a string with each element on a new line
         # This is not good in a test you should not modify the results
@@ -229,7 +229,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._omission(text_in, list_out)
+        self.comtoepi._omission(text_in, 1, list_out)
 
         # Convert the output list to a string with each element on a new line
         # This is not good in a test you should not modify the results
@@ -238,41 +238,93 @@ class TestProcess(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
-
-    # ################# _addition ###################
-
-    def test__addition(self):
+    def test__correction_add_form1(self):
         """
-        Runs the function _addition(...) on the text in
-        test_process_addition1.in, test_process_addition2.in and
-        test_process_addition3.in and compares the output against the text in
-        test_process_addition1.ref, test_process_addition2.ref and
-        test_process_addition3.ref
+        Runs the function _correxi(...) on the text in
+        test_process_correxi1.in and test_process_correxi2.in,
+        and compares the output against the text in test_process_correxi1.ref
+        and test_process_correxi2.ref
+        """
+        basename = path_testdata + 'test_process_addition1'
+
+        # Load text from input file
+        with open(basename + '.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
+
+        # Load text from reference file
+        with open(basename + '.ref', 'r', encoding="utf-8") \
+                as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._correction('add', text_in, 1, list_out)
+
+        # Convert the output list to a string with each element
+        # on a new line
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+    def test__correction_add_form2(self):
+        """
+        Runs the function _correxi(...) on the text in
+        test_process_correxi1.in and test_process_correxi2.in,
+        and compares the output against the text in test_process_correxi1.ref
+        and test_process_correxi2.ref
+        """
+        basename = path_testdata + 'test_process_addition2'
+
+        # Load text from input file
+        with open(basename + '.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
+
+        # Load text from reference file
+        with open(basename + '.ref', 'r', encoding="utf-8") \
+                as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._correction('add', text_in, 1, list_out)
+
+        # Convert the output list to a string with each element
+        # on a new line
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+    def test__correction_add_form3(self):
+        """
+        Runs the function _correxi(...) on the text in
+        test_process_correxi1.in and test_process_correxi2.in,
+        and compares the output against the text in test_process_correxi1.ref
+        and test_process_correxi2.ref
         """
 
-        n_test = 3
-        basename = path_testdata + 'test_process_addition'
+        basename = path_testdata + 'test_process_addition3'
 
-        for test in range(1, n_test + 1):
-            # Load text from input file
+        # Load text from input file
+        with open(basename + '.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
 
-            with open(basename + str(test) + '.in', 'r', encoding="utf-8") as f:
-                text_in = f.read()
+        # Load text from reference file
+        with open(basename + '.ref', 'r', encoding="utf-8") \
+                as f:
+            text_ref = f.read()
 
-            # Load text from reference file
-            with open(basename + str(test) + '.ref', 'r', encoding="utf-8") \
-                    as f:
-                text_ref = f.read()
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._correction('add', text_in, 1, list_out)
 
-            # Run the function with the input
-            list_out = []
-            self.comtoepi._addition(text_in, list_out)
+        # Convert the output list to a string with each element
+        # on a new line
+        text_out = '\n'.join(list_out)
 
-            # Convert the output list to a string with each element
-            # on a new line
-            text_out = '\n'.join(list_out)
-
-            self.assertEqual(text_out, text_ref)
+        self.assertEqual(text_out, text_ref)
 
     # ################# _correxi ###################
 
@@ -299,7 +351,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._correction(text_in, list_out)
+        self.comtoepi._correction('correxi', text_in, 1, list_out)
 
         # Convert the output list to a string with each element
         # on a new line
@@ -330,7 +382,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._correction(text_in, list_out)
+        self.comtoepi._correction('correxi', text_in, 1, list_out)
 
         # Convert the output list to a string with each element
         # on a new line
@@ -361,7 +413,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._correction(text_in, list_out)
+        self.comtoepi._correction('conieci', text_in, 1, list_out)
 
         # Convert the output list to a string with each element
         # on a new line
@@ -392,7 +444,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._correction(text_in, list_out)
+        self.comtoepi._correction('conieci', text_in, 1, list_out)
 
         # Convert the output list to a string with each element
         # on a new line
@@ -400,7 +452,7 @@ class TestProcess(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
-    def test__standard_variant(self):
+    def test__correction_standard_variant(self):
         """
         Runs the function _standard_variant(...) on the text in
         test_process_standard_variant.in, and compare the output against
@@ -419,10 +471,14 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._standard_variant(text_in, list_out)
+        self.comtoepi._correction('standard', text_in, 1, list_out)
 
         # Convert the output list to a string with each element on a new line
         text_out = '\n'.join(list_out)
+
+        f = open('ssssss', 'w', encoding='utf-8')
+        f.write(text_out)
+        f.close()
 
         # Test the return value matches the expected output
         self.assertEqual(text_out, text_ref)

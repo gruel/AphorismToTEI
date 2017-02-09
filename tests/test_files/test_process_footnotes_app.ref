@@ -9,8 +9,8 @@
             <corr type="conjecture">hhhh iiii jjjj</corr>
         </choice>
     </rdg>
-    <rdg wit="#WW2">wwww xxxx yyyy</rdg>
     <rdg wit="#WW1">wwww xxxx yyyy</rdg>
+    <rdg wit="#WW2">wwww xxxx yyyy</rdg>
 </app>
 <app> from="#begin_fn3" to="#end_fn3">
     <rdg>
@@ -18,8 +18,8 @@
             <corr>mmmm</corr>
         </choice>
     </rdg>
-    <rdg wit="#WW2">wwww xxxx yyyy</rdg>
     <rdg wit="#WW1">wwww xxxx yyyy</rdg>
+    <rdg wit="#WW2">wwww xxxx yyyy</rdg>
 </app>
 <app> from="#begin_fn4" to="#end_fn4">
     <rdg wit="#WW1">pppp</rdg>
