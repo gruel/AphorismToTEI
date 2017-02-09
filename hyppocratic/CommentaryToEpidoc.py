@@ -728,7 +728,7 @@ class Process(object):
         """
         reason = None
         corr = None
-        #Split the footnote
+        # Split the footnote
         try:
             # Split to get the text and remove the space
             _tmp = footnote.split(']')
@@ -878,7 +878,7 @@ class Process(object):
                                text + '</add>')
                 xml_app.append(self.oss + '</rdg>')
 
-    def _correxi(self, footnote, xml_app):
+    def _correction(self, footnote, xml_app):
         """
         This helper function processes a footnote line describing correxi, i.e.
         corrections by the editor, these contain the string 'correxi'.
@@ -915,156 +915,61 @@ class Process(object):
         for correxi footnotes.
         """
 
-        # Partition at first ':'
-        _tmp = footnote.partition(':')
-        part1 = _tmp[0]
-        part2 = _tmp[2]
+        reason = None
+        # Split the footnote
+        try:
+            # Split to get the text and remove the space
+            _tmp = footnote.split(']')
+            text = _tmp[0].strip()
+            _tmp = _tmp[1].split(':')
+            reason = _tmp[0].strip()
 
-        # Partition part 1 at ']'
-        text, part1 = part1.partition(']')[:2]
+            # split the first form
+            if len(_tmp) == 2:
+                _tmp = _tmp[1].split(',')
+                wit2 = _tmp[-1].strip()
+                _tmp = _tmp[0].split()
+                wit1 = _tmp[-1].strip()
+                corr1 = ' '.join(_tmp[:-1]).strip()
+                corr2 = corr1
+            # split the second form
+            elif len(_tmp) == 3:
+                _tmp1 = _tmp[1].split()
+                wit1 = _tmp1[-1].strip()
+                corr1 = ' '.join(_tmp1[:-1]).strip()
+
+                _tmp2 = _tmp[2].split()
+                wit2 = _tmp2[-1].strip()
+                corr2 = ' '.join(_tmp2[:-1]).strip()
+            else:
+                raise CommentaryToEpidocException
+        except IndexError:
+                raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            error = 'Error in footnote: {}'.format(self.n_footnote)
+            logger.error(error)
+            error = 'omission footnote error: {}'.format(footnote)
+            logger.error(error)
+            raise CommentaryToEpidocException
 
         # Add text xml_app
         xml_app.append(self.oss + '<rdg>')
         xml_app.append(self.oss * 2 + '<choice>')
-        xml_app.append(self.oss * 3 + '<corr>' + text.strip() + '</corr>')
+        if reason == 'correxi':
+            xml_app.append(self.oss * 3 + '<corr>' + text + '</corr>')
+        elif reason == 'conieci':
+            xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
+                           text + '</corr>')
+        else:
+            raise CommentaryToEpidocException
         xml_app.append(self.oss * 2 + '</choice>')
         xml_app.append(self.oss + '</rdg>')
 
-        # Now process part2, which could have one of two formats
-        # 1. Multiple text/witness pairs, each separated by :
-        # 2. Single text and witness(es), multiple witnesses are separated
-        #    by ','
-
-        # Deal with case 1
-        if ':' in part2:
-            # Split part2 at ':' (remove whitespace first)
-            variants = part2.strip().split(':')
-
-            for var in variants:
-                # Strip whitespace and partition at last ' '
-                _tmp = var.strip().rpartition(' ')
-                text = _tmp[0].strip()
-                wit = _tmp[2].strip()
-
-                # Add to the XML
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
-                               text + '</rdg>')
-
-        else:
-            # Deal with case 2
-            wits = []
-            text = part2
-
-            # First deal with sources after ','
-            while ',' in text:
-                _tmp = text.rpartition(',')
-                text = _tmp[0]
-                wit = _tmp[2].strip()
-                wits.append(wit)
-
-            # Partition at last ' '
-
-            _tmp = text.rpartition(' ')
-            text = _tmp[0].strip()
-            wit = _tmp[2].strip()
-            wits.append(wit)
-
-            # Add the witness XML
-            for wit in wits:
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
-                               text + '</rdg>')
-
-    def _conieci(self, footnote, xml_app):
-        """
-        This helper function processes a footnote line describing a _conieci,
-        i.e. conjectures by the editor, these contain the string '_conieci'.
-
-        The first input argument is the footnote line with following stripped
-        from the start and end of the string:
-
-        1. All whitespace
-        2. ``*n*`` (where n is the footnote number) from the start of
-           the string
-        3. ``.`` character from the end of the string
-
-        The footnote is expected to contain at least one ``:`` character and
-        have the following format:
-
-        1. The footnote line before the first ``:`` character contains a string
-           of witness text followed by a ``]`` character.
-        2. The footnote line after the ``:`` character has one of two formats:
-            a. multiple pairs of variant + witness, each separated by the ``:``
-               character
-            b. a single variant followed by a space and a list of comma
-            separated witnesses
-
-        The second input argument should be a list containing
-        the apparatus XML, this function will add XML to this list.
-
-        The third input argument is the string defining a unit of offset
-        for the XML, this defaults to four space characters.
-
-        It is intended this function is called by _footnotes()
-        for conieci footnotes.
-        """
-
-        # Partition at first ':'
-        _tmp = footnote.partition(':')
-        part1 = _tmp[0]
-        part2 = _tmp[2]
-
-        # Partition part 1 at ']'
-        text = part1.partition(']')[0]
-
-        # Add text xml_app
-        xml_app.append(self.oss + '<rdg>')
-        xml_app.append(self.oss * 2 + '<choice>')
-        xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
-                       text.strip() + '</corr>')
-        xml_app.append(self.oss * 2 + '</choice>')
-        xml_app.append(self.oss + '</rdg>')
-
-        # Now process part 2, which could have one of two formats
-        # 1. Multiple variants/witnesses separated by :
-        # 2. Single textual variant and witnesses separated by ','
-        wits = []
-        # Deal with case 1
-        if ':' in part2:
-            # Split part2 at ':' (remove whitespace first)
-            lvar = part2.strip().split(':')
-
-            for var in lvar:
-                # Strip whitespace and partition at last ' '
-                _tmp = var.strip().rpartition(' ')
-                text = _tmp[0].strip()
-                wit = _tmp[2].strip()
-                wits.append(wit)
-                # Add to the XML
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
-                               text + '</rdg>')
-
-        else:
-            # Deal with case 2
-            text = part2
-
-            # First deal with sources after ','
-            while ',' in text:
-                _tmp = text.rpartition(',')
-                text = _tmp[0]
-                wit = _tmp[2].strip()
-                wits.append(wit)
-
-            # Partition at last ' '
-            _tmp = text.rpartition(' ')
-            text = _tmp[0].strip()
-            wit = _tmp[2].strip()
-            wits.append(wit)
-
-            # TODO: This is weird. Only the last text is saved
-            # Add the witness XML
-            for wit in wits:
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">' +
-                               text + '</rdg>')
+       # Add to the XML
+        xml_app.append(self.oss + '<rdg wit="#' + wit1 + '">' +
+                       corr1 + '</rdg>')
+        xml_app.append(self.oss + '<rdg wit="#' + wit2 + '">' +
+                       corr2 + '</rdg>')
 
     def _standard_variant(self, footnote, xml_app):
         """
@@ -1258,14 +1163,10 @@ class Process(object):
                 self._addition(footnote_line, xml_app)
                 processed = True
 
-            # Case 3 - correxi
-            if not processed and 'correxi' in footnote_line:
-                self._correxi(footnote_line, xml_app)
-                processed = True
-
-            # Case 4 - conieci
-            if not processed and 'conieci' in footnote_line:
-                self._conieci(footnote_line, xml_app)
+            # Case 3 and 4 - correxi and conieci
+            if (not processed and
+                    ('correxi' in footnote_line or 'conieci' in footnote_line)):
+                self._correction(footnote_line, xml_app)
                 processed = True
 
             # Remaining case - standard variation
