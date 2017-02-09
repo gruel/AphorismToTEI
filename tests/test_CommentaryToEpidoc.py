@@ -276,7 +276,7 @@ class TestProcess(unittest.TestCase):
 
     # ################# _correxi ###################
 
-    def test__correxi(self):
+    def test__correction_correxi_form1(self):
         """
         Runs the function _correxi(...) on the text in
         test_process_correxi1.in and test_process_correxi2.in,
@@ -285,63 +285,120 @@ class TestProcess(unittest.TestCase):
         """
 
         n_test = 2
-        basename = path_testdata + 'test_process_correxi'
+        basename = path_testdata + 'test_process_correxi1'
 
-        for test in range(1, n_test + 1):
-            # Load text from input file
-            with open(basename + str(test) + '.in', 'r', encoding="utf-8") as f:
-                text_in = f.read()
+        # Load text from input file
+        with open(basename + '.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
 
-            # Load text from reference file
-            with open(basename + str(test) + '.ref', 'r', encoding="utf-8") \
-                    as f:
-                text_ref = f.read()
+        # Load text from reference file
+        with open(basename + '.ref', 'r', encoding="utf-8") \
+                as f:
+            text_ref = f.read()
 
-            # Run the function with the input
-            list_out = []
-            self.comtoepi._correxi(text_in, list_out)
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._correction(text_in, list_out)
 
-            # Convert the output list to a string with each element
-            # on a new line
-            text_out = '\n'.join(list_out)
+        # Convert the output list to a string with each element
+        # on a new line
+        text_out = '\n'.join(list_out)
 
-            self.assertEqual(text_out, text_ref)
+        self.assertEqual(text_out, text_ref)
 
-    # ################# _conieci ###################
-
-    def test__conieci(self):
+    def test__correction_correxi_form2(self):
         """
-        Runs the function _conieci(...) on the text in
-        test_process_conieci1.in and test_process_conieci2.in, and compares
-        the output against the text in test_process_conieci1.ref and
-        test_process_conieci2.ref
+        Runs the function _correxi(...) on the text in
+        test_process_correxi1.in and test_process_correxi2.in,
+        and compares the output against the text in test_process_correxi1.ref
+        and test_process_correxi2.ref
         """
 
         n_test = 2
-        basename = path_testdata + 'test_process_conieci'
-        for test in range(1, n_test + 1):
+        basename = path_testdata + 'test_process_correxi2'
 
-            # Load text from input file
-            with open(basename + str(test) + '.in', 'r', encoding="utf-8") \
-                    as f:
-                text_in = f.read()
+        # Load text from input file
+        with open(basename+'.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
 
-            # Load text from reference file
-            with open(basename + str(test) + '.ref', 'r', encoding="utf-8") \
-                    as f:
-                text_ref = f.read()
+        # Load text from reference file
+        with open(basename + '.ref', 'r', encoding="utf-8") \
+                as f:
+            text_ref = f.read()
 
-            # Run the function with the input
-            list_out = []
-            self.comtoepi._conieci(text_in, list_out)
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._correction(text_in, list_out)
 
-            # Convert the output list to a string with each element on a
-            # new line
-            text_out = '\n'.join(list_out)
+        # Convert the output list to a string with each element
+        # on a new line
+        text_out = '\n'.join(list_out)
 
-            self.assertEqual(text_out, text_ref)
+        self.assertEqual(text_out, text_ref)
 
-    # ################# _standard_variant ###################
+    def test__correction_conieci_form1(self):
+        """
+        Runs the function _correxi(...) on the text in
+        test_process_correxi1.in and test_process_correxi2.in,
+        and compares the output against the text in test_process_correxi1.ref
+        and test_process_correxi2.ref
+        """
+
+        n_test = 2
+        basename = path_testdata + 'test_process_conieci1'
+
+        # Load text from input file
+        with open(basename + '.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
+
+        # Load text from reference file
+        with open(basename + '.ref', 'r', encoding="utf-8") \
+                as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._correction(text_in, list_out)
+
+        # Convert the output list to a string with each element
+        # on a new line
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+    def test__correction_conieci_form2(self):
+        """
+        Runs the function _correxi(...) on the text in
+        test_process_correxi1.in and test_process_correxi2.in,
+        and compares the output against the text in test_process_correxi1.ref
+        and test_process_correxi2.ref
+        """
+
+        n_test = 2
+        basename = path_testdata + 'test_process_conieci2'
+
+        # Load text from input file
+        with open(basename+'.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
+
+        # Load text from reference file
+        with open(basename + '.ref', 'r', encoding="utf-8") \
+                as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.comtoepi._correction(text_in, list_out)
+
+        # Convert the output list to a string with each element
+        # on a new line
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
 
     def test__standard_variant(self):
         """

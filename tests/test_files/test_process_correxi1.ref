@@ -3,5 +3,5 @@
             <corr>aaaa bbbb cccc</corr>
         </choice>
     </rdg>
-    <rdg wit="#WW2">dddd eeee ffff</rdg>
     <rdg wit="#WW1">dddd eeee ffff</rdg>
+    <rdg wit="#WW2">dddd eeee ffff</rdg>
