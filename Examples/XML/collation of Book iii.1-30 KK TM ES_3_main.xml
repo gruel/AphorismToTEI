@@ -36,7 +36,7 @@
    </encodingDesc>
 </teiHeader>
     <text>
-        <body>   
+        <body>
             <div n="3" type="Title_section">
                 <ab>
                     المقالة الثالثة
@@ -240,7 +240,7 @@
                         </app>
                         سوء مزاج
                         <locus target="CB1">60a</locus>
-                        
+
                         <app n="41" type="footnote" xml:id="begin_fn41"><rdg>مختلف بارد</rdg><anchor xml:id="end_fn41"/>
                         </app>
                         ,
@@ -316,7 +316,7 @@
                         التفسير: هذا الفصل لا يناقض ما يقوله من بعد. قلّة المطر أصحّ من كثرته لأنّ قلّة المطر ليس هو احتباسه دفعةً. ولأنّه لم يقل إذا احتبس المطر، حدثت حميّات كثيرة، بل حادّة. ولذلك فإنّ الحميّات تقلّ مع قلّة المطر لأنّ العفونات أقلّ إلا أنّ ما يحدث منها يكون أحدّ وأكثر لذعاً لأنّ يبس الهواء يجعل الكيموسات أقرب إلى طبيعة المرار. ولذلك تجعل الحميّات أسرع انقضاءً لتوفّر التحلّل وقلّة
                         <app n="56" type="footnote" xml:id="begin_fn56"><rdg>العفونات</rdg><anchor xml:id="end_fn56"/>
                         </app>
-                        
+
                         <locus target="CB1">61b</locus>
                         . فأمّا مع كثرة المطر، فإنّ الحميّات تكون أكثر لكثرة العفونات سيّما
                         <locus target="H">33a</locus>
@@ -570,7 +570,7 @@
                 <div type="aphorism">
                     <p>
                         قال أبقراط: فإن كان الخريف شمالياً كان موافقاً لمن كانت طبيعته رطبة وللنساء،
-                        <app n="108" type="footnote" xml:id="begin_fn108"><rdg>وأمّا سائر الناس فيعرض لهم رمد يابس وحمّيات حادّة وزكام مزمن، ومنهم 
+                        <app n="108" type="footnote" xml:id="begin_fn108"><rdg>وأمّا سائر الناس فيعرض لهم رمد يابس وحمّيات حادّة وزكام مزمن، ومنهم
                         <locus target="CB1">65b</locus>
                          من يعرض له الوسواس من المرّة السوداء</rdg><anchor xml:id="end_fn108"/>
                         </app>
@@ -672,10 +672,10 @@
                         </app>
                         تحتاج في البرء إلى النضج والنضج يطول زمانه مع كثرة الرطوبة. والاستطلاق من توفّر الفضول والكيموسات في البدن لأنّها لا تتحلّل في الهواء الرطب
                         <locus target="CB1">67a</locus>
-                        
+
                         <app n="130" type="footnote" xml:id="begin_fn130"><rdg>فتستفرغ من البطن ولأنّ الهضم يسوء</rdg><anchor xml:id="end_fn130"/>
                         </app>
-                        
+
                         <app n="131" type="footnote" xml:id="begin_fn131"><rdg>في الأوقات الرطبة</rdg><anchor xml:id="end_fn131"/>
                         </app>
                         <app n="132" type="footnote" xml:id="begin_fn132"><rdg>فيلين</rdg><anchor xml:id="end_fn132"/>
@@ -961,14 +961,14 @@
                         مزاج الكبد ببرد المرة السوداء، والسلّ ليبس الهواء وبرده واختلاف مزاجه وردائة الأخلاط فيه، وتقطير البول لبرد المثانة وضعفها بسبب البرد الحادث ولكثرة الأخلاط الرديئة اللذاعة التي تحتقن بالبرد، فإنها تزعج البول للخروج منقطعاً، والزلق لتقرح يحدث في سطح المعدة والأمعاء لاحتقان الفضول المرّية في البدن وانصبابها
                         <locus target="H">37v</locus>
                         إليها، وقد كانت قبل تتحلل أو لضعف القوة الماسكة لتغير مزاج المعدة بسبب تغير الهواء واختلافه، والذبحة والربو ووجع الورك وهو الذي يسمّى عرق النسا
-                        <app n="196" type="footnote" xml:id="begin_fn196"><rdg>والعلة المسمّاة أيلاوس 
+                        <app n="196" type="footnote" xml:id="begin_fn196"><rdg>والعلة المسمّاة أيلاوس
                         <locus target="CB1">72a</locus>
                          تحدث من ورم الأمعاء الحادث لردائة</rdg><anchor xml:id="end_fn196"/>
                         </app>
                         الأخلاط واحتقانها في أعماق
                         <app n="197" type="footnote" xml:id="begin_fn197"><rdg>البدن،</rdg><anchor xml:id="end_fn197"/>
                         </app>
-                        
+
                         <locus target="V1">31b</locus>
                         والصرع لتغير الهواء في الحرّ والبرد في اليوم الواحد،
                         <app n="198" type="footnote" xml:id="begin_fn198"><rdg>وذلك من أعون الأشياء على تهتيج بنوائبه، وذلك أن هذا المرض قد يحدث منها والجنون</rdg><anchor xml:id="end_fn198"/>
@@ -1094,7 +1094,7 @@
                         <app n="221" type="footnote" xml:id="begin_fn221"><rdg>وأبلغ إلى</rdg><anchor xml:id="end_fn221"/>
                         </app>
                         ما دونها من الرأس
-                        <app n="222" type="footnote" xml:id="begin_fn222"><rdg>غير أن المواد يهلك قبل أن يستحكم 
+                        <app n="222" type="footnote" xml:id="begin_fn222"><rdg>غير أن المواد يهلك قبل أن يستحكم
                         <locus target="CB1">74a</locus>
                          فيه العارض</rdg><anchor xml:id="end_fn222"/>
                         </app>
@@ -1102,7 +1102,7 @@
                         <app n="223" type="footnote" xml:id="begin_fn223"><rdg>للينها</rdg><anchor xml:id="end_fn223"/>
                         </app>
                         أسهل امتداداً، فربما لا يستحكم هذا فيهم. وأمّا المتزعزعون، فما أكثر ما يعرض لهم هذا المرض وهو الذبحة وشرها
-                        <app n="224" type="footnote" xml:id="begin_fn224"><rdg>الذي 
+                        <app n="224" type="footnote" xml:id="begin_fn224"><rdg>الذي
                         <locus target="H">38v</locus>
                          لا يظهر</rdg><anchor xml:id="end_fn224"/>
                         </app>
@@ -1342,7 +1342,7 @@
                     </p>
                 </div>
             </div>
-             
+
         </body>
     </text>
 </TEI>

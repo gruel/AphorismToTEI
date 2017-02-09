@@ -242,10 +242,10 @@
     <rdg wit="#V1">وإذا</rdg>
 </app>
 <app> from="#begin_fn56" to="#end_fn56">
-    <rdg wit="#H">
+    <rdg wit="#CB1">
         <add reason="add_scribe">ومن قبل هذا أمكن أن يحمل قوله حادّة على حدّة لذع اللمس وعلى الحدّة التي تقابل الزمانة معًا</add>
     </rdg>
-    <rdg wit="#CB1">
+    <rdg wit="#H">
         <add reason="add_scribe">ومن قبل هذا أمكن أن يحمل قوله حادّة على حدّة لذع اللمس وعلى الحدّة التي تقابل الزمانة معًا</add>
     </rdg>
 </app>
@@ -347,8 +347,8 @@
             <corr type="conjecture">لهم بيّن</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">بيّن لهم</rdg>
     <rdg wit="#H">بيّن لهم</rdg>
+    <rdg wit="#V1">بيّن لهم</rdg>
 </app>
 <app> from="#begin_fn80" to="#end_fn80">
     <rdg wit="#V1">يذكرها</rdg>
@@ -557,8 +557,8 @@
             <corr>أبقراط</corr>
         </choice>
     </rdg>
-    <rdg wit="#H">بقراط</rdg>
     <rdg wit="#V1">بقراط</rdg>
+    <rdg wit="#H">بقراط</rdg>
 </app>
 <app> from="#begin_fn126" to="#end_fn126">
     <rdg wit="#V1">وأمّا</rdg>
