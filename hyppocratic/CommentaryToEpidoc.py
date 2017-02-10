@@ -403,6 +403,56 @@ class Process(object):
         self.footnotes_dict = _dic
         return _dic
 
+    def commentaries_dict(self, com):
+        """Create an order dictionary with the differents witness and
+         footnotes present in a commentary
+
+        :return:
+        """
+        #TODO: WIP
+        # Find all the witnesses in the line
+        # Note on the regex:
+        #     \w = [a-AA-Z0-9_]
+        #     \s = any king of space
+        #     + = one or more
+        # It match all the witness with form like [WWWWW XXXXX]
+        wits = re.findall(r'\[\w+\s+\w+\]', com)
+
+        # find all the footnote in the line
+        # It match all the footnote marker like *XXX*
+        footnotes = re.findall(r'\*\d+\*', com)
+
+        p = re.compile(r'\[\w+\s+\w+\]')
+        wits = p.match(com)
+
+        pass
+
+    def aphorisms_dict(self):
+        """Create an order dictionary (OrderedDict object) with the aphorsims
+        and commentaries.
+        """
+        # \n\d+.\n == \n[0-9]+.\n (\d == [0-9])
+        aphorism = re.split('\n\d+.\n', '\n' + self.text)[
+                   1:]  # == \n[0-9]+.\n (number as many times)
+        n_aphorism = [int(i.strip('\n').strip('.')) for i in
+                      re.findall('\n[0-9]+.\n', '\n' + self.text)]
+
+        # create the dictionary with the aphorism (not sure that we need
+        # the ordered one)
+        # use n_aphorism to be sure that there are no error
+
+        try:
+            d = {}
+            for i in range(len(aphorism)):
+                d[n_aphorism[i]] = aphorism[i].split('.\n')
+        except IndexError:
+            raise CommentaryToEpidocException
+        except CommentaryToEpidocException:
+            error = ''
+            logger.error(error)
+            sys.exit(1)
+        return d
+
     def read_template(self):
         """Method to read the XML template used for the transformation
 
@@ -490,8 +540,9 @@ class Process(object):
         next_line_to_process = 0
         introduction = self.introduction.splitlines()
 
-        # TODO: Add the final character used to test the end of
-        # the introduction by Jonathan TO BE REMOVED
+        # TODO: TO BE REMOVED
+        # Add the final character used to test the end of
+        # the introduction by Jonathan
         introduction.append('\n++')
 
         # Generate the opening XML for the intro
@@ -1306,13 +1357,14 @@ class Process(object):
 
         self.text = self.text.splitlines()
         _tmp = self.footnotes_dictionary()
+        #TODO: to be removed
         for i in _tmp:
             _tmp[i] = '*'+str(i)+'*'+_tmp[i]+'.'
 
         self.footnotes = _tmp
         #self.footnotes = self.footnotes.splitlines()
 
-        # TODO: The test is useless as the result are not used anywhere
+        # TODO: introduce the validation in the _foonote function itself
         # Test the footnotes
         self.verification_footnotes()
 
@@ -1431,6 +1483,11 @@ class Process(object):
                     logger.error(error)
                     error = "Aphorism {}: {}".format(n_aphorism, line_ref)
                     logger.error(error)
+                    error = ('Unable to process footnotes {} associated to '
+                             'aphorism {}'.format(line_ref,
+                                                  n_aphorism))
+                    logger.error(error)
+
                     raise CommentaryToEpidocException
 
                 # Add the XML
