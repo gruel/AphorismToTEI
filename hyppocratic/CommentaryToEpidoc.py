@@ -403,8 +403,8 @@ class Process(object):
         self.footnotes_dict = _dic
         return _dic
 
-    def commentaries_dict(self, com):
-        """Create an order dictionary with the differents witness and
+    def analysis_aphorism_dict(self, com):
+        """Create an ordered dictionary with the different witness and
          footnotes present in a commentary
 
         :return:
@@ -416,26 +416,49 @@ class Process(object):
         #     \s = any king of space
         #     + = one or more
         # It match all the witness with form like [WWWWW XXXXX]
-        wits = re.findall(r'\[\w+\s+\w+\]', com)
+
+
+        print('com =', com)
 
         # find all the footnote in the line
         # It match all the footnote marker like *XXX*
-        footnotes = re.findall(r'\*\d+\*', com)
+        p_foot = re.compile('\*\d+\*')
+        footnotes = p_foot.finditer(com)
+        footnotes = {int(i.group().strip('*')): i.span() for i in footnotes}
 
-        p = re.compile(r'\[\w+\s+\w+\]')
-        wits = p.match(com)
+        p_wits = re.compile('\[\w+\s+\w+\]')
+        # wits = p.findall(com)
+        wits = p_wits.finditer(com)
+        wits = {i.group().strip('*'): i.span() for i in wits}
 
-        pass
+        return footnotes, wits, com
+#        return footnotes, wits, span_f
 
     def aphorisms_dict(self):
-        """Create an order dictionary (OrderedDict object) with the aphorsims
+        """Create an order dictionary (OrderedDict object) with the aphorisms
         and commentaries.
+
+        TODO: optimise there are two times the same regex
         """
         # \n\d+.\n == \n[0-9]+.\n (\d == [0-9])
-        aphorism = re.split('\n\d+.\n', '\n' + self.text)[
-                   1:]  # == \n[0-9]+.\n (number as many times)
-        n_aphorism = [int(i.strip('\n').strip('.')) for i in
-                      re.findall('\n[0-9]+.\n', '\n' + self.text)]
+        aphorism = re.split('\s+[0-9]+.\n', '\n' + self.text)[
+                   1:]
+        # n_aphorism = [int(i.strip('\n').strip('.')) for i in
+        #               re.findall('\n[0-9]+.\n', '\n' + self.text)]
+
+        # n_aphorism = [int(i.group().strip('\n').strip('.')) for i in
+        #               re.finditer('\n[0-9]+.\n', '\n' + self.text)]
+
+        # Split the text in function of the numbers (i.e. the separation
+        # of the aphorism.
+        # '\s[0-9]+.\n' means 'find string :
+        #    which start with end of line or any space characer
+        #    with at least on number ending
+        #    with a point and a end of line.
+        p = re.compile('\s+[0-9]+.\n')
+        n_aphorism = [int(i.group().strip('\t').strip('\n').strip().strip('.'))
+                      for i in p.finditer('\n' + self.text)]
+
 
         # create the dictionary with the aphorism (not sure that we need
         # the ordered one)
@@ -1111,7 +1134,7 @@ class Process(object):
                 processed = True
 
             # Case4 - conieci
-            if (not processed and 'conieci' in footnote_line):
+            if not processed and 'conieci' in footnote_line:
                 self._correction('conieci', footnote_line, next_footnote,
                                  xml_app)
                 processed = True
@@ -1471,6 +1494,8 @@ class Process(object):
 
                 # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
+                if next_line_to_process == 308:
+                    self.debug = True
                 try:
                     self.n_offset += 3
                     xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
