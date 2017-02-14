@@ -4,11 +4,13 @@ Created on Fri Nov 13 14:14:17 2015
 
 @author: mcbicjb2
 """
-import os
+import sys
 
-from docopt import docopt
-
-from importlib import reload
+try:
+    from docopt import docopt
+except ImportError:
+    print("Install docopt package: pip install docopt --user")
+    sys.exit()
 
 try:
     from hyppocratic import CommentaryToEpidoc

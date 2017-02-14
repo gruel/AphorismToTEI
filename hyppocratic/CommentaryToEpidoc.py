@@ -17,7 +17,6 @@ subsequently used when creating the title section <div> element, e.g.
 
 If processing succeeds two XML files will be created in a folder called XML.
 The XML file names start with the text file base name and end in _main.xml (for
-the main XML) and _apps.xml (for the apparatus XML). For example for file_1.txt
 the XML files will be file_1_main.xml and file_1_app.xml.
 
 If processing fails error messages will be saved to a file with the .err
@@ -66,9 +65,15 @@ The 5 footnote types should have the following formats, where n is the footnote
 number, W1 and W2 are witness codes, and ssss, tttt and uuuu represent segments
 of witness text:
 
-Omissions can have only one form.
+Omissions can have three forms.
 Form 1: *n*ssss ] W1: om. W2.
 This means the text 'ssss' is found in witness W1 but not W2.
+Form 2: *n*ssss ] correxi: ttttt W1: om. W2.
+This means the text 'ssss' is found in witness W1, not W2 but the editor has
+corrected this to 'ssss'.
+Form 3: *n*ssss ] conieci: ttttt W1: om. W2.
+This means the text 'tttt' is found in witness W1, not W2 but the editor
+conjectures that this should be 'ssss'.
 
 Additions can have three forms depending on whether the addition applies to one
 or both witnesses, and for the latter case whether the addition is the same or
@@ -193,7 +198,6 @@ def get_next_non_empty_line(text, next_line_to_process=0):
 
 
 class Process(object):
-
     """Class to process hypocratic aphorysm text to produce a TEI XML file.
 
 
@@ -230,11 +234,36 @@ class Process(object):
     offset_size: int
         The number of space characters to use for each XML offset. The
         default value is 4.
+
+    oss: str
+        string wich contains the separation for the XML file.
+
+    basename: str
+
+    next_footnote_to_find: int
+
+    introduction: str
+
+    title: str
+    text: str
+    footnotes: str
+    n_footnote: int
+    template_part1: str
+    template_part2: str
+    doc_num: int
+
+    # Initialisation of the xml_main and xml_app list
+    # They are created here and not in the __init__ to have
+    # the reinitialisation where it is needed.
+    xml_main = []
+    xml_app = []
+
     """
 
     def __init__(self,
                  fname=None,
                  folder=None,
+                 doc_num=None,
                  template_folder='.',
                  template_fname='xml_template.txt',
                  template_marker='#INSERT#',
@@ -243,6 +272,7 @@ class Process(object):
 
         self.folder = folder
         self.fname = fname
+        self.doc_num = doc_num
         self.template_folder = template_folder
         self.template_fname = template_fname
         self.n_offset = n_offset
@@ -269,7 +299,6 @@ class Process(object):
         self.n_footnote = 1
         self.template_part1 = ''
         self.template_part2 = ''
-        self.doc_num = 0
 
         # Initialisation of the xml_main and xml_app list
         # They are created here and not in the __init__ to have
@@ -285,6 +314,25 @@ class Process(object):
     def open_document(self, fname=None):
         """Method to open and read the hyppocratic document.
 
+        Parameters
+        ----------
+        fname: str, optional
+            name of the file to analyse.
+
+        Attributes
+        ----------
+        self.folder: str, optional
+            Name of the folder where are the files to convert
+
+        self.fname: str
+            Name of the file to convert.
+            The text file base name is expected to end with an underscore followed
+            by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical
+            value is used when creating the title section <div> element, e.g.
+            <div n="1" type="Title_section"> for file_1.txt.
+
+        self.text: str
+            string which contains the whole file in utf-8 format.
         """
         if fname is not None:
             self.folder, self.fname = os.path.split(fname)
@@ -300,15 +348,17 @@ class Process(object):
         # TODO: file name format is too strict. Relax it.
         # Extract the document number, it is expected this is at the end of the
         # base name following an '_'
-        sep, doc_num = self.base_name.rpartition('_')[1:]
-        try:
-            self.doc_num = int(doc_num)
-            if len(sep) == 0:
-                raise CommentaryToEpidocException
-        except ValueError:
-            error = ('File name {} has incorrect format'.format(self.fname))
-            logger.error(error)
-            raise CommentaryToEpidocException
+        if self.doc_num is None:
+            try:
+                sep, doc_num = self.base_name.rpartition('_')[1:]
+                self.doc_num = int(doc_num)
+                if len(sep) == 0:
+                    raise CommentaryToEpidocException
+            except ValueError:
+                self.doc_num = 1
+                info = ('File name {} does not provide version information. '
+                        'Use version 1 by default'.format(self.fname))
+                logger.info(info)
 
         # Open the file to process
         # pylint: disable=locally-disabled, invalid-name
@@ -329,12 +379,17 @@ class Process(object):
 
         This method will divide the document in the three or four parts.
 
-        Attribute
-        ---------
-        document : dict
-
-            A dictionary which will contains the different parts of
-            the document.
+        Attributes
+        ----------
+        self.introduction: str
+            A string which contains the introduction of the document if present
+        self.title: str
+            A string which contains the title of the document
+        self.text: str
+            A string which contains the aphorisms and commentaries
+            of the document
+        self.footnotes: str
+            A string which contains the footnotes of the document
         """
 
         # Not sure that is the best way to do but this is just a trial
@@ -373,10 +428,17 @@ class Process(object):
     def footnotes_dictionary(self):
         """Create an ordered dictionary (OrderedDict object) with the footnotes
 
+        Returns
+        -------
+        dic: OrderedDict
+            contains the footnotes as an Ordere Dictionary. Keys are the number
+            of the footnote (integer) and value is the footnote.
         """
-        # Split the footnotes by lines (in theory one line per footnote) TODO
-        if self.footnotes != '' and type(self._footnotes) is not list:
+        # Split the footnotes by lines (in theory one line per footnote)
+        if self.footnotes != '' and not isinstance(self._footnotes, list):
             _tmp = self.footnotes.splitlines()
+        else:
+            _tmp = self._footnotes
 
         # Check that the number of footnote is in agreement
         # with their numeration
@@ -397,19 +459,21 @@ class Process(object):
                 logger.error(error)
                 raise CommentaryToEpidocException
 
-            #Remove space and '.'
+            # Remove space and '.'
             _dic[int(key)] = value.strip().strip('.')
 
-        self.footnotes_dict = _dic
+        # self.footnotes_dict = _dic
         return _dic
 
     def analysis_aphorism_dict(self, com):
         """Create an ordered dictionary with the different witness and
          footnotes present in a commentary
 
-        :return:
+        Returns
+        -------
+
         """
-        #TODO: WIP
+        # TODO: WIP
         # Find all the witnesses in the line
         # Note on the regex:
         #     \w = [a-AA-Z0-9_]
@@ -417,16 +481,15 @@ class Process(object):
         #     + = one or more
         # It match all the witness with form like [WWWWW XXXXX]
 
-
         print('com =', com)
 
         # find all the footnote in the line
         # It match all the footnote marker like *XXX*
-        p_foot = re.compile('\*\d+\*')
+        p_foot = re.compile(r'\*\d+\*')
         footnotes = p_foot.finditer(com)
         footnotes = {int(i.group().strip('*')): i.span() for i in footnotes}
 
-        p_wits = re.compile('\[\w+\s+\w+\]')
+        p_wits = re.compile(r'\[\w+\s+\w+\]')
         # wits = p.findall(com)
         wits = p_wits.finditer(com)
         wits = {i.group().strip('*'): i.span() for i in wits}
@@ -441,8 +504,7 @@ class Process(object):
         TODO: optimise there are two times the same regex
         """
         # \n\d+.\n == \n[0-9]+.\n (\d == [0-9])
-        aphorism = re.split('\s+[0-9]+.\n', '\n' + self.text)[
-                   1:]
+        aphorism = re.split(r'\s+[0-9]+.\n', '\n' + self.text)[1:]
         # n_aphorism = [int(i.strip('\n').strip('.')) for i in
         #               re.findall('\n[0-9]+.\n', '\n' + self.text)]
 
@@ -455,10 +517,9 @@ class Process(object):
         #    which start with end of line or any space characer
         #    with at least on number ending
         #    with a point and a end of line.
-        p = re.compile('\s+[0-9]+.\n')
+        p = re.compile(r'\s+[0-9]+.\n')
         n_aphorism = [int(i.group().strip('\t').strip('\n').strip().strip('.'))
                       for i in p.finditer('\n' + self.text)]
-
 
         # create the dictionary with the aphorism (not sure that we need
         # the ordered one)
@@ -466,8 +527,8 @@ class Process(object):
 
         try:
             d = {}
-            for i in range(len(aphorism)):
-                d[n_aphorism[i]] = aphorism[i].split('.\n')
+            for i, aph in enumerate(aphorism):
+                d[n_aphorism[i]] = aph.split('.\n')
         except IndexError:
             raise CommentaryToEpidocException
         except CommentaryToEpidocException:
@@ -498,7 +559,7 @@ class Process(object):
             with open(_template, 'r', encoding="utf-8") as f:
                 template = f.read()
                 info = 'Template file {} found in the folder {}.'.format(
-                    self.fname, self.folder)
+                    self.template_fname, self.folder)
                 logger.info(info)
         except FileNotFoundError:
             error = 'Template file {} not found in folder {}'.format(
@@ -520,7 +581,7 @@ class Process(object):
             logger.error(error)
             sys.exit(1)
 
-        logger.info('Template file splitted.')
+        logger.debug('Template file splitted.')
 
     def save_xml(self):
         """Method to save the XML files expected
@@ -758,7 +819,7 @@ class Process(object):
 
         return result
 
-    def _omission(self, footnote, next_footnote, xml_app):
+    def _omission(self, footnote, xml_app):
         """Helper function processes a footnote line describing an omission
 
         This helper function processes a footnote line describing an omission,
@@ -914,8 +975,10 @@ class Process(object):
                 wit1 = _tmp[-1].strip()
                 wit2 = None
                 corr1 = ' '.join(_tmp[:-1]).strip()
-                # logger.debug(reason + ' footnote with form1')
-                # logger.debug('form 1 wit:{} corr:{}'.format(wit1, corr1))
+                debug = '{} footnote with form1'.format(reason)
+                logger.debug(debug)
+                debug = 'form 1 wit:{} corr:{}'.format(wit1, corr1)
+                logger.debug(debug)
             elif ',' in _tmp:
                 _tmp = _tmp.split(',')
                 wit2 = _tmp[-1].strip()
@@ -923,9 +986,11 @@ class Process(object):
                 wit1 = _tmp[-1].strip()
                 corr1 = ' '.join(_tmp[:-1])
                 corr2 = corr1
-                # logger.debug(reason + ' footnote with form2')
-                # logger.debug('wit1:{} and wit2:{} '
-                #              'with corr:{}'.format(wit1, wit2, corr1))
+                debug = '{} footnote with form2'.format(reason)
+                logger.debug(debug)
+                debug = ('wit1:{} and wit2:{} '
+                         'with corr:{}'.format(wit1, wit2, corr1))
+                logger.debug(debug)
             elif ':' in _tmp:
                 _tmp = _tmp.split(':')
                 _tmp1 = _tmp[0].split()
@@ -935,9 +1000,12 @@ class Process(object):
                 _tmp2 = _tmp[1].split()
                 wit2 = _tmp2[-1].strip()
                 corr2 = ' '.join(_tmp2[:-1]).strip()
-                # logger.debug(reason + ' footnote with form3')
-                # logger.debug('wit1:{} with corr1:{}'.format(wit1, corr1))
-                # logger.debug('wit2:{} with corr2:{}'.format(wit2, corr2))
+                debug = '{} footnote with form3'.format(reason)
+                logger.debug(debug)
+                debug = 'wit1:{} with corr1:{}'.format(wit1, corr1)
+                logger.debug(debug)
+                debug = 'wit2:{} with corr2:{}'.format(wit2, corr2)
+                logger.debug(debug)
 
             else:
                 raise CommentaryToEpidocException
@@ -954,7 +1022,6 @@ class Process(object):
             logger.error(error)
             raise CommentaryToEpidocException
 
-
         # Add to the XML  TODO: move it to it own method
         if reason == 'add':
             if wit2 is not None:
@@ -963,8 +1030,8 @@ class Process(object):
             else:
                 wits = [wit1]
                 corrs = [corr1]
-            for i in range(len(wits)):
-                xml_app.append(self.oss + '<rdg wit="#' + wits[i] + '">')
+            for i, wit in enumerate(wits):
+                xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
                 xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
                                corrs[i] + '</add>')
                 xml_app.append(self.oss + '</rdg>')
@@ -1118,7 +1185,7 @@ class Process(object):
 
             # Case 1 - omission
             if not processed and 'om.' in footnote_line:
-                self._omission(footnote_line, next_footnote, xml_app )
+                self._omission(footnote_line, xml_app)
                 processed = True
 
             # Case 2 - addition
@@ -1385,7 +1452,6 @@ class Process(object):
             _tmp[i] = '*'+str(i)+'*'+_tmp[i]+'.'
 
         self.footnotes = _tmp
-        #self.footnotes = self.footnotes.splitlines()
 
         # TODO: introduce the validation in the _foonote function itself
         # Test the footnotes
@@ -1494,25 +1560,15 @@ class Process(object):
 
                 # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
-                if next_line_to_process == 308:
-                    self.debug = True
                 try:
                     self.n_offset += 3
                     xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
                     self.n_offset -= 3
 
                 except CommentaryToEpidocException:
-                    error = ('Unable to process _footnotes in line {}'
-                             ' (commentary for aphorism '
-                             '{})'.format(next_line_to_process, n_aphorism))
+                    error = "Unable to procedd Aphorism {} " \
+                            "(see previous error message)".format(n_aphorism)
                     logger.error(error)
-                    error = "Aphorism {}: {}".format(n_aphorism, line_ref)
-                    logger.error(error)
-                    error = ('Unable to process footnotes {} associated to '
-                             'aphorism {}'.format(line_ref,
-                                                  n_aphorism))
-                    logger.error(error)
-
                     raise CommentaryToEpidocException
 
                 # Add the XML
@@ -1541,6 +1597,14 @@ class Process(object):
             n_aphorism += 1
 
         self.save_xml()
+
+    def reset(self):
+        """Reset some of the attributes to be use with process_folder
+        """
+        self.doc_num = None
+        self.introduction = ''
+        self.n_footnote = 1
+        self.next_footnote_to_find = 1
 
     def process_folder(self, folder=None):
         """
@@ -1586,6 +1650,7 @@ class Process(object):
                 info = 'Processing: "{}"'.format(fname)
                 logger.info(info)
                 try:
+                    self.reset()
                     self.fname = fname
                     self.setbasename()
                     self.process_file()
