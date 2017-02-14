@@ -173,7 +173,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._omission(text_in, 1, list_out)
+        self.comtoepi._omission(text_in, list_out)
 
         # Convert the output list to a string with each element on a new line
         # This is not good in a test you should not modify the results
@@ -201,7 +201,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._omission(text_in, 1, list_out)
+        self.comtoepi._omission(text_in, list_out)
 
         # Convert the output list to a string with each element on a new line
         # This is not good in a test you should not modify the results
@@ -229,7 +229,7 @@ class TestProcess(unittest.TestCase):
 
         # Run the function with the input
         list_out = []
-        self.comtoepi._omission(text_in, 1, list_out)
+        self.comtoepi._omission(text_in, list_out)
 
         # Convert the output list to a string with each element on a new line
         # This is not good in a test you should not modify the results
@@ -531,17 +531,10 @@ class TestProcess(unittest.TestCase):
         self.assertEqual(main_out, main_ref)
         self.assertEqual(app_out, app_ref)
 
-    # ################# process_file ###################
-
-    def test_process_file_bad_format(self):
-        self.comtoepi.folder = path_testdata
-        self.comtoepi.fname = 'bug_break_file_name_test.txt'
-        self.assertRaises(CommentaryToEpidocException,
-                          self.comtoepi.process_file)
-
     # ################# process_folder ###################
 
     def test_process_folder(self):
+        self.comtoepi.template_folder = path_testdata
         self.assertTrue(self.comtoepi.process_folder(path_testdata))
 
     def test_process_folder_raise_error_folder_not_present(self):

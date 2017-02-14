@@ -12,7 +12,7 @@ LOGGING = {
     'handlers': {
         'file': {
             'class': 'logging.FileHandler',
-            'level': 'DEBUG',
+            'level': 'INFO',
             'formatter': 'default',
             'filename': 'hyppocratic.log',
             'mode': 'w',
