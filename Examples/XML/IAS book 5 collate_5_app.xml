@@ -656,8 +656,8 @@
             <corr>كانت</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">كان</rdg>
     <rdg wit="#CB1">كان</rdg>
+    <rdg wit="#V1">كان</rdg>
 </app>
 <app> from="#begin_fn155" to="#end_fn155">
     <rdg wit="#V1">أو الأخلاط</rdg>
@@ -896,8 +896,8 @@
             <corr>فيهلك</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">وىهلك</rdg>
     <rdg wit="#CB1">وىهلك</rdg>
+    <rdg wit="#V1">وىهلك</rdg>
 </app>
 <app> from="#begin_fn210" to="#end_fn210">
     <rdg wit="#CB1">أبقراط</rdg>
@@ -993,8 +993,8 @@
             <corr>أحد</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">احدى</rdg>
     <rdg wit="#CB1">احدى</rdg>
+    <rdg wit="#V1">احدى</rdg>
 </app>
 <app> from="#begin_fn232" to="#end_fn232">
     <rdg wit="#CB1">الأيمن</rdg>
@@ -1010,8 +1010,8 @@
             <corr>أحد</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">احدى</rdg>
     <rdg wit="#CB1">احدى</rdg>
+    <rdg wit="#V1">احدى</rdg>
 </app>
 <app> from="#begin_fn235" to="#end_fn235">
     <rdg>
@@ -1134,8 +1134,8 @@
             <corr>يغتذي</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">تغتذي</rdg>
     <rdg wit="#CB1">تغتذي</rdg>
+    <rdg wit="#V1">تغتذي</rdg>
 </app>
 <app> from="#begin_fn261" to="#end_fn261">
     <rdg>
@@ -1143,8 +1143,8 @@
             <corr>يغتذي</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">تغتذي</rdg>
     <rdg wit="#CB1">تغتذي</rdg>
+    <rdg wit="#V1">تغتذي</rdg>
 </app>
 <app> from="#begin_fn262" to="#end_fn262">
     <rdg wit="#V1">يتكوّن</rdg>
@@ -1406,8 +1406,8 @@
             <corr type="conjecture">فم</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">في</rdg>
     <rdg wit="#CB1">في</rdg>
+    <rdg wit="#V1">في</rdg>
 </app>
 <app> from="#begin_fn322" to="#end_fn322">
     <rdg wit="#V1">حامل</rdg>
@@ -1448,8 +1448,8 @@
             <corr>كانت</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">كان</rdg>
     <rdg wit="#CB1">كان</rdg>
+    <rdg wit="#V1">كان</rdg>
 </app>
 <app> from="#begin_fn330" to="#end_fn330">
     <rdg wit="#CB1">يكون</rdg>
@@ -1627,8 +1627,8 @@
             <corr>وفمها</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">وفيها</rdg>
     <rdg wit="#CB1">وفيها</rdg>
+    <rdg wit="#V1">وفيها</rdg>
 </app>
 <app> from="#begin_fn369" to="#end_fn369">
     <rdg wit="#CB1">الحمل</rdg>
@@ -2045,8 +2045,8 @@
             <corr>الرخوة</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">الاروام الرخوه</rdg>
     <rdg wit="#CB1">الاروام الرخوه</rdg>
+    <rdg wit="#V1">الاروام الرخوه</rdg>
 </app>
 <app> from="#begin_fn462" to="#end_fn462">
     <rdg wit="#V1">والنية</rdg>
@@ -2133,8 +2133,8 @@
             <corr>حدثت</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">حدث</rdg>
     <rdg wit="#CB1">حدث</rdg>
+    <rdg wit="#V1">حدث</rdg>
 </app>
 <app> from="#begin_fn481" to="#end_fn481">
     <rdg wit="#V1">ترسّخ</rdg>

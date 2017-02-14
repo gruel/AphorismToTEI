@@ -519,8 +519,8 @@
             <corr>التهاباً</corr>
         </choice>
     </rdg>
-    <rdg wit="#V1">التهاب</rdg>
     <rdg wit="#CB1">التهاب</rdg>
+    <rdg wit="#V1">التهاب</rdg>
 </app>
 <app> from="#begin_fn116" to="#end_fn116">
     <rdg wit="#V1">وأسرع</rdg>
