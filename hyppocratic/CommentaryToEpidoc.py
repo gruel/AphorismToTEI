@@ -859,6 +859,7 @@ class Process(object):
         """
         reason = None
         corr = None
+        wits = [None, None]
         # Split the footnote
         try:
             # Split to get the text and remove the space
@@ -867,16 +868,16 @@ class Process(object):
 
             # split around om. to
             _tmp = _tmp[1].split('om.')
-            wit2 = _tmp[-1].strip()
+            wits[1] = _tmp[-1].strip()
             _tmp = _tmp[0].strip().split()
 
             if len(_tmp) == 1:
-                wit1 = _tmp[0].strip(':').strip()
+                wits[0] = _tmp[0].strip(':').strip()
             else:
                 reason = _tmp[0].strip(':').strip()
                 # join all the other element to get the full original text
                 corr = ' '.join(_tmp[1:-1])
-                wit1 = _tmp[-1].strip(':').strip()
+                wits[0] = _tmp[-1].strip(':').strip()
         except IndexError:
             error = 'Error in footnote: {}'.format(self.n_footnote)
             logger.error(error)
@@ -884,36 +885,54 @@ class Process(object):
             logger.error(error)
             raise CommentaryToEpidocException
 
+        _footnote = {'reason': reason,
+                     'text': text,
+                     'witnesses': wits,
+                     'corrections': corr
+        }
+        self._create_omission_xml(_footnote, xml_app)
+
+    def _create_omission_xml(self, footnote, xml_app):
+        '''Method to create the XML portion related to footnote (TEI format)
+
+        Parameters
+        ----------
+        '''
+
         # TODO: check with Hammood that it is what do they want.
         # Add the correxi or conieci if needed
-        if reason == 'correxi':
+        if footnote['reason'] == 'correxi':
             # Add text xml_app
             xml_app.append(self.oss + '<rdg>')
             xml_app.append(self.oss * 2 + '<choice>')
-            xml_app.append(self.oss * 3 + '<corr>' + text + '</corr>')
+            xml_app.append(self.oss * 3 + '<corr>' + footnote['text']
+                           + '</corr>')
             xml_app.append(self.oss * 2 + '</choice>')
             xml_app.append(self.oss + '</rdg>')
-            text = corr
-        elif reason == 'conieci':
+            footnote['text'] = footnote['corrections']
+        elif footnote['reason'] == 'conieci':
             # Add text xml_app
             xml_app.append(self.oss + '<rdg>')
             xml_app.append(self.oss * 2 + '<choice>')
             xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
-                           text + '</corr>')
+                           footnote['text'] + '</corr>')
             xml_app.append(self.oss * 2 + '</choice>')
             xml_app.append(self.oss + '</rdg>')
-            text = corr
-        elif reason is not None:
-            error = 'Type of correction unexpected: {}'.format(reason)
+            footnote['text'] = footnote['corrections']
+        elif footnote['reason'] is not None:
+            error = 'Type of correction unexpected: ' \
+                    '{}'.format(footnote['reason'])
             logger.error(error)
             raise CommentaryToEpidocException
 
         # Add the witness to the XML (remember to strip whitespace)
         xml_app.append(
-            self.oss + '<rdg wit="#' + wit1 + '">' + text + '</rdg>')
+            self.oss + '<rdg wit="#' + footnote['witnesses'][0] + '">'
+            + footnote['text'] + '</rdg>')
 
         # Add witness to the XML
-        xml_app.append(self.oss + '<rdg wit="#' + wit2 + '">')
+        xml_app.append(self.oss + '<rdg wit="#' + footnote['witnesses'][1]
+                       + '">')
         xml_app.append(self.oss * 2 + '<gap reason="omission"/>')
         xml_app.append(self.oss + '</rdg>')
 
