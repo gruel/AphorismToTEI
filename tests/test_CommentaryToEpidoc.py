@@ -521,15 +521,15 @@ class TestProcess(unittest.TestCase):
                                                for i, _tmp
                                                in enumerate(footnotes_in)])
         # Run the function with the input
-        main_out, app_out = self.comtoepi._footnotes(text_in)
+        main_out = self.comtoepi._footnotes(text_in)
 
         # Convert the output lists to strings with each element on a new line
         main_out = '\n'.join(main_out)
-        app_out = '\n'.join(app_out)
+        #app_out = '\n'.join(app_out)
 
         # Test the return value matches the expected output
         self.assertEqual(main_out, main_ref)
-        self.assertEqual(app_out, app_ref)
+        #self.assertEqual(app_out, app_ref)
 
     # ################# process_folder ###################
 

@@ -304,7 +304,7 @@ class Process(object):
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
         self.xml_main = []
-        self.xml_app = []
+        #self.xml_app = []
 
     def setbasename(self):
         """Method to set the basename attribute if fname is not None
@@ -529,9 +529,7 @@ class Process(object):
             d = {}
             for i, aph in enumerate(aphorism):
                 d[n_aphorism[i]] = aph.split('.\n')
-        except IndexError:
-            raise CommentaryToEpidocException
-        except CommentaryToEpidocException:
+        except (IndexError, CommentaryToEpidocException):
             error = ''
             logger.error(error)
             sys.exit(1)
@@ -656,7 +654,7 @@ class Process(object):
             # CommentaryToEpidocException print an error and return
             try:
                 self.n_offset += 2
-                xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
+                xml_main_to_add = self._footnotes(line_ref)
                 self.n_offset -= 2
             except CommentaryToEpidocException:
                 error = ('Unable to process _references in line {}'
@@ -666,7 +664,6 @@ class Process(object):
 
             # Add to the XML
             self.xml_main.extend(xml_main_to_add)
-            self.xml_app.extend(xml_app_to_add)
 
             # Get the next line and test if we have reached the end of
             #  the intro
@@ -723,7 +720,7 @@ class Process(object):
             # if this fails print to the error file and return
             try:
                 self.n_offset += 2
-                xml_main_to_add, xml_app_to_add = \
+                xml_main_to_add = \
                     self._footnotes(line_ref)
                 self.n_offset -= 2
             except CommentaryToEpidocException:
@@ -734,7 +731,6 @@ class Process(object):
 
             # Add the return values to the XML lists
             self.xml_main.extend(xml_main_to_add)
-            self.xml_app.extend(xml_app_to_add)
 
             # Get the next line of text
             line, next_line_to_process = \
@@ -957,6 +953,8 @@ class Process(object):
         It is intended this function is called by _footnotes()
         for correxi footnotes.
         """
+        corrs = [None, None]
+        wits = [None, None]
         try:
             # Split to get the text, the reason and remove the space
             _tmp = footnote.split(']')
@@ -972,95 +970,82 @@ class Process(object):
 
             if reason == 'add' and ',' not in _tmp and ':' not in _tmp:
                 _tmp = _tmp.split()
-                wit1 = _tmp[-1].strip()
-                wit2 = None
-                corr1 = ' '.join(_tmp[:-1]).strip()
-                debug = '{} footnote with form1'.format(reason)
-                logger.debug(debug)
-                debug = 'form 1 wit:{} corr:{}'.format(wit1, corr1)
-                logger.debug(debug)
+                wits[0] = _tmp[-1].strip()
+                corrs[0] = ' '.join(_tmp[:-1]).strip()
             elif ',' in _tmp:
                 _tmp = _tmp.split(',')
-                wit2 = _tmp[-1].strip()
+                wits[1] = _tmp[-1].strip()
                 _tmp = _tmp[0].split()
-                wit1 = _tmp[-1].strip()
-                corr1 = ' '.join(_tmp[:-1])
-                corr2 = corr1
-                debug = '{} footnote with form2'.format(reason)
-                logger.debug(debug)
-                debug = ('wit1:{} and wit2:{} '
-                         'with corr:{}'.format(wit1, wit2, corr1))
-                logger.debug(debug)
+                wits[0] = _tmp[-1].strip()
+                corrs[0] = ' '.join(_tmp[:-1])
+                corrs[1] = corrs[0]
             elif ':' in _tmp:
                 _tmp = _tmp.split(':')
                 _tmp1 = _tmp[0].split()
-                wit1 = _tmp1[-1].strip()
-                corr1 = ' '.join(_tmp1[:-1]).strip()
+                wits[0] = _tmp1[-1].strip()
+                corrs[0] = ' '.join(_tmp1[:-1]).strip()
 
                 _tmp2 = _tmp[1].split()
-                wit2 = _tmp2[-1].strip()
-                corr2 = ' '.join(_tmp2[:-1]).strip()
-                debug = '{} footnote with form3'.format(reason)
-                logger.debug(debug)
-                debug = 'wit1:{} with corr1:{}'.format(wit1, corr1)
-                logger.debug(debug)
-                debug = 'wit2:{} with corr2:{}'.format(wit2, corr2)
-                logger.debug(debug)
-
+                wits[1] = _tmp2[-1].strip()
+                corrs[1] = ' '.join(_tmp2[:-1]).strip()
             else:
                 raise CommentaryToEpidocException
-        except IndexError:
+
+        except (IndexError, CommentaryToEpidocException):
             error = 'Error in footnote: {}'.format(n_footnote)
             logger.error(error)
             error = 'Footnote error: {}'.format(footnote)
             logger.error(error)
             raise CommentaryToEpidocException
-        except CommentaryToEpidocException:
-            error = 'Error in footnote: {}'.format(n_footnote)
-            logger.error(error)
-            error = 'Footnote error: {}'.format(footnote)
-            logger.error(error)
-            raise CommentaryToEpidocException
+
+        _footnote = {'reason': reason,
+                     'text': text,
+                     'witnesses': wits,
+                     'corrections': corrs
+                     }
+
+        self._create_correction_xml(_footnote, xml_app)
+
+    def _create_correction_xml(self, footnote, xml_app):
+        '''Method to create the XML portion related to footnote (TEI format)
+
+        Parameters
+        ----------
+        '''
 
         # Add to the XML  TODO: move it to it own method
-        if reason == 'add':
-            if wit2 is not None:
-                wits = [wit1, wit2]
-                corrs = [corr1, corr2]
-            else:
-                wits = [wit1]
-                corrs = [corr1]
-            for i, wit in enumerate(wits):
-                xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
-                xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
-                               corrs[i] + '</add>')
-                xml_app.append(self.oss + '</rdg>')
+        if footnote['reason'] == 'add':
+            for i, wit in enumerate(footnote['witnesses']):
+                if wit is not None:
+                    xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
+                    xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
+                                   footnote['corrections'][i] + '</add>')
+                    xml_app.append(self.oss + '</rdg>')
             return
 
-        if reason == 'standard':
-            corr1 = text
+        if footnote['reason'] == 'standard':
+            footnote['corrections'][0] = footnote['text']
 
-        if reason == 'correxi' or reason == 'conieci':
+        if footnote['reason'] == 'correxi' or footnote['reason'] == 'conieci':
             # Add text xml_app
             xml_app.append(self.oss + '<rdg>')
             xml_app.append(self.oss * 2 + '<choice>')
 
-            if reason == 'correxi':
-                xml_app.append(self.oss * 3 + '<corr>' + text + '</corr>')
-            elif reason == 'conieci':
+            if footnote['reason'] == 'correxi':
+                xml_app.append(self.oss * 3 + '<corr>' + footnote['text']
+                               + '</corr>')
+            elif footnote['reason'] == 'conieci':
                 xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
-                               text + '</corr>')
+                               footnote['text'] + '</corr>')
             else:
                 raise CommentaryToEpidocException
 
             xml_app.append(self.oss * 2 + '</choice>')
             xml_app.append(self.oss + '</rdg>')
 
-        xml_app.append(self.oss + '<rdg wit="#' + wit1 + '">' +
-                       corr1 + '</rdg>')
-
-        xml_app.append(self.oss + '<rdg wit="#' + wit2 + '">' +
-                       corr2 + '</rdg>')
+        for i in [0, 1]:
+            xml_app.append(self.oss + '<rdg wit="#' + footnote['witnesses'][i]
+                           + '">' + footnote['corrections'][i] + '</rdg>')
 
     def _footnotes(self, string_to_process):
         """
@@ -1097,7 +1082,6 @@ class Process(object):
         """
         # Create lists to contain the XML
         xml_main = []
-        xml_app = []
 
         next_footnote = self.next_footnote_to_find
         while True:
@@ -1162,11 +1146,27 @@ class Process(object):
             # Close the XML for the main text
             xml_main.append(self.oss * self.n_offset + '</app>')
 
+            # Increment the footnote number
+            next_footnote += 1
+
+            # Test to see if there is any more text to process
+            if len(string_to_process) == 0:
+                break
+
+        self.next_footnote_to_find = next_footnote
+        return xml_main
+
+    def _footnote_xml_app(self):
+
+        xml_app = []
+
+        for next_footnote in self.footnotes.keys():
+            footnote_symbol = '*' + str(next_footnote) + '*'
+
             # Add initial XML to xml_app (for the apparatus XML file)
             xml_app.append('<app> from="#begin_fn' + str(next_footnote) +
                            '" to="#end_fn' + str(next_footnote) + '">')
-
-            # Get the corresponding footnote
+            # Get the corresponding footnote (start at 1)
             footnote_line = self.footnotes[next_footnote]
 
             # Use rstrip to remove whitespace and the '.' character
@@ -1214,15 +1214,7 @@ class Process(object):
             # Close the XML
             xml_app.append('</app>')
 
-            # Increment the footnote number
-            next_footnote += 1
-
-            # Test to see if there is any more text to process
-            if len(string_to_process) == 0:
-                break
-
-        self.next_footnote_to_find = next_footnote
-        return xml_main, xml_app
+        return xml_app
 
     def verification_footnotes(self):
         """A function to test all footnotes have the correct format.
@@ -1404,10 +1396,6 @@ class Process(object):
         variations, omissions, additions, correxi or conieci. This function
         uses these symbols to produce files containing EpiDoc compatible XML.
 
-
-
-
-
         If processing succeeds two XML files will be created in folder ./XML
         with file names that start with the text file base name and ending in
         _main.xml (for the main XML) and _apps.xml (for the apparatus XML).
@@ -1440,7 +1428,6 @@ class Process(object):
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
         self.xml_main = []
-        self.xml_app = []
 
         if self.introduction is not '':
             self._introduction()
@@ -1456,6 +1443,9 @@ class Process(object):
         # TODO: introduce the validation in the _foonote function itself
         # Test the footnotes
         self.verification_footnotes()
+
+        # Create XML app
+        self.xml_app = self._footnote_xml_app()
 
         # Deal with the first block of text which should contain
         # an optional intro
@@ -1515,7 +1505,7 @@ class Process(object):
             # to the log file and return
             try:
                 self.n_offset += 3
-                xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
+                xml_main_to_add = self._footnotes(line_ref)
                 self.n_offset -= 3
 
             except CommentaryToEpidocException:
@@ -1527,7 +1517,6 @@ class Process(object):
 
             # Add the XML
             self.xml_main.extend(xml_main_to_add)
-            self.xml_app.extend(xml_app_to_add)
 
             # Close the XML for the aphorism
             self.xml_main.append(self.oss * (self.n_offset + 2) + '</p>')
@@ -1562,7 +1551,7 @@ class Process(object):
                 # CommentaryToEpidocException and log an error
                 try:
                     self.n_offset += 3
-                    xml_main_to_add, xml_app_to_add = self._footnotes(line_ref)
+                    xml_main_to_add = self._footnotes(line_ref)
                     self.n_offset -= 3
 
                 except CommentaryToEpidocException:
@@ -1573,7 +1562,6 @@ class Process(object):
 
                 # Add the XML
                 self.xml_main.extend(xml_main_to_add)
-                self.xml_app.extend(xml_app_to_add)
 
                 # Close the XML for this commentary
                 self.xml_main.append(self.oss * (self.n_offset + 2) + '</p>')
