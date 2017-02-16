@@ -361,3 +361,9 @@ class TestFootnote(unittest.TestCase):
 
         # Test the return value matches the expected output
         self.assertEqual(text_out, text_ref)
+
+
+class TestFootnotes(unittest.TestCase):
+
+    def setUp(self):
+        self.ft = Footnotes()
