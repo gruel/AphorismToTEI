@@ -141,7 +141,11 @@ import os
 import sys
 import re
 import logging.config
-from collections import OrderedDict
+
+try:
+    from hyppocratic.footnotes import Footnotes
+except ImportError:
+    from footnotes import Footnotes
 
 try:
     from hyppocratic.conf import LOGGING
@@ -304,7 +308,6 @@ class Process(object):
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
         self.xml_main = []
-        #self.xml_app = []
 
     def setbasename(self):
         """Method to set the basename attribute if fname is not None
@@ -326,10 +329,10 @@ class Process(object):
 
         self.fname: str
             Name of the file to convert.
-            The text file base name is expected to end with an underscore followed
-            by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical
-            value is used when creating the title section <div> element, e.g.
-            <div n="1" type="Title_section"> for file_1.txt.
+            The text file base name is expected to end with an underscore
+            followed by a numerical value, e.g. file_1.txt, file_2.txt, etc.
+            This numerical value is used when creating the title section
+            <div> element, e.g. <div n="1" type="Title_section"> for file_1.txt.
 
         self.text: str
             string which contains the whole file in utf-8 format.
@@ -345,7 +348,6 @@ class Process(object):
             logger.error("There are no file to convert.")
             raise CommentaryToEpidocException
 
-        # TODO: file name format is too strict. Relax it.
         # Extract the document number, it is expected this is at the end of the
         # base name following an '_'
         if self.doc_num is None:
@@ -425,46 +427,6 @@ class Process(object):
         self.title = self.text[:loc_title].strip()
         self.text = self.text[loc_title:].strip()
 
-    def footnotes_dictionary(self):
-        """Create an ordered dictionary (OrderedDict object) with the footnotes
-
-        Returns
-        -------
-        dic: OrderedDict
-            contains the footnotes as an Ordere Dictionary. Keys are the number
-            of the footnote (integer) and value is the footnote.
-        """
-        # Split the footnotes by lines (in theory one line per footnote)
-        if self.footnotes != '' and not isinstance(self._footnotes, list):
-            _tmp = self.footnotes.splitlines()
-        else:
-            _tmp = self._footnotes
-
-        # Check that the number of footnote is in agreement
-        # with their numeration
-        _size = len(_tmp)
-        if not re.findall(str(_size), _tmp[-1])[0] == str(_size):
-            error = 'Number of footnotes {} not in agreement ' \
-                    'with their numeration in the file'.format(_size)
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        # Create the ordere dictionary and remove the '.'
-        _dic = OrderedDict()
-        for line in _tmp:
-            try:
-                key, value = line.rsplit('*')[1:]
-            except ValueError:
-                error = 'There are a problem in footnote: {}'.format(line)
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Remove space and '.'
-            _dic[int(key)] = value.strip().strip('.')
-
-        # self.footnotes_dict = _dic
-        return _dic
-
     def analysis_aphorism_dict(self, com):
         """Create an ordered dictionary with the different witness and
          footnotes present in a commentary
@@ -480,8 +442,6 @@ class Process(object):
         #     \s = any king of space
         #     + = one or more
         # It match all the witness with form like [WWWWW XXXXX]
-
-        print('com =', com)
 
         # find all the footnote in the line
         # It match all the footnote marker like *XXX*
@@ -815,257 +775,6 @@ class Process(object):
 
         return result
 
-    def _omission(self, footnote, xml_app):
-        """Helper function processes a footnote line describing an omission
-
-        This helper function processes a footnote line describing an omission,
-        i.e. footnotes which contain the string ``om.``.
-
-        The textual variation MUST include only only two witnesses,
-        hence omissions with two witnesses are not allowed since it would make
-        no sense for both witnesses to omit the same text. Therefore
-        the following should be true:
-
-        1. The footnote line contains one colon character.
-        2. The footnote line doesn't contain commas.
-
-        The first input argument must be the footnote line with the following
-        stripped from the start and end of the string:
-
-        1. All whitespace
-        2. ``*n*`` (where n is the footnote number) from the start of
-           the string
-        3. ``.`` character from the end of the string
-
-        TODO: update that dosctring this is wrong
-
-        The footnote is expected to contain a single ':' character and have the
-        following format:
-
-        1. The footnote line before the ':' character is a string of witness
-           text, followed by the ']' character, followed by a single witness
-           code.
-        2. The footnote line after the ':' character contains an 'om.' followed
-           by a single witness code.
-
-        The second input argument should be a list containing
-        the apparatus XML, this function will add XML to this list.
-
-        The third input argument is the string defining a unit of offset in
-        the XML, this defaults to four space characters.
-
-        It is intended this function is called by _footnotes()
-        for omission footnotes.
-        """
-        reason = None
-        corr = None
-        wits = [None, None]
-        # Split the footnote
-        try:
-            # Split to get the text and remove the space
-            _tmp = footnote.split(']')
-            text = _tmp[0].strip()
-
-            # split around om. to
-            _tmp = _tmp[1].split('om.')
-            wits[1] = _tmp[-1].strip()
-            _tmp = _tmp[0].strip().split()
-
-            if len(_tmp) == 1:
-                wits[0] = _tmp[0].strip(':').strip()
-            else:
-                reason = _tmp[0].strip(':').strip()
-                # join all the other element to get the full original text
-                corr = ' '.join(_tmp[1:-1])
-                wits[0] = _tmp[-1].strip(':').strip()
-        except IndexError:
-            error = 'Error in footnote: {}'.format(self.n_footnote)
-            logger.error(error)
-            error = 'Omission footnote error: {}'.format(footnote)
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        _footnote = {'reason': reason,
-                     'text': text,
-                     'witnesses': wits,
-                     'corrections': corr
-        }
-        self._create_omission_xml(_footnote, xml_app)
-
-    def _create_omission_xml(self, footnote, xml_app):
-        '''Method to create the XML portion related to footnote (TEI format)
-
-        Parameters
-        ----------
-        '''
-
-        # TODO: check with Hammood that it is what do they want.
-        # Add the correxi or conieci if needed
-        if footnote['reason'] == 'correxi':
-            # Add text xml_app
-            xml_app.append(self.oss + '<rdg>')
-            xml_app.append(self.oss * 2 + '<choice>')
-            xml_app.append(self.oss * 3 + '<corr>' + footnote['text']
-                           + '</corr>')
-            xml_app.append(self.oss * 2 + '</choice>')
-            xml_app.append(self.oss + '</rdg>')
-            footnote['text'] = footnote['corrections']
-        elif footnote['reason'] == 'conieci':
-            # Add text xml_app
-            xml_app.append(self.oss + '<rdg>')
-            xml_app.append(self.oss * 2 + '<choice>')
-            xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
-                           footnote['text'] + '</corr>')
-            xml_app.append(self.oss * 2 + '</choice>')
-            xml_app.append(self.oss + '</rdg>')
-            footnote['text'] = footnote['corrections']
-        elif footnote['reason'] is not None:
-            error = 'Type of correction unexpected: ' \
-                    '{}'.format(footnote['reason'])
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        # Add the witness to the XML (remember to strip whitespace)
-        xml_app.append(
-            self.oss + '<rdg wit="#' + footnote['witnesses'][0] + '">'
-            + footnote['text'] + '</rdg>')
-
-        # Add witness to the XML
-        xml_app.append(self.oss + '<rdg wit="#' + footnote['witnesses'][1]
-                       + '">')
-        xml_app.append(self.oss * 2 + '<gap reason="omission"/>')
-        xml_app.append(self.oss + '</rdg>')
-
-    def _correction(self, reason, footnote, n_footnote, xml_app):
-        """
-        This helper function processes a footnote line describing correxi, i.e.
-        corrections by the editor, these contain the string 'correxi'.
-
-        The first input argument must be the footnote line with the following
-        stripped from the start and end of the string:
-
-        1. All whitespace
-        2. ``*n*`` (where n is the footnote number) from the start of
-           the string
-        3. ``.`` character from the end of the string
-
-        The footnote is expected to contain at least one ``:`` character and
-        have the following format:
-
-        1. The footnote line before the first ``:`` character contains a string
-           of witness text, followed by a ``]`` character.
-
-        2. The footnote line after the ':' character has one of two formats:
-
-            a. multiple pairs of witness text + witness code, each pair
-               separated by a ``:`` character
-
-            b. a single witness text followed by a space and a list of comma
-               separated witness codes
-
-        The second input argument should be a list containing
-        the apparatus XML, this function will add XML to this list.
-
-        The third input argument is a string defining the unit of offset
-        for the XML, this defaults to four space characters.
-
-        It is intended this function is called by _footnotes()
-        for correxi footnotes.
-        """
-        corrs = [None, None]
-        wits = [None, None]
-        try:
-            # Split to get the text, the reason and remove the space
-            _tmp = footnote.split(']')
-            text = _tmp[0].strip()
-            _tmp = _tmp[1]
-
-            if reason in ['correxi', 'conieci']:
-                _tmp = _tmp.split(reason+':')
-                _tmp = _tmp[1].strip()
-            elif reason is 'add':
-                _tmp = _tmp.split('add.')
-                _tmp = _tmp[1].strip()
-
-            if reason == 'add' and ',' not in _tmp and ':' not in _tmp:
-                _tmp = _tmp.split()
-                wits[0] = _tmp[-1].strip()
-                corrs[0] = ' '.join(_tmp[:-1]).strip()
-            elif ',' in _tmp:
-                _tmp = _tmp.split(',')
-                wits[1] = _tmp[-1].strip()
-                _tmp = _tmp[0].split()
-                wits[0] = _tmp[-1].strip()
-                corrs[0] = ' '.join(_tmp[:-1])
-                corrs[1] = corrs[0]
-            elif ':' in _tmp:
-                _tmp = _tmp.split(':')
-                _tmp1 = _tmp[0].split()
-                wits[0] = _tmp1[-1].strip()
-                corrs[0] = ' '.join(_tmp1[:-1]).strip()
-
-                _tmp2 = _tmp[1].split()
-                wits[1] = _tmp2[-1].strip()
-                corrs[1] = ' '.join(_tmp2[:-1]).strip()
-            else:
-                raise CommentaryToEpidocException
-
-        except (IndexError, CommentaryToEpidocException):
-            error = 'Error in footnote: {}'.format(n_footnote)
-            logger.error(error)
-            error = 'Footnote error: {}'.format(footnote)
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        _footnote = {'reason': reason,
-                     'text': text,
-                     'witnesses': wits,
-                     'corrections': corrs
-                     }
-
-        self._create_correction_xml(_footnote, xml_app)
-
-    def _create_correction_xml(self, footnote, xml_app):
-        '''Method to create the XML portion related to footnote (TEI format)
-
-        Parameters
-        ----------
-        '''
-
-        # Add to the XML  TODO: move it to it own method
-        if footnote['reason'] == 'add':
-            for i, wit in enumerate(footnote['witnesses']):
-                if wit is not None:
-                    xml_app.append(self.oss + '<rdg wit="#' + wit + '">')
-                    xml_app.append(self.oss * 2 + '<add reason="add_scribe">' +
-                                   footnote['corrections'][i] + '</add>')
-                    xml_app.append(self.oss + '</rdg>')
-            return
-
-        if footnote['reason'] == 'standard':
-            footnote['corrections'][0] = footnote['text']
-
-        if footnote['reason'] == 'correxi' or footnote['reason'] == 'conieci':
-            # Add text xml_app
-            xml_app.append(self.oss + '<rdg>')
-            xml_app.append(self.oss * 2 + '<choice>')
-
-            if footnote['reason'] == 'correxi':
-                xml_app.append(self.oss * 3 + '<corr>' + footnote['text']
-                               + '</corr>')
-            elif footnote['reason'] == 'conieci':
-                xml_app.append(self.oss * 3 + '<corr type="conjecture">' +
-                               footnote['text'] + '</corr>')
-            else:
-                raise CommentaryToEpidocException
-
-            xml_app.append(self.oss * 2 + '</choice>')
-            xml_app.append(self.oss + '</rdg>')
-
-        for i in [0, 1]:
-            xml_app.append(self.oss + '<rdg wit="#' + footnote['witnesses'][i]
-                           + '">' + footnote['corrections'][i] + '</rdg>')
-
     def _footnotes(self, string_to_process):
         """
         This helper function takes a single string containing text and
@@ -1175,239 +884,6 @@ class Process(object):
         self.next_footnote_to_find = next_footnote
         return xml_main
 
-    def _footnote_xml_app(self):
-
-        xml_app = []
-
-        for next_footnote in self.footnotes.keys():
-            footnote_symbol = '*' + str(next_footnote) + '*'
-
-            # Add initial XML to xml_app (for the apparatus XML file)
-            xml_app.append('<app> from="#begin_fn' + str(next_footnote) +
-                           '" to="#end_fn' + str(next_footnote) + '">')
-            # Get the corresponding footnote (start at 1)
-            footnote_line = self.footnotes[next_footnote]
-
-            # Use rstrip to remove whitespace and the '.' character
-            # from the end of the footnote string
-            footnote_line = footnote_line.rstrip(' .')
-
-            # Use partition to remove the footnote symbol from the start of
-            # footnote_line
-            footnote_line = footnote_line.partition(footnote_symbol)[2]
-
-            # Now process the footnote line - deal with each case individually
-            # to aid readability and make future additions easier
-            processed = False
-
-            # Now process the footnote
-
-            # Case 1 - omission
-            if not processed and 'om.' in footnote_line:
-                self._omission(footnote_line, xml_app)
-                processed = True
-
-            # Case 2 - addition
-            if not processed and 'add.' in footnote_line:
-                self._correction('add', footnote_line, next_footnote,
-                                 xml_app)
-                processed = True
-
-            # Case 3 - correxi
-            if not processed and 'correxi' in footnote_line:
-                self._correction('correxi', footnote_line, next_footnote,
-                                 xml_app)
-                processed = True
-
-            # Case4 - conieci
-            if not processed and 'conieci' in footnote_line:
-                self._correction('conieci', footnote_line, next_footnote,
-                                 xml_app)
-                processed = True
-
-            # Remaining case - standard variation
-            if not processed:
-                self._correction('standard', footnote_line, next_footnote,
-                                 xml_app)
-
-            # Close the XML
-            xml_app.append('</app>')
-
-        return xml_app
-
-    def verification_footnotes(self):
-        """A function to test all footnotes have the correct format.
-        The input argument should be a python list containing the footnotes.
-        The function returns a python list containing the error messages.
-        """
-        error = ''
-
-        # Initialise n_footnote
-        n_footnote = 1
-
-        # Initialise list to hold error messages
-
-        for i in self.footnotes:
-            footnote = self.footnotes[int(i)]
-            self.n_footnote = n_footnote
-            # Discard any empty lines
-            if len(footnote) == 0:
-                continue
-
-            # Test there are two '*' characters
-            try:
-                if footnote.count('*') != 2:
-                    error = ('Error in footnote ' + str(n_footnote) +
-                             ': should contain two "*" characters')
-                    raise CommentaryToEpidocException
-            except CommentaryToEpidocException:
-                logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
-                logger.error(error)
-
-            # Test the first character is a '*' and remove it
-            try:
-                if footnote[0] != '*':
-                    error = ('Error in footnote ' + str(n_footnote) +
-                             ': first character is not an "*"')
-                    raise CommentaryToEpidocException
-            except CommentaryToEpidocException:
-                logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
-                logger.error(error)
-            footnote = footnote.lstrip('*')
-
-            # Test the last character is a '.'
-            try:
-                if footnote[-1] != '.':
-                    error = ('Error in footnote ' + str(n_footnote) +
-                             ': last character is not an "."')
-                    raise CommentaryToEpidocException
-            except CommentaryToEpidocException:
-                logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
-                logger.error(error)
-
-            # Partition at the next '*' and check the footnote number
-            try:
-                _tmp = footnote.partition('*')
-                n = _tmp[0]
-                footnote = _tmp[2]
-                if int(n) != n_footnote:
-                    error = ('Error in footnote ' + str(n_footnote) +
-                             ': expected footnote ' +
-                             str(n_footnote) + ' but found footnote ' + n)
-                    raise CommentaryToEpidocException
-            except CommentaryToEpidocException:
-                logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
-                logger.error(error)
-
-            # Check the footnote contains one ']'
-            # we must notice that most of the editor will show
-            # the opposite symbol [
-            try:
-                if footnote.count(']') != 1:
-                    error = ('Error in footnote ' + str(n_footnote) +
-                             ': should contain one "]" character')
-                    raise CommentaryToEpidocException
-            except CommentaryToEpidocException:
-                logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
-                logger.error(error)
-
-            # Check for known illegal characters
-            # If contains a 'codd' give an error and stop further processing
-            try:
-                if 'codd' in footnote:
-                    error = ('Error in footnote ' + str(n_footnote) +
-                             ': contains "codd"')
-                    raise CommentaryToEpidocException
-            except CommentaryToEpidocException:
-                logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
-                logger.error(error)
-
-            # If contains a ';' give an error and stop further processing
-            try:
-                if ';' in footnote:
-                    error = ('Error in footnote ' + str(n_footnote) +
-                             ': contains ";"')
-                    raise CommentaryToEpidocException
-            except CommentaryToEpidocException:
-                logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
-                logger.error(error)
-
-            # Test omission has the correct format
-            # Errors tested for:
-            # - should not contain any ','
-            # - should contain one ':'
-            # - text after ':' should be ' om. ' # TODO: This is not true
-            if 'om.' in footnote:
-
-                try:
-                    if ',' in footnote:
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': omission should not contain "," character')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
-
-            # Test addition has the correct format
-            # Errors tested for:
-            #  - text after ']' should be ' add. '
-            elif 'add.' in footnote:
-
-                try:
-                    part2 = footnote.partition(']')[2]
-                    if part2[0:6] != ' add. ':
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': addition must contain " add. " after "]"')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
-
-            elif 'correxi' in footnote:
-                pass
-            elif 'conieci' in footnote:
-                pass
-
-            # Test standard variations have the correct format
-            # Errors tested for:
-            # - should not contain any ','
-            # - should contain one ':'
-            else:
-
-                try:
-                    if ',' in footnote:
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': standard variation should not contain '
-                                 '"," character')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
-
-                try:
-                    if footnote.count(':') != 1:
-                        error = ('Error in footnote ' + str(n_footnote) +
-                                 ': standard variation should contain one '
-                                 '":" character')
-                        raise CommentaryToEpidocException
-                except CommentaryToEpidocException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
-
-            # Increment footnote number
-            n_footnote += 1
-
     def process_file(self):
         """
         A function to process a text file containing symbols representing
@@ -1452,19 +928,15 @@ class Process(object):
             self._introduction()
 
         self.text = self.text.splitlines()
-        _tmp = self.footnotes_dictionary()
-        #TODO: to be removed
-        for i in _tmp:
-            _tmp[i] = '*'+str(i)+'*'+_tmp[i]+'.'
 
-        self.footnotes = _tmp
+        # Treat the footnote part and create the XML app
+        ft = Footnotes(self.footnotes)
 
-        # TODO: introduce the validation in the _foonote function itself
         # Test the footnotes
-        self.verification_footnotes()
+        ft.verification_footnotes()
 
         # Create XML app
-        self.xml_app = self._footnote_xml_app()
+        self.xml_app = ft.footnote_xml_app()
 
         # Deal with the first block of text which should contain
         # an optional intro

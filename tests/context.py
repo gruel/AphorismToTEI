@@ -14,3 +14,5 @@ import hyppocratic
 from hyppocratic.CommentaryToEpidoc import Process, \
     CommentaryToEpidocException
 
+# Module
+from hyppocratic.footnotes import Footnote, Footnotes, FootnotesException
