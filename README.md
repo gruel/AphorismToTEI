@@ -16,8 +16,62 @@ for more information.
 * test_CommentaryToEpidoc.py contains some testing function.
   The input and reference output for tests are in folder test_files
 
-## Source code
 
 
 ## Installation
 
+### Required
+
+* Python ( v3.5 or higher) 
+
+### Installation from Source
+
+Clone the code from the github repository:
+
+```commandline
+git clone https://github.com/UoMResearchIT/CommentaryToEpidoc.git
+```
+
+go into the project directory:
+
+```commandline
+cd CommentaryToEpidoc
+```
+
+Install the required packages using their list available in 
+the file *requirement.txt*:
+
+```commandline
+pip install -U -r --user requirements.txt 
+```
+
+The ```--user``` is optional but will install the package without the need 
+to be administrator. It will install the package in a user accessible directory
+(plateforme dependant).
+
+Install the package:
+
+```commandline
+python setup.py install --user
+```
+
+## Usage
+
+When the package is installed, it should be available in your ```PATH``` 
+under the name ```CommentaryToEpidoc```. 
+
+To use it start a terminal and execute the command:
+
+```commandline
+CommentaryToEpidoc <path> 
+```
+
+where:
+
+```path``` is the name of the directory which contains the files to treat.
+ 
+## Log 
+
+At the end of the execution a log file called ```hyppocratic.log``` will be 
+create in the directory where the process was run.
+It will contains informations on the run and errors if any.
