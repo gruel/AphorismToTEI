@@ -111,7 +111,7 @@ class Footnote(object):
             logger.error(error)
             error = 'Omission footnote error: {}'.format(self.footnote)
             logger.error(error)
-            raise FootnotesException
+            return
 
         self.d_footnote = {'reason': reason,
                            'text': text,
@@ -157,7 +157,8 @@ class Footnote(object):
             + self.d_footnote['text'] + '</rdg>')
 
         # Add witness to the XML
-        xml_app.append(xml_oss + '<rdg wit="#' + self.d_footnote['witnesses'][1]
+        xml_app.append(xml_oss + '<rdg wit="#' +
+                       self.d_footnote['witnesses'][1]
                        + '">')
         xml_app.append(xml_oss * 2 + '<gap reason="omission"/>')
         xml_app.append(xml_oss + '</rdg>')
@@ -209,7 +210,7 @@ class Footnote(object):
             if reason in ['correxi', 'conieci']:
                 _tmp = _tmp.split(reason + ':')
                 _tmp = _tmp[1].strip()
-            elif reason is 'add':
+            elif reason == 'add':
                 _tmp = _tmp.split('add.')
                 _tmp = _tmp[1].strip()
 
@@ -241,7 +242,7 @@ class Footnote(object):
             logger.error(error)
             error = 'Footnote error: {}'.format(self.footnote)
             logger.error(error)
-            raise FootnotesException
+            return
 
         self.d_footnote = {'reason': reason,
                            'text': text,
@@ -262,15 +263,16 @@ class Footnote(object):
                 if wit is not None:
                     xml_app.append(xml_oss + '<rdg wit="#' + wit + '">')
                     xml_app.append(xml_oss * 2 + '<add reason="add_scribe">' +
-                                   self.d_footnote['corrections'][i] + '</add>')
+                                   self.d_footnote['corrections'][i] +
+                                   '</add>')
                     xml_app.append(xml_oss + '</rdg>')
             return
 
         if self.d_footnote['reason'] == 'standard':
             self.d_footnote['corrections'][0] = self.d_footnote['text']
 
-        if self.d_footnote['reason'] == 'correxi' or \
-                        self.d_footnote['reason'] == 'conieci':
+        if (self.d_footnote['reason'] == 'correxi' or
+                self.d_footnote['reason'] == 'conieci'):
 
             # Add text xml_app
             xml_app.append(xml_oss + '<rdg>')
@@ -305,10 +307,10 @@ class Footnotes(object):
     """
 
     def __init__(self, footnotes=None):
-        if isinstance(footnotes, list) or isinstance(footnotes, str):
+        if isinstance(footnotes, (list, str)):
             self.footnotes = footnotes
             self.footnotes = self.footnotes_dictionary()
-        elif isinstance(footnotes, dict) or isinstance(footnotes, OrderedDict):
+        elif isinstance(footnotes, (dict, OrderedDict)):
             self.footnotes = footnotes
 
     def footnotes_dictionary(self):
@@ -317,8 +319,9 @@ class Footnotes(object):
         Returns
         -------
         dic: OrderedDict
-            contains the footnotes as an Ordered Dictionary. Keys are the number
-            of the footnote (integer) and value is the footnote.
+            contains the footnotes as an Ordered Dictionary.
+            Keys are the number of the footnote (integer) and value is
+            the footnote.
         """
         # Split the footnotes by lines (in theory one line per footnote)
         # pylint: disable=locally-disabled, no-member
@@ -413,7 +416,7 @@ class Footnotes(object):
         for k in self.footnotes:
             footnote = '*{}*{}.'.format(k, self.footnotes[k])
             # Discard any empty lines
-            if len(footnote) == 0:
+            if footnote == '':
                 continue
 
             # Test there are two '*' characters
