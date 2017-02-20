@@ -460,9 +460,9 @@ class Process(object):
     def aphorisms_dict(self):
         """Create an order dictionary (OrderedDict object) with the aphorisms
         and commentaries.
-
-        TODO: optimise there are two times the same regex
         """
+        # TODO: optimise there are two times the same regex
+
         # \n\d+.\n == \n[0-9]+.\n (\d == [0-9])
         aphorism = re.split(r'\s+[0-9]+.\n', '\n' + self.text)[1:]
         # n_aphorism = [int(i.strip('\n').strip('.')) for i in
@@ -570,9 +570,7 @@ class Process(object):
             f.write(self.template_part2)
 
         # Save app XML to file
-        with open(xml_app_file, 'w', encoding="utf-8") as f:
-            for s in self.xml_app:
-                f.write(s + '\n')
+        self.footnotes_app.save_xml(xml_app_file)
 
     def _introduction(self):
         """Method to treat the optional part of the introduction.
@@ -930,13 +928,13 @@ class Process(object):
         self.text = self.text.splitlines()
 
         # Treat the footnote part and create the XML app
-        ft = Footnotes(self.footnotes)
+        self.footnotes_app = Footnotes(self.footnotes)
 
         # Test the footnotes
-        ft.verification_footnotes()
+        self.footnotes_app.verification_footnotes()
 
         # Create XML app
-        self.xml_app = ft.footnote_xml_app()
+        self.footnotes_app.create_xml_app()
 
         # Deal with the first block of text which should contain
         # an optional intro
