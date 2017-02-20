@@ -297,21 +297,23 @@ class Footnote(object):
 
 
 class Footnotes(object):
-    """Class which contains the whole set of footnotes.
+    """Class to analyse and create the XML app file for the entire set of
+    footnotes.
 
     Attributes
     ----------
     self.footnotes: list, str, OrderedDict, dict
-        List which contains the whole set of footnote from the hypocratic
+        List which contains the whole set of footnote from the hyppocratic
         file.
     """
 
     def __init__(self, footnotes=None):
         if isinstance(footnotes, (list, str)):
             self.footnotes = footnotes
-            self.footnotes = self.footnotes_dictionary()
+            self.footnotes_dictionary()
         elif isinstance(footnotes, (dict, OrderedDict)):
             self.footnotes = footnotes
+        self.xml_app = []
 
     def footnotes_dictionary(self):
         """Create an ordered dictionary (OrderedDict object) with the footnotes
@@ -325,14 +327,23 @@ class Footnotes(object):
         """
         # Split the footnotes by lines (in theory one line per footnote)
         # pylint: disable=locally-disabled, no-member
-        if isinstance(self.footnotes, str) and self.footnotes != '':
-            _tmp = self.footnotes.splitlines()
-        else:
-            _tmp = self.footnotes
+        try:
+            if isinstance(self.footnotes, str) and self.footnotes != '':
+                _tmp = self.footnotes.splitlines()
+            elif isinstance(self.footnotes, list):
+                _tmp = self.footnotes
+            elif isinstance(self.footnotes, (dict, OrderedDict)):
+                return
+            _size = len(_tmp)
+        except UnboundLocalError:
+            error = ('Attributes footnotes should be a non empty string, ' \
+                     'a list, a dictionary or an OrderedDict ' \
+                     'but is {}'.format(type(self.footnotes)))
+            logger.error(error)
+            raise FootnotesException
 
         # Check that the number of footnote is in agreement
         # with their numeration
-        _size = len(_tmp)
         if not re.findall(str(_size), _tmp[-1])[0] == str(_size):
             error = 'Number of footnotes {} not in agreement ' \
                     'with their numeration in the file'.format(_size)
@@ -352,9 +363,10 @@ class Footnotes(object):
             # Remove space and '.'
             _dic[int(key)] = value.strip().strip('.')
 
-        return _dic
+            self.footnotes = _dic
+#        return _dic
 
-    def footnote_xml_app(self):
+    def create_xml_app(self):
         """Method to create the XML add for the footnote
 
         Returns
@@ -363,12 +375,10 @@ class Footnotes(object):
             list which contains the lines with the XML related to the footnotes
         """
 
-        xml_app = []
-
         for n_footnote in self.footnotes.keys():
 
             # Add initial XML to xml_app (for the apparatus XML file)
-            xml_app.append('<app> from="#begin_fn' + str(n_footnote) +
+            self.xml_app.append('<app> from="#begin_fn' + str(n_footnote) +
                            '" to="#end_fn' + str(n_footnote) + '">')
             # Get the corresponding footnote (start at 1)
             footnote_line = self.footnotes[n_footnote]
@@ -381,28 +391,26 @@ class Footnotes(object):
             # Now process the footnote
             # Case 1 - omission
             if 'om.' in footnote_line:
-                ft.omission(xml_app)
+                ft.omission(self.xml_app)
 
             # Case 2 - addition
             elif 'add.' in footnote_line:
-                ft.correction('add', xml_app)
+                ft.correction('add', self.xml_app)
 
             # Case 3 - correxi
             elif 'correxi' in footnote_line:
-                ft.correction('correxi', xml_app)
+                ft.correction('correxi', self.xml_app)
 
             # Case4 - conieci
             elif 'conieci' in footnote_line:
-                ft.correction('conieci', xml_app)
+                ft.correction('conieci', self.xml_app)
 
             # Remaining case - standard variation
             else:
-                ft.correction('standard', xml_app)
+                ft.correction('standard', self.xml_app)
 
             # Close the XML
-            xml_app.append('</app>')
-
-        return xml_app
+                self.xml_app.append('</app>')
 
     def verification_footnotes(self):
         """A function to test all footnotes have the correct format.
@@ -410,6 +418,9 @@ class Footnotes(object):
         The function returns a python list containing the error messages.
         """
         error = ''
+
+        # Assure that the footnotes is a dictionary or an OrderedDict
+        self.footnotes_dictionary()
 
         # Initialise list to hold error messages
 
@@ -567,3 +578,16 @@ class Footnotes(object):
                     logger.error(error)
                     error = 'Footnotes: {}'.format(footnote)
                     logger.error(error)
+
+    def save_xml(self, fname='xml_app.xml'):
+        """Method to save the XML app string in a file
+
+        Parameters
+        ----------
+        fname: str (optional)
+            name of the file where the XML app will be saved.
+        """
+
+        with open(fname, 'w', encoding="utf-8") as f:
+            for s in self.xml_app:
+                f.write(s + '\n')

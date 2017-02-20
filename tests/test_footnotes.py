@@ -367,3 +367,23 @@ class TestFootnotes(unittest.TestCase):
 
     def setUp(self):
         self.ft = Footnotes()
+
+    def test_footnotes_dictionary_wrong_istance(self):
+        self.ft.footnotes = 1
+        self.assertRaises(FootnotesException, self.ft.footnotes_dictionary)
+
+    def test_footnotes_dictionary_istance(self):
+        self.ft.footnotes = '*1*'
+
+        print(self.ft.footnotes_dictionary())
+        # self.assertRaises(FootnotesException, self.ft.footnotes_dictionary)
+
+
+    def test_footnotes_xml_app(self):
+        pass
+
+    def test_verification_footnotes(self):
+        pass
+
+    def test_save_xml(self):
+        pass
