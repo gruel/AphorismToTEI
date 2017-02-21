@@ -410,7 +410,7 @@ class Footnotes(object):
                 ft.correction('standard', self.xml_app)
 
             # Close the XML
-                self.xml_app.append('</app>')
+            self.xml_app.append('</app>')
 
     def verification_footnotes(self):
         """A function to test all footnotes have the correct format.
