@@ -165,42 +165,6 @@ class CommentaryToEpidocException(Exception):
     pass
 
 
-def get_next_non_empty_line(text, next_line_to_process=0):
-    """
-    A helper function to get the next non-empty line in a list of strings,
-    i.e. a function to bypass empty lines.
-
-    Parameters
-    ----------
-
-    text: list
-        a list containing the lines of text
-
-    next_line_to_process: int
-        location in list to start looking for next empty line
-
-    Returns
-    -------
-
-    1. The first non-empty line found
-    2. The next location in the list to look for a non-empty line
-    """
-
-    while True:
-
-        # Get next line and remove whitespace
-        line = text[next_line_to_process].strip()
-
-        # Ignore empty lines
-        if len(line) == 0:
-            next_line_to_process += 1
-        else:
-            break
-
-    next_line_to_process += 1
-    return line, next_line_to_process
-
-
 class Process(object):
     """Class to process hypocratic aphorysm text to produce a TEI XML file.
 
@@ -298,6 +262,7 @@ class Process(object):
         # other attributes used
         self.introduction = ''
         self.title = ''
+        self.aph_com = {}  # aphorism and commentaries
         self.text = ''
         self.footnotes = ''
         self.n_footnote = 1
@@ -343,6 +308,9 @@ class Process(object):
 
         if self.base_name is None and self.fname is not None:
             self.setbasename()
+
+        if self.folder is None:
+            self.folder = '.'
 
         if self.base_name is None:
             logger.error("There are no file to convert.")
@@ -427,35 +395,35 @@ class Process(object):
         self.title = self.text[:loc_title].strip()
         self.text = self.text[loc_title:].strip()
 
-    def analysis_aphorism_dict(self, com):
-        """Create an ordered dictionary with the different witness and
-         footnotes present in a commentary
-
-        Returns
-        -------
-
-        """
-        # TODO: WIP
-        # Find all the witnesses in the line
-        # Note on the regex:
-        #     \w = [a-AA-Z0-9_]
-        #     \s = any king of space
-        #     + = one or more
-        # It match all the witness with form like [WWWWW XXXXX]
-
-        # find all the footnote in the line
-        # It match all the footnote marker like *XXX*
-        p_foot = re.compile(r'\*\d+\*')
-        footnotes = p_foot.finditer(com)
-        footnotes = {int(i.group().strip('*')): i.span() for i in footnotes}
-
-        p_wits = re.compile(r'\[\w+\s+\w+\]')
-        # wits = p.findall(com)
-        wits = p_wits.finditer(com)
-        wits = {i.group().strip('*'): i.span() for i in wits}
-
-        return footnotes, wits, com
-#        return footnotes, wits, span_f
+#     def analysis_aphorism_dict(self, com):
+#         """Create an ordered dictionary with the different witness and
+#          footnotes present in a commentary
+#
+#         Returns
+#         -------
+#
+#         """
+#         # TODO: WIP
+#         # Find all the witnesses in the line
+#         # Note on the regex:
+#         #     \w = [a-AA-Z0-9_]
+#         #     \s = any king of space
+#         #     + = one or more
+#         # It match all the witness with form like [WWWWW XXXXX]
+#
+#         # find all the footnote in the line
+#         # It match all the footnote marker like *XXX*
+#         p_foot = re.compile(r'\*\d+\*')
+#         footnotes = p_foot.finditer(com)
+#         footnotes = {int(i.group().strip('*')): i.span() for i in footnotes}
+#
+#         p_wits = re.compile(r'\[\w+\s+\w+\]')
+#         # wits = p.findall(com)
+#         wits = p_wits.finditer(com)
+#         wits = {i.group().strip('*'): i.span() for i in wits}
+#
+#         return footnotes, wits, com
+# #        return footnotes, wits, span_f
 
     def aphorisms_dict(self):
         """Create an order dictionary (OrderedDict object) with the aphorisms
@@ -486,14 +454,14 @@ class Process(object):
         # use n_aphorism to be sure that there are no error
 
         try:
-            d = {}
+            self.aph_com = {}
             for i, aph in enumerate(aphorism):
-                d[n_aphorism[i]] = aph.split('.\n')
+                self.aph_com[n_aphorism[i]] = [s for s in aph.split('\n')
+                                               if len(s) != 0]
         except (IndexError, CommentaryToEpidocException):
             error = ''
             logger.error(error)
             sys.exit(1)
-        return d
 
     def read_template(self):
         """Method to read the XML template used for the transformation
@@ -574,37 +542,24 @@ class Process(object):
 
     def _introduction(self):
         """Method to treat the optional part of the introduction.
-
-
         """
-        next_line_to_process = 0
         introduction = self.introduction.splitlines()
-
-        # TODO: TO BE REMOVED
-        # Add the final character used to test the end of
-        # the introduction by Jonathan
-        introduction.append('\n++')
 
         # Generate the opening XML for the intro
         self.xml_main.append(self.oss * self.n_offset + '<div type="intro">')
         self.xml_main.append(self.oss * (self.n_offset + 1) + '<p>')
 
-        # Get the next line of text
-        line, next_line_to_process = \
-            get_next_non_empty_line(introduction, next_line_to_process)
-
-        # Loop over lines of text containing the intro
-        process_more_intro = True
-
-        while process_more_intro:
+        for line in introduction:
+            if line == '':
+                continue
 
             # Process any witnesses in this line. If this fails with a
             # CommentaryToEpidocException print an error and return
             try:
                 line_ref = self._references(line)
             except CommentaryToEpidocException:
-                error = ('Unable to process _references in line {}'
-                         ' (document intro)'.format(next_line_to_process))
+                error = ('Unable to process _references in the introduction'
+                         ' (line: {})'.format(line))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -615,20 +570,13 @@ class Process(object):
                 xml_main_to_add = self._footnotes(line_ref)
                 self.n_offset -= 2
             except CommentaryToEpidocException:
-                error = ('Unable to process _references in line {}'
-                         ' (document intro)'.format(next_line_to_process))
+                error = ('Unable to process _references in the introduction'
+                         ' (line: {})'.format(line))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
             # Add to the XML
             self.xml_main.extend(xml_main_to_add)
-
-            # Get the next line and test if we have reached the end of
-            #  the intro
-            line, next_line_to_process = \
-                get_next_non_empty_line(introduction, next_line_to_process)
-            if line == '++':
-                process_more_intro = False
 
         # Add XML to close the intro section
         self.xml_main.append(self.oss * (self.n_offset + 1) + '</p>')
@@ -638,12 +586,7 @@ class Process(object):
         """Method to treat the title
 
         """
-        # TODO: clean this function.
-        # Add artificially the characters which stop the function
-        self.title += '\n1.'
         self.title = self.title.splitlines()
-
-        next_line_to_process = 0
 
         # Now process the title
         # ---------------------
@@ -654,14 +597,7 @@ class Process(object):
                                  self.doc_num))
         self.xml_main.append(self.oss * (self.n_offset + 1) + '<ab>')
 
-        # Get the first non-empty line of text
-        line, next_line_to_process = \
-            get_next_non_empty_line(self.title, next_line_to_process)
-
-        # Loop over the lines in the title
-        process_more_title = True
-
-        while process_more_title:
+        for line in self.title:
 
             # Process any witnesses in this line.
             # If this raises an exception then print an error message
@@ -669,8 +605,8 @@ class Process(object):
             try:
                 line_ref = self._references(line)
             except CommentaryToEpidocException:
-                error = ('Unable to process _references in line {} '
-                         '(title line)'.format(next_line_to_process))
+                error = ('Unable to process title _references '
+                         'in line {} '.format(line))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -682,21 +618,13 @@ class Process(object):
                     self._footnotes(line_ref)
                 self.n_offset -= 2
             except CommentaryToEpidocException:
-                error = ('Unable to process _footnotes in line {} '
-                         '(title line)'.format(next_line_to_process))
+                error = ('Unable to process title _references '
+                         'in line {} '.format(line))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
             # Add the return values to the XML lists
             self.xml_main.extend(xml_main_to_add)
-
-            # Get the next line of text
-            line, next_line_to_process = \
-                get_next_non_empty_line(self.title, next_line_to_process)
-
-            # Test if we have reached the first aphorism
-            if line == '1.':
-                process_more_title = False
 
         # Close the XML for the title
         self.xml_main.append(self.oss * (self.n_offset + 1) + '</ab>')
@@ -903,13 +831,6 @@ class Process(object):
         It is intended this function is called by process_folder().
         """
 
-        # Initialise footnote number
-        self.next_footnote_to_find = 1
-
-        # Initialise number of the next line of text to process
-        # (Python indexing starts at 0)
-        next_line_to_process = 0
-
         # Open and read the hyppocratic document
         self.open_document()
 
@@ -925,7 +846,7 @@ class Process(object):
         if self.introduction is not '':
             self._introduction()
 
-        self.text = self.text.splitlines()
+        self.aphorisms_dict()
 
         # Treat the footnote part and create the XML app
         self.footnotes_app = Footnotes(self.footnotes)
@@ -944,26 +865,10 @@ class Process(object):
 
         # Now process the rest of the main text
         # =====================================
+        for n_aphorism in self.aph_com.keys():
 
-        line, next_line_to_process = \
-            get_next_non_empty_line(self.text, next_line_to_process)
-
-        # Initialise n_aphorism
-        n_aphorism = 1
-
-        while next_line_to_process < len(self.text):
-
-            # Check the text in this line contains the correct aphorism number
-            # If it doesn't print a message and stop
-            if line[:-1] != str(n_aphorism):
-                error = ('Unable to find expected aphorism number ({}) '
-                         'in line {}'.format(n_aphorism,
-                                             next_line_to_process))
-                logger.error(error)
-                error = ('Instead line {} contains the value: '
-                         '{}'.format(next_line_to_process - 1, line[:-1]))
-                logger.error(error)
-                raise CommentaryToEpidocException
+            aphorism = self.aph_com[n_aphorism][0].strip()
+            commentaries = self.aph_com[n_aphorism][1:]
 
             # Add initial XML for the aphorism + commentary unit
             self.xml_main.append(self.oss * self.n_offset + '<div n="' +
@@ -975,18 +880,13 @@ class Process(object):
                                  '<div type="aphorism">')
             self.xml_main.append(self.oss * (self.n_offset + 2) + '<p>')
 
-            # Get the next line of text
-            line, next_line_to_process = \
-                get_next_non_empty_line(self.text, next_line_to_process)
-
             # Now process any witnesses in it. If this fails with a
             # CommentaryToEpidocException print an error and return
             try:
-                line_ref = self._references(line)
+                line_ref = self._references(aphorism)
             except CommentaryToEpidocException:
-                error = ('Unable to process _references in line {} '
-                         '(aphorism {})'.format(next_line_to_process,
-                                                n_aphorism))
+                error = ('Unable to process _references in '
+                         'aphorism {}'.format(n_aphorism))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -998,9 +898,8 @@ class Process(object):
                 self.n_offset -= 3
 
             except CommentaryToEpidocException:
-                error = ('Unable to process footnotes in line {} '
-                         '(aphorism {})'.format(next_line_to_process,
-                                                n_aphorism))
+                error = ('Unable to process footnotes in '
+                         'aphorism {}'.format(n_aphorism))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
@@ -1012,13 +911,15 @@ class Process(object):
             self.xml_main.append(self.oss * (self.n_offset + 1) + '</div>')
 
             # Get the next line of text
-            line, next_line_to_process = \
-                get_next_non_empty_line(self.text, next_line_to_process)
 
-            # Now loop over commentaries
-            process_more_commentary = True
-
-            while process_more_commentary:
+            for n_com in range(len(commentaries)):
+                line = commentaries[n_com]
+                if line[-1] != '.':
+                    error = "Error with commentary {} in aphorism {}." \
+                            "It should ended with a `.`".format(line,
+                                                                n_aphorism)
+                    logger.error(error)
+                    raise CommentaryToEpidocException
 
                 # Add initial XML for this aphorism's commentary
                 self.xml_main.append(
@@ -1030,9 +931,9 @@ class Process(object):
                 try:
                     line_ref = self._references(line)
                 except CommentaryToEpidocException:
-                    error = ('Unable to process _references in line {} '
-                             '(commentary for aphorism '
-                             '{})'.format(next_line_to_process, n_aphorism))
+                    error = ('Unable to process _references,'
+                             'commentary {} for aphorism '
+                             '{}'.format(n_com, n_aphorism))
                     logger.error(error)
                     raise CommentaryToEpidocException
 
@@ -1044,7 +945,7 @@ class Process(object):
                     self.n_offset -= 3
 
                 except CommentaryToEpidocException:
-                    error = "Unable to procedd Aphorism {} " \
+                    error = "Unable to proceed Aphorism {} " \
                             "(see previous error message)".format(n_aphorism)
                     logger.error(error)
                     raise CommentaryToEpidocException
@@ -1055,17 +956,6 @@ class Process(object):
                 # Close the XML for this commentary
                 self.xml_main.append(self.oss * (self.n_offset + 2) + '</p>')
                 self.xml_main.append(self.oss * (self.n_offset + 1) + '</div>')
-
-                # If there are more lines to process then get the next line and
-                # test if we have reached the next aphorism
-                if next_line_to_process < len(self.text):
-                    line, next_line_to_process = \
-                        get_next_non_empty_line(self.text,
-                                                next_line_to_process)
-                    if line[:-1].isdigit():
-                        process_more_commentary = False
-                else:
-                    break
 
             # Close the XML for the aphorism + commentary unit
             self.xml_main.append(self.oss * self.n_offset + '</div>')
