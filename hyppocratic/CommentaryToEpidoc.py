@@ -148,6 +148,11 @@ except ImportError:
     from footnotes import Footnotes
 
 try:
+    from hyppocratic.title import Title
+except ImportError:
+    from title import Title
+
+try:
     from hyppocratic.conf import LOGGING
 except ImportError:
     from conf import LOGGING
@@ -582,54 +587,6 @@ class Process(object):
         self.xml_main.append(self.oss * (self.n_offset + 1) + '</p>')
         self.xml_main.append(self.oss * self.n_offset + '</div>')
 
-    def _title(self):
-        """Method to treat the title
-
-        """
-        self.title = self.title.splitlines()
-
-        # Now process the title
-        # ---------------------
-
-        # Generate the opening XML for the title
-        self.xml_main.append(self.oss * self.n_offset +
-                             '<div n="{}" type="Title_section">'.format(
-                                 self.doc_num))
-        self.xml_main.append(self.oss * (self.n_offset + 1) + '<ab>')
-
-        for line in self.title:
-
-            # Process any witnesses in this line.
-            # If this raises an exception then print an error message
-            # and return
-            try:
-                line_ref = self._references(line)
-            except CommentaryToEpidocException:
-                error = ('Unable to process title _references '
-                         'in line {} '.format(line))
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Process any footnotes in line_ref,
-            # if this fails print to the error file and return
-            try:
-                self.n_offset += 2
-                xml_main_to_add = \
-                    self._footnotes(line_ref)
-                self.n_offset -= 2
-            except CommentaryToEpidocException:
-                error = ('Unable to process title _references '
-                         'in line {} '.format(line))
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Add the return values to the XML lists
-            self.xml_main.extend(xml_main_to_add)
-
-        # Close the XML for the title
-        self.xml_main.append(self.oss * (self.n_offset + 1) + '</ab>')
-        self.xml_main.append(self.oss * self.n_offset + '</div>')
-
     def _references(self, line):
         """
         This helper function searches a line of text for witness references
@@ -851,23 +808,31 @@ class Process(object):
         # Treat the footnote part and create the XML app
         self.footnotes_app = Footnotes(self.footnotes)
 
-        # Test the footnotes
-        self.footnotes_app.verification_footnotes()
-
         # Create XML app
-        self.footnotes_app.create_xml_app()
+        self.footnotes_app.xml_app()
 
         # Deal with the first block of text which should contain
         # an optional intro
         # and the title
         # =======================================================
-        self._title()
+
+        title = Title(self.title, [], self.doc_num)
+        # TODO: to be removed
+        title.next_footnote_to_find = self.next_footnote_to_find
+        title.xml_main()
+
+        # TODO: set properly the next_footnote. Should be modified
+        self.next_footnote_to_find = title.next_footnote_to_find
+
+        # Add title to the xml main
+        self.xml_main += title.xml
 
         # Now process the rest of the main text
         # =====================================
         for n_aphorism in self.aph_com.keys():
 
             aphorism = self.aph_com[n_aphorism][0].strip()
+            #commentaries = [s.strip() for s in self.aph_com[n_aphorism][1:]]
             commentaries = self.aph_com[n_aphorism][1:]
 
             # Add initial XML for the aphorism + commentary unit
@@ -915,9 +880,10 @@ class Process(object):
             for n_com in range(len(commentaries)):
                 line = commentaries[n_com]
                 if line[-1] != '.':
-                    error = "Error with commentary {} in aphorism {}." \
-                            "It should ended with a `.`".format(line,
-                                                                n_aphorism)
+
+                    error = ('Commentaries should ended with a `.`\n'
+                             'Error in aphorism {}\n'
+                             'commentary {}'.format(n_aphorism, line))
                     logger.error(error)
                     raise CommentaryToEpidocException
 

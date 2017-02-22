@@ -370,13 +370,13 @@ class TestFootnotes(unittest.TestCase):
 
     def test_footnotes_dictionary_wrong_istance(self):
         self.ft.footnotes = 1
-        self.assertRaises(FootnotesException, self.ft.footnotes_dictionary)
+        self.assertRaises(FootnotesException, self.ft._dictionary)
 
     def test_footnotes_dictionary_istance(self):
         self.ft.footnotes = '*1*'
 
-        print(self.ft.footnotes_dictionary())
-        # self.assertRaises(FootnotesException, self.ft.footnotes_dictionary)
+        print(self.ft._dictionary())
+        # self.assertRaises(FootnotesException, self.ft._dictionary)
 
 
     def test_footnotes_xml_app(self):

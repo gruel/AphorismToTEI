@@ -5,10 +5,9 @@ Disable two warning which I cannot avoid and are not really problematic
 pylint --disable=R0915,R0912 footnotes.py
 """
 import re
-
+import logging.config
 from collections import OrderedDict
 
-import logging.config
 try:
     from hyppocratic.conf import LOGGING, xml_oss
 except ImportError:
@@ -117,9 +116,9 @@ class Footnote(object):
                            'text': text,
                            'witnesses': wits,
                            'corrections': corr}
-        self._create_omission_xml(xml_app)
+        self._omission_xml(xml_app)
 
-    def _create_omission_xml(self, xml_app):
+    def _omission_xml(self, xml_app):
         """Method to create the XML portion related to footnote (TEI format)
 
         Parameters
@@ -249,9 +248,9 @@ class Footnote(object):
                            'witnesses': wits,
                            'corrections': corrs}
 
-        self._create_correction_xml(xml_app)
+        self._correction_xml(xml_app)
 
-    def _create_correction_xml(self, xml_app):
+    def _correction_xml(self, xml_app):
         """Method to create the XML portion related to footnote (TEI format)
 
         Parameters
@@ -310,12 +309,12 @@ class Footnotes(object):
     def __init__(self, footnotes=None):
         if isinstance(footnotes, (list, str)):
             self.footnotes = footnotes
-            self.footnotes_dictionary()
+            self._dictionary()
         elif isinstance(footnotes, (dict, OrderedDict)):
             self.footnotes = footnotes
-        self.xml_app = []
+        self._xml_app = []
 
-    def footnotes_dictionary(self):
+    def _dictionary(self):
         """Create an ordered dictionary (OrderedDict object) with the footnotes
 
         Returns
@@ -366,7 +365,7 @@ class Footnotes(object):
             self.footnotes = _dic
 #        return _dic
 
-    def create_xml_app(self):
+    def xml_app(self):
         """Method to create the XML add for the footnote
 
         Returns
@@ -375,11 +374,14 @@ class Footnotes(object):
             list which contains the lines with the XML related to the footnotes
         """
 
+        # Verify footnotes for common errors
+        self._verification()
+
         for n_footnote in self.footnotes.keys():
 
             # Add initial XML to xml_app (for the apparatus XML file)
-            self.xml_app.append('<app> from="#begin_fn' + str(n_footnote) +
-                           '" to="#end_fn' + str(n_footnote) + '">')
+            self._xml_app.append('<app> from="#begin_fn' + str(n_footnote) +
+                                 '" to="#end_fn' + str(n_footnote) + '">')
             # Get the corresponding footnote (start at 1)
             footnote_line = self.footnotes[n_footnote]
 
@@ -391,28 +393,28 @@ class Footnotes(object):
             # Now process the footnote
             # Case 1 - omission
             if 'om.' in footnote_line:
-                ft.omission(self.xml_app)
+                ft.omission(self._xml_app)
 
             # Case 2 - addition
             elif 'add.' in footnote_line:
-                ft.correction('add', self.xml_app)
+                ft.correction('add', self._xml_app)
 
             # Case 3 - correxi
             elif 'correxi' in footnote_line:
-                ft.correction('correxi', self.xml_app)
+                ft.correction('correxi', self._xml_app)
 
             # Case4 - conieci
             elif 'conieci' in footnote_line:
-                ft.correction('conieci', self.xml_app)
+                ft.correction('conieci', self._xml_app)
 
             # Remaining case - standard variation
             else:
-                ft.correction('standard', self.xml_app)
+                ft.correction('standard', self._xml_app)
 
             # Close the XML
-            self.xml_app.append('</app>')
+            self._xml_app.append('</app>')
 
-    def verification_footnotes(self):
+    def _verification(self):
         """A function to test all footnotes have the correct format.
         The input argument should be a python list containing the footnotes.
         The function returns a python list containing the error messages.
@@ -420,7 +422,7 @@ class Footnotes(object):
         error = ''
 
         # Assure that the footnotes is a dictionary or an OrderedDict
-        self.footnotes_dictionary()
+        self._dictionary()
 
         # Initialise list to hold error messages
 
@@ -589,5 +591,5 @@ class Footnotes(object):
         """
 
         with open(fname, 'w', encoding="utf-8") as f:
-            for s in self.xml_app:
+            for s in self._xml_app:
                 f.write(s + '\n')
