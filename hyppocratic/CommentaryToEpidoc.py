@@ -832,8 +832,7 @@ class Process(object):
         for n_aphorism in self.aph_com.keys():
 
             aphorism = self.aph_com[n_aphorism][0].strip()
-            #commentaries = [s.strip() for s in self.aph_com[n_aphorism][1:]]
-            commentaries = self.aph_com[n_aphorism][1:]
+            commentaries = [s.strip() for s in self.aph_com[n_aphorism][1:]]
 
             # Add initial XML for the aphorism + commentary unit
             self.xml_main.append(self.oss * self.n_offset + '<div n="' +
