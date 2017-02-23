@@ -1,3 +1,16 @@
+"""Module which contains the function to analyse aphorism and commentaries line
+
+There are two functions which are treating the references [W1 W2]
+and the footnotes *XXX*.
+
+The `references` function has to be used before the `footnotes`.
+
+note: pylint analysis: 10
+
+Authors: Jonathan Boyle, Nicolas Gruel
+Copyright: IT Services, The University of Manchester
+"""
+
 import logging.config
 
 try:

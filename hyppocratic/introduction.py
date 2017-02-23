@@ -1,14 +1,22 @@
+"""Module which contains the class which create the XML part related to
+the introduction (if present) in the hyppocratic aphorysm document.
+
+note: pylint analysis 10
+
+Authors: Jonathan Boyle, Nicolas Gruel
+Copyright: IT Services, The University of Manchester
+"""
+
 import logging.config
 
 try:
     from hyppocratic.analysis import references, footnotes
+    from hyppocratic.conf import LOGGING
+    from hyppocratic.baseclass import Hyppocratic
 except ImportError:
     from analysis import references, footnotes
-
-try:
-    from hyppocratic.conf import LOGGING, xml_oss, xml_n_offset
-except ImportError:
-    from conf import LOGGING, xml_oss, xml_n_offset
+    from conf import LOGGING
+    from baseclass import Hyppocratic
 
 # Read logging configuration and create logger
 logging.config.dictConfig(LOGGING)
@@ -23,14 +31,31 @@ class IntroductionException(Exception):
     pass
 
 
-class Introduction(object):
+class Introduction(Hyppocratic):
+    """Class Introduction which will create the introduction XML part
+
+    Attributes
+    ----------
+
+    self.introduction: str
+        string which contain the introduction of the hyppocratic aphorysms
+        document.
+
+    self.next_footnote: int
+        integer which contains the footnote reference number which
+        can be present.
+
+    self.xml: list
+        list of string which contains the XML related to the introduction
+        to be include in the main XML part of the document.
+
+
+    """
 
     def __init__(self, introduction, next_footnote):
+        Hyppocratic.__init__(self)
         self.introduction = introduction
         self.next_footnote = next_footnote
-
-        self.xml = []
-        self.xml_n_offset = xml_n_offset
 
     def xml_main(self):
         """Method to treat the optional part of the introduction.
@@ -38,8 +63,8 @@ class Introduction(object):
         introduction = self.introduction.splitlines()
 
         # Generate the opening XML for the intro
-        self.xml.append(xml_oss * self.xml_n_offset + '<div type="intro">')
-        self.xml.append(xml_oss * (self.xml_n_offset + 1) + '<p>')
+        self.xml.append(self.xml_oss * self.xml_n_offset + '<div type="intro">')
+        self.xml.append(self.xml_oss * (self.xml_n_offset + 1) + '<p>')
 
         for line in introduction:
             if line == '':
@@ -72,5 +97,5 @@ class Introduction(object):
             self.xml.extend(xml_main_to_add)
 
         # Add XML to close the intro section
-        self.xml.append(xml_oss * (self.xml_n_offset + 1) + '</p>')
-        self.xml.append(xml_oss * self.xml_n_offset + '</div>')
+        self.xml.append(self.xml_oss * (self.xml_n_offset + 1) + '</p>')
+        self.xml.append(self.xml_oss * self.xml_n_offset + '</div>')

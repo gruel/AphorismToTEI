@@ -18,7 +18,7 @@ template_file = os.path.join(path, '..', 'hyppocratic', 'xml_template.txt')
 class TestProcess(unittest.TestCase):
 
     def setUp(self):
-        self.comtoepi = Process(n_offset=0, offset_size=4)
+        self.comtoepi = Process()
 
     # ################# divide_document ###################
 

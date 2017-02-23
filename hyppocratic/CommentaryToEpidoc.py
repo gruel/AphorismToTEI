@@ -24,8 +24,8 @@ If processing fails error messages will be saved in the hyppocratic.log file.
 The commentaries should be utf-8 text files with the format as documented
 in the associated documentation (doc/_build/index.html).
 
-Written by Jonathan Boyle and Nicolas Gruel
-IT Services, The University of Manchester.
+Authors: Jonathan Boyle, Nicolas Gruel
+Copyright: IT Services, The University of Manchester
 """
 
 # Import the string and os modules
@@ -36,28 +36,18 @@ import logging.config
 
 try:
     from hyppocratic.analysis import references, footnotes
+    from hyppocratic.introduction import Introduction
+    from hyppocratic.title import Title
+    from hyppocratic.footnotes import Footnotes
+    from hyppocratic.conf import LOGGING
+    from hyppocratic.baseclass import Hyppocratic
 except ImportError:
     from analysis import references, footnotes
-
-try:
-    from hyppocratic.introduction import Introduction
-except ImportError:
     from introduction import Introduction
-
-try:
-    from hyppocratic.title import Title
-except ImportError:
     from title import Title
-
-try:
-    from hyppocratic.footnotes import Footnotes
-except ImportError:
     from footnotes import Footnotes
-
-try:
-    from hyppocratic.conf import LOGGING
-except ImportError:
     from conf import LOGGING
+    from baseclass import Hyppocratic
 
 # Read logging configuration and create logger
 logging.config.dictConfig(LOGGING)
@@ -74,7 +64,6 @@ class CommentaryToEpidocException(Exception):
 
 class Process(object):
     """Class to process hypocratic aphorysm text to produce a TEI XML file.
-
 
     Attributes
     ----------
@@ -101,21 +90,7 @@ class Process(object):
         ``#INSERT#`` at the location in which to insert XML for the
         ``<body>`` element.
 
-    n_offset: int
-        The number of offsets to use when creating the XML inserted in
-        the <body> element in the main XML template file.
-        The default value is 0.
-
-    offset_size: int
-        The number of space characters to use for each XML offset. The
-        default value is 4.
-
-    oss: str
-        string wich contains the separation for the XML file.
-
-    basename: str
-
-    next_footnote_to_find: int
+    next_footnote: int
 
     introduction: str
 
@@ -141,21 +116,15 @@ class Process(object):
                  doc_num=None,
                  template_folder='.',
                  template_fname='xml_template.txt',
-                 template_marker='#INSERT#',
-                 n_offset=0,
-                 offset_size=4):
-
+                 template_marker='#INSERT#'):
+        Hyppocratic.__init__(self)
         self.folder = folder
         self.fname = fname
         self.doc_num = doc_num
         self.template_folder = template_folder
         self.template_fname = template_fname
-        self.n_offset = n_offset
-        self.offset_size = offset_size
         self.template_marker = template_marker
-
-        #
-        self.oss = ' ' * self.offset_size
+        self.footnotes_app = None
 
         # Create basename file.
         if self.fname is not None:
@@ -164,7 +133,7 @@ class Process(object):
             self.base_name = None
 
         # Initialise footnote number
-        self.next_footnote_to_find = 1
+        self.next_footnote = 1
 
         # other attributes used
         self.introduction = ''
@@ -179,7 +148,6 @@ class Process(object):
         # Initialisation of the xml_main and xml_app list
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
-        self.xml_main = []
 
     def setbasename(self):
         """Method to set the basename attribute if fname is not None
@@ -363,7 +331,8 @@ class Process(object):
         try:
             self.aph_com = {}
             for i, aph in enumerate(aphorism):
-                self.aph_com[n_aphorism[i]] = [s for s in aph.split('\n')
+                self.aph_com[n_aphorism[i]] = [s.strip()
+                                               for s in aph.split('\n')
                                                if len(s) != 0]
         except (IndexError, CommentaryToEpidocException):
             error = ''
@@ -440,7 +409,7 @@ class Process(object):
         # Save main XML to file
         with open(xml_main_file, 'w', encoding="utf-8") as f:
             f.write(self.template_part1)
-            for s in self.xml_main:
+            for s in self.xml:
                 f.write(s + '\n')
             f.write(self.template_part2)
 
@@ -475,18 +444,13 @@ class Process(object):
         # text, footnotes)
         self.divide_document()
 
-        # Initialisation of the xml_main and xml_app list
-        # They are created here and not in the __init__ to have
-        # the reinitialisation where it is needed.
-        self.xml_main = []
-
         if self.introduction is not '':
-            intro = Introduction(self.introduction, self.next_footnote_to_find)
+            intro = Introduction(self.introduction, self.next_footnote)
             intro.xml_main()
             # TODO: set properly the next_footnote. Should be modified
-            self.next_footnote_to_find = intro.next_footnote
+            self.next_footnote = intro.next_footnote
 
-            self.xml_main += intro.xml
+            self.xml += intro.xml
 
         self.aphorisms_dict()
 
@@ -501,31 +465,31 @@ class Process(object):
         # and the title
         # =======================================================
 
-        title = Title(self.title, self.doc_num, self.next_footnote_to_find)
+        title = Title(self.title, self.next_footnote, self.doc_num)
         title.xml_main()
 
         # TODO: set properly the next_footnote. Should be modified
-        self.next_footnote_to_find = title.next_footnote_to_find
+        self.next_footnote = title.next_footnote
 
         # Add title to the xml main
-        self.xml_main += title.xml
+        self.xml += title.xml
 
         # Now process the rest of the main text
         # =====================================
-        for n_aphorism in self.aph_com.keys():
+        for k in self.aph_com:
 
-            aphorism = self.aph_com[n_aphorism][0].strip()
-            commentaries = [s.strip() for s in self.aph_com[n_aphorism][1:]]
+            aphorism = self.aph_com[k][0]
+            commentaries = self.aph_com[k][1:]
 
             # Add initial XML for the aphorism + commentary unit
-            self.xml_main.append(self.oss * self.n_offset + '<div n="' +
-                                 str(n_aphorism) +
+            self.xml.append(self.xml_oss * self.xml_n_offset + '<div n="' +
+                                 str(k) +
                                  '" type="aphorism_commentary_unit">')
 
             # Add initial XML for this aphorism
-            self.xml_main.append(self.oss * (self.n_offset + 1) +
+            self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
                                  '<div type="aphorism">')
-            self.xml_main.append(self.oss * (self.n_offset + 2) + '<p>')
+            self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '<p>')
 
             # Now process any witnesses in it. If this fails with a
             # CommentaryToEpidocException print an error and return
@@ -533,47 +497,48 @@ class Process(object):
                 line_ref = references(aphorism)
             except CommentaryToEpidocException:
                 error = ('Unable to process _references in '
-                         'aphorism {}'.format(n_aphorism))
+                         'aphorism {}'.format(k))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
             # Process any footnotes in line_ref, if there are errors write
             # to the log file and return
             try:
-                self.n_offset += 3
-                xml_main_to_add, self.next_footnote_to_find = \
-                    footnotes(line_ref, self.next_footnote_to_find)
-                self.n_offset -= 3
+                self.xml_n_offset += 3
+                xml_main_to_add, self.next_footnote = \
+                    footnotes(line_ref, self.next_footnote)
+                self.xml_n_offset -= 3
 
             except CommentaryToEpidocException:
                 error = ('Unable to process footnotes in '
-                         'aphorism {}'.format(n_aphorism))
+                         'aphorism {}'.format(k))
                 logger.error(error)
                 raise CommentaryToEpidocException
 
             # Add the XML
-            self.xml_main.extend(xml_main_to_add)
+            self.xml.extend(xml_main_to_add)
 
             # Close the XML for the aphorism
-            self.xml_main.append(self.oss * (self.n_offset + 2) + '</p>')
-            self.xml_main.append(self.oss * (self.n_offset + 1) + '</div>')
+            self.xml.append(self.xml_oss * (self.xml_n_offset + 2) +
+                                 '</p>')
+            self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
+                                 '</div>')
 
             # Get the next line of text
-
-            for n_com in range(len(commentaries)):
-                line = commentaries[n_com]
+            for n_com, line in enumerate(commentaries):
                 if line[-1] != '.':
 
                     error = ('Commentaries should ended with a `.`\n'
                              'Error in aphorism {}\n'
-                             'commentary {}'.format(n_aphorism, line))
+                             'commentary {}'.format(k, line))
                     logger.error(error)
                     raise CommentaryToEpidocException
 
                 # Add initial XML for this aphorism's commentary
-                self.xml_main.append(
-                    self.oss * (self.n_offset + 1) + '<div type="commentary">')
-                self.xml_main.append(self.oss * (self.n_offset + 2) + '<p>')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
+                                     '<div type="commentary">')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 2)
+                                     + '<p>')
 
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
@@ -582,37 +547,37 @@ class Process(object):
                 except CommentaryToEpidocException:
                     error = ('Unable to process _references,'
                              'commentary {} for aphorism '
-                             '{}'.format(n_com, n_aphorism))
+                             '{}'.format(n_com, k))
                     logger.error(error)
                     raise CommentaryToEpidocException
 
                 # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    self.n_offset += 3
-                    xml_main_to_add, self.next_footnote_to_find = \
-                        footnotes(line_ref, self.next_footnote_to_find)
-                    self.n_offset -= 3
+                    self.xml_n_offset += 3
+                    xml_main_to_add, self.next_footnote = \
+                        footnotes(line_ref, self.next_footnote)
+                    self.xml_n_offset -= 3
 
                 except CommentaryToEpidocException:
                     error = "Unable to proceed Aphorism {} " \
-                            "(see previous error message)".format(n_aphorism)
+                            "(see previous error message)".format(k)
                     logger.error(error)
                     raise CommentaryToEpidocException
 
                 # Add the XML
-                self.xml_main.extend(xml_main_to_add)
+                self.xml.extend(xml_main_to_add)
 
                 # Close the XML for this commentary
-                self.xml_main.append(self.oss * (self.n_offset + 2) + '</p>')
-                self.xml_main.append(self.oss * (self.n_offset + 1) + '</div>')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 2)
+                                     + '</p>')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 1)
+                                     + '</div>')
 
             # Close the XML for the aphorism + commentary unit
-            self.xml_main.append(self.oss * self.n_offset + '</div>')
+            self.xml.append(self.xml_oss * self.xml_n_offset + '</div>')
 
-            # Increment the aphorism number
-            n_aphorism += 1
-
+        # Save the xmls created
         self.save_xml()
 
     def reset(self):
@@ -621,7 +586,8 @@ class Process(object):
         self.doc_num = None
         self.introduction = ''
         self.n_footnote = 1
-        self.next_footnote_to_find = 1
+        self.next_footnote = 1
+        self.xml = []
 
     def process_folder(self, folder=None):
         """
