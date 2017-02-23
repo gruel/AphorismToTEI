@@ -16,3 +16,4 @@ from hyppocratic.CommentaryToEpidoc import Process, \
 
 # Module
 from hyppocratic.footnotes import Footnote, Footnotes, FootnotesException
+import hyppocratic.analysis as analysis

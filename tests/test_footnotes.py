@@ -378,7 +378,6 @@ class TestFootnotes(unittest.TestCase):
         print(self.ft._dictionary())
         # self.assertRaises(FootnotesException, self.ft._dictionary)
 
-
     def test_footnotes_xml_app(self):
         pass
 

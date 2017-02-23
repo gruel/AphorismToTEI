@@ -19,121 +19,13 @@ If processing succeeds two XML files will be created in a folder called XML.
 The XML file names start with the text file base name and end in _main.xml (for
 the XML files will be file_1_main.xml and file_1_app.xml.
 
-If processing fails error messages will be saved to a file with the .err
-extension in the folder ./errors
+If processing fails error messages will be saved in the hyppocratic.log file.
 
+The commentaries should be utf-8 text files with the format as documented
+in the associated documentation (doc/_build/index.html).
 
-The commentaries should be utf-8 text files with the following format.
-
-Part 1. A main body of text consisting of:
-
-i.  A first block of text containing an optional intro section and the title,
-    if an intro section exists a line containing '++' identifies the division
-    between the intro (which comes first) and the title
-ii. A series of numbered aphorism/commentary pairs each consisting of:
-    a. A first line containing the aphorism number, this is a numerical value
-       followed by the '.' character, i.e. the string 'n.' for aphorism n.
-    b. A second line containing the aphorism.
-    c. Additional line containing one or more commentaries, each commentary
-       on a single line.
-
-This main body of text contains symbols referring to witnesses and footnotes
-in the following formats:
-
-i.  References to witnesses have the form [WW LL] where WW is a code to
-    identify the witness document, and LL is a location in the document.
-ii. Footnote references (for textual variations, omissions, additions, correxi
-    or conieci) have two forms. Let tttt represent a word of text without a
-    variant, vvvv represent a word of text with a variation, and *n* identify
-    footnote number n. Form a. is for single word variations, and form b. for
-    multiple word variations:
-    a. ttt tttt *n*vvvv tttt tttt
-    b. ttt tttt *n*vvvv vvvv vvvv# tttt tttt
-
-Part 2. After the main body of text is the list of numbered and ordered
-        footnotes. A footnote is a single line with the following format:
-
-i.   The line starts with the footnote number enclosed within a pair of
-     asterisks, e.g. for footnote n the line starts with string '*n*'.
-ii.  The footnote contains a mix of witness text (i.e. title, aphorisms and
-     commentary) and symbols devised to describe omissions, additions,
-     correxi, conieci and standard variations obtained by comparing two
-     witness documents.
-iii. The footnote line ends with a '.' character.
-
-The 5 footnote types should have the following formats, where n is the footnote
-number, W1 and W2 are witness codes, and ssss, tttt and uuuu represent segments
-of witness text:
-
-Omissions can have three forms.
-Form 1: *n*ssss ] W1: om. W2.
-This means the text 'ssss' is found in witness W1 but not W2.
-Form 2: *n*ssss ] correxi: ttttt W1: om. W2.
-This means the text 'ssss' is found in witness W1, not W2 but the editor has
-corrected this to 'ssss'.
-Form 3: *n*ssss ] conieci: ttttt W1: om. W2.
-This means the text 'tttt' is found in witness W1, not W2 but the editor
-conjectures that this should be 'ssss'.
-
-Additions can have three forms depending on whether the addition applies to one
-or both witnesses, and for the latter case whether the addition is the same or
-not for both witnesses.
-Form 1: *n*ssss ] add. tttt W1.
-This means both witnesses have 'ssss' and W1 adds 'tttt'.
-Form 2: *n*ssss ] add. tttt W1, W2.
-This means both witnesses have 'ssss', and both add 'tttt' (e.g. the editor
-felt the need to omit tttt).
-Form 3: *n*ssss ] add. tttt W1: uuuu W2.
-This means both witnesses have 'ssss', W1 adds 'tttt' whereas W2 adds 'uuuu'.
-
-Correxi can have two forms, depending on whether the witness texts are the same
-or not.
-Form 1: *n*ssss ] correxi: tttt W1, W2.
-This means the text 'tttt' is found in witnesses W1 and W2, the editor has
-corrected this to 'ssss'.
-Form 2: *n*ssss ] correxi: tttt W1: uuuu W2.
-This means the text 'tttt' is found in witness W1, whereas W2 has 'uuuu'. The
-editor has corrected these to 'ssss'.
-
-Conieci can have two forms, depending on whether the witness texts are the same
-or not.
-Form 1: *n*ssss ] conieci: tttt W1, W2.
-This means the text 'tttt' is found in witnesses W1 and W2, the editor
-conjectures that this should be 'ssss'.
-Form 2: *n*ssss ] conieci: tttt W1: uuuu W2.
-This means the text 'tttt' is found in witness W1, whereas W2 has 'uuuu'. The
-editor conjectures that these should be 'ssss'.
-
-Standard variations can have only one form.
-Form 1: *n*ssss ] W1: tttt W2.
-This means witness W1 has text 'ssss' whereas W2 has 'tttt'.
-
-
-This module generates the EpiDoc XML to sit within the <body> element. A
-suitable XML template file containing all other XML is also required. The
-template file should contain the string '#INSERT#' at the location where
-additional EpiDoc XML should be inserted, e.g.
-
-<TEI .... >
-<teiHeader>
-    ....
-</teiHeader>
-    <text>
-        <body>
-#INSERT#
-        </body>
-    </text>
-</TEI>
-
-
-The XML <div> elements generated are:
- - intro (optional)
- - Title_section (numbered)
- - aphorism_commentary_unit (numbered)
- - commentary (within aphorism_commentary_unit)
- - aphorism (within aphorism_commentary_unit)
-
-Written by Jonathan Boyle, IT Services, The University of Manchester.
+Written by Jonathan Boyle and Nicolas Gruel
+IT Services, The University of Manchester.
 """
 
 # Import the string and os modules
@@ -143,14 +35,24 @@ import re
 import logging.config
 
 try:
-    from hyppocratic.footnotes import Footnotes
+    from hyppocratic.analysis import references, footnotes
 except ImportError:
-    from footnotes import Footnotes
+    from analysis import references, footnotes
+
+try:
+    from hyppocratic.introduction import Introduction
+except ImportError:
+    from introduction import Introduction
 
 try:
     from hyppocratic.title import Title
 except ImportError:
     from title import Title
+
+try:
+    from hyppocratic.footnotes import Footnotes
+except ImportError:
+    from footnotes import Footnotes
 
 try:
     from hyppocratic.conf import LOGGING
@@ -545,228 +447,6 @@ class Process(object):
         # Save app XML to file
         self.footnotes_app.save_xml(xml_app_file)
 
-    def _introduction(self):
-        """Method to treat the optional part of the introduction.
-        """
-        introduction = self.introduction.splitlines()
-
-        # Generate the opening XML for the intro
-        self.xml_main.append(self.oss * self.n_offset + '<div type="intro">')
-        self.xml_main.append(self.oss * (self.n_offset + 1) + '<p>')
-
-        for line in introduction:
-            if line == '':
-                continue
-
-            # Process any witnesses in this line. If this fails with a
-            # CommentaryToEpidocException print an error and return
-            try:
-                line_ref = self._references(line)
-            except CommentaryToEpidocException:
-                error = ('Unable to process _references in the introduction'
-                         ' (line: {})'.format(line))
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Process any footnotes in line_ref. If this fails with a
-            # CommentaryToEpidocException print an error and return
-            try:
-                self.n_offset += 2
-                xml_main_to_add = self._footnotes(line_ref)
-                self.n_offset -= 2
-            except CommentaryToEpidocException:
-                error = ('Unable to process _references in the introduction'
-                         ' (line: {})'.format(line))
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Add to the XML
-            self.xml_main.extend(xml_main_to_add)
-
-        # Add XML to close the intro section
-        self.xml_main.append(self.oss * (self.n_offset + 1) + '</p>')
-        self.xml_main.append(self.oss * self.n_offset + '</div>')
-
-    def _references(self, line):
-        """
-        This helper function searches a line of text for witness references
-        with the form ``[WW LL]`` and returns a string containing the original
-        text with each witness reference replaced with XML with the form
-        ``<locus target="WW">LL</locus>``.
-
-        ``\n`` characters are added at the start and end of each XML insertion
-        so each instance of XML is on its own line.
-
-        It is intended this function is called by function process_file()
-        for each line of text from the main body of the text document before
-        processing footnote references using the _footnotes() function.
-        """
-
-        # Create a string to contain the return value
-        result = ''
-
-        while True:
-            # Try to partition this line at the first '[' character
-            text_before, sep, text_after = line.partition('[')
-
-            # Note: if sep is zero there are no more witnesses to add
-
-            # Add text_before to the result string
-            if len(text_before) > 0:
-                result += text_before
-                # If there is a witness to add start a new line
-                if len(sep) > 0:
-                    result += '\n'
-
-            # If sep has zero length we can stop because there are no more
-            # witness _references
-            if len(sep) == 0:
-                break
-
-            # Try to split text_after at the first ']' character
-            reference, sep, line = text_after.partition(']')
-
-            # If this partition failed then something went wrong,
-            # so throw an error
-            if len(sep) == 0:
-                logger.error('Unable to partition string at "]" '
-                             'when looking for a reference')
-                raise CommentaryToEpidocException
-
-            # Partition the reference into witness and location (these are
-            # separated by the ' ' character)
-            witness, sep, page = reference.partition(' ')
-
-            # If this partition failed there is an error
-            if len(sep) == 0:
-                error = ('Unable to partition reference {} '
-                         'because missing " " '
-                         'character'.format(reference))
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Add the witness and location XML to the result string
-            result += '<locus target="' + witness.strip() + \
-                      '">' + page.strip() + '</locus>'
-
-            # If text has zero length we can stop
-            if len(line) == 0:
-                break
-            else:
-                # There is more text to process so start a new line
-                result += '\n'
-
-        return result
-
-    def _footnotes(self, string_to_process):
-        """
-        This helper function takes a single string containing text and
-        processes any embedded footnote symbols (describing additions,
-        omissions, correxi, conieci and standard textual variations)
-        to generate XML. It also deals with any XML generated using
-        function _references().
-
-        The output is two lists of XML, one for the main text, the other
-        for the apparatus.
-
-        Parameters
-        ----------
-
-        string_to_process: str
-
-            This string contains the text to be processed. This should contain
-            a single line from the text file being processed, e.g. a title,
-            aphorism or commentary. This string may already contain XML
-            generated using the _references() function i.e. XML
-            identifying witnesses with each <locus> XML on a new line.
-
-        Returns
-        -------
-
-        1. A Python list containing XML for the main text.
-        2. A Python list containing XML for the critical apparatus.
-        3. The number of the next footnote to be processed when this function
-           complete.
-
-        It is intended this function is called by process_file() on each line
-        of text from the main document body.
-        """
-        # Create lists to contain the XML
-        xml_main = []
-
-        next_footnote = self.next_footnote_to_find
-        while True:
-            # Use string partition to try to split this text at
-            # the next footnote symbol
-            footnote_symbol = '*' + str(next_footnote) + '*'
-            text_before_symbol, sep, string_to_process = \
-                string_to_process.partition(footnote_symbol)
-
-            # If the partition failed sep will have zero length and the next
-            # footnote is not in this line, hence we can stop
-            # processing and return
-            if len(sep) == 0:
-                # Add text_before_symbol to the XML and stop processing
-                for next_line in text_before_symbol.splitlines():
-                    xml_main.append(self.oss * self.n_offset +
-                                    next_line.strip())
-                break
-
-            # We know sep has non-zero length and we are dealing with
-            # a footnote.
-            # Now use string partition to try to split text_before_symbol
-            # at a '#' character.
-            next_text_for_xml, sep, base_text = \
-                text_before_symbol.partition('#')
-
-            # If the above partition failed the footnote refers
-            # to a single word
-            if len(sep) == 0:
-                # Use rpartition to partition at the LAST space in the
-                # string before the footnote symbol
-                next_text_for_xml, sep, base_text = \
-                    text_before_symbol.rpartition(' ')
-
-            # Check we succeeded in partitioning the text before the footnote
-            # at '#' or ' '. If we didn't there's an error.
-            if len(sep) == 0:
-                error = 'Unable to partition text before footnote symbol ' \
-                        '{}'.format(footnote_symbol)
-                logger.error(error)
-                raise CommentaryToEpidocException
-
-            # Add the next_text_for_xml to xml_main
-            for next_line in next_text_for_xml.splitlines():
-                xml_main.append(self.oss * self.n_offset + next_line.strip())
-
-            # Create XML for this textural variation for xml_main
-            next_string = ('<app n="' +
-                           str(next_footnote) +
-                           '" type="footnote" xml:id="begin_fn' +
-                           str(next_footnote) +
-                           '"><rdg>' +
-                           base_text +
-                           '</rdg><anchor xml:id="end_fn' +
-                           str(next_footnote) + '"/>')
-
-            # Add next_string to the xml_main, remember this may contain '\n'
-            # characters and XML from a witness reference
-            for next_line in next_string.splitlines():
-                xml_main.append(self.oss * self.n_offset + next_line)
-
-            # Close the XML for the main text
-            xml_main.append(self.oss * self.n_offset + '</app>')
-
-            # Increment the footnote number
-            next_footnote += 1
-
-            # Test to see if there is any more text to process
-            if len(string_to_process) == 0:
-                break
-
-        self.next_footnote_to_find = next_footnote
-        return xml_main
-
     def process_file(self):
         """
         A function to process a text file containing symbols representing
@@ -801,7 +481,12 @@ class Process(object):
         self.xml_main = []
 
         if self.introduction is not '':
-            self._introduction()
+            intro = Introduction(self.introduction, self.next_footnote_to_find)
+            intro.xml_main()
+            # TODO: set properly the next_footnote. Should be modified
+            self.next_footnote_to_find = intro.next_footnote
+
+            self.xml_main += intro.xml
 
         self.aphorisms_dict()
 
@@ -816,9 +501,7 @@ class Process(object):
         # and the title
         # =======================================================
 
-        title = Title(self.title, [], self.doc_num)
-        # TODO: to be removed
-        title.next_footnote_to_find = self.next_footnote_to_find
+        title = Title(self.title, self.doc_num, self.next_footnote_to_find)
         title.xml_main()
 
         # TODO: set properly the next_footnote. Should be modified
@@ -847,7 +530,7 @@ class Process(object):
             # Now process any witnesses in it. If this fails with a
             # CommentaryToEpidocException print an error and return
             try:
-                line_ref = self._references(aphorism)
+                line_ref = references(aphorism)
             except CommentaryToEpidocException:
                 error = ('Unable to process _references in '
                          'aphorism {}'.format(n_aphorism))
@@ -858,7 +541,8 @@ class Process(object):
             # to the log file and return
             try:
                 self.n_offset += 3
-                xml_main_to_add = self._footnotes(line_ref)
+                xml_main_to_add, self.next_footnote_to_find = \
+                    footnotes(line_ref, self.next_footnote_to_find)
                 self.n_offset -= 3
 
             except CommentaryToEpidocException:
@@ -894,7 +578,7 @@ class Process(object):
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    line_ref = self._references(line)
+                    line_ref = references(line)
                 except CommentaryToEpidocException:
                     error = ('Unable to process _references,'
                              'commentary {} for aphorism '
@@ -906,7 +590,8 @@ class Process(object):
                 # CommentaryToEpidocException and log an error
                 try:
                     self.n_offset += 3
-                    xml_main_to_add = self._footnotes(line_ref)
+                    xml_main_to_add, self.next_footnote_to_find = \
+                        footnotes(line_ref, self.next_footnote_to_find)
                     self.n_offset -= 3
 
                 except CommentaryToEpidocException:
