@@ -6,9 +6,9 @@ Copyright: IT Services, The University of Manchester
 import logging.config
 
 try:
-    from hyppocratic.conf import LOGGING, xml_oss, xml_n_offset, xml_offset_size
+    from hyppocratic.conf import LOGGING, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
 except ImportError:
-    from conf import LOGGING, xml_oss, xml_n_offset, xml_offset_size
+    from conf import LOGGING, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
 
 # Read logging configuration and create logger
 logging.config.dictConfig(LOGGING)
@@ -32,11 +32,13 @@ class Hyppocratic(object):
     def __init__(self):
 
         self.xml = []
-        self.xml_oss = xml_oss
-        self.xml_n_offset = xml_n_offset
-        self.xml_offset_size = xml_offset_size
+        self.xml_oss = XML_OSS
+        self.xml_n_offset = XML_N_OFFSET
+        self.xml_offset_size = XML_OFFSET_SIZE
 
     def xml_main(self):
+        """Method which will create the XML file.
+        """
         pass
 
     def save_xml(self):
@@ -46,5 +48,3 @@ class Hyppocratic(object):
         with open(fname, 'w', encoding="utf-8") as f:
             for s in self.xml:
                 f.write(s + '\n')
-
-

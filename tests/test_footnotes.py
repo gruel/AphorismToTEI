@@ -210,7 +210,6 @@ class TestFootnote(unittest.TestCase):
         and test_process_correxi2.ref
         """
 
-        n_test = 2
         basename = path_testdata + 'test_process_correxi1'
 
         # Load text from input file
@@ -242,7 +241,6 @@ class TestFootnote(unittest.TestCase):
         and test_process_correxi2.ref
         """
 
-        n_test = 2
         basename = path_testdata + 'test_process_correxi2'
 
         # Load text from input file
@@ -274,7 +272,6 @@ class TestFootnote(unittest.TestCase):
         and test_process_correxi2.ref
         """
 
-        n_test = 2
         basename = path_testdata + 'test_process_conieci1'
 
         # Load text from input file
@@ -306,7 +303,6 @@ class TestFootnote(unittest.TestCase):
         and test_process_correxi2.ref
         """
 
-        n_test = 2
         basename = path_testdata + 'test_process_conieci2'
 
         # Load text from input file
@@ -354,10 +350,6 @@ class TestFootnote(unittest.TestCase):
 
         # Convert the output list to a string with each element on a new line
         text_out = '\n'.join(list_out)
-
-        f = open('ssssss', 'w', encoding='utf-8')
-        f.write(text_out)
-        f.close()
 
         # Test the return value matches the expected output
         self.assertEqual(text_out, text_ref)

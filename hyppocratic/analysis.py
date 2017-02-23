@@ -14,9 +14,9 @@ Copyright: IT Services, The University of Manchester
 import logging.config
 
 try:
-    from hyppocratic.conf import LOGGING, xml_oss, xml_n_offset
+    from hyppocratic.conf import LOGGING, XML_OSS, XML_N_OFFSET
 except ImportError:
-    from conf import LOGGING, xml_oss, xml_n_offset
+    from conf import LOGGING, XML_OSS, XML_N_OFFSET
 
 # Read logging configuration and create logger
 logging.config.dictConfig(LOGGING)
@@ -56,15 +56,15 @@ def references(line):
         # Note: if sep is zero there are no more witnesses to add
 
         # Add text_before to the result string
-        if len(text_before) > 0:
+        if text_before != '':
             result += text_before
             # If there is a witness to add start a new line
-            if len(sep) > 0:
+            if sep != '':
                 result += '\n'
 
         # If sep has zero length we can stop because there are no more
         # witness _references
-        if len(sep) == 0:
+        if sep == '':
             break
 
         # Try to split text_after at the first ']' character
@@ -72,7 +72,7 @@ def references(line):
 
         # If this partition failed then something went wrong,
         # so throw an error
-        if len(sep) == 0:
+        if sep == '':
             logger.error('Unable to partition string at "]" '
                          'when looking for a reference')
             raise AnalysisException
@@ -82,7 +82,7 @@ def references(line):
         witness, sep, page = reference.partition(' ')
 
         # If this partition failed there is an error
-        if len(sep) == 0:
+        if sep == '':
             error = ('Unable to partition reference {} '
                      'because missing " " '
                      'character'.format(reference))
@@ -94,7 +94,7 @@ def references(line):
                   '">' + page.strip() + '</locus>'
 
         # If text has zero length we can stop
-        if len(line) == 0:
+        if line == '':
             break
         else:
             # There is more text to process so start a new line
@@ -149,10 +149,10 @@ def footnotes(string_to_process, next_footnote):
         # If the partition failed sep will have zero length and the next
         # footnote is not in this line, hence we can stop
         # processing and return
-        if len(sep) == 0:
+        if sep == '':
             # Add text_before_symbol to the XML and stop processing
             for next_line in text_before_symbol.splitlines():
-                xml_main.append(xml_oss * xml_n_offset +
+                xml_main.append(XML_OSS * XML_N_OFFSET +
                                 next_line.strip())
             break
 
@@ -165,7 +165,7 @@ def footnotes(string_to_process, next_footnote):
 
         # If the above partition failed the footnote refers
         # to a single word
-        if len(sep) == 0:
+        if sep == '':
             # Use rpartition to partition at the LAST space in the
             # string before the footnote symbol
             next_text_for_xml, sep, base_text = \
@@ -173,7 +173,7 @@ def footnotes(string_to_process, next_footnote):
 
         # Check we succeeded in partitioning the text before the footnote
         # at '#' or ' '. If we didn't there's an error.
-        if len(sep) == 0:
+        if sep == '':
             error = 'Unable to partition text before footnote symbol ' \
                     '{}'.format(footnote_symbol)
             logger.error(error)
@@ -181,7 +181,7 @@ def footnotes(string_to_process, next_footnote):
 
         # Add the next_text_for_xml to xml_main
         for next_line in next_text_for_xml.splitlines():
-            xml_main.append(xml_oss * xml_n_offset + next_line.strip())
+            xml_main.append(XML_OSS * XML_N_OFFSET + next_line.strip())
 
         # Create XML for this textural variation for xml_main
         next_string = ('<app n="' +
@@ -196,16 +196,16 @@ def footnotes(string_to_process, next_footnote):
         # Add next_string to the xml_main, remember this may contain '\n'
         # characters and XML from a witness reference
         for next_line in next_string.splitlines():
-            xml_main.append(xml_oss * xml_n_offset + next_line)
+            xml_main.append(XML_OSS * XML_N_OFFSET + next_line)
 
         # Close the XML for the main text
-        xml_main.append(xml_oss * xml_n_offset + '</app>')
+        xml_main.append(XML_OSS * XML_N_OFFSET + '</app>')
 
         # Increment the footnote number
         next_footnote += 1
 
         # Test to see if there is any more text to process
-        if len(string_to_process) == 0:
+        if string_to_process == '':
             break
 
     return xml_main, next_footnote
