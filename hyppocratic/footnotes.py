@@ -7,6 +7,9 @@ Note
 Disable two warning which I cannot avoid and are not really problematic::
 
     pylint --disable=R0915,R0912 footnotes.py
+    
+Authors: Jonathan Boyle, Nicolas Gruel
+Copyright: IT Services, The University of Manchester
 """
 import re
 import logging.config

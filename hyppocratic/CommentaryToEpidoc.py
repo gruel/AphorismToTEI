@@ -62,7 +62,7 @@ class CommentaryToEpidocException(Exception):
     pass
 
 
-class Process(object):
+class Process(Hyppocratic):
     """Class to process hypocratic aphorysm text to produce a TEI XML file.
 
     Attributes
@@ -197,7 +197,7 @@ class Process(object):
             try:
                 sep, doc_num = self.base_name.rpartition('_')[1:]
                 self.doc_num = int(doc_num)
-                if len(sep) == 0:
+                if sep == '':
                     raise CommentaryToEpidocException
             except ValueError:
                 self.doc_num = 1
@@ -374,7 +374,7 @@ class Process(object):
             self.template_marker)
 
         # Test the split worked
-        if len(sep) == 0:
+        if sep == '':
             error = ('Unable to find template marker text ({}) '
                      'in the template file {} '
                      'located in the folder {}.'.format(self.template_marker,
@@ -444,7 +444,7 @@ class Process(object):
         # text, footnotes)
         self.divide_document()
 
-        if self.introduction is not '':
+        if self.introduction != '':
             intro = Introduction(self.introduction, self.next_footnote)
             intro.xml_main()
             # TODO: set properly the next_footnote. Should be modified
@@ -483,12 +483,11 @@ class Process(object):
 
             # Add initial XML for the aphorism + commentary unit
             self.xml.append(self.xml_oss * self.xml_n_offset + '<div n="' +
-                                 str(k) +
-                                 '" type="aphorism_commentary_unit">')
+                            str(k) + '" type="aphorism_commentary_unit">')
 
             # Add initial XML for this aphorism
             self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
-                                 '<div type="aphorism">')
+                            '<div type="aphorism">')
             self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '<p>')
 
             # Now process any witnesses in it. If this fails with a
@@ -519,10 +518,8 @@ class Process(object):
             self.xml.extend(xml_main_to_add)
 
             # Close the XML for the aphorism
-            self.xml.append(self.xml_oss * (self.xml_n_offset + 2) +
-                                 '</p>')
-            self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
-                                 '</div>')
+            self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '</p>')
+            self.xml.append(self.xml_oss * (self.xml_n_offset + 1) + '</div>')
 
             # Get the next line of text
             for n_com, line in enumerate(commentaries):
@@ -536,9 +533,8 @@ class Process(object):
 
                 # Add initial XML for this aphorism's commentary
                 self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
-                                     '<div type="commentary">')
-                self.xml.append(self.xml_oss * (self.xml_n_offset + 2)
-                                     + '<p>')
+                                '<div type="commentary">')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '<p>')
 
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
@@ -569,10 +565,9 @@ class Process(object):
                 self.xml.extend(xml_main_to_add)
 
                 # Close the XML for this commentary
-                self.xml.append(self.xml_oss * (self.xml_n_offset + 2)
-                                     + '</p>')
-                self.xml.append(self.xml_oss * (self.xml_n_offset + 1)
-                                     + '</div>')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '</p>')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
+                                '</div>')
 
             # Close the XML for the aphorism + commentary unit
             self.xml.append(self.xml_oss * self.xml_n_offset + '</div>')
@@ -629,7 +624,7 @@ class Process(object):
         files = os.listdir(self.folder)
 
         for fname in files:
-            if fname.endswith(".txt"):
+            if fname.endswith('.txt'):
                 info = 'Processing: "{}"'.format(fname)
                 logger.info(info)
                 try:

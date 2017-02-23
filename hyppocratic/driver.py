@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Nov 13 14:14:17 2015
+f"""
 
-@author: mcbicjb2
+Authors: Jonathan Boyle, Nicolas Gruel
+Copyright: IT Services, The University of Manchester
 """
 import sys
 

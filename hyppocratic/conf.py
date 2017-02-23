@@ -1,5 +1,12 @@
+"""Module to contains the configuration of the hyppocrite softeware
+
+TODO: can be transformed in yaml file eventually
+
+Authors: Jonathan Boyle, Nicolas Gruel
+Copyright: IT Services, The University of Manchester
+"""
+
 # Pure python dictionary with the configuration for the logging
-# TODO: can be transformed in yaml file eventually
 
 LOGGING = {
     'version': 1,
@@ -30,6 +37,8 @@ LOGGING = {
     },
 }
 
-xml_n_offset = 3
-xml_offset_size = 4
-xml_oss = ' ' * xml_offset_size
+# Some constant use in the creation of the XML
+
+XML_N_OFFSET = 3
+XML_OFFSET_SIZE = 4
+XML_OSS = ' ' * XML_OFFSET_SIZE
