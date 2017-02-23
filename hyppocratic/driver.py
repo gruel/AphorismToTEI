@@ -65,10 +65,7 @@ def main(args=None):
     # 3rd - the number of offsets to use when adding XML to the <body> element
     # 4th - the number of space characters to use for each XML offset
 
-    comtoepi = CommentaryToEpidoc.Process(n_offset=n_offset,
-                                          offset_size=offset_size)
-
-    #comtoepi.template_folder = os.path.join('..', 'templates')
+    comtoepi = CommentaryToEpidoc.Process()
     comtoepi.process_folder(directory)
 
     logger.info("Finished " + logger.name)

@@ -1,6 +1,5 @@
 import os
 import sys
-from collections import OrderedDict
 import unittest
 import pytest
 
@@ -14,7 +13,6 @@ path_testdata = os.path.join(path, 'test_files') + os.sep
 # examples = os.path.join(path, '..', 'Examples', 'TextFiles') + os.sep
 template_file = os.path.join(path, '..', 'hyppocratic', 'xml_template.txt')
 
-# ################# _references ###################
 
 class TestProcess(unittest.TestCase):
 

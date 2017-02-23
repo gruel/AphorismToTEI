@@ -1,17 +1,23 @@
 """Module used to treat the footnotes from the hypocratic project.
 
-pylint analysis: 9.96
-Disable two warning which I cannot avoid and are not really problematic
-pylint --disable=R0915,R0912 footnotes.py
+Note
+----
+- pylint analysis: 10
+
+Disable two warning which I cannot avoid and are not really problematic::
+
+    pylint --disable=R0915,R0912 footnotes.py
 """
 import re
 import logging.config
 from collections import OrderedDict
 
 try:
-    from hyppocratic.conf import LOGGING, xml_oss
+    from hyppocratic.conf import LOGGING
+    from hyppocratic.baseclass import Hyppocratic
 except ImportError:
-    from conf import LOGGING, xml_oss
+    from conf import LOGGING
+    from baseclass import Hyppocratic
 
 # Read logging configuration and create logger
 logging.config.dictConfig(LOGGING)
@@ -26,7 +32,7 @@ class FootnotesException(Exception):
     pass
 
 
-class Footnote(object):
+class Footnote(Hyppocratic):
     """Class Footnote which treat an individual footnote
 
     Attributes
@@ -37,6 +43,7 @@ class Footnote(object):
         Integer which give the reference number of the footnote treated.
     """
     def __init__(self, footnote=None, n_footnote=None):
+        Hyppocratic.__init__(self)
         self.footnote = footnote
         self.n_footnote = n_footnote
 
@@ -124,25 +131,24 @@ class Footnote(object):
         Parameters
         ----------
         """
-        # TODO: check with Hammood that it is what do they want.
         # Add the correxi or conieci if needed
         if self.d_footnote['reason'] == 'correxi':
             # Add text xml_app
-            xml_app.append(xml_oss + '<rdg>')
-            xml_app.append(xml_oss * 2 + '<choice>')
-            xml_app.append(xml_oss * 3 + '<corr>' + self.d_footnote['text']
+            xml_app.append(self.xml_oss + '<rdg>')
+            xml_app.append(self.xml_oss * 2 + '<choice>')
+            xml_app.append(self.xml_oss * 3 + '<corr>' + self.d_footnote['text']
                            + '</corr>')
-            xml_app.append(xml_oss * 2 + '</choice>')
-            xml_app.append(xml_oss + '</rdg>')
+            xml_app.append(self.xml_oss * 2 + '</choice>')
+            xml_app.append(self.xml_oss + '</rdg>')
             self.d_footnote['text'] = self.d_footnote['corrections']
         elif self.d_footnote['reason'] == 'conieci':
             # Add text xml_app
-            xml_app.append(xml_oss + '<rdg>')
-            xml_app.append(xml_oss * 2 + '<choice>')
-            xml_app.append(xml_oss * 3 + '<corr type="conjecture">' +
+            xml_app.append(self.xml_oss + '<rdg>')
+            xml_app.append(self.xml_oss * 2 + '<choice>')
+            xml_app.append(self.xml_oss * 3 + '<corr type="conjecture">' +
                            self.d_footnote['text'] + '</corr>')
-            xml_app.append(xml_oss * 2 + '</choice>')
-            xml_app.append(xml_oss + '</rdg>')
+            xml_app.append(self.xml_oss * 2 + '</choice>')
+            xml_app.append(self.xml_oss + '</rdg>')
             self.d_footnote['text'] = self.d_footnote['corrections']
         elif self.d_footnote['reason'] is not None:
             error = 'Type of correction unexpected: ' \
@@ -151,16 +157,16 @@ class Footnote(object):
             raise FootnotesException
 
         # Add the witness to the XML (remember to strip whitespace)
-        xml_app.append(
-            xml_oss + '<rdg wit="#' + self.d_footnote['witnesses'][0] + '">'
-            + self.d_footnote['text'] + '</rdg>')
+        xml_app.append(self.xml_oss + '<rdg wit="#' +
+                       self.d_footnote['witnesses'][0] + '">' +
+                       self.d_footnote['text'] + '</rdg>')
 
         # Add witness to the XML
-        xml_app.append(xml_oss + '<rdg wit="#' +
+        xml_app.append(self.xml_oss + '<rdg wit="#' +
                        self.d_footnote['witnesses'][1]
                        + '">')
-        xml_app.append(xml_oss * 2 + '<gap reason="omission"/>')
-        xml_app.append(xml_oss + '</rdg>')
+        xml_app.append(self.xml_oss * 2 + '<gap reason="omission"/>')
+        xml_app.append(self.xml_oss + '</rdg>')
 
     def correction(self, reason, xml_app):
         """
@@ -260,11 +266,12 @@ class Footnote(object):
         if self.d_footnote['reason'] == 'add':
             for i, wit in enumerate(self.d_footnote['witnesses']):
                 if wit is not None:
-                    xml_app.append(xml_oss + '<rdg wit="#' + wit + '">')
-                    xml_app.append(xml_oss * 2 + '<add reason="add_scribe">' +
+                    xml_app.append(self.xml_oss + '<rdg wit="#' + wit + '">')
+                    xml_app.append(self.xml_oss * 2 +
+                                   '<add reason="add_scribe">' +
                                    self.d_footnote['corrections'][i] +
                                    '</add>')
-                    xml_app.append(xml_oss + '</rdg>')
+                    xml_app.append(self.xml_oss + '</rdg>')
             return
 
         if self.d_footnote['reason'] == 'standard':
@@ -274,23 +281,23 @@ class Footnote(object):
                 self.d_footnote['reason'] == 'conieci'):
 
             # Add text xml_app
-            xml_app.append(xml_oss + '<rdg>')
-            xml_app.append(xml_oss * 2 + '<choice>')
+            xml_app.append(self.xml_oss + '<rdg>')
+            xml_app.append(self.xml_oss * 2 + '<choice>')
 
             if self.d_footnote['reason'] == 'correxi':
-                xml_app.append(xml_oss * 3 + '<corr>' + self.d_footnote['text']
+                xml_app.append(self.xml_oss * 3 + '<corr>' + self.d_footnote['text']
                                + '</corr>')
             elif self.d_footnote['reason'] == 'conieci':
-                xml_app.append(xml_oss * 3 + '<corr type="conjecture">' +
+                xml_app.append(self.xml_oss * 3 + '<corr type="conjecture">' +
                                self.d_footnote['text'] + '</corr>')
             else:
                 raise FootnotesException
 
-            xml_app.append(xml_oss * 2 + '</choice>')
-            xml_app.append(xml_oss + '</rdg>')
+            xml_app.append(self.xml_oss * 2 + '</choice>')
+            xml_app.append(self.xml_oss + '</rdg>')
 
         for i in [0, 1]:
-            xml_app.append(xml_oss + '<rdg wit="#' +
+            xml_app.append(self.xml_oss + '<rdg wit="#' +
                            self.d_footnote['witnesses'][i] + '">' +
                            self.d_footnote['corrections'][i] + '</rdg>')
 
@@ -363,7 +370,6 @@ class Footnotes(object):
             _dic[int(key)] = value.strip().strip('.')
 
             self.footnotes = _dic
-#        return _dic
 
     def xml_app(self):
         """Method to create the XML add for the footnote
