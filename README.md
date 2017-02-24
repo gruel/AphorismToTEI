@@ -42,7 +42,7 @@ Install the required packages using their list available in
 the file *requirement.txt*:
 
 ```commandline
-pip install -U -r --user requirements.txt 
+pip install -U -r requirements.txt --user 
 ```
 
 The ```--user``` is optional but will install the package without the need 
