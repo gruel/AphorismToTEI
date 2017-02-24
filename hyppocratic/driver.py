@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-f"""
+"""
 
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester

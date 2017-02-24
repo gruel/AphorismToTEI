@@ -7,7 +7,7 @@ Note
 Disable two warning which I cannot avoid and are not really problematic::
 
     pylint --disable=R0915,R0912 footnotes.py
-    
+
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
@@ -98,6 +98,7 @@ class Footnote(Hyppocratic):
         corr = None
         wits = [None, None]
         # Split the footnote
+
         try:
             # Split to get the text and remove the space
             _tmp = self.footnote.split(']')
@@ -222,6 +223,7 @@ class Footnote(Hyppocratic):
                 _tmp = _tmp.split('add.')
                 _tmp = _tmp[1].strip()
 
+            #TODO: need to implement the new form!
             if reason == 'add' and ',' not in _tmp and ':' not in _tmp:
                 _tmp = _tmp.split()
                 wits[0] = _tmp[-1].strip()
@@ -345,8 +347,8 @@ class Footnotes(object):
                 return
             _size = len(_tmp)
         except UnboundLocalError:
-            error = ('Attributes footnotes should be a non empty string, ' \
-                     'a list, a dictionary or an OrderedDict ' \
+            error = ('Attributes footnotes should be a non empty string, '
+                     'a list, a dictionary or an OrderedDict '
                      'but is {}'.format(type(self.footnotes)))
             logger.error(error)
             raise FootnotesException
@@ -389,7 +391,7 @@ class Footnotes(object):
         for n_footnote in self.footnotes.keys():
 
             # Add initial XML to xml_app (for the apparatus XML file)
-            self._xml_app.append('<app> from="#begin_fn' + str(n_footnote) +
+            self._xml_app.append('<app from="#begin_fn' + str(n_footnote) +
                                  '" to="#end_fn' + str(n_footnote) + '">')
             # Get the corresponding footnote (start at 1)
             footnote_line = self.footnotes[n_footnote]

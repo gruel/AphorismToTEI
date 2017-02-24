@@ -439,26 +439,31 @@ class Process(Hyppocratic):
 
         # Open and read the hyppocratic document
         self.open_document()
+        logger.debug('Open document {}'.format(self.fname))
 
         # Divide the document in the different part (intro, title,
         # text, footnotes)
         self.divide_document()
+        logger.debug('Division of the document ok.')
 
         if self.introduction != '':
             intro = Introduction(self.introduction, self.next_footnote)
             intro.xml_main()
             # TODO: set properly the next_footnote. Should be modified
             self.next_footnote = intro.next_footnote
-
             self.xml += intro.xml
+            logger.debug('Introduction treated')
 
         self.aphorisms_dict()
+        logger.debug('Created aphorisms dictionary')
 
         # Treat the footnote part and create the XML app
         self.footnotes_app = Footnotes(self.footnotes)
+        logger.debug('Footnotes treated')
 
         # Create XML app
         self.footnotes_app.xml_app()
+        logger.debug('Footnotes app file created')
 
         # Deal with the first block of text which should contain
         # an optional intro
@@ -466,7 +471,10 @@ class Process(Hyppocratic):
         # =======================================================
 
         title = Title(self.title, self.next_footnote, self.doc_num)
+        logger.debug('Title treated')
+
         title.xml_main()
+        logger.debug('Title xml created')
 
         # TODO: set properly the next_footnote. Should be modified
         self.next_footnote = title.next_footnote
@@ -476,6 +484,7 @@ class Process(Hyppocratic):
 
         # Now process the rest of the main text
         # =====================================
+        logger.debug('Start aphorisms and commentaries treatment')
         for k in self.aph_com:
 
             aphorism = self.aph_com[k][0]
@@ -525,11 +534,10 @@ class Process(Hyppocratic):
             for n_com, line in enumerate(commentaries):
                 if line[-1] != '.':
 
-                    error = ('Commentaries should ended with a `.`\n'
+                    warning = ('Commentaries should ended with a `.`\n'
                              'Error in aphorism {}\n'
                              'commentary {}'.format(k, line))
-                    logger.error(error)
-                    raise CommentaryToEpidocException
+                    logger.warning(warning)
 
                 # Add initial XML for this aphorism's commentary
                 self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
@@ -572,8 +580,10 @@ class Process(Hyppocratic):
             # Close the XML for the aphorism + commentary unit
             self.xml.append(self.xml_oss * self.xml_n_offset + '</div>')
 
+        logger.debug('Finish aphorisms and commentaries treatment')
         # Save the xmls created
         self.save_xml()
+        logger.debug('Save main xml')
 
     def reset(self):
         """Reset some of the attributes to be use with process_folder
@@ -632,7 +642,8 @@ class Process(Hyppocratic):
                     self.fname = fname
                     self.setbasename()
                     self.process_file()
-                except CommentaryToEpidocException:
+                except Exception as e:
+                    logger.exception(e)
                     error = 'Error: unable to process "{}", ' \
                             'see log file.'.format(self.fname)
                     logger.error(error)
