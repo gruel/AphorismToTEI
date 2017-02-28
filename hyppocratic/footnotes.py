@@ -252,11 +252,11 @@ class Footnote(Hyppocratic):
                 _tmp = _tmp.split('add.')
                 _tmp = _tmp[1].strip()
 
-            #TODO: need to implement the new form!
             if reason == 'add' and ',' not in _tmp and ':' not in _tmp:
                 _tmp = _tmp.split()
                 wits[0] = _tmp[-1].strip()
                 corrs[0] = ' '.join(_tmp[:-1]).strip()
+            # Faire un truc avec Regex (il n'y a pas le choix je pense)
             elif ',' in _tmp:
                 _tmp = _tmp.split(',')
                 wits[1] = _tmp[-1].strip()
@@ -319,7 +319,8 @@ class Footnote(Hyppocratic):
             xml_app.append(self.xml_oss * 2 + '<choice>')
 
             if self.d_footnote['reason'] == 'correxi':
-                xml_app.append(self.xml_oss * 3 + '<corr>' + self.d_footnote['text']
+                xml_app.append(self.xml_oss * 3 + '<corr>' +
+                               self.d_footnote['text']
                                + '</corr>')
             elif self.d_footnote['reason'] == 'conieci':
                 xml_app.append(self.xml_oss * 3 + '<corr type="conjecture">' +
@@ -330,7 +331,7 @@ class Footnote(Hyppocratic):
             xml_app.append(self.xml_oss * 2 + '</choice>')
             xml_app.append(self.xml_oss + '</rdg>')
 
-        for i in [0, 1]:
+        for i in range(len(self.d_footnote['witnesses'])):
             xml_app.append(self.xml_oss + '<rdg wit="#' +
                            self.d_footnote['witnesses'][i] + '">' +
                            self.d_footnote['corrections'][i] + '</rdg>')

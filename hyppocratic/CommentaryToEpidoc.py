@@ -323,8 +323,9 @@ class Process(Hyppocratic):
         #    with a point and a end of line.
         p = re.compile(r'\s+[0-9]+.\n')
         try:
-            n_aphorism = [int(i.group().strip('\t').strip('\n').strip().strip('.'))
-                          for i in p.finditer('\n' + self.text)]
+            n_aphorism = [
+                int(i.group().strip('\t').strip('\n').strip().strip('.'))
+                for i in p.finditer('\n' + self.text)]
         except ValueError:
             error = "aphorism format does not respect the convention. " \
                     "It should be a number following by a point"
@@ -449,7 +450,9 @@ class Process(Hyppocratic):
 
         # Open and read the hyppocratic document
         self.open_document()
-        logger.debug('Open document {}'.format(self.fname))
+
+        debug = 'Open document {}'.format(self.fname)
+        logger.debug(debug)
 
         # Divide the document in the different part (intro, title,
         # text, footnotes)
@@ -545,8 +548,8 @@ class Process(Hyppocratic):
                 if line[-1] != '.':
 
                     warning = ('Commentaries should ended with a `.`\n'
-                             'Warning in aphorism {}\n'
-                             'commentary {}'.format(k, line))
+                               'Warning in aphorism {}\n'
+                               'commentary {}'.format(k, line))
                     logger.warning(warning)
 
                 # Add initial XML for this aphorism's commentary
