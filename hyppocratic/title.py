@@ -90,11 +90,11 @@ class Title(Hyppocratic):
                 xml_main_to_add, self.next_footnote = \
                     footnotes(line_ref, self.next_footnote)
                 self.xml_n_offset -= 2
-            except TitleException:
+            except(TitleException, TypeError):
                 error = ('Unable to process title _references '
                          'in line {} '.format(line))
                 logger.error(error)
-                raise TitleException
+                return
 
             # Add the return values to the XML lists
             self.xml.extend(xml_main_to_add)
