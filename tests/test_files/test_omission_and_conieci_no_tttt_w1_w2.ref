@@ -1,0 +1,11 @@
+    <rdg>
+        <choice>
+            <corr type="conjecture">ssss</corr>
+        </choice>
+    </rdg>
+    <rdg wit="#W1">
+        <gap reason="omission"/>
+    </rdg>
+    <rdg wit="#W2">
+        <gap reason="omission"/>
+    </rdg>

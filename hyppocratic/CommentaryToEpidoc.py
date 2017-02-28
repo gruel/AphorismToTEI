@@ -246,8 +246,8 @@ class Process(Hyppocratic):
 
         if loc_footnotes == self.text.find(footnotes_sep):
             logger.error('Footnote referenced in the text but '
-                         'no footnote section present')
-            raise CommentaryToEpidocException
+                         'no footnote section present.')
+            return False
 
         if loc_footnotes != -1:
             self.footnotes = self.text[loc_footnotes:].strip()
@@ -269,6 +269,7 @@ class Process(Hyppocratic):
         loc_title = self.text.find(title_sep)
         self.title = self.text[:loc_title].strip()
         self.text = self.text[loc_title:].strip()
+        return True
 
 #     def analysis_aphorism_dict(self, com):
 #         """Create an ordered dictionary with the different witness and
@@ -321,8 +322,16 @@ class Process(Hyppocratic):
         #    with at least on number ending
         #    with a point and a end of line.
         p = re.compile(r'\s+[0-9]+.\n')
-        n_aphorism = [int(i.group().strip('\t').strip('\n').strip().strip('.'))
-                      for i in p.finditer('\n' + self.text)]
+        try:
+            n_aphorism = [int(i.group().strip('\t').strip('\n').strip().strip('.'))
+                          for i in p.finditer('\n' + self.text)]
+        except ValueError:
+            error = "aphorism format does not respect the convention. " \
+                    "It should be a number following by a point"
+            logger.error(error)
+            error = "we got {}".format(self.text)
+            logger.error(error)
+            return
 
         # create the dictionary with the aphorism (not sure that we need
         # the ordered one)
@@ -414,7 +423,8 @@ class Process(Hyppocratic):
             f.write(self.template_part2)
 
         # Save app XML to file
-        self.footnotes_app.save_xml(xml_app_file)
+        if self.footnotes_app is not None:
+            self.footnotes_app.save_xml(xml_app_file)
 
     def process_file(self):
         """
@@ -443,9 +453,6 @@ class Process(Hyppocratic):
 
         # Divide the document in the different part (intro, title,
         # text, footnotes)
-        self.divide_document()
-        logger.debug('Division of the document ok.')
-
         if self.introduction != '':
             intro = Introduction(self.introduction, self.next_footnote)
             intro.xml_main()
@@ -457,13 +464,16 @@ class Process(Hyppocratic):
         self.aphorisms_dict()
         logger.debug('Created aphorisms dictionary')
 
-        # Treat the footnote part and create the XML app
-        self.footnotes_app = Footnotes(self.footnotes)
-        logger.debug('Footnotes treated')
+        if self.divide_document():
+            logger.debug('Division of the document ok.')
 
-        # Create XML app
-        self.footnotes_app.xml_app()
-        logger.debug('Footnotes app file created')
+            # Treat the footnote part and create the XML app
+            self.footnotes_app = Footnotes(self.footnotes)
+            logger.debug('Footnotes treated')
+
+            # Create XML app
+            self.footnotes_app.xml_app()
+            logger.debug('Footnotes app file created')
 
         # Deal with the first block of text which should contain
         # an optional intro
@@ -517,11 +527,11 @@ class Process(Hyppocratic):
                     footnotes(line_ref, self.next_footnote)
                 self.xml_n_offset -= 3
 
-            except CommentaryToEpidocException:
+            except (TypeError, CommentaryToEpidocException):
                 error = ('Unable to process footnotes in '
                          'aphorism {}'.format(k))
                 logger.error(error)
-                raise CommentaryToEpidocException
+                return
 
             # Add the XML
             self.xml.extend(xml_main_to_add)
@@ -535,7 +545,7 @@ class Process(Hyppocratic):
                 if line[-1] != '.':
 
                     warning = ('Commentaries should ended with a `.`\n'
-                             'Error in aphorism {}\n'
+                             'Warning in aphorism {}\n'
                              'commentary {}'.format(k, line))
                     logger.warning(warning)
 
@@ -553,7 +563,7 @@ class Process(Hyppocratic):
                              'commentary {} for aphorism '
                              '{}'.format(n_com, k))
                     logger.error(error)
-                    raise CommentaryToEpidocException
+                    return
 
                 # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
@@ -563,11 +573,10 @@ class Process(Hyppocratic):
                         footnotes(line_ref, self.next_footnote)
                     self.xml_n_offset -= 3
 
-                except CommentaryToEpidocException:
-                    error = "Unable to proceed Aphorism {} " \
-                            "(see previous error message)".format(k)
+                except (TypeError, CommentaryToEpidocException):
+                    error = "Unable to proceed Aphorism {}".format(k)
                     logger.error(error)
-                    raise CommentaryToEpidocException
+                    return
 
                 # Add the XML
                 self.xml.extend(xml_main_to_add)

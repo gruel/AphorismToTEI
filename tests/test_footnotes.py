@@ -109,6 +109,103 @@ class TestFootnote(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
+    def test_omission_and_conieci_no_tttt_w1(self):
+        """
+        Runs the function _omission(...) on the text in
+        test_process_omission.in, and compare the output against the text in
+        test_process_omission.ref
+        """
+        # Load text from input file
+        with open(path_testdata + 'test_omission_and_conieci_no_tttt_w1.in',
+                  'r', encoding="utf-8") as f:
+            text_in = f.read()
+
+        # # Load text from reference file
+        with open(path_testdata + 'test_omission_and_conieci_no_tttt_w1.ref',
+                  'r', encoding="utf-8") as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.ft.footnote = text_in
+        self.ft.omission(list_out)
+
+        # Convert the output list to a string with each element on a new line
+        # This is not good in a test you should not modify the results
+        # before the test.
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+    def test_omission_and_conieci_no_tttt_w1_w2(self):
+        # Load text from input file
+        with open(path_testdata + 'test_omission_and_conieci_no_tttt_w1_w2.in',
+                  'r', encoding="utf-8") as f:
+            text_in = f.read()
+
+        # # Load text from reference file
+        with open(path_testdata + 'test_omission_and_conieci_no_tttt_w1_w2.ref',
+                  'r', encoding="utf-8") as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.ft.footnote = text_in
+        self.ft.omission(list_out)
+
+        # Convert the output list to a string with each element on a new line
+        # This is not good in a test you should not modify the results
+        # before the test.
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+    def test_omission_and_correxi_no_tttt_w1(self):
+        # Load text from input file
+        with open(path_testdata + 'test_omission_and_correxi_no_tttt_w1.in',
+                  'r', encoding="utf-8") as f:
+            text_in = f.read()
+
+        # # Load text from reference file
+        with open(path_testdata + 'test_omission_and_correxi_no_tttt_w1.ref',
+                  'r', encoding="utf-8") as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.ft.footnote = text_in
+        self.ft.omission(list_out)
+
+        # Convert the output list to a string with each element on a new line
+        # This is not good in a test you should not modify the results
+        # before the test.
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
+    def test_omission_and_correxi_no_tttt_w1_w2(self):
+        # Load text from input file
+        with open(path_testdata + 'test_omission_and_correxi_no_tttt_w1_w2.in',
+                  'r', encoding="utf-8") as f:
+            text_in = f.read()
+
+        # # Load text from reference file
+        with open(path_testdata + 'test_omission_and_correxi_no_tttt_w1_w2.ref',
+                  'r', encoding="utf-8") as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.ft.footnote = text_in
+        self.ft.omission(list_out)
+
+        # Convert the output list to a string with each element on a new line
+        # This is not good in a test you should not modify the results
+        # before the test.
+        text_out = '\n'.join(list_out)
+
+        self.assertEqual(text_out, text_ref)
+
     def test_correction_add_form1(self):
         """
         Runs the function _correxi(...) on the text in
