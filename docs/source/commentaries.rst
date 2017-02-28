@@ -128,7 +128,7 @@ a. Form 1: ``*n*ssss ] add. tttt W1.``
 b. Form 2: ``*n*ssss ] add. tttt W1, W2.``
 
   This means both witnesses have ``ssss`` and both add ``tttt``,
-  however the editor felt the need to omit tttt.
+  however the editor felt the need to omit ``tttt``.
 
 c. Form 3: ``*n*ssss ] add. tttt W1: uuuu W2.``
 
@@ -176,8 +176,13 @@ b. Form 2: ``*n*ssss ] conieci: tttt W1: uuuu W2.``
 Textual variations
 ------------------
 
-Standard variations have only one form.
+Standard variations have only two forms:
 
-``*n*ssss ] W1: tttt W2.``
+a. ``*n*ssss ] W1: tttt W2.``
 
-This means witness ``W1`` has text ``ssss`` whereas ``W2`` has ``tttt``.
+   This means witness ``W1`` has text ``ssss`` whereas ``W2`` has ``tttt``.
+
+b. ``*n*ssss ] W1, W2, W3: tttt W4, W5, W6.``
+
+   This means witnesses ``W1``, ``W2`` and ``W3`` have text ``ssss``
+   whereas``W4``, ``W5``, ``W6`` have ``tttt``.
