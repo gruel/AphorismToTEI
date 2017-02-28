@@ -97,36 +97,65 @@ class Footnote(Hyppocratic):
         reason = None
         corr = None
         wits = [None, None]
-        # Split the footnote
+        omission = [None, None]
 
+        # Split the footnote
         try:
             # Split to get the text and remove the space
             _tmp = self.footnote.split(']')
+            if len(_tmp) != 2:
+                raise FootnotesException
             text = _tmp[0].strip()
 
-            # split around om. to
-            _tmp = _tmp[1].split('om.')
-            wits[1] = _tmp[-1].strip()
-            _tmp = _tmp[0].strip().split()
-
-            if len(_tmp) == 1:
-                wits[0] = _tmp[0].strip(':').strip()
+            # Split the left over in function of the space
+            # (after removing the trailing space)
+            _tmp = _tmp[1].strip().split(' ')
+            if len(_tmp) == 3:
+                # form: ssss ] correxi: om. W1
+                # form: ssss ] conieci: om. W1
+                if _tmp[0] == 'correxi:' or _tmp[0] == 'conieci:':
+                    reason = _tmp[0].strip(':')
+                    wits[0] = _tmp[-1]
+                    omission[0] = 'omission'
+                # form: W1: om. W2
+                else:
+                    wits[0] = _tmp[0].strip(':')
+                    wits[1] = _tmp[-1]
+                    omission[1] = 'omission'
+            # form: correxi: om. W1, W2
+            # form: conieci: om. W1, W2
+            elif len(_tmp) == 4:
+                reason = _tmp[0].strip(':').strip()
+                wits[0] = _tmp[-2].strip(',')
+                wits[1] = _tmp[-1]
+                omission = ['omission', 'omission']
+            # form: ssss ] correxi: tttt W1: om. W2
+            # form: ssss ] conieci: tttt W1: om. W2
             else:
                 reason = _tmp[0].strip(':').strip()
+                try:
+                    om_index = _tmp.index('om.')
+                except ValueError:
+                    error = 'Missing space in footnote {}: {}'.format(
+                        self.n_footnote, self.footnote)
+                    logger.error(error)
+                    return
                 # join all the other element to get the full original text
-                corr = ' '.join(_tmp[1:-1])
-                wits[0] = _tmp[-1].strip(':').strip()
-        except IndexError:
-            error = 'Error in footnote: {}'.format(self.n_footnote)
-            logger.error(error)
-            error = 'Omission footnote error: {}'.format(self.footnote)
+                corr = ' '.join(_tmp[1:om_index-1])
+                wits[0] = _tmp[om_index-1].strip(':').strip()
+                wits[1] = _tmp[-1]
+                omission[1] = 'omission'
+        except (IndexError, FootnotesException):
+            error = 'Omission error in footnote {}: {}'.format(self.n_footnote,
+                                                               self.footnote)
             logger.error(error)
             return
 
         self.d_footnote = {'reason': reason,
                            'text': text,
                            'witnesses': wits,
-                           'corrections': corr}
+                           'corrections': corr,
+                           'omission': omission}
         self._omission_xml(xml_app)
 
     def _omission_xml(self, xml_app):
@@ -158,19 +187,19 @@ class Footnote(Hyppocratic):
             error = 'Type of correction unexpected: ' \
                     '{}'.format(self.d_footnote['reason'])
             logger.error(error)
-            raise FootnotesException
+            return
 
         # Add the witness to the XML (remember to strip whitespace)
-        xml_app.append(self.xml_oss + '<rdg wit="#' +
-                       self.d_footnote['witnesses'][0] + '">' +
-                       self.d_footnote['text'] + '</rdg>')
-
-        # Add witness to the XML
-        xml_app.append(self.xml_oss + '<rdg wit="#' +
-                       self.d_footnote['witnesses'][1]
-                       + '">')
-        xml_app.append(self.xml_oss * 2 + '<gap reason="omission"/>')
-        xml_app.append(self.xml_oss + '</rdg>')
+        for i, w in enumerate(self.d_footnote['witnesses']):
+            if w is not None:
+                _str = self.xml_oss + '<rdg wit="#' + w + '">'
+                if self.d_footnote['omission'][i]:
+                    _str += '\n' + self.xml_oss * 2 + '<gap reason="omission"/>'
+                if i == 0 and self.d_footnote['text'] is not None:
+                    _str += self.d_footnote['text'] + '</rdg>'
+                else:
+                    _str += '\n' + self.xml_oss + '</rdg>'
+                xml_app.append(_str)
 
     def correction(self, reason, xml_app):
         """
@@ -355,11 +384,14 @@ class Footnotes(object):
 
         # Check that the number of footnote is in agreement
         # with their numeration
-        if not re.findall(str(_size), _tmp[-1])[0] == str(_size):
+        try:
+            if not re.findall(str(_size), _tmp[-1])[0] == str(_size):
+                raise FootnotesException
+        except (IndexError, FootnotesException):
             error = 'Number of footnotes {} not in agreement ' \
                     'with their numeration in the file'.format(_size)
             logger.error(error)
-            raise FootnotesException
+            return
 
         # Create the ordere dictionary and remove the '.'
         _dic = OrderedDict()
@@ -369,7 +401,7 @@ class Footnotes(object):
             except ValueError:
                 error = 'There are a problem in footnote: {}'.format(line)
                 logger.error(error)
-                raise FootnotesException
+                return
 
             # Remove space and '.'
             _dic[int(key)] = value.strip().strip('.')
@@ -451,7 +483,7 @@ class Footnotes(object):
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnote {}: {}'.format(k, footnote)
                 logger.error(error)
 
             # Test the first character is a '*' and remove it
@@ -462,7 +494,7 @@ class Footnotes(object):
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnote {}: {}'.format(k, footnote)
                 logger.error(error)
             footnote = footnote.lstrip('*')
 
@@ -474,7 +506,7 @@ class Footnotes(object):
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnote {}: {}'.format(k, footnote)
                 logger.error(error)
 
             # Partition at the next '*' and check the footnote number
@@ -489,7 +521,7 @@ class Footnotes(object):
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnote {}: {}'.format(k, footnote)
                 logger.error(error)
 
             # Check the footnote contains one ']'
@@ -502,7 +534,7 @@ class Footnotes(object):
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnote {}: {}'.format(k, footnote)
                 logger.error(error)
 
             # Check for known illegal characters
@@ -514,7 +546,7 @@ class Footnotes(object):
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnote {}: {}'.format(k, footnote)
                 logger.error(error)
 
             # If contains a ';' give an error and stop further processing
@@ -525,23 +557,11 @@ class Footnotes(object):
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
-                error = 'Footnotes: {}'.format(footnote)
+                error = 'Footnote {}: {}'.format(k, footnote)
                 logger.error(error)
 
-            # Test omission has the correct format
-            # Errors tested for:
-            # - should not contain any ','
             if 'om.' in footnote:
-
-                try:
-                    if ',' in footnote:
-                        error = ('Error in footnote ' + str(k) +
-                                 ': omission should not contain "," character')
-                        raise FootnotesException
-                except FootnotesException:
-                    logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
-                    logger.error(error)
+                pass
 
             # Test addition has the correct format
             # Errors tested for:
@@ -556,7 +576,7 @@ class Footnotes(object):
                         raise FootnotesException
                 except FootnotesException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnote {}: {}'.format(k, footnote)
                     logger.error(error)
 
             elif 'correxi' in footnote:
@@ -578,7 +598,7 @@ class Footnotes(object):
                         raise FootnotesException
                 except FootnotesException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnote {}: {}'.format(k, footnote)
                     logger.error(error)
 
                 try:
@@ -589,7 +609,7 @@ class Footnotes(object):
                         raise FootnotesException
                 except FootnotesException:
                     logger.error(error)
-                    error = 'Footnotes: {}'.format(footnote)
+                    error = 'Footnote {}: {}'.format(k, footnote)
                     logger.error(error)
 
     def save_xml(self, fname='xml_app.xml'):

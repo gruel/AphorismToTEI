@@ -84,23 +84,33 @@ one or more words in length).
 Omissions
 ---------
 
-Omissions have only three forms, i.e.
+Omissions can have the following forms, i.e.
 
-a. Form 1: ``*n*ssss ] W1: om. W2.``
+a. ``*n*ssss ] W1: om. W2.``
 
    This means the segment of text ``ssss`` is found in witness ``W1`` but
    not ``W2``.
 
-b. Form 2: ``*n*ssss ] correxi: tttt W1: om. W2.``
+b. ``*n*ssss ] correxi: tttt W1: om. W2.``
 
    This means the segment of text ``ssss`` is found in witness ``W1`` but
    not ``W2`` however the editor has corrected ``ssss`` to ``tttt``.
 
-b. Form 2: ``*n*ssss ] conieci: tttt W1: om. W2.``
+c. ``*n*ssss ] conieci: tttt W1: om. W2.``
 
    This means the segment of text ``ssss`` is found in witness ``W1`` but
    not ``W2`` however the editor has conjonctured that it should be ``ssss``
    instead of ``tttt``.
+
+d. ``*n*ssss ] correxi: om. W1.`` or ``*n*ssss ] correxi: om. W1, W2.``
+
+   This means add the text ``ssss`` which is missing in witness ``W1`` or
+   missing in witness ``W1`` and ``w2``.
+
+e. ``*n*ssss ] conieci: om. W1.`` or ``*n*ssss ] correxi: om. W1, W2.``
+
+   This means add a conjonctured text ``ssss`` which is missing in witness
+   ``W1`` or missing in witness ``W1`` and ``w2``.
 
 .. _additions:
 
