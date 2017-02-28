@@ -1,247 +1,247 @@
-<app> from="#begin_fn1" to="#end_fn1">
+<app from="#begin_fn1" to="#end_fn1">
     <rdg wit="#V1">من شرح الفصول</rdg>
     <rdg wit="#CB1">من فصول أبقراط شرح ابن أبي صادق</rdg>
 </app>
-<app> from="#begin_fn2" to="#end_fn2">
+<app from="#begin_fn2" to="#end_fn2">
     <rdg wit="#V1">في</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn3" to="#end_fn3">
+<app from="#begin_fn3" to="#end_fn3">
     <rdg wit="#CB1">انقلاب</rdg>
     <rdg wit="#V1">الانقلاب</rdg>
 </app>
-<app> from="#begin_fn4" to="#end_fn4">
+<app from="#begin_fn4" to="#end_fn4">
     <rdg wit="#CB1">كذلك</rdg>
     <rdg wit="#V1">كذلك فكذلك</rdg>
 </app>
-<app> from="#begin_fn5" to="#end_fn5">
+<app from="#begin_fn5" to="#end_fn5">
     <rdg wit="#CB1">
         <add reason="add_scribe">بتوليد الأمراض</add>
     </rdg>
 </app>
-<app> from="#begin_fn6" to="#end_fn6">
+<app from="#begin_fn6" to="#end_fn6">
     <rdg wit="#V1">عن</rdg>
     <rdg wit="#CB1">على</rdg>
 </app>
-<app> from="#begin_fn7" to="#end_fn7">
+<app from="#begin_fn7" to="#end_fn7">
     <rdg wit="#V1">إذا</rdg>
     <rdg wit="#CB1">إن</rdg>
 </app>
-<app> from="#begin_fn8" to="#end_fn8">
+<app from="#begin_fn8" to="#end_fn8">
     <rdg wit="#V1">من به</rdg>
     <rdg wit="#CB1">من</rdg>
 </app>
-<app> from="#begin_fn9" to="#end_fn9">
+<app from="#begin_fn9" to="#end_fn9">
     <rdg wit="#V1">قال حقًّا</rdg>
     <rdg wit="#CB1">كان</rdg>
 </app>
-<app> from="#begin_fn10" to="#end_fn10">
+<app from="#begin_fn10" to="#end_fn10">
     <rdg wit="#V1">فكانت</rdg>
     <rdg wit="#CB1">وكانت</rdg>
 </app>
-<app> from="#begin_fn11" to="#end_fn11">
+<app from="#begin_fn11" to="#end_fn11">
     <rdg wit="#V1">قاله</rdg>
     <rdg wit="#CB1">قال</rdg>
 </app>
-<app> from="#begin_fn12" to="#end_fn12">
+<app from="#begin_fn12" to="#end_fn12">
     <rdg wit="#CB1">التغيّر</rdg>
     <rdg wit="#V1">التغيير</rdg>
 </app>
-<app> from="#begin_fn13" to="#end_fn13">
+<app from="#begin_fn13" to="#end_fn13">
     <rdg wit="#V1">المرض</rdg>
     <rdg wit="#CB1">الأمراض</rdg>
 </app>
-<app> from="#begin_fn14" to="#end_fn14">
+<app from="#begin_fn14" to="#end_fn14">
     <rdg wit="#CB1">يضرّها</rdg>
     <rdg wit="#V1">يضرّ بها</rdg>
 </app>
-<app> from="#begin_fn15" to="#end_fn15">
+<app from="#begin_fn15" to="#end_fn15">
     <rdg wit="#CB1">لها</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn16" to="#end_fn16">
+<app from="#begin_fn16" to="#end_fn16">
     <rdg wit="#CB1">لها</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn17" to="#end_fn17">
+<app from="#begin_fn17" to="#end_fn17">
     <rdg wit="#CB1">مثله</rdg>
     <rdg wit="#V1">بمثله</rdg>
 </app>
-<app> from="#begin_fn18" to="#end_fn18">
+<app from="#begin_fn18" to="#end_fn18">
     <rdg wit="#V1">وأما</rdg>
     <rdg wit="#CB1">فأما</rdg>
 </app>
-<app> from="#begin_fn19" to="#end_fn19">
+<app from="#begin_fn19" to="#end_fn19">
     <rdg wit="#CB1">شكّك الرازي</rdg>
     <rdg wit="#V1">يتشكل</rdg>
 </app>
-<app> from="#begin_fn20" to="#end_fn20">
+<app from="#begin_fn20" to="#end_fn20">
     <rdg wit="#V1">فهلا</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn21" to="#end_fn21">
+<app from="#begin_fn21" to="#end_fn21">
     <rdg wit="#V1">للبارد</rdg>
     <rdg wit="#CB1">البارد</rdg>
 </app>
-<app> from="#begin_fn22" to="#end_fn22">
+<app from="#begin_fn22" to="#end_fn22">
     <rdg wit="#V1">وهذا</rdg>
     <rdg wit="#CB1">فهذا</rdg>
 </app>
-<app> from="#begin_fn23" to="#end_fn23">
+<app from="#begin_fn23" to="#end_fn23">
     <rdg wit="#V1">له</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn24" to="#end_fn24">
+<app from="#begin_fn24" to="#end_fn24">
     <rdg wit="#CB1">يعتدل</rdg>
     <rdg wit="#V1">يكون</rdg>
 </app>
-<app> from="#begin_fn25" to="#end_fn25">
+<app from="#begin_fn25" to="#end_fn25">
     <rdg wit="#CB1">يعتدل</rdg>
     <rdg wit="#V1">يتعدّل</rdg>
 </app>
-<app> from="#begin_fn26" to="#end_fn26">
+<app from="#begin_fn26" to="#end_fn26">
     <rdg wit="#CB1">بل إلى ما يحفظ عليه اعتداله</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn27" to="#end_fn27">
+<app from="#begin_fn27" to="#end_fn27">
     <rdg wit="#CB1">فلذلك</rdg>
     <rdg wit="#V1">ولذلك</rdg>
 </app>
-<app> from="#begin_fn28" to="#end_fn28">
+<app from="#begin_fn28" to="#end_fn28">
     <rdg wit="#CB1">لجوهر البدن</rdg>
     <rdg wit="#V1">للبدن</rdg>
 </app>
-<app> from="#begin_fn29" to="#end_fn29">
+<app from="#begin_fn29" to="#end_fn29">
     <rdg wit="#CB1">اليبوسة</rdg>
     <rdg wit="#V1">اليبس</rdg>
 </app>
-<app> from="#begin_fn30" to="#end_fn30">
+<app from="#begin_fn30" to="#end_fn30">
     <rdg wit="#CB1">بلدان</rdg>
     <rdg wit="#V1">البلدان</rdg>
 </app>
-<app> from="#begin_fn31" to="#end_fn31">
+<app from="#begin_fn31" to="#end_fn31">
     <rdg wit="#CB1">وأمّا</rdg>
     <rdg wit="#V1">أمّا</rdg>
 </app>
-<app> from="#begin_fn32" to="#end_fn32">
+<app from="#begin_fn32" to="#end_fn32">
     <rdg wit="#CB1">لها</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn33" to="#end_fn33">
+<app from="#begin_fn33" to="#end_fn33">
     <rdg wit="#V1">البدل</rdg>
     <rdg wit="#CB1">الدوام</rdg>
 </app>
-<app> from="#begin_fn34" to="#end_fn34">
+<app from="#begin_fn34" to="#end_fn34">
     <rdg wit="#CB1">في يوم واحد</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn35" to="#end_fn35">
+<app from="#begin_fn35" to="#end_fn35">
     <rdg wit="#V1">يشاكل</rdg>
     <rdg wit="#CB1">مشاكل</rdg>
 </app>
-<app> from="#begin_fn36" to="#end_fn36">
+<app from="#begin_fn36" to="#end_fn36">
     <rdg wit="#CB1">أوجاع الحلوق</rdg>
     <rdg wit="#V1">وأوجاعًا في الحلوق</rdg>
 </app>
-<app> from="#begin_fn37" to="#end_fn37">
+<app from="#begin_fn37" to="#end_fn37">
     <rdg wit="#CB1">فعند غلبة هذه الريح وقوّتها</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn38" to="#end_fn38">
+<app from="#begin_fn38" to="#end_fn38">
     <rdg wit="#CB1">ذلك</rdg>
     <rdg wit="#V1">لذلك</rdg>
 </app>
-<app> from="#begin_fn39" to="#end_fn39">
+<app from="#begin_fn39" to="#end_fn39">
     <rdg wit="#CB1">للأرواح</rdg>
     <rdg wit="#V1">الأرواح</rdg>
 </app>
-<app> from="#begin_fn40" to="#end_fn40">
+<app from="#begin_fn40" to="#end_fn40">
     <rdg wit="#V1">التنفّس</rdg>
     <rdg wit="#CB1">النفس</rdg>
 </app>
-<app> from="#begin_fn41" to="#end_fn41">
+<app from="#begin_fn41" to="#end_fn41">
     <rdg wit="#V1">مختلف بارد</rdg>
     <rdg wit="#CB1">بارد مختلف</rdg>
 </app>
-<app> from="#begin_fn42" to="#end_fn42">
+<app from="#begin_fn42" to="#end_fn42">
     <rdg wit="#V1">فلهذا</rdg>
     <rdg wit="#CB1">فلبردها</rdg>
 </app>
-<app> from="#begin_fn43" to="#end_fn43">
+<app from="#begin_fn43" to="#end_fn43">
     <rdg wit="#V1">شدّها</rdg>
     <rdg wit="#CB1">شدّتها</rdg>
 </app>
-<app> from="#begin_fn44" to="#end_fn44">
+<app from="#begin_fn44" to="#end_fn44">
     <rdg wit="#V1">الرطوبات</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn45" to="#end_fn45">
+<app from="#begin_fn45" to="#end_fn45">
     <rdg wit="#CB1">الحلوق</rdg>
     <rdg wit="#V1">والحلوق</rdg>
 </app>
-<app> from="#begin_fn46" to="#end_fn46">
+<app from="#begin_fn46" to="#end_fn46">
     <rdg wit="#CB1">فيكون قوله اليابسة</rdg>
     <rdg wit="#V1">وقوله اليابسة فيكون</rdg>
 </app>
-<app> from="#begin_fn47" to="#end_fn47">
+<app from="#begin_fn47" to="#end_fn47">
     <rdg wit="#CB1">النزلة</rdg>
     <rdg wit="#V1">النزل</rdg>
 </app>
-<app> from="#begin_fn48" to="#end_fn48">
+<app from="#begin_fn48" to="#end_fn48">
     <rdg wit="#V1">فإنّها</rdg>
     <rdg wit="#CB1">لأنّه</rdg>
 </app>
-<app> from="#begin_fn49" to="#end_fn49">
+<app from="#begin_fn49" to="#end_fn49">
     <rdg wit="#V1">لتغليظه</rdg>
     <rdg wit="#CB1">لتغليظ</rdg>
 </app>
-<app> from="#begin_fn50" to="#end_fn50">
+<app from="#begin_fn50" to="#end_fn50">
     <rdg wit="#V1">شدّها</rdg>
     <rdg wit="#CB1">شدّتها</rdg>
 </app>
-<app> from="#begin_fn51" to="#end_fn51">
+<app from="#begin_fn51" to="#end_fn51">
     <rdg wit="#V1">إذ</rdg>
     <rdg wit="#CB1">و</rdg>
 </app>
-<app> from="#begin_fn52" to="#end_fn52">
+<app from="#begin_fn52" to="#end_fn52">
     <rdg wit="#CB1">يهيج</rdg>
     <rdg wit="#V1">يحدث</rdg>
 </app>
-<app> from="#begin_fn53" to="#end_fn53">
+<app from="#begin_fn53" to="#end_fn53">
     <rdg wit="#V1">تلك</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn54" to="#end_fn54">
+<app from="#begin_fn54" to="#end_fn54">
     <rdg wit="#CB1">للهواء</rdg>
     <rdg wit="#V1">الهواء</rdg>
 </app>
-<app> from="#begin_fn55" to="#end_fn55">
+<app from="#begin_fn55" to="#end_fn55">
     <rdg wit="#CB1">وإن</rdg>
     <rdg wit="#V1">وإذا</rdg>
 </app>
-<app> from="#begin_fn56" to="#end_fn56">
+<app from="#begin_fn56" to="#end_fn56">
     <rdg wit="#CB1">
         <add reason="add_scribe">ومن قبل هذا أمكن أن يحمل قوله حادّة على حدّة لذع اللمس وعلى الحدّة التي تقابل الزمانة معًا</add>
     </rdg>
@@ -249,99 +249,99 @@
         <add reason="add_scribe">ومن قبل هذا أمكن أن يحمل قوله حادّة على حدّة لذع اللمس وعلى الحدّة التي تقابل الزمانة معًا</add>
     </rdg>
 </app>
-<app> from="#begin_fn57" to="#end_fn57">
+<app from="#begin_fn57" to="#end_fn57">
     <rdg wit="#V1">وتكون</rdg>
     <rdg wit="#CB1">تكون</rdg>
 </app>
-<app> from="#begin_fn58" to="#end_fn58">
+<app from="#begin_fn58" to="#end_fn58">
     <rdg wit="#V1">أوقات السنة</rdg>
     <rdg wit="#CB1">أوقاتها</rdg>
 </app>
-<app> from="#begin_fn59" to="#end_fn59">
+<app from="#begin_fn59" to="#end_fn59">
     <rdg wit="#CB1">
         <add reason="add_scribe">ولم يكن في كلّ وقت منها ما ينبغي أن يكون فيه</add>
     </rdg>
 </app>
-<app> from="#begin_fn60" to="#end_fn60">
+<app from="#begin_fn60" to="#end_fn60">
     <rdg wit="#V1">للنظام</rdg>
     <rdg wit="#CB1">النظام</rdg>
 </app>
-<app> from="#begin_fn61" to="#end_fn61">
+<app from="#begin_fn61" to="#end_fn61">
     <rdg wit="#V1">لطبائعها</rdg>
     <rdg wit="#CB1">طبائعها</rdg>
 </app>
-<app> from="#begin_fn62" to="#end_fn62">
+<app from="#begin_fn62" to="#end_fn62">
     <rdg wit="#CB1">مختلفًا</rdg>
     <rdg wit="#V1">مختلطًا</rdg>
 </app>
-<app> from="#begin_fn63" to="#end_fn63">
+<app from="#begin_fn63" to="#end_fn63">
     <rdg wit="#CB1">
         <add reason="add_scribe">فيه</add>
     </rdg>
 </app>
-<app> from="#begin_fn64" to="#end_fn64">
+<app from="#begin_fn64" to="#end_fn64">
     <rdg wit="#CB1">برد الخريف</rdg>
     <rdg wit="#V1">بردًا خريف</rdg>
 </app>
-<app> from="#begin_fn65" to="#end_fn65">
+<app from="#begin_fn65" to="#end_fn65">
     <rdg wit="#CB1">ويزيده</rdg>
     <rdg wit="#V1">فيزيده</rdg>
 </app>
-<app> from="#begin_fn66" to="#end_fn66">
+<app from="#begin_fn66" to="#end_fn66">
     <rdg wit="#V1">فالربيع</rdg>
     <rdg wit="#CB1">والربيع</rdg>
 </app>
-<app> from="#begin_fn67" to="#end_fn67">
+<app from="#begin_fn67" to="#end_fn67">
     <rdg wit="#V1">محترقة</rdg>
     <rdg wit="#CB1">محرقة</rdg>
 </app>
-<app> from="#begin_fn68" to="#end_fn68">
+<app from="#begin_fn68" to="#end_fn68">
     <rdg wit="#V1">
         <add reason="add_scribe">في</add>
     </rdg>
 </app>
-<app> from="#begin_fn69" to="#end_fn69">
+<app from="#begin_fn69" to="#end_fn69">
     <rdg wit="#V1">البرد</rdg>
     <rdg wit="#CB1">البارد</rdg>
 </app>
-<app> from="#begin_fn70" to="#end_fn70">
+<app from="#begin_fn70" to="#end_fn70">
     <rdg wit="#V1">
         <add reason="add_scribe">والخريف</add>
     </rdg>
 </app>
-<app> from="#begin_fn71" to="#end_fn71">
+<app from="#begin_fn71" to="#end_fn71">
     <rdg wit="#V1">لهم بيّن</rdg>
     <rdg wit="#H">بيّن لهم</rdg>
 </app>
-<app> from="#begin_fn72" to="#end_fn72">
+<app from="#begin_fn72" to="#end_fn72">
     <rdg wit="#V1">لنقلتهم من</rdg>
     <rdg wit="#H">لتقلّبهم عن</rdg>
 </app>
-<app> from="#begin_fn73" to="#end_fn73">
+<app from="#begin_fn73" to="#end_fn73">
     <rdg wit="#V1">في الحرّ تارة و البرد أخرى</rdg>
     <rdg wit="#H">تارة في الحرّ وتارة في البرد</rdg>
 </app>
-<app> from="#begin_fn74" to="#end_fn74">
+<app from="#begin_fn74" to="#end_fn74">
     <rdg wit="#V1">برئات</rdg>
     <rdg wit="#H">يراتب</rdg>
 </app>
-<app> from="#begin_fn75" to="#end_fn75">
+<app from="#begin_fn75" to="#end_fn75">
     <rdg wit="#V1">برئات</rdg>
     <rdg wit="#H">يراتب</rdg>
 </app>
-<app> from="#begin_fn76" to="#end_fn76">
+<app from="#begin_fn76" to="#end_fn76">
     <rdg wit="#V1">الضعف</rdg>
     <rdg wit="#H">البرد</rdg>
 </app>
-<app> from="#begin_fn77" to="#end_fn77">
+<app from="#begin_fn77" to="#end_fn77">
     <rdg wit="#V1">يعفّنها</rdg>
     <rdg wit="#H">يعفيها</rdg>
 </app>
-<app> from="#begin_fn78" to="#end_fn78">
+<app from="#begin_fn78" to="#end_fn78">
     <rdg wit="#H">ومن</rdg>
     <rdg wit="#V1">من</rdg>
 </app>
-<app> from="#begin_fn79" to="#end_fn79">
+<app from="#begin_fn79" to="#end_fn79">
     <rdg>
         <choice>
             <corr type="conjecture">لهم بيّن</corr>
@@ -350,208 +350,208 @@
     <rdg wit="#H">بيّن لهم</rdg>
     <rdg wit="#V1">بيّن لهم</rdg>
 </app>
-<app> from="#begin_fn80" to="#end_fn80">
+<app from="#begin_fn80" to="#end_fn80">
     <rdg wit="#V1">يذكرها</rdg>
     <rdg wit="#H">يذكر</rdg>
 </app>
-<app> from="#begin_fn81" to="#end_fn81">
+<app from="#begin_fn81" to="#end_fn81">
     <rdg wit="#V1">مع</rdg>
     <rdg wit="#H">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn82" to="#end_fn82">
+<app from="#begin_fn82" to="#end_fn82">
     <rdg wit="#V1">لأنّ</rdg>
     <rdg wit="#H">ولان</rdg>
 </app>
-<app> from="#begin_fn83" to="#end_fn83">
+<app from="#begin_fn83" to="#end_fn83">
     <rdg wit="#V1">للعفونة بسبب الرطوبة</rdg>
     <rdg wit="#H">الرطوبة بسبب العفونة</rdg>
 </app>
-<app> from="#begin_fn84" to="#end_fn84">
+<app from="#begin_fn84" to="#end_fn84">
     <rdg wit="#CB1">تختلف</rdg>
     <rdg wit="#V1">تحلف</rdg>
 </app>
-<app> from="#begin_fn85" to="#end_fn85">
+<app from="#begin_fn85" to="#end_fn85">
     <rdg wit="#CB1">أبقراط</rdg>
     <rdg wit="#V1">بقراط</rdg>
 </app>
-<app> from="#begin_fn86" to="#end_fn86">
+<app from="#begin_fn86" to="#end_fn86">
     <rdg wit="#V1">دفيئاً</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn87" to="#end_fn87">
+<app from="#begin_fn87" to="#end_fn87">
     <rdg wit="#V1">اللواتي</rdg>
     <rdg wit="#CB1">اللاتي</rdg>
 </app>
-<app> from="#begin_fn88" to="#end_fn88">
+<app from="#begin_fn88" to="#end_fn88">
     <rdg wit="#CB1">
         <add reason="add_scribe">يعرض لهن</add>
     </rdg>
 </app>
-<app> from="#begin_fn89" to="#end_fn89">
+<app from="#begin_fn89" to="#end_fn89">
     <rdg wit="#V1">واللاتي</rdg>
     <rdg wit="#CB1">اللواتي</rdg>
 </app>
-<app> from="#begin_fn90" to="#end_fn90">
+<app from="#begin_fn90" to="#end_fn90">
     <rdg wit="#CB1">ضعاف</rdg>
     <rdg wit="#V1">ضعفا</rdg>
 </app>
-<app> from="#begin_fn91" to="#end_fn91">
+<app from="#begin_fn91" to="#end_fn91">
     <rdg wit="#V1">لهم</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn92" to="#end_fn92">
+<app from="#begin_fn92" to="#end_fn92">
     <rdg wit="#CB1">النزلات</rdg>
     <rdg wit="#V1">النزل</rdg>
 </app>
-<app> from="#begin_fn93" to="#end_fn93">
+<app from="#begin_fn93" to="#end_fn93">
     <rdg wit="#V1">
         <add reason="add_scribe">لا</add>
     </rdg>
 </app>
-<app> from="#begin_fn94" to="#end_fn94">
+<app from="#begin_fn94" to="#end_fn94">
     <rdg wit="#V1">فيستقطن</rdg>
     <rdg wit="#CB1">ويسقطن</rdg>
 </app>
-<app> from="#begin_fn95" to="#end_fn95">
+<app from="#begin_fn95" to="#end_fn95">
     <rdg wit="#CB1">أعماق</rdg>
     <rdg wit="#V1">عمق</rdg>
 </app>
-<app> from="#begin_fn96" to="#end_fn96">
+<app from="#begin_fn96" to="#end_fn96">
     <rdg wit="#V1">من</rdg>
     <rdg wit="#CB1">لمن</rdg>
 </app>
-<app> from="#begin_fn97" to="#end_fn97">
+<app from="#begin_fn97" to="#end_fn97">
     <rdg wit="#CB1">يبقوا</rdg>
     <rdg wit="#V1">يبقون</rdg>
 </app>
-<app> from="#begin_fn98" to="#end_fn98">
+<app from="#begin_fn98" to="#end_fn98">
     <rdg wit="#V1">واختلاف الدم</rdg>
     <rdg wit="#CB1">احتلاف</rdg>
 </app>
-<app> from="#begin_fn99" to="#end_fn99">
+<app from="#begin_fn99" to="#end_fn99">
     <rdg wit="#V1">فيكون</rdg>
     <rdg wit="#CB1">ويكون</rdg>
 </app>
-<app> from="#begin_fn100" to="#end_fn100">
+<app from="#begin_fn100" to="#end_fn100">
     <rdg wit="#V1">
         <add reason="add_scribe">من قوله</add>
     </rdg>
 </app>
-<app> from="#begin_fn101" to="#end_fn101">
+<app from="#begin_fn101" to="#end_fn101">
     <rdg wit="#V1">فإذا</rdg>
     <rdg wit="#CB1">فاما اذا</rdg>
 </app>
-<app> from="#begin_fn102" to="#end_fn102">
+<app from="#begin_fn102" to="#end_fn102">
     <rdg wit="#V1">عدّها</rdg>
     <rdg wit="#CB1">اعدها</rdg>
 </app>
-<app> from="#begin_fn103" to="#end_fn103">
+<app from="#begin_fn103" to="#end_fn103">
     <rdg wit="#V1">الرأس</rdg>
     <rdg wit="#CB1">الرووس</rdg>
 </app>
-<app> from="#begin_fn104" to="#end_fn104">
+<app from="#begin_fn104" to="#end_fn104">
     <rdg wit="#V1">فيه</rdg>
     <rdg wit="#CB1">فيها</rdg>
 </app>
-<app> from="#begin_fn105" to="#end_fn105">
+<app from="#begin_fn105" to="#end_fn105">
     <rdg wit="#CB1">كان</rdg>
     <rdg wit="#V1">كانت</rdg>
 </app>
-<app> from="#begin_fn106" to="#end_fn106">
+<app from="#begin_fn106" to="#end_fn106">
     <rdg wit="#V1">أو إمساكها</rdg>
     <rdg wit="#CB1">وامساكها</rdg>
 </app>
-<app> from="#begin_fn107" to="#end_fn107">
+<app from="#begin_fn107" to="#end_fn107">
     <rdg wit="#CB1">كان</rdg>
     <rdg wit="#V1">كانت</rdg>
 </app>
-<app> from="#begin_fn108" to="#end_fn108">
+<app from="#begin_fn108" to="#end_fn108">
     <rdg wit="#CB1">وأمّا سائر الناس فيعرض لهم رمد يابس وحمّيات حادّة وزكام مزمن، ومنهم من يعرض له الوسواس من المرّة السوداء</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn109" to="#end_fn109">
+<app from="#begin_fn109" to="#end_fn109">
     <rdg wit="#CB1">تتمّة</rdg>
     <rdg wit="#V1">كنه</rdg>
 </app>
-<app> from="#begin_fn110" to="#end_fn110">
+<app from="#begin_fn110" to="#end_fn110">
     <rdg wit="#V1">
         <add reason="add_scribe">بقراط</add>
     </rdg>
 </app>
-<app> from="#begin_fn111" to="#end_fn111">
+<app from="#begin_fn111" to="#end_fn111">
     <rdg wit="#CB1">وذكر جالينوس إنّ أبقراط إنّما</rdg>
     <rdg wit="#V1">وانما</rdg>
 </app>
-<app> from="#begin_fn112" to="#end_fn112">
+<app from="#begin_fn112" to="#end_fn112">
     <rdg wit="#V1">أوّل</rdg>
     <rdg wit="#CB1">اواخر</rdg>
 </app>
-<app> from="#begin_fn113" to="#end_fn113">
+<app from="#begin_fn113" to="#end_fn113">
     <rdg wit="#V1">فصل</rdg>
     <rdg wit="#H">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn114" to="#end_fn114">
+<app from="#begin_fn114" to="#end_fn114">
     <rdg wit="#H">منها</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn115" to="#end_fn115">
+<app from="#begin_fn115" to="#end_fn115">
     <rdg wit="#V1">أبقراط</rdg>
     <rdg wit="#H">بقراط</rdg>
 </app>
-<app> from="#begin_fn116" to="#end_fn116">
+<app from="#begin_fn116" to="#end_fn116">
     <rdg wit="#H">كثرة المطر</rdg>
     <rdg wit="#V1">كثرته</rdg>
 </app>
-<app> from="#begin_fn117" to="#end_fn117">
+<app from="#begin_fn117" to="#end_fn117">
     <rdg wit="#H">
         <add reason="add_scribe">من كثرة المطر</add>
     </rdg>
 </app>
-<app> from="#begin_fn118" to="#end_fn118">
+<app from="#begin_fn118" to="#end_fn118">
     <rdg wit="#V1">يشدّ</rdg>
     <rdg wit="#H">شد</rdg>
 </app>
-<app> from="#begin_fn119" to="#end_fn119">
+<app from="#begin_fn119" to="#end_fn119">
     <rdg wit="#V1">الواغلة</rdg>
     <rdg wit="#H">الفاعلة</rdg>
 </app>
-<app> from="#begin_fn120" to="#end_fn120">
+<app from="#begin_fn120" to="#end_fn120">
     <rdg wit="#V1">الحالة</rdg>
     <rdg wit="#H">الحال</rdg>
 </app>
-<app> from="#begin_fn121" to="#end_fn121">
+<app from="#begin_fn121" to="#end_fn121">
     <rdg wit="#V1">طويلة</rdg>
     <rdg wit="#H">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn122" to="#end_fn122">
+<app from="#begin_fn122" to="#end_fn122">
     <rdg wit="#H">استفراغ</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn123" to="#end_fn123">
+<app from="#begin_fn123" to="#end_fn123">
     <rdg wit="#V1">تتولّد</rdg>
     <rdg wit="#H">يتولد</rdg>
 </app>
-<app> from="#begin_fn124" to="#end_fn124">
+<app from="#begin_fn124" to="#end_fn124">
     <rdg wit="#H">فهو</rdg>
     <rdg wit="#V1">فهي</rdg>
 </app>
-<app> from="#begin_fn125" to="#end_fn125">
+<app from="#begin_fn125" to="#end_fn125">
     <rdg>
         <choice>
             <corr>أبقراط</corr>
@@ -560,147 +560,147 @@
     <rdg wit="#V1">بقراط</rdg>
     <rdg wit="#H">بقراط</rdg>
 </app>
-<app> from="#begin_fn126" to="#end_fn126">
+<app from="#begin_fn126" to="#end_fn126">
     <rdg wit="#V1">وأمّا</rdg>
     <rdg wit="#H">فاما</rdg>
 </app>
-<app> from="#begin_fn127" to="#end_fn127">
+<app from="#begin_fn127" to="#end_fn127">
     <rdg wit="#V1">وأمّا</rdg>
     <rdg wit="#H">اما</rdg>
 </app>
-<app> from="#begin_fn128" to="#end_fn128">
+<app from="#begin_fn128" to="#end_fn128">
     <rdg wit="#H">لكونها</rdg>
     <rdg wit="#V1">لانها</rdg>
 </app>
-<app> from="#begin_fn129" to="#end_fn129">
+<app from="#begin_fn129" to="#end_fn129">
     <rdg wit="#H">ولأنّها</rdg>
     <rdg wit="#V1">ولاى نها</rdg>
 </app>
-<app> from="#begin_fn130" to="#end_fn130">
+<app from="#begin_fn130" to="#end_fn130">
     <rdg wit="#V1">يسوء</rdg>
     <rdg wit="#CB1">يسي</rdg>
 </app>
-<app> from="#begin_fn131" to="#end_fn131">
+<app from="#begin_fn131" to="#end_fn131">
     <rdg wit="#CB1">في أوقات الرطب</rdg>
     <rdg wit="#H">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn132" to="#end_fn132">
+<app from="#begin_fn132" to="#end_fn132">
     <rdg wit="#CB1">فيلين</rdg>
     <rdg wit="#H">فلين</rdg>
 </app>
-<app> from="#begin_fn133" to="#end_fn133">
+<app from="#begin_fn133" to="#end_fn133">
     <rdg wit="#H">وأمثل</rdg>
     <rdg wit="#CB1">وامثال</rdg>
 </app>
-<app> from="#begin_fn134" to="#end_fn134">
+<app from="#begin_fn134" to="#end_fn134">
     <rdg wit="#H">الهواء</rdg>
     <rdg wit="#CB1">الغذاء</rdg>
 </app>
-<app> from="#begin_fn135" to="#end_fn135">
+<app from="#begin_fn135" to="#end_fn135">
     <rdg wit="#CB1">فتستفرغ من البطن ولأنّ الهضم يسوء في الأوقات الرطبة فيلين البطن.  وأمّا العفن فلتوفّر الرطوبة إذ الشيء اليابس لا يعفن. وافهم عن الصرع والسكات البلغميين، والبلغم يكثر في الدماغ في الهواء الرطب والذبحة لكثرة ما ينحدر من الرأس إلى الحلق من الفضل. وأمثل ما يفعله الهواء الرطب تليينه الطييعة لأنّه يرطّب الثفل ولأنّه يبلّد النضج فلا تنفذ الرطوبات إلى البدن كثيراً. فأمّا عند قلّة المطر فإنّ الفضول التي تتولّد تكون يابسة مرّية لذّاعة. فإذا جرت إلى المثانة لذعتها فيحدث التقطير. وإن سالت إلى الرئة أقرحتها فيحدث السلّ. وإن أصابت الرباطات تمدّدت بها ويحدث وجع في المفاصل. وإن ارتفعت إلى العينين كان الرمد اليابس. فان انصبّت إلى الأمعاء أقرحتها وأحدثت السحج واختلاف الدم. وكما أنّ رطوبة الهواء تولّد استطلاق البطن، كذلك يبسه يولّد الإمساك لما فهمت</rdg>
     <rdg wit="#V1">وأكثر ما يفعله الهواء الرطب ببلّة الطييعية لأنّه يرطّب الثفل ويبلّد النضج فلا تنفذ الرطوبات إلى البدن كثيراً. وأمّا العفن فلتوفّر الرطوبة إذ الشيء اليابس لا يعفن. وافهم عنه الصرع والسكات البلغميين، والبلغم يكثر في الدماغ في الهواء الرطب والذبحة لكثرة ما ينحدر  من الرأس إلى الحلق من الفضل. وكما أنّ رطوبة الهواء تولّد استطلاق البطن، كذلك يبسه يولّد الإمساك لما فهمت. ولأنّ الهضم يسوء في الأوقات الرطبة فيلين البطن. وأمّا عند قلّة المطر فإنّ الفضول التي تتولّد تكون يابسة مرّية لذّاعة. فإذا جرت إلى المثانة لذعتها فيحدث التقطير. وإن سالت إلى الرئة، أقرحتها فيحدث السلّ. وإن أصابت الرطوبات، تمدّدت بها فيحدث وجع المفاصل. وإن ارتفعت إلى العينين، كان الرمد اليابس. وإن انصبّت إلى الأمعاء، أقرحتها وأحدثت السحج واختلاف الدم</rdg>
 </app>
-<app> from="#begin_fn136" to="#end_fn136">
+<app from="#begin_fn136" to="#end_fn136">
     <rdg wit="#CB1">عند قلّة المطر</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn137" to="#end_fn137">
+<app from="#begin_fn137" to="#end_fn137">
     <rdg wit="#CB1">قال</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn138" to="#end_fn138">
+<app from="#begin_fn138" to="#end_fn138">
     <rdg wit="#CB1">حاله</rdg>
     <rdg wit="#V1">حالها</rdg>
 </app>
-<app> from="#begin_fn139" to="#end_fn139">
+<app from="#begin_fn139" to="#end_fn139">
     <rdg wit="#V1">جفّت</rdg>
     <rdg wit="#CB1">حدت</rdg>
 </app>
-<app> from="#begin_fn140" to="#end_fn140">
+<app from="#begin_fn140" to="#end_fn140">
     <rdg wit="#CB1">وعلى</rdg>
     <rdg wit="#V1">على</rdg>
 </app>
-<app> from="#begin_fn141" to="#end_fn141">
+<app from="#begin_fn141" to="#end_fn141">
     <rdg wit="#V1">في</rdg>
     <rdg wit="#CB1">من</rdg>
 </app>
-<app> from="#begin_fn142" to="#end_fn142">
+<app from="#begin_fn142" to="#end_fn142">
     <rdg wit="#CB1">الفضل</rdg>
     <rdg wit="#V1">الفضول</rdg>
 </app>
-<app> from="#begin_fn143" to="#end_fn143">
+<app from="#begin_fn143" to="#end_fn143">
     <rdg wit="#CB1">مفرطاً</rdg>
     <rdg wit="#V1">مفرط</rdg>
 </app>
-<app> from="#begin_fn144" to="#end_fn144">
+<app from="#begin_fn144" to="#end_fn144">
     <rdg wit="#V1">وبمثل</rdg>
     <rdg wit="#CB1">ومثل</rdg>
 </app>
-<app> from="#begin_fn145" to="#end_fn145">
+<app from="#begin_fn145" to="#end_fn145">
     <rdg wit="#V1">يحدث</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn146" to="#end_fn146">
+<app from="#begin_fn146" to="#end_fn146">
     <rdg wit="#CB1">
         <add reason="add_scribe">والعجب أنّه الذي قال من قبل عند احتباس المطر أنّ الأخلاط تحتدّ وتكون أكثر لذعاً وأقرب إلى طبيعة المرار. ثمّ اسبعد أن يحدث من قلّة المطر تقطير البول والسلّ</add>
     </rdg>
 </app>
-<app> from="#begin_fn147" to="#end_fn147">
+<app from="#begin_fn147" to="#end_fn147">
     <rdg wit="#CB1">أبقراط</rdg>
     <rdg wit="#V1">بقراط</rdg>
 </app>
-<app> from="#begin_fn148" to="#end_fn148">
+<app from="#begin_fn148" to="#end_fn148">
     <rdg wit="#CB1">يحلّ</rdg>
     <rdg wit="#V1">يحلل</rdg>
 </app>
-<app> from="#begin_fn149" to="#end_fn149">
+<app from="#begin_fn149" to="#end_fn149">
     <rdg wit="#V1">وسدراً في العينين</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn150" to="#end_fn150">
+<app from="#begin_fn150" to="#end_fn150">
     <rdg wit="#CB1">
         <add reason="add_scribe">وفي العينين</add>
     </rdg>
 </app>
-<app> from="#begin_fn151" to="#end_fn151">
+<app from="#begin_fn151" to="#end_fn151">
     <rdg wit="#V1">بيبسها</rdg>
     <rdg wit="#CB1">ليبسها</rdg>
 </app>
-<app> from="#begin_fn152" to="#end_fn152">
+<app from="#begin_fn152" to="#end_fn152">
     <rdg wit="#V1">صار</rdg>
     <rdg wit="#CB1">صارت</rdg>
 </app>
-<app> from="#begin_fn153" to="#end_fn153">
+<app from="#begin_fn153" to="#end_fn153">
     <rdg wit="#V1">وجعاً متقدّماً</rdg>
     <rdg wit="#CB1">وجع متقدم</rdg>
 </app>
-<app> from="#begin_fn154" to="#end_fn154">
+<app from="#begin_fn154" to="#end_fn154">
     <rdg wit="#V1">حال</rdg>
     <rdg wit="#CB1">حالات</rdg>
 </app>
-<app> from="#begin_fn155" to="#end_fn155">
+<app from="#begin_fn155" to="#end_fn155">
     <rdg wit="#V1">وهي</rdg>
     <rdg wit="#CB1">وهو</rdg>
 </app>
-<app> from="#begin_fn156" to="#end_fn156">
+<app from="#begin_fn156" to="#end_fn156">
     <rdg wit="#V1">تليين</rdg>
     <rdg wit="#CB1">لين</rdg>
 </app>
-<app> from="#begin_fn157" to="#end_fn157">
+<app from="#begin_fn157" to="#end_fn157">
     <rdg wit="#V1">وأمّا</rdg>
     <rdg wit="#CB1">فاما</rdg>
 </app>
-<app> from="#begin_fn158" to="#end_fn158">
+<app from="#begin_fn158" to="#end_fn158">
     <rdg>
         <choice>
             <corr>يتلونهم</corr>
@@ -709,76 +709,76 @@
     <rdg wit="#CB1">ىلوىهم</rdg>
     <rdg wit="#V1">يتلوهم</rdg>
 </app>
-<app> from="#begin_fn159" to="#end_fn159">
+<app from="#begin_fn159" to="#end_fn159">
     <rdg wit="#CB1">أبدانهم</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn160" to="#end_fn160">
+<app from="#begin_fn160" to="#end_fn160">
     <rdg wit="#CB1">أواخل</rdg>
     <rdg wit="#V1">اواىل</rdg>
 </app>
-<app> from="#begin_fn161" to="#end_fn161">
+<app from="#begin_fn161" to="#end_fn161">
     <rdg wit="#V1">
         <add reason="add_scribe">فيه</add>
     </rdg>
 </app>
-<app> from="#begin_fn162" to="#end_fn162">
+<app from="#begin_fn162" to="#end_fn162">
     <rdg wit="#CB1">لكلّ</rdg>
     <rdg wit="#V1">كل</rdg>
 </app>
-<app> from="#begin_fn163" to="#end_fn163">
+<app from="#begin_fn163" to="#end_fn163">
     <rdg wit="#CB1">المعتدلة</rdg>
     <rdg wit="#V1">للمعتدله</rdg>
 </app>
-<app> from="#begin_fn164" to="#end_fn164">
+<app from="#begin_fn164" to="#end_fn164">
     <rdg wit="#V1">وإنّما</rdg>
     <rdg wit="#CB1">انما</rdg>
 </app>
-<app> from="#begin_fn165" to="#end_fn165">
+<app from="#begin_fn165" to="#end_fn165">
     <rdg wit="#V1">ليس</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn166" to="#end_fn166">
+<app from="#begin_fn166" to="#end_fn166">
     <rdg wit="#CB1">المرض</rdg>
     <rdg wit="#V1">للمرض</rdg>
 </app>
-<app> from="#begin_fn167" to="#end_fn167">
+<app from="#begin_fn167" to="#end_fn167">
     <rdg wit="#V1">الوقت</rdg>
     <rdg wit="#CB1">الفصل</rdg>
 </app>
-<app> from="#begin_fn168" to="#end_fn168">
+<app from="#begin_fn168" to="#end_fn168">
     <rdg wit="#V1">والسكتة</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn169" to="#end_fn169">
+<app from="#begin_fn169" to="#end_fn169">
     <rdg wit="#V1">يتقشّر فيها</rdg>
     <rdg wit="#CB1">ينقشر معها</rdg>
 </app>
-<app> from="#begin_fn170" to="#end_fn170">
+<app from="#begin_fn170" to="#end_fn170">
     <rdg wit="#V1">
         <add reason="add_scribe">فصوا الاخر</add>
     </rdg>
 </app>
-<app> from="#begin_fn171" to="#end_fn171">
+<app from="#begin_fn171" to="#end_fn171">
     <rdg wit="#CB1">سائر</rdg>
     <rdg wit="#V1">لساىر</rdg>
 </app>
-<app> from="#begin_fn172" to="#end_fn172">
+<app from="#begin_fn172" to="#end_fn172">
     <rdg wit="#V1">به</rdg>
     <rdg wit="#CB1">بهم</rdg>
 </app>
-<app> from="#begin_fn173" to="#end_fn173">
+<app from="#begin_fn173" to="#end_fn173">
     <rdg wit="#CB1">
         <add reason="add_scribe">فمتى كانت قوة البدن في الربيع ناهضة والأعضاء الباطنة قوية اندفعت الفضلات إلى سطح الجلد فيعرض ما ذكر ومتى كان بعض الأعضاء مسعدًّا لقبول فضلة ما قبلها فيحدث ما ذكر من الأمراض الباطن</add>
     </rdg>
 </app>
-<app> from="#begin_fn174" to="#end_fn174">
+<app from="#begin_fn174" to="#end_fn174">
     <rdg>
         <choice>
             <corr>تدحو</corr>
@@ -787,469 +787,469 @@
     <rdg wit="#CB1">ىدحوا</rdg>
     <rdg wit="#V1">تدحوا</rdg>
 </app>
-<app> from="#begin_fn175" to="#end_fn175">
+<app from="#begin_fn175" to="#end_fn175">
     <rdg wit="#CB1">بحرّ</rdg>
     <rdg wit="#V1">في</rdg>
 </app>
-<app> from="#begin_fn176" to="#end_fn176">
+<app from="#begin_fn176" to="#end_fn176">
     <rdg wit="#V1">
         <add reason="add_scribe">نحو</add>
     </rdg>
 </app>
-<app> from="#begin_fn177" to="#end_fn177">
+<app from="#begin_fn177" to="#end_fn177">
     <rdg wit="#V1">ببعض الأعضاء</rdg>
     <rdg wit="#CB1">الاعضاء الشريفه او</rdg>
 </app>
-<app> from="#begin_fn178" to="#end_fn178">
+<app from="#begin_fn178" to="#end_fn178">
     <rdg wit="#V1">الشريفة</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn179" to="#end_fn179">
+<app from="#begin_fn179" to="#end_fn179">
     <rdg wit="#CB1">يكون</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn180" to="#end_fn180">
+<app from="#begin_fn180" to="#end_fn180">
     <rdg wit="#V1">ومحرقة</rdg>
     <rdg wit="#CB1">محرقة</rdg>
 </app>
-<app> from="#begin_fn181" to="#end_fn181">
+<app from="#begin_fn181" to="#end_fn181">
     <rdg wit="#V1">كثيرة</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn182" to="#end_fn182">
+<app from="#begin_fn182" to="#end_fn182">
     <rdg wit="#V1">الصفراوية</rdg>
     <rdg wit="#CB1">الصفراء</rdg>
 </app>
-<app> from="#begin_fn183" to="#end_fn183">
+<app from="#begin_fn183" to="#end_fn183">
     <rdg wit="#V1">فإن كانت الصفراء مائلة إلى فم المعدة حدث القيء، وإن مالت إلى أسفل حدث الذرب</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn184" to="#end_fn184">
+<app from="#begin_fn184" to="#end_fn184">
     <rdg wit="#V1">وإن</rdg>
     <rdg wit="#CB1">فإن</rdg>
 </app>
-<app> from="#begin_fn185" to="#end_fn185">
+<app from="#begin_fn185" to="#end_fn185">
     <rdg wit="#CB1">تجفّها</rdg>
     <rdg wit="#V1">تجفّتها</rdg>
 </app>
-<app> from="#begin_fn186" to="#end_fn186">
+<app from="#begin_fn186" to="#end_fn186">
     <rdg wit="#CB1">إلى</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn187" to="#end_fn187">
+<app from="#begin_fn187" to="#end_fn187">
     <rdg wit="#V1">فيه</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn188" to="#end_fn188">
+<app from="#begin_fn188" to="#end_fn188">
     <rdg wit="#V1">والذبحة</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn189" to="#end_fn189">
+<app from="#begin_fn189" to="#end_fn189">
     <rdg wit="#V1">يسمونه</rdg>
     <rdg wit="#CB1">تسميه</rdg>
 </app>
-<app> from="#begin_fn190" to="#end_fn190">
+<app from="#begin_fn190" to="#end_fn190">
     <rdg wit="#V1">تستفرغ</rdg>
     <rdg wit="#CB1">فتستفرغ</rdg>
 </app>
-<app> from="#begin_fn191" to="#end_fn191">
+<app from="#begin_fn191" to="#end_fn191">
     <rdg wit="#V1">حميات</rdg>
     <rdg wit="#CB1">حمايات</rdg>
 </app>
-<app> from="#begin_fn192" to="#end_fn192">
+<app from="#begin_fn192" to="#end_fn192">
     <rdg wit="#V1">والحميات</rdg>
     <rdg wit="#CB1">والحمايات</rdg>
 </app>
-<app> from="#begin_fn193" to="#end_fn193">
+<app from="#begin_fn193" to="#end_fn193">
     <rdg wit="#V1">للحميات</rdg>
     <rdg wit="#CB1">للحمايات</rdg>
 </app>
-<app> from="#begin_fn194" to="#end_fn194">
+<app from="#begin_fn194" to="#end_fn194">
     <rdg wit="#V1">والاستسقاء</rdg>
     <rdg wit="#CB1">والاستعداد</rdg>
 </app>
-<app> from="#begin_fn195" to="#end_fn195">
+<app from="#begin_fn195" to="#end_fn195">
     <rdg wit="#V1">إفساد</rdg>
     <rdg wit="#CB1">فسد</rdg>
 </app>
-<app> from="#begin_fn196" to="#end_fn196">
+<app from="#begin_fn196" to="#end_fn196">
     <rdg wit="#CB1">والعلة المسمّاة أيلاوس تحدث من ورم الأمعاء الحادث لردائة</rdg>
     <rdg wit="#V1">والحادث من ورم الأمعاء يحدث لردائة</rdg>
 </app>
-<app> from="#begin_fn197" to="#end_fn197">
+<app from="#begin_fn197" to="#end_fn197">
     <rdg wit="#CB1">البدن</rdg>
     <rdg wit="#V1">الأبدان</rdg>
 </app>
-<app> from="#begin_fn198" to="#end_fn198">
+<app from="#begin_fn198" to="#end_fn198">
     <rdg wit="#CB1">وذلك أن هذا المرض قد يحدث منها والجنون</rdg>
     <rdg wit="#V1">وقد يحدث لغلبة المرة السوداء والجنون</rdg>
 </app>
-<app> from="#begin_fn199" to="#end_fn199">
+<app from="#begin_fn199" to="#end_fn199">
     <rdg wit="#CB1">والسعال</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn200" to="#end_fn200">
+<app from="#begin_fn200" to="#end_fn200">
     <rdg wit="#CB1">أطيب من أواخره لأنّه</rdg>
     <rdg wit="#V1">لأنّها</rdg>
 </app>
-<app> from="#begin_fn201" to="#end_fn201">
+<app from="#begin_fn201" to="#end_fn201">
     <rdg wit="#CB1">التنفس</rdg>
     <rdg wit="#V1">النفس</rdg>
 </app>
-<app> from="#begin_fn202" to="#end_fn202">
+<app from="#begin_fn202" to="#end_fn202">
     <rdg wit="#V1">وليس</rdg>
     <rdg wit="#CB1">إذ ليس</rdg>
 </app>
-<app> from="#begin_fn203" to="#end_fn203">
+<app from="#begin_fn203" to="#end_fn203">
     <rdg wit="#V1">وتقبلها</rdg>
     <rdg wit="#CB1">وتغلبها</rdg>
 </app>
-<app> from="#begin_fn204" to="#end_fn204">
+<app from="#begin_fn204" to="#end_fn204">
     <rdg wit="#V1">فأما</rdg>
     <rdg wit="#CB1">وأما</rdg>
 </app>
-<app> from="#begin_fn205" to="#end_fn205">
+<app from="#begin_fn205" to="#end_fn205">
     <rdg wit="#V1">السعال والسهر</rdg>
     <rdg wit="#CB1">والسعال</rdg>
 </app>
-<app> from="#begin_fn206" to="#end_fn206">
+<app from="#begin_fn206" to="#end_fn206">
     <rdg wit="#V1">لكثرة</rdg>
     <rdg wit="#CB1">فلكثرة</rdg>
 </app>
-<app> from="#begin_fn207" to="#end_fn207">
+<app from="#begin_fn207" to="#end_fn207">
     <rdg wit="#V1">ولما كان خاصيتهم</rdg>
     <rdg wit="#CB1">وذلك لأن من حاجتهم</rdg>
 </app>
-<app> from="#begin_fn208" to="#end_fn208">
+<app from="#begin_fn208" to="#end_fn208">
     <rdg wit="#CB1">أذكى</rdg>
     <rdg wit="#V1">أكثر</rdg>
 </app>
-<app> from="#begin_fn209" to="#end_fn209">
+<app from="#begin_fn209" to="#end_fn209">
     <rdg wit="#CB1">حس</rdg>
     <rdg wit="#V1">حبس</rdg>
 </app>
-<app> from="#begin_fn210" to="#end_fn210">
+<app from="#begin_fn210" to="#end_fn210">
     <rdg wit="#V1">معدة</rdg>
     <rdg wit="#CB1">فم معدته</rdg>
 </app>
-<app> from="#begin_fn211" to="#end_fn211">
+<app from="#begin_fn211" to="#end_fn211">
     <rdg wit="#V1">فيفسده</rdg>
     <rdg wit="#CB1">فيفسد</rdg>
 </app>
-<app> from="#begin_fn212" to="#end_fn212">
+<app from="#begin_fn212" to="#end_fn212">
     <rdg wit="#CB1">يتسارع</rdg>
     <rdg wit="#V1">يسرع</rdg>
 </app>
-<app> from="#begin_fn213" to="#end_fn213">
+<app from="#begin_fn213" to="#end_fn213">
     <rdg wit="#V1">مستلقون</rdg>
     <rdg wit="#CB1">مستقلون</rdg>
 </app>
-<app> from="#begin_fn214" to="#end_fn214">
+<app from="#begin_fn214" to="#end_fn214">
     <rdg wit="#V1">قارب</rdg>
     <rdg wit="#CB1">قرب</rdg>
 </app>
-<app> from="#begin_fn215" to="#end_fn215">
+<app from="#begin_fn215" to="#end_fn215">
     <rdg wit="#CB1">معتقلاً</rdg>
     <rdg wit="#V1">معتلقة</rdg>
 </app>
-<app> from="#begin_fn216" to="#end_fn216">
+<app from="#begin_fn216" to="#end_fn216">
     <rdg wit="#CB1">اللثة عند ظهورها</rdg>
     <rdg wit="#V1">اللثات وتخرقها</rdg>
 </app>
-<app> from="#begin_fn217" to="#end_fn217">
+<app from="#begin_fn217" to="#end_fn217">
     <rdg wit="#V1">جاوز</rdg>
     <rdg wit="#CB1">تجاوز</rdg>
 </app>
-<app> from="#begin_fn218" to="#end_fn218">
+<app from="#begin_fn218" to="#end_fn218">
     <rdg wit="#V1">مشارفة الأنياب</rdg>
     <rdg wit="#CB1">مشاركة الأنبات</rdg>
 </app>
-<app> from="#begin_fn219" to="#end_fn219">
+<app from="#begin_fn219" to="#end_fn219">
     <rdg wit="#V1">بهؤلاء ورم</rdg>
     <rdg wit="#CB1">بها ولأورام</rdg>
 </app>
-<app> from="#begin_fn220" to="#end_fn220">
+<app from="#begin_fn220" to="#end_fn220">
     <rdg wit="#V1">خرز</rdg>
     <rdg wit="#CB1">خرزه</rdg>
 </app>
-<app> from="#begin_fn221" to="#end_fn221">
+<app from="#begin_fn221" to="#end_fn221">
     <rdg wit="#V1">وأبلغ إلى</rdg>
     <rdg wit="#CB1">واندفاعها إلى</rdg>
 </app>
-<app> from="#begin_fn222" to="#end_fn222">
+<app from="#begin_fn222" to="#end_fn222">
     <rdg wit="#CB1">غير أن المواد يهلك قبل أن يستحكم فيه العارض</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn223" to="#end_fn223">
+<app from="#begin_fn223" to="#end_fn223">
     <rdg wit="#V1">للينها</rdg>
     <rdg wit="#CB1">لينها</rdg>
 </app>
-<app> from="#begin_fn224" to="#end_fn224">
+<app from="#begin_fn224" to="#end_fn224">
     <rdg wit="#V1">الذي لا يظهر</rdg>
     <rdg wit="#CB1">التي لم تظهر</rdg>
 </app>
-<app> from="#begin_fn225" to="#end_fn225">
+<app from="#begin_fn225" to="#end_fn225">
     <rdg wit="#V1">غور</rdg>
     <rdg wit="#CB1">عوورا</rdg>
 </app>
-<app> from="#begin_fn226" to="#end_fn226">
+<app from="#begin_fn226" to="#end_fn226">
     <rdg wit="#V1">أو فيما يلي ذلك الموضع من المري</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn227" to="#end_fn227">
+<app from="#begin_fn227" to="#end_fn227">
     <rdg wit="#V1">للحلق</rdg>
     <rdg wit="#CB1">الحلق</rdg>
 </app>
-<app> from="#begin_fn228" to="#end_fn228">
+<app from="#begin_fn228" to="#end_fn228">
     <rdg wit="#CB1">في الداخل</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn229" to="#end_fn229">
+<app from="#begin_fn229" to="#end_fn229">
     <rdg wit="#V1">من</rdg>
     <rdg wit="#CB1">إلى</rdg>
 </app>
-<app> from="#begin_fn230" to="#end_fn230">
+<app from="#begin_fn230" to="#end_fn230">
     <rdg wit="#V1">له</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn231" to="#end_fn231">
+<app from="#begin_fn231" to="#end_fn231">
     <rdg wit="#V1">لطيفة</rdg>
     <rdg wit="#CB1">لطيف</rdg>
 </app>
-<app> from="#begin_fn232" to="#end_fn232">
+<app from="#begin_fn232" to="#end_fn232">
     <rdg wit="#V1">الأخلاط</rdg>
     <rdg wit="#CB1">الفضلات</rdg>
 </app>
-<app> from="#begin_fn233" to="#end_fn233">
+<app from="#begin_fn233" to="#end_fn233">
     <rdg wit="#CB1">
         <add reason="add_scribe">فإنّه</add>
     </rdg>
 </app>
-<app> from="#begin_fn234" to="#end_fn234">
+<app from="#begin_fn234" to="#end_fn234">
     <rdg wit="#V1">النية</rdg>
     <rdg wit="#CB1">إليه</rdg>
 </app>
-<app> from="#begin_fn235" to="#end_fn235">
+<app from="#begin_fn235" to="#end_fn235">
     <rdg wit="#V1">المتولدة</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn236" to="#end_fn236">
+<app from="#begin_fn236" to="#end_fn236">
     <rdg wit="#V1">البرد وإلى</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn237" to="#end_fn237">
+<app from="#begin_fn237" to="#end_fn237">
     <rdg wit="#V1">والمشرب</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn238" to="#end_fn238">
+<app from="#begin_fn238" to="#end_fn238">
     <rdg wit="#CB1">لهؤلاء</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn239" to="#end_fn239">
+<app from="#begin_fn239" to="#end_fn239">
     <rdg wit="#V1">وسرعة</rdg>
     <rdg wit="#CB1">ولسرعة</rdg>
 </app>
-<app> from="#begin_fn240" to="#end_fn240">
+<app from="#begin_fn240" to="#end_fn240">
     <rdg wit="#V1">الحميات</rdg>
     <rdg wit="#CB1">الحمايات</rdg>
 </app>
-<app> from="#begin_fn241" to="#end_fn241">
+<app from="#begin_fn241" to="#end_fn241">
     <rdg wit="#V1">فلأن</rdg>
     <rdg wit="#CB1">فإن</rdg>
 </app>
-<app> from="#begin_fn242" to="#end_fn242">
+<app from="#begin_fn242" to="#end_fn242">
     <rdg wit="#V1">ولطافته</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn243" to="#end_fn243">
+<app from="#begin_fn243" to="#end_fn243">
     <rdg wit="#CB1">هذه</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn244" to="#end_fn244">
+<app from="#begin_fn244" to="#end_fn244">
     <rdg wit="#CB1">بعضها</rdg>
     <rdg wit="#V1">بعضه</rdg>
 </app>
-<app> from="#begin_fn245" to="#end_fn245">
+<app from="#begin_fn245" to="#end_fn245">
     <rdg wit="#CB1">بعضها</rdg>
     <rdg wit="#V1">بعضه</rdg>
 </app>
-<app> from="#begin_fn246" to="#end_fn246">
+<app from="#begin_fn246" to="#end_fn246">
     <rdg wit="#CB1">بعضها</rdg>
     <rdg wit="#V1">بعضه</rdg>
 </app>
-<app> from="#begin_fn247" to="#end_fn247">
+<app from="#begin_fn247" to="#end_fn247">
     <rdg wit="#V1">أشارفوا</rdg>
     <rdg wit="#CB1">قاربوا</rdg>
 </app>
-<app> from="#begin_fn248" to="#end_fn248">
+<app from="#begin_fn248" to="#end_fn248">
     <rdg wit="#CB1">أو يبقي الأنسان ما بقي</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn249" to="#end_fn249">
+<app from="#begin_fn249" to="#end_fn249">
     <rdg wit="#V1">سني</rdg>
     <rdg wit="#منشأ"></rdg>
 </app>
-<app> from="#begin_fn250" to="#end_fn250">
+<app from="#begin_fn250" to="#end_fn250">
     <rdg wit="#V1">والصرع</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn251" to="#end_fn251">
+<app from="#begin_fn251" to="#end_fn251">
     <rdg wit="#V1">الفتيان</rdg>
     <rdg wit="#CB1">الصبيان</rdg>
 </app>
-<app> from="#begin_fn252" to="#end_fn252">
+<app from="#begin_fn252" to="#end_fn252">
     <rdg wit="#V1">في النفس</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn253" to="#end_fn253">
+<app from="#begin_fn253" to="#end_fn253">
     <rdg wit="#V1">المرة</rdg>
     <rdg wit="#CB1">المادة</rdg>
 </app>
-<app> from="#begin_fn254" to="#end_fn254">
+<app from="#begin_fn254" to="#end_fn254">
     <rdg wit="#CB1">مختلطة</rdg>
     <rdg wit="#V1">مخالطة</rdg>
 </app>
-<app> from="#begin_fn255" to="#end_fn255">
+<app from="#begin_fn255" to="#end_fn255">
     <rdg wit="#V1">اليبس بل</rdg>
     <rdg wit="#CB1">السن لكن</rdg>
 </app>
-<app> from="#begin_fn256" to="#end_fn256">
+<app from="#begin_fn256" to="#end_fn256">
     <rdg wit="#CB1">كتاب</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn257" to="#end_fn257">
+<app from="#begin_fn257" to="#end_fn257">
     <rdg wit="#V1">وذات الرئة</rdg>
     <rdg wit="#CB1">om</rdg>
 </app>
-<app> from="#begin_fn258" to="#end_fn258">
+<app from="#begin_fn258" to="#end_fn258">
     <rdg wit="#V1">أفواه</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn259" to="#end_fn259">
+<app from="#begin_fn259" to="#end_fn259">
     <rdg wit="#V1">في</rdg>
     <rdg wit="#CB1">من</rdg>
 </app>
-<app> from="#begin_fn260" to="#end_fn260">
+<app from="#begin_fn260" to="#end_fn260">
     <rdg wit="#V1">اغتذاء أبدان</rdg>
     <rdg wit="#CB1">كأبدان</rdg>
 </app>
-<app> from="#begin_fn261" to="#end_fn261">
+<app from="#begin_fn261" to="#end_fn261">
     <rdg wit="#V1">لا</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn262" to="#end_fn262">
+<app from="#begin_fn262" to="#end_fn262">
     <rdg wit="#V1">تشربها</rdg>
     <rdg wit="#CB1">كتشربها</rdg>
 </app>
-<app> from="#begin_fn263" to="#end_fn263">
+<app from="#begin_fn263" to="#end_fn263">
     <rdg wit="#V1">النقصان</rdg>
     <rdg wit="#CB1">لنقصان</rdg>
 </app>
-<app> from="#begin_fn264" to="#end_fn264">
+<app from="#begin_fn264" to="#end_fn264">
     <rdg wit="#V1">لعدم</rdg>
     <rdg wit="#CB1">فلعدم</rdg>
 </app>
-<app> from="#begin_fn265" to="#end_fn265">
+<app from="#begin_fn265" to="#end_fn265">
     <rdg wit="#V1">الغذاء وكثرة</rdg>
     <rdg wit="#CB1">الاغتذاء وقلّة</rdg>
 </app>
-<app> from="#begin_fn266" to="#end_fn266">
+<app from="#begin_fn266" to="#end_fn266">
     <rdg wit="#V1">يكثر</rdg>
     <rdg wit="#CB1">يكثره</rdg>
 </app>
-<app> from="#begin_fn267" to="#end_fn267">
+<app from="#begin_fn267" to="#end_fn267">
     <rdg wit="#V1">فيحدث</rdg>
     <rdg wit="#CB1">ويعرض</rdg>
 </app>
-<app> from="#begin_fn268" to="#end_fn268">
+<app from="#begin_fn268" to="#end_fn268">
     <rdg wit="#V1">أبدانهم</rdg>
     <rdg wit="#CB1">دمائهم</rdg>
 </app>
-<app> from="#begin_fn269" to="#end_fn269">
+<app from="#begin_fn269" to="#end_fn269">
     <rdg wit="#CB1">ومغص</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn270" to="#end_fn270">
+<app from="#begin_fn270" to="#end_fn270">
     <rdg wit="#V1">بعد</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn271" to="#end_fn271">
+<app from="#begin_fn271" to="#end_fn271">
     <rdg wit="#V1">والإسهال</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn272" to="#end_fn272">
+<app from="#begin_fn272" to="#end_fn272">
     <rdg wit="#V1">والنقصان</rdg>
     <rdg wit="#CB1">أو لنقصان</rdg>
 </app>
-<app> from="#begin_fn273" to="#end_fn273">
+<app from="#begin_fn273" to="#end_fn273">
     <rdg wit="#V1">فهذا</rdg>
     <rdg wit="#CB1">فقد</rdg>
 </app>
-<app> from="#begin_fn274" to="#end_fn274">
+<app from="#begin_fn274" to="#end_fn274">
     <rdg wit="#CB1">لتقرح يعرض</rdg>
     <rdg wit="#V1">
         <gap reason="omission"/>
     </rdg>
 </app>
-<app> from="#begin_fn275" to="#end_fn275">
+<app from="#begin_fn275" to="#end_fn275">
     <rdg wit="#V1">وثلاثتها</rdg>
     <rdg wit="#CB1">وىلىفها</rdg>
 </app>
-<app> from="#begin_fn276" to="#end_fn276">
+<app from="#begin_fn276" to="#end_fn276">
     <rdg wit="#V1">الربو</rdg>
     <rdg wit="#CB1">
         <gap reason="omission"/>
