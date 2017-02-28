@@ -177,7 +177,7 @@ def footnotes(string_to_process, next_footnote):
             error = 'Unable to partition text before footnote symbol ' \
                     '{}'.format(footnote_symbol)
             logger.error(error)
-            raise AnalysisException
+            return
 
         # Add the next_text_for_xml to xml_main
         for next_line in next_text_for_xml.splitlines():
