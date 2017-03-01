@@ -11,6 +11,7 @@ Disable two warning which I cannot avoid and are not really problematic::
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
+import sys
 import re
 import logging.config
 from collections import OrderedDict
@@ -185,7 +186,8 @@ class Footnote(Hyppocratic):
             self.d_footnote['text'] = self.d_footnote['corrections']
         elif self.d_footnote['reason'] is not None:
             error = 'Type of correction unexpected: ' \
-                    '{}'.format(self.d_footnote['reason'])
+                    '{} in Footnote {}: {}'.format(
+                self.d_footnote['reason'], self.n_footnote, self.footnote)
             logger.error(error)
             return
 
@@ -237,8 +239,6 @@ class Footnote(Hyppocratic):
         It is intended this function is called by _footnotes()
         for correxi footnotes.
         """
-        corrs = [None, None]
-        wits = [None, None]
         try:
             # Split to get the text, the reason and remove the space
             _tmp = self.footnote.split(']')
@@ -252,30 +252,19 @@ class Footnote(Hyppocratic):
                 _tmp = _tmp.split('add.')
                 _tmp = _tmp[1].strip()
 
-            if reason == 'add' and ',' not in _tmp and ':' not in _tmp:
-                _tmp = _tmp.split()
-                wits[0] = _tmp[-1].strip()
-                corrs[0] = ' '.join(_tmp[:-1]).strip()
-            # Faire un truc avec Regex (il n'y a pas le choix je pense)
-            elif ',' in _tmp:
-                _tmp = _tmp.split(',')
-                wits[1] = _tmp[-1].strip()
-                _tmp = _tmp[0].split()
-                wits[0] = _tmp[-1].strip()
-                corrs[0] = ' '.join(_tmp[:-1])
-                corrs[1] = corrs[0]
-            elif ':' in _tmp:
-                _tmp = _tmp.split(':')
-                _tmp1 = _tmp[0].split()
-                wits[0] = _tmp1[-1].strip()
-                corrs[0] = ' '.join(_tmp1[:-1]).strip()
-
-                _tmp2 = _tmp[1].split()
-                wits[1] = _tmp2[-1].strip()
-                corrs[1] = ' '.join(_tmp2[:-1]).strip()
-            else:
-                raise FootnotesException
-
+            c1 = _tmp.split(':')
+            d1 = c1[0].split(',')
+            e1 = d1[0].split()
+            corr1 = ' '.join(e1[:-1])
+            wits1 = [d1[0].split()[-1]] + d1[1:]
+            try:
+                d2 = c1[1].split(',')
+                e2 = d2[0].split()
+                corr2 = ' '.join(e2[:-1])
+                wits2 = [e2[-1]] + d2[1:]
+            except IndexError:
+                corr2 = ''
+                wits2 = []
         except (IndexError, FootnotesException):
             error = 'Error in footnote: {}'.format(self.n_footnote)
             logger.error(error)
@@ -285,8 +274,11 @@ class Footnote(Hyppocratic):
 
         self.d_footnote = {'reason': reason,
                            'text': text,
-                           'witnesses': wits,
-                           'corrections': corrs}
+                           'witnesses': [wits1, wits2],
+                           'corrections': [corr1, corr2]}
+
+        if self.d_footnote['reason'] == 'standard':
+            self.d_footnote['corrections'][0] = self.d_footnote['text']
 
         self._correction_xml(xml_app)
 
@@ -299,17 +291,16 @@ class Footnote(Hyppocratic):
         # Add to the XML
         if self.d_footnote['reason'] == 'add':
             for i, wit in enumerate(self.d_footnote['witnesses']):
-                if wit is not None:
-                    xml_app.append(self.xml_oss + '<rdg wit="#' + wit + '">')
-                    xml_app.append(self.xml_oss * 2 +
-                                   '<add reason="add_scribe">' +
-                                   self.d_footnote['corrections'][i] +
-                                   '</add>')
-                    xml_app.append(self.xml_oss + '</rdg>')
+                if len(wit) != 0:
+                    for w in wit:
+                        xml_app.append(self.xml_oss + '<rdg wit="#' +
+                                       w.strip() + '">')
+                        xml_app.append(self.xml_oss * 2 +
+                                       '<add reason="add_scribe">' +
+                                       self.d_footnote['corrections'][i] +
+                                       '</add>')
+                        xml_app.append(self.xml_oss + '</rdg>')
             return
-
-        if self.d_footnote['reason'] == 'standard':
-            self.d_footnote['corrections'][0] = self.d_footnote['text']
 
         if (self.d_footnote['reason'] == 'correxi' or
                 self.d_footnote['reason'] == 'conieci'):
@@ -332,9 +323,9 @@ class Footnote(Hyppocratic):
             xml_app.append(self.xml_oss + '</rdg>')
 
         for i in range(len(self.d_footnote['witnesses'])):
-            xml_app.append(self.xml_oss + '<rdg wit="#' +
-                           self.d_footnote['witnesses'][i] + '">' +
-                           self.d_footnote['corrections'][i] + '</rdg>')
+            for w in self.d_footnote['witnesses'][i]:
+                xml_app.append(self.xml_oss + '<rdg wit="#' + w.strip() + '">' +
+                               self.d_footnote['corrections'][i] + '</rdg>')
 
 
 class Footnotes(object):
@@ -419,7 +410,10 @@ class Footnotes(object):
         """
 
         # Verify footnotes for common errors
-        self._verification()
+        try:
+            self._verification()
+        except FootnotesException:
+            return
 
         for n_footnote in self.footnotes.keys():
 
@@ -471,7 +465,13 @@ class Footnotes(object):
         # Initialise list to hold error messages
 
         for k in self.footnotes:
-            footnote = '*{}*{}.'.format(k, self.footnotes[k])
+            try:
+                footnote = '*{}*{}.'.format(k, self.footnotes[k])
+            except TypeError:
+                error = 'Footnote {}'.format(k)
+                logger.error(error)
+                raise FootnotesException
+
             # Discard any empty lines
             if footnote == '':
                 continue
@@ -479,8 +479,8 @@ class Footnotes(object):
             # Test there are two '*' characters
             try:
                 if footnote.count('*') != 2:
-                    error = ('Error in footnote ' + str(k) +
-                             ': should contain two "*" characters')
+                    error = ('Error in footnote {}'
+                             ': should contain two "*" characters'.format(k))
                     raise FootnotesException
             except FootnotesException:
                 logger.error(error)
@@ -590,17 +590,6 @@ class Footnotes(object):
             # - should not contain any ','
             # - should contain one ':'
             else:
-
-                try:
-                    if ',' in footnote:
-                        error = ('Error in footnote ' + str(k) +
-                                 ': standard variation should not contain '
-                                 '"," character')
-                        raise FootnotesException
-                except FootnotesException:
-                    logger.error(error)
-                    error = 'Footnote {}: {}'.format(k, footnote)
-                    logger.error(error)
 
                 try:
                     if footnote.count(':') != 1:
