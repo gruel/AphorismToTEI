@@ -464,9 +464,6 @@ class Process(Hyppocratic):
             self.xml += intro.xml
             logger.debug('Introduction treated')
 
-        self.aphorisms_dict()
-        logger.debug('Created aphorisms dictionary')
-
         if self.divide_document():
             logger.debug('Division of the document ok.')
 
@@ -477,6 +474,9 @@ class Process(Hyppocratic):
             # Create XML app
             self.footnotes_app.xml_app()
             logger.debug('Footnotes app file created')
+
+        self.aphorisms_dict()
+        logger.debug('Created aphorisms dictionary')
 
         # Deal with the first block of text which should contain
         # an optional intro
