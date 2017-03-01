@@ -221,8 +221,7 @@ class TestFootnote(unittest.TestCase):
             text_in = f.read()
 
         # Load text from reference file
-        with open(basename + '.ref', 'r', encoding="utf-8") \
-                as f:
+        with open(basename + '.ref', 'r', encoding="utf-8") as f:
             text_ref = f.read()
 
         # Run the function with the input

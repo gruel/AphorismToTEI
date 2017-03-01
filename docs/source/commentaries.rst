@@ -185,4 +185,4 @@ a. ``*n*ssss ] W1: tttt W2.``
 b. ``*n*ssss ] W1, W2, W3: tttt W4, W5, W6.``
 
    This means witnesses ``W1``, ``W2`` and ``W3`` have text ``ssss``
-   whereas``W4``, ``W5``, ``W6`` have ``tttt``.
+   whereas ``W4``, ``W5``, ``W6`` have ``tttt``.
