@@ -324,14 +324,14 @@ class Process(Hyppocratic):
         p = re.compile(r'\s+[0-9]+.\n')
         try:
             n_aphorism = [
-                int(i.group().strip('\t').strip('\n').strip().strip('.'))
+                int(i.group().strip('.\t\n '))
                 for i in p.finditer('\n' + self.text)]
         except ValueError:
             error = "aphorism format does not respect the convention. " \
                     "It should be a number following by a point"
             logger.error(error)
             debug = "we got {}".format(self.text)
-            logger.debug(error)
+            logger.debug(debug)
             return
 
         # create the dictionary with the aphorism (not sure that we need
@@ -410,7 +410,8 @@ class Process(Hyppocratic):
             os.mkdir('XML')
 
         # Embed xml_main into the XML in the template
-        self.read_template()
+        if self.template_part1 == '':
+            self.read_template()
 
         # Set XML file names
         xml_main_file = os.path.join('XML', self.base_name + '_main.xml')
