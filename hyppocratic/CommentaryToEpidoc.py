@@ -330,8 +330,8 @@ class Process(Hyppocratic):
             error = "aphorism format does not respect the convention. " \
                     "It should be a number following by a point"
             logger.error(error)
-            error = "we got {}".format(self.text)
-            logger.error(error)
+            debug = "we got {}".format(self.text)
+            logger.debug(error)
             return
 
         # create the dictionary with the aphorism (not sure that we need
@@ -474,6 +474,8 @@ class Process(Hyppocratic):
             # Create XML app
             self.footnotes_app.xml_app()
             logger.debug('Footnotes app file created')
+        else:
+            return
 
         self.aphorisms_dict()
         logger.debug('Created aphorisms dictionary')

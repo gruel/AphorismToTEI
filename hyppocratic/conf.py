@@ -19,7 +19,7 @@ LOGGING = {
     'handlers': {
         'file': {
             'class': 'logging.FileHandler',
-            'level': 'DEBUG',
+            'level': 'INFO',
             'formatter': 'default',
             'filename': 'hyppocratic.log',
             'mode': 'w',
@@ -27,7 +27,7 @@ LOGGING = {
         },
         'console': {
             'class': 'logging.StreamHandler',
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'formatter': 'default',
         }
     },
