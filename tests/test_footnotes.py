@@ -450,6 +450,33 @@ class TestFootnote(unittest.TestCase):
         # Test the return value matches the expected output
         self.assertEqual(text_out, text_ref)
 
+    def test_correction_standard_variant2(self):
+        """
+        Runs the function _standard_variant(...) on the text in
+        test_process_standard_variant.in, and compare the output against
+        the text in test_process_standard_variant.ref
+        """
+
+        # Load text from input file
+        with open(path_testdata + 'test_process_standard_variant2.in', 'r',
+                  encoding="utf-8") as f:
+            text_in = f.read()
+
+        # Load text from reference file
+        with open(path_testdata + 'test_process_standard_variant2.ref', 'r',
+                  encoding="utf-8") as f:
+            text_ref = f.read()
+
+        # Run the function with the input
+        list_out = []
+        self.ft.footnote = text_in
+        self.ft.correction('standard', list_out)
+
+        # Convert the output list to a string with each element on a new line
+        text_out = '\n'.join(list_out)
+
+        # Test the return value matches the expected output
+        self.assertEqual(text_out, text_ref)
 
 class TestFootnotes(unittest.TestCase):
 
