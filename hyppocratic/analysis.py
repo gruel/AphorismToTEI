@@ -49,6 +49,9 @@ def references(line):
     # Create a string to contain the return value
     result = ''
 
+    if not line:
+        return
+
     while True:
         # Try to partition this line at the first '[' character
         text_before, sep, text_after = line.partition('[')
@@ -73,8 +76,8 @@ def references(line):
         # If this partition failed then something went wrong,
         # so throw an error
         if sep == '':
-            logger.error('Unable to partition string at "]" '
-                         'when looking for a reference')
+            logger.error('Unable to partition string {} at "]" '
+                         'when looking for a reference'.format(line))
             raise AnalysisException
 
         # Partition the reference into witness and location (these are
@@ -87,7 +90,6 @@ def references(line):
                      'because missing " " '
                      'character'.format(reference))
             logger.error(error)
-            raise AnalysisException
 
         # Add the witness and location XML to the result string
         result += '<locus target="' + witness.strip() + \
@@ -177,7 +179,7 @@ def footnotes(string_to_process, next_footnote):
             error = 'Unable to partition text before footnote symbol ' \
                     '{}'.format(footnote_symbol)
             logger.error(error)
-            return
+            raise AnalysisException
 
         # Add the next_text_for_xml to xml_main
         for next_line in next_text_for_xml.splitlines():
