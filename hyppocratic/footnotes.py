@@ -383,7 +383,9 @@ class Footnotes(object):
             error = 'Number of footnotes {} not in agreement ' \
                     'with their numeration in the file'.format(_size)
             logger.error(error)
-            return
+            error = 'Footnote should be written on only one line.'
+            logger.error(error)
+            raise FootnotesException
 
         # Create the ordere dictionary and remove the '.'
         _dic = OrderedDict()
@@ -393,7 +395,7 @@ class Footnotes(object):
             except ValueError:
                 error = 'There are a problem in footnote: {}'.format(line)
                 logger.error(error)
-                return
+                raise FootnotesException
 
             # Remove space and '.'
             _dic[int(key)] = value.strip().strip('.')
