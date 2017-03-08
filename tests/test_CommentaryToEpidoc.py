@@ -37,24 +37,27 @@ class TestProcess(unittest.TestCase):
         # Read test text
         with open(path_testdata + 'text.txt', 'r',
                   encoding="utf-8") as f:
-            text = f.read().strip()
+            text = f.readlines()
 
         # Read test footnotes
         with open(path_testdata + 'footnotes.txt', 'r',
                   encoding="utf-8") as f:
-            footnotes = f.read().strip()
+            footnotes = f.readlines()
 
         # Read full text file
         with open(path_testdata +
                   'aphorysm_with_intro_title_text_footnotes.txt', 'r',
                   encoding="utf-8") as f:
-            self.comtoepi.text = f.read().strip()
+            self.comtoepi._text = f.read().strip()
 
         self.comtoepi.divide_document()
-        self.assertEqual(self.comtoepi.introduction, introduction)
-        self.assertEqual(self.comtoepi.title, title)
-        self.assertEqual(self.comtoepi.text, text)
-        self.assertEqual(self.comtoepi.footnotes, footnotes)
+
+        self.assertEqual(self.comtoepi._introduction, introduction)
+        self.assertEqual(self.comtoepi._title, title)
+        for i, line in enumerate(self.comtoepi._text.splitlines()):
+            self.assertEqual(line.strip(), text[i].strip())
+        for i, line in enumerate(self.comtoepi._footnotes.splitlines()):
+            self.assertEqual(line.strip(), footnotes[i].strip())
 
     def test_divide_document_no_intro(self):
 
@@ -66,23 +69,26 @@ class TestProcess(unittest.TestCase):
         # Read test text
         with open(path_testdata + 'text.txt', 'r',
                   encoding="utf-8") as f:
-            text = f.read().strip()
+            text = f.readlines()
 
         # Read test footnotes
         with open(path_testdata + 'footnotes.txt', 'r',
                   encoding="utf-8") as f:
-            footnotes = f.read().strip()
+            footnotes = f.readlines()
 
         # Read full text file
         with open(path_testdata +
                   'aphorysm_no_intro_title_text_footnotes.txt', 'r',
                   encoding="utf-8") as f:
-            self.comtoepi.text = f.read().strip()
+            self.comtoepi._text = f.read().strip()
 
         self.comtoepi.divide_document()
-        self.assertEqual(self.comtoepi.title, title)
-        self.assertEqual(self.comtoepi.text, text)
-        self.assertEqual(self.comtoepi.footnotes, footnotes)
+
+        self.assertEqual(self.comtoepi._title, title)
+        for i, line in enumerate(self.comtoepi._text.splitlines()):
+            self.assertEqual(line.strip(), text[i].strip())
+        for i, line in enumerate(self.comtoepi._footnotes.splitlines()):
+            self.assertEqual(line.strip(), footnotes[i].strip())
 
     def test_divide_document_no_footnotes(self):
 
@@ -100,7 +106,7 @@ class TestProcess(unittest.TestCase):
         with open(path_testdata +
                   'aphorysm_no_intro_title_text_no_footnotes.txt', 'r',
                   encoding="utf-8") as f:
-            self.comtoepi.text = f.read().strip()
+            self.comtoepi._text = f.read().strip()
 
         self.assertRaises(CommentaryToEpidocException,
                           self.comtoepi.divide_document)
@@ -123,8 +129,8 @@ class TestProcess(unittest.TestCase):
 
         self.comtoepi.template_folder = path_testdata
         self.comtoepi.read_template()
-        self.assertEqual(part1, self.comtoepi.template_part1)
-        self.assertEqual(part2, self.comtoepi.template_part2)
+        self.assertEqual(part1, self.comtoepi._template_part1)
+        self.assertEqual(part2, self.comtoepi._template_part2)
 
     # ################# process_folder ###################
 

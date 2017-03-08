@@ -4,10 +4,6 @@ Note
 ----
 - pylint analysis: 10
 
-Disable two warning which I cannot avoid and are not really problematic::
-
-    pylint --disable=R0915,R0912 footnotes.py
-
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
@@ -54,7 +50,7 @@ class Footnote(Hyppocratic):
             xml = []
         self.xml = xml
 
-        self.d_footnote = {}
+        self._d_footnote = {}
 
     def check_endnote(self):
         """Method to check if there are a note at the end of a footnote
@@ -141,10 +137,10 @@ class Footnote(Hyppocratic):
                 wits1 = [i.strip() for i in [_ttmp[-1]] + _tmp[1:]]
                 corrections = ' '.join(_ttmp[:-1])
 
-            self.d_footnote = {'reason': reason,
-                               'text': text,
-                               'witnesses': [wits1, wits2],
-                               'corrections': corrections}
+            self._d_footnote = {'reason': reason,
+                                'text': text,
+                                'witnesses': [wits1, wits2],
+                                'corrections': corrections}
 
             self._omission_xml()
         except (IndexError, FootnotesException):
@@ -155,42 +151,37 @@ class Footnote(Hyppocratic):
 
     def _omission_xml(self):
         """Method to create the XML portion related to footnote (TEI format)
-
-        Parameters
-        ----------
-        xml_app: list
-            this is an intent (in/out)
         """
         # try:
         # Add the correxi or conieci if needed
-        if self.d_footnote['reason'] == 'correxi':
+        if self._d_footnote['reason'] == 'correxi':
             # Add text self.xml
             self.xml.append(self.xml_oss + '<rdg>')
             self.xml.append(self.xml_oss * 2 + '<choice>')
             self.xml.append(self.xml_oss * 3 + '<corr>' +
-                            self.d_footnote['text'] + '</corr>')
+                            self._d_footnote['text'] + '</corr>')
             self.xml.append(self.xml_oss * 2 + '</choice>')
             self.xml.append(self.xml_oss + '</rdg>')
-        elif self.d_footnote['reason'] == 'conieci':
+        elif self._d_footnote['reason'] == 'conieci':
             # Add text self.xml
             self.xml.append(self.xml_oss + '<rdg>')
             self.xml.append(self.xml_oss * 2 + '<choice>')
             self.xml.append(self.xml_oss * 3 + '<corr type="conjecture">' +
-                            self.d_footnote['text'] + '</corr>')
+                            self._d_footnote['text'] + '</corr>')
             self.xml.append(self.xml_oss * 2 + '</choice>')
             self.xml.append(self.xml_oss + '</rdg>')
-        elif self.d_footnote['reason'] is not None:
+        elif self._d_footnote['reason'] is not None:
             raise FootnotesException
 
-        wits1, wits2 = self.d_footnote['witnesses']
+        wits1, wits2 = self._d_footnote['witnesses']
         if wits1 is not None:
             for w in wits1:
                 _str = self.xml_oss + '<rdg wit="#' + w.strip() + '">'
-                if self.d_footnote['corrections']:
-                    _str += self.d_footnote['corrections'] + '</rdg>'
+                if self._d_footnote['corrections']:
+                    _str += self._d_footnote['corrections'] + '</rdg>'
                 else:
                     # _str += '\n' + self.xml_oss + '</rdg>'
-                    _str += self.d_footnote['text'] + '</rdg>'
+                    _str += self._d_footnote['text'] + '</rdg>'
                 self.xml.append(_str)
 
         for w in wits2:
@@ -263,13 +254,13 @@ class Footnote(Hyppocratic):
                 corr2 = ''
                 wits2 = []
 
-            self.d_footnote = {'reason': reason,
-                               'text': text,
-                               'witnesses': [wits1, wits2],
-                               'corrections': [corr1, corr2]}
+            self._d_footnote = {'reason': reason,
+                                'text': text,
+                                'witnesses': [wits1, wits2],
+                                'corrections': [corr1, corr2]}
 
-            if self.d_footnote['reason'] == 'standard':
-                self.d_footnote['corrections'][0] = self.d_footnote['text']
+            if self._d_footnote['reason'] == 'standard':
+                self._d_footnote['corrections'][0] = self._d_footnote['text']
             self._correction_xml()
         except (IndexError, FootnotesException):
             self.note_xml(self.footnote)
@@ -285,42 +276,42 @@ class Footnote(Hyppocratic):
         ----------
         """
         # Add to the XML
-        if self.d_footnote['reason'] == 'add':
-            for i, wit in enumerate(self.d_footnote['witnesses']):
+        if self._d_footnote['reason'] == 'add':
+            for i, wit in enumerate(self._d_footnote['witnesses']):
                 if len(wit) != 0:
                     for w in wit:
                         self.xml.append(self.xml_oss + '<rdg wit="#' +
                                         w.strip() + '">')
                         self.xml.append(self.xml_oss * 2 +
                                         '<add reason="add_scribe">' +
-                                        self.d_footnote['corrections'][i] +
+                                        self._d_footnote['corrections'][i] +
                                         '</add>')
                         self.xml.append(self.xml_oss + '</rdg>')
             return
 
-        if (self.d_footnote['reason'] == 'correxi' or
-                self.d_footnote['reason'] == 'conieci'):
+        if (self._d_footnote['reason'] == 'correxi' or
+                self._d_footnote['reason'] == 'conieci'):
 
             # Add text self.xml
             self.xml.append(self.xml_oss + '<rdg>')
             self.xml.append(self.xml_oss * 2 + '<choice>')
 
-            if self.d_footnote['reason'] == 'correxi':
+            if self._d_footnote['reason'] == 'correxi':
                 self.xml.append(self.xml_oss * 3 + '<corr>' +
-                                self.d_footnote['text'] +
+                                self._d_footnote['text'] +
                                 '</corr>')
-            elif self.d_footnote['reason'] == 'conieci':
+            elif self._d_footnote['reason'] == 'conieci':
                 self.xml.append(self.xml_oss * 3 + '<corr type="conjecture">' +
-                                self.d_footnote['text'] + '</corr>')
+                                self._d_footnote['text'] + '</corr>')
 
             self.xml.append(self.xml_oss * 2 + '</choice>')
             self.xml.append(self.xml_oss + '</rdg>')
 
-        for i in range(len(self.d_footnote['witnesses'])):
-            for w in self.d_footnote['witnesses'][i]:
+        for i in range(len(self._d_footnote['witnesses'])):
+            for w in self._d_footnote['witnesses'][i]:
                 self.xml.append(self.xml_oss +
                                 '<rdg wit="#' + w.strip() + '">' +
-                                self.d_footnote['corrections'][i] + '</rdg>')
+                                self._d_footnote['corrections'][i] + '</rdg>')
 
 
 class Footnotes(object):

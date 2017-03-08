@@ -68,9 +68,6 @@ class Process(Hyppocratic):
     Attributes
     ----------
 
-    folder: str, optional
-        Name of the folder where are the files to convert
-
     fname: str
         Name of the file to convert.
         The text file base name is expected to end with an underscore followed
@@ -78,45 +75,33 @@ class Process(Hyppocratic):
         value is used when creating the title section <div> element, e.g.
         <div n="1" type="Title_section"> for file_1.txt.
 
+    folder: str, optional
+        Name of the folder where are the files to convert
+
+    doc_num: int, optional
+        version of the document treated.
+        Default value: 1.
+
     template_folder: str, optional
         Name of the folder where are the XML template is located
-
-    template_marker: str, optional
-            string which will be replace in the template file.
-            Default=``#INSERT#``
 
     template_fname: str, optional
         The name of the XML template file containing the string
         ``#INSERT#`` at the location in which to insert XML for the
         ``<body>`` element.
 
-    next_footnote: int
-
-    introduction: str
-
-    title: str
-    text: str
-    footnotes: str
-    n_footnote: int
-    template_part1: str
-    template_part2: str
-    doc_num: int
-
-    # Initialisation of the xml_main and xml_app list
-    # They are created here and not in the __init__ to have
-    # the reinitialisation where it is needed.
-    xml_main = []
-    xml_app = []
-
+    template_marker: str, optional
+            string which will be replace in the template file.
+            Default=``#INSERT#``
     """
-
     def __init__(self,
                  fname=None,
                  folder=None,
-                 doc_num=None,
+                 doc_num=1,
                  template_folder='.',
                  template_fname='xml_template.txt',
                  template_marker='#INSERT#'):
+
         Hyppocratic.__init__(self)
         self.folder = folder
         self.fname = fname
@@ -124,32 +109,33 @@ class Process(Hyppocratic):
         self.template_folder = template_folder
         self.template_fname = template_fname
         self.template_marker = template_marker
-        self.footnotes_app = None
 
         # Create basename file.
         if self.fname is not None:
-            self.setbasename()
+            self.set_basename()
         else:
             self.base_name = None
 
+        self._footnotes_app = None
+
         # Initialise footnote number
-        self.next_footnote = 1
+        self._next_footnote = 1
 
         # other attributes used
-        self.introduction = ''
-        self.title = ''
-        self.aph_com = {}  # aphorism and commentaries
-        self.text = ''
-        self.footnotes = ''
-        self.n_footnote = 1
-        self.template_part1 = ''
-        self.template_part2 = ''
+        self._introduction = ''
+        self._title = ''
+        self._aph_com = {}  # aphorism and commentaries
+        self._text = ''
+        self._footnotes = ''
+        self._n_footnote = 1
+        self._template_part1 = ''
+        self._template_part2 = ''
 
         # Initialisation of the xml_main and xml_app list
         # They are created here and not in the __init__ to have
         # the reinitialisation where it is needed.
 
-    def setbasename(self):
+    def set_basename(self):
         """Method to set the basename attribute if fname is not None
         """
         self.base_name = os.path.splitext(os.path.basename(self.fname))[0]
@@ -179,10 +165,10 @@ class Process(Hyppocratic):
         """
         if fname is not None:
             self.folder, self.fname = os.path.split(fname)
-            self.setbasename()
+            self.set_basename()
 
         if self.base_name is None and self.fname is not None:
-            self.setbasename()
+            self.set_basename()
 
         if self.folder is None:
             self.folder = '.'
@@ -200,7 +186,6 @@ class Process(Hyppocratic):
                 if sep == '':
                     raise CommentaryToEpidocException
             except ValueError:
-                self.doc_num = 1
                 info = ('File name {} does not provide version information. '
                         'Use version 1 by default'.format(self.fname))
                 logger.info(info)
@@ -210,7 +195,7 @@ class Process(Hyppocratic):
         with open(os.path.join(self.folder, self.fname), 'r',
                   encoding="utf-8") as f:
             # Read in file
-            self.text = f.read().strip()
+            self._text = f.read().strip()
 
     def divide_document(self):
         """Method to divide the document in the three main parts.
@@ -242,34 +227,38 @@ class Process(Hyppocratic):
         # cut the portion of the test, starting from the end, until the
         # characters footnotes_sep
         footnotes_sep = '*1*'
-        loc_footnotes = self.text.rfind(footnotes_sep)
+        loc_footnotes = self._text.rfind(footnotes_sep)
 
-        if loc_footnotes == self.text.find(footnotes_sep):
+        if loc_footnotes == self._text.find(footnotes_sep):
             logger.error('Footnote referenced in the text but '
                          'no footnote section present.')
-            self.footnotes = ''
+            self._footnotes = ''
             raise CommentaryToEpidocException
 
         if loc_footnotes != -1:
-            self.footnotes = self.text[loc_footnotes:].strip()
-            self.text = self.text[:loc_footnotes]
+            self._footnotes = self._text[loc_footnotes:].strip()
+            self._text = self._text[:loc_footnotes]
         else:
             logger.info('There are no footnotes present.')
 
         # Cut the intro (if present)
-        intro_sep = '++\n'
-        loc_intro = self.text.find(intro_sep, 3)
-        # Cut the intro (remove the '++\n' at the beginning and the end.
-        if loc_intro != -1:
-            self.introduction = self.text[3:loc_intro].strip()
-            self.text = self.text[loc_intro+3:]
-        else:
-            logger.info('There are no introduction present.')
+        try:
+            p = re.compile(r'\+\+\n')
+            _tmp = p.split(self._text)
+            if len(_tmp) == 3:
+                self._title = _tmp[0].strip()
+                self._introduction = _tmp[1].strip()
+                self._text = _tmp[2].strip()
+            elif len(_tmp) == 2:
+                self._introduction = _tmp[0].strip()
+                self._text = _tmp[1].strip()
+        except ValueError as e:
+            raise CommentaryToEpidocException(e)
 
         try:
             p = re.compile(r'\s+1\.?\n')
-            self.title, self.text = p.split(self.text)
-            self.text = '1.\n' + self.text
+            self._title, self._text = p.split(self._text)
+            self._text = '1.\n' + self._text.strip()
         except ValueError as e:
             raise CommentaryToEpidocException(e)
 
@@ -308,7 +297,7 @@ class Process(Hyppocratic):
         """
 
         # \n\d+.\n == \n[0-9]+.\n (\d == [0-9])
-        aphorism = re.split(r'\s+[0-9]+\.?\n', '\n' + self.text)[1:]
+        aphorism = re.split(r'\s+[0-9]+\.?\n', '\n' + self._text)[1:]
 
         # n_aphorism = [int(i.strip('\n').strip('.')) for i in
         #               re.findall('\n[0-9]+.\n', '\n' + self.text)]
@@ -326,14 +315,14 @@ class Process(Hyppocratic):
         try:
             n_aphorism = [
                 int(i.group().strip('.\t\n '))
-                for i in p.finditer('\n' + self.text)]
+                for i in p.finditer('\n' + self._text)]
             if not n_aphorism:
                 raise CommentaryToEpidocException
         except (ValueError, CommentaryToEpidocException):
             error = ("aphorism format does not respect the convention. "
                      "It should be a number following by a point")
             logger.error(error)
-            debug = "we got:\n{}".format(self.text.splitlines()[:2])
+            debug = "we got:\n{}".format(self._text.splitlines()[:2])
             logger.debug(debug)
             raise CommentaryToEpidocException
 
@@ -342,11 +331,11 @@ class Process(Hyppocratic):
         # use n_aphorism to be sure that there are no error
 
         try:
-            self.aph_com = {}
+            self._aph_com = {}
             for i, aph in enumerate(aphorism):
-                self.aph_com[n_aphorism[i]] = [s.strip()
-                                               for s in aph.split('\n')
-                                               if len(s) != 0]
+                self._aph_com[n_aphorism[i]] = [s.strip()
+                                                for s in aph.split('\n')
+                                                if len(s) != 0]
         except (IndexError, CommentaryToEpidocException):
             error = ('Problem in the creation of the dictionary which'
                      'which contains the aphorisms')
@@ -384,7 +373,7 @@ class Process(Hyppocratic):
             sys.exit(1)
 
         # Split the template at template_marker
-        self.template_part1, sep, self.template_part2 = template.partition(
+        self._template_part1, sep, self._template_part2 = template.partition(
             self.template_marker)
 
         # Test the split worked
@@ -414,7 +403,7 @@ class Process(Hyppocratic):
             os.mkdir('XML')
 
         # Embed xml_main into the XML in the template
-        if self.template_part1 == '':
+        if self._template_part1 == '':
             self.read_template()
 
         # Set XML file name
@@ -423,14 +412,14 @@ class Process(Hyppocratic):
 
         # Save main XML to file
         with open(xml_main_file, 'w', encoding="utf-8") as f:
-            f.write(self.template_part1)
+            f.write(self._template_part1)
             for s in self.xml:
                 f.write(s + '\n')
-            f.write(self.template_part2)
+            f.write(self._template_part2)
 
         # Save app XML to file
-        if self.footnotes_app is not None:
-            self.footnotes_app.save_xml(xml_app_file)
+        if self._footnotes_app is not None:
+            self._footnotes_app.save_xml(xml_app_file)
 
     def treat_footnotes(self):
         """Method to treat Footnote.
@@ -438,16 +427,16 @@ class Process(Hyppocratic):
         Work even if division of the document didn't work properly but
         for the footnotes part.
         """
-        if not self.footnotes == '':
+        if not self._footnotes == '':
             # In most of the file the footnote will be present and can be
             # treated independently from the aphorism.
 
             # Treat the footnote part and create the XML app
-            self.footnotes_app = Footnotes(self.footnotes)
+            self._footnotes_app = Footnotes(self._footnotes)
             logger.info('Footnotes treated')
 
             # Create XML app
-            self.footnotes_app.xml_app()
+            self._footnotes_app.xml_app()
             logger.info('Footnotes app file created')
 
     def process_file(self):
@@ -484,7 +473,7 @@ class Process(Hyppocratic):
             self.divide_document()
             logger.info('Division of the document ok.')
             self.treat_footnotes()
-            self.footnotes_app.save_xml()
+            self._footnotes_app.save_xml()
         except CommentaryToEpidocException:
             logger.error('Division of the document failed.')
             self.treat_footnotes()
@@ -493,10 +482,10 @@ class Process(Hyppocratic):
         self.aphorisms_dict()
         logger.info('Created aphorisms dictionary')
 
-        if self.introduction != '':
-            intro = Introduction(self.introduction, self.next_footnote)
+        if self._introduction != '':
+            intro = Introduction(self._introduction, self._next_footnote)
             intro.xml_main()
-            self.next_footnote = intro.next_footnote
+            self._next_footnote = intro.next_footnote
             self.xml += intro.xml
             logger.debug('Introduction treated')
 
@@ -505,13 +494,13 @@ class Process(Hyppocratic):
         # and the title
         # =======================================================
 
-        title = Title(self.title, self.next_footnote, self.doc_num)
+        title = Title(self._title, self._next_footnote, self.doc_num)
         logger.debug('Title treated')
 
         title.xml_main()
         logger.debug('Title xml created')
 
-        self.next_footnote = title.next_footnote
+        self._next_footnote = title.next_footnote
 
         # Add title to the xml main
         self.xml += title.xml
@@ -519,10 +508,10 @@ class Process(Hyppocratic):
         # Now process the rest of the main text
         # =====================================
         logger.debug('Start aphorisms and commentaries treatment')
-        for k in self.aph_com:
+        for k in self._aph_com:
 
-            aphorism = self.aph_com[k][0]
-            commentaries = self.aph_com[k][1:]
+            aphorism = self._aph_com[k][0]
+            commentaries = self._aph_com[k][1:]
 
             # Add initial XML for the aphorism + commentary unit
             self.xml.append(self.xml_oss * self.xml_n_offset + '<div n="' +
@@ -547,8 +536,8 @@ class Process(Hyppocratic):
             # to the log file and return
             try:
                 self.xml_n_offset += 3
-                xml_main_to_add, self.next_footnote = \
-                    footnotes(line_ref, self.next_footnote)
+                xml_main_to_add, self._next_footnote = \
+                    footnotes(line_ref, self._next_footnote)
                 self.xml_n_offset -= 3
             except (TypeError, AnalysisException):
                 error = ('Unable to process footnotes in '
@@ -596,8 +585,8 @@ class Process(Hyppocratic):
                 # CommentaryToEpidocException and log an error
                 try:
                     self.xml_n_offset += 3
-                    xml_main_to_add, self.next_footnote = \
-                        footnotes(line_ref, self.next_footnote)
+                    xml_main_to_add, self._next_footnote = \
+                        footnotes(line_ref, self._next_footnote)
                     self.xml_n_offset -= 3
 
                 except (TypeError, AnalysisException):
@@ -625,9 +614,9 @@ class Process(Hyppocratic):
         """Reset some of the attributes to be use with process_folder
         """
         self.doc_num = None
-        self.introduction = ''
-        self.n_footnote = 1
-        self.next_footnote = 1
+        self._introduction = ''
+        self._n_footnote = 1
+        self._next_footnote = 1
         self.xml = []
 
     def process_folder(self, folder=None):
@@ -676,7 +665,7 @@ class Process(Hyppocratic):
                 try:
                     self.reset()
                     self.fname = fname
-                    self.setbasename()
+                    self.set_basename()
                     self.process_file()
                 except (CommentaryToEpidocException, FootnotesException,
                         AnalysisException):
