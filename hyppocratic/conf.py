@@ -5,6 +5,9 @@ TODO: can be transformed in yaml file eventually
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
+# pylint: disable=locally-disabled, invalid-name
+import logging.config
+import logging
 
 # Pure python dictionary with the configuration for the logging
 
@@ -37,8 +40,17 @@ LOGGING = {
     },
 }
 
-# Some constant use in the creation of the XML
 
+# Read logging configuration and create logger
+logging.config.dictConfig(LOGGING)
+logger = logging.getLogger('hyppocratic')
+
+# Some constants use in the creation of the XML
 XML_N_OFFSET = 3
 XML_OFFSET_SIZE = 4
 XML_OSS = ' ' * XML_OFFSET_SIZE
+
+# XML template information
+TEMPLATE_FOLDER = ''
+TEMPLATE_FNAME = 'xml_template.txt'
+TEMPLATE_MARKER = '#INSERT#'

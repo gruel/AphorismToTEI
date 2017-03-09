@@ -5,23 +5,13 @@ and the footnotes *XXX*.
 
 The `references` function has to be used before the `footnotes`.
 
-note: pylint analysis: 10
-
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
-
-import logging.config
-
 try:
-    from hyppocratic.conf import LOGGING, XML_OSS, XML_N_OFFSET
+    from hyppocratic.conf import logger, XML_OSS, XML_N_OFFSET
 except ImportError:
-    from conf import LOGGING, XML_OSS, XML_N_OFFSET
-
-# Read logging configuration and create logger
-logging.config.dictConfig(LOGGING)
-# pylint: disable=locally-disabled, invalid-name
-logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
+    from conf import logger, XML_OSS, XML_N_OFFSET
 
 
 # Define an Exception
@@ -41,9 +31,14 @@ def references(line):
     ``\n`` characters are added at the start and end of each XML insertion
     so each instance of XML is on its own line.
 
-    It is intended this function is called by function process_file()
+    It is intended this function is called by function main()
     for each line of text from the main body of the text document before
     processing footnote references using the _footnotes() function.
+
+    Parameters
+    ----------
+    line: str
+        contains the line with the aphorism or the commentary to analyse.
     """
 
     # Create a string to contain the return value
@@ -128,6 +123,9 @@ def footnotes(string_to_process, next_footnote):
         generated using the _references() function i.e. XML
         identifying witnesses with each <locus> XML on a new line.
 
+    next_footnote: int
+        reference the footnote to find.
+
     Returns
     -------
 
@@ -136,7 +134,7 @@ def footnotes(string_to_process, next_footnote):
     3. The number of the next footnote to be processed when this function
        complete.
 
-    It is intended this function is called by process_file() on each line
+    It is intended this function is called by main() on each line
     of text from the main document body.
     """
     # Create lists to contain the XML
@@ -212,7 +210,7 @@ def footnotes(string_to_process, next_footnote):
             if string_to_process == '':
                 break
     except AttributeError:
-        error = 'Cannot analyse aphorysm or commentary ' \
+        error = 'Cannot analyse aphorism or commentary ' \
                 '{}'.format(string_to_process)
         logger.error(error)
         raise AnalysisException

@@ -27,43 +27,38 @@ in the associated documentation (doc/_build/index.html).
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
-
-# Import the string and os modules
+# pylint: disable=locally-disabled, invalid-name
 import os
 import sys
 import re
-import logging.config
 
 try:
     from hyppocratic.analysis import references, footnotes, AnalysisException
     from hyppocratic.introduction import Introduction
     from hyppocratic.title import Title
     from hyppocratic.footnotes import Footnotes, FootnotesException
-    from hyppocratic.conf import LOGGING
+    from hyppocratic.conf import logger, TEMPLATE_FOLDER, TEMPLATE_FNAME, \
+        TEMPLATE_MARKER
     from hyppocratic.baseclass import Hyppocratic
 except ImportError:
     from analysis import references, footnotes, AnalysisException
     from introduction import Introduction
     from title import Title
     from footnotes import Footnotes, FootnotesException
-    from conf import LOGGING
+    from conf import logger, TEMPLATE_FOLDER, TEMPLATE_FNAME, \
+        TEMPLATE_MARKER
     from baseclass import Hyppocratic
-
-# Read logging configuration and create logger
-logging.config.dictConfig(LOGGING)
-# pylint: disable=locally-disabled, invalid-name
-logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
 
 
 # Define an Exception
-class CommentaryToEpidocException(Exception):
+class AphorismsToXMLException(Exception):
     """Class for exception
     """
     pass
 
 
 class Process(Hyppocratic):
-    """Class to process hypocratic aphorysm text to produce a TEI XML file.
+    """Class to main hypocratic aphorism text to produce a TEI XML file.
 
     Attributes
     ----------
@@ -80,35 +75,20 @@ class Process(Hyppocratic):
 
     doc_num: int, optional
         version of the document treated.
-        Default value: 1.
-
-    template_folder: str, optional
-        Name of the folder where are the XML template is located
-
-    template_fname: str, optional
-        The name of the XML template file containing the string
-        ``#INSERT#`` at the location in which to insert XML for the
-        ``<body>`` element.
-
-    template_marker: str, optional
-            string which will be replace in the template file.
-            Default=``#INSERT#``
+        Default value: 1
     """
     def __init__(self,
                  fname=None,
                  folder=None,
-                 doc_num=1,
-                 template_folder='.',
-                 template_fname='xml_template.txt',
-                 template_marker='#INSERT#'):
+                 doc_num=1):
 
         Hyppocratic.__init__(self)
         self.folder = folder
         self.fname = fname
         self.doc_num = doc_num
-        self.template_folder = template_folder
-        self.template_fname = template_fname
-        self.template_marker = template_marker
+        self.template_folder = TEMPLATE_FOLDER
+        self.template_fname = TEMPLATE_FNAME
+        self.template_marker = TEMPLATE_MARKER
 
         # Create basename file.
         if self.fname is not None:
@@ -139,6 +119,14 @@ class Process(Hyppocratic):
         """Method to set the basename attribute if fname is not None
         """
         self.base_name = os.path.splitext(os.path.basename(self.fname))[0]
+
+        # Create folder for XML
+        if not os.path.exists('XML'):
+            os.mkdir('XML')
+
+        # Set XML file name
+        self.xml_main_file = os.path.join('XML', self.base_name + '_main.xml')
+        self.xml_app_file = os.path.join('XML', self.base_name + '_app.xml')
 
     def open_document(self, fname=None):
         """Method to open and read the hyppocratic document.
@@ -175,20 +163,19 @@ class Process(Hyppocratic):
 
         if self.base_name is None:
             logger.error("There are no file to convert.")
-            raise CommentaryToEpidocException
+            raise AphorismsToXMLException
 
         # Extract the document number, it is expected this is at the end of the
         # base name following an '_'
-        if self.doc_num is None:
-            try:
-                sep, doc_num = self.base_name.rpartition('_')[1:]
-                self.doc_num = int(doc_num)
-                if sep == '':
-                    raise CommentaryToEpidocException
-            except ValueError:
-                info = ('File name {} does not provide version information. '
-                        'Use version 1 by default'.format(self.fname))
-                logger.info(info)
+        try:
+            sep, doc_num = self.base_name.rpartition('_')[1:]
+            self.doc_num = int(doc_num)
+            if sep == '':
+                raise AphorismsToXMLException
+        except ValueError:
+            info = ('File name {} does not provide version information. '
+                    'Use version 1 by default'.format(self.fname))
+            logger.info(info)
 
         # Open the file to process
         # pylint: disable=locally-disabled, invalid-name
@@ -233,7 +220,7 @@ class Process(Hyppocratic):
             logger.error('Footnote referenced in the text but '
                          'no footnote section present.')
             self._footnotes = ''
-            raise CommentaryToEpidocException
+            raise AphorismsToXMLException
 
         if loc_footnotes != -1:
             self._footnotes = self._text[loc_footnotes:].strip()
@@ -253,14 +240,17 @@ class Process(Hyppocratic):
                 self._introduction = _tmp[0].strip()
                 self._text = _tmp[1].strip()
         except ValueError as e:
-            raise CommentaryToEpidocException(e)
+            raise AphorismsToXMLException(e)
 
         try:
             p = re.compile(r'\s+1\.?\n')
             self._title, self._text = p.split(self._text)
+            # if not self.text:
+            #     raise CommentaryToEpidocException
             self._text = '1.\n' + self._text.strip()
         except ValueError as e:
-            raise CommentaryToEpidocException(e)
+            logger.error('Aphorism should have numeration as 1. or 1')
+            raise AphorismsToXMLException(e)
 
     #     def analysis_aphorism_dict(self, com):
 #         """Create an ordered dictionary with the different witness and
@@ -317,14 +307,14 @@ class Process(Hyppocratic):
                 int(i.group().strip('.\t\n '))
                 for i in p.finditer('\n' + self._text)]
             if not n_aphorism:
-                raise CommentaryToEpidocException
-        except (ValueError, CommentaryToEpidocException):
+                raise AphorismsToXMLException
+        except (ValueError, AphorismsToXMLException):
             error = ("aphorism format does not respect the convention. "
                      "It should be a number following by a point")
             logger.error(error)
             debug = "we got:\n{}".format(self._text.splitlines()[:2])
             logger.debug(debug)
-            raise CommentaryToEpidocException
+            raise AphorismsToXMLException
 
         # create the dictionary with the aphorism (not sure that we need
         # the ordered one)
@@ -336,11 +326,11 @@ class Process(Hyppocratic):
                 self._aph_com[n_aphorism[i]] = [s.strip()
                                                 for s in aph.split('\n')
                                                 if len(s) != 0]
-        except (IndexError, CommentaryToEpidocException):
+        except (IndexError, AphorismsToXMLException):
             error = ('Problem in the creation of the dictionary which'
                      'which contains the aphorisms')
             logger.error(error)
-            raise CommentaryToEpidocException
+            raise AphorismsToXMLException
 
     def read_template(self):
         """Method to read the XML template used for the transformation
@@ -389,37 +379,28 @@ class Process(Hyppocratic):
         logger.debug('Template file splitted.')
 
     def save_xml(self):
-        """Method to save the XML files expected
+        """Method to save the main XML file
 
         Two XML files are created as result to the transformation in the EPIDOC
-        format
+        format one contain the introduction, title, aphorisms and commentaries.
+        The other one contains the footnotes informations.
+        This method create the main one.
 
         Exceptions
         ==========
 
         """
-        # Create folder for XML
-        if not os.path.exists('XML'):
-            os.mkdir('XML')
-
         # Embed xml_main into the XML in the template
         if self._template_part1 == '':
             self.read_template()
 
-        # Set XML file name
-        xml_main_file = os.path.join('XML', self.base_name + '_main.xml')
-        xml_app_file = os.path.join('XML', self.base_name + '_app.xml')
-
-        # Save main XML to file
-        with open(xml_main_file, 'w', encoding="utf-8") as f:
-            f.write(self._template_part1)
-            for s in self.xml:
-                f.write(s + '\n')
-            f.write(self._template_part2)
-
-        # Save app XML to file
-        if self._footnotes_app is not None:
-            self._footnotes_app.save_xml(xml_app_file)
+        if self.xml:
+            # Save main XML to file
+            with open(self.xml_main_file, 'w', encoding="utf-8") as f:
+                f.write(self._template_part1)
+                for s in self.xml:
+                    f.write(s + '\n')
+                f.write(self._template_part2)
 
     def treat_footnotes(self):
         """Method to treat Footnote.
@@ -439,7 +420,7 @@ class Process(Hyppocratic):
             self._footnotes_app.xml_app()
             logger.info('Footnotes app file created')
 
-    def process_file(self):
+    def main(self):
         """
         A function to process a text file containing symbols representing
         references to witnesses and symbols and footnotes defining textual
@@ -472,12 +453,16 @@ class Process(Hyppocratic):
         try:
             self.divide_document()
             logger.info('Division of the document ok.')
-            self.treat_footnotes()
-            self._footnotes_app.save_xml()
-        except CommentaryToEpidocException:
+        except AphorismsToXMLException:
             logger.error('Division of the document failed.')
+            raise AphorismsToXMLException
+
+        try:
             self.treat_footnotes()
-            raise CommentaryToEpidocException
+            self._footnotes_app.save_xml(self.xml_app_file)
+            logger.info('Footnotes app file created')
+        except (FootnotesException, AphorismsToXMLException):
+            raise AphorismsToXMLException
 
         self.aphorisms_dict()
         logger.info('Created aphorisms dictionary')
@@ -530,7 +515,7 @@ class Process(Hyppocratic):
                 error = ('Unable to process _references in '
                          'aphorism {}'.format(k))
                 logger.error(error)
-                raise CommentaryToEpidocException from None
+                raise AphorismsToXMLException from None
 
             # Process any footnotes in line_ref, if there are errors write
             # to the log file and return
@@ -543,7 +528,7 @@ class Process(Hyppocratic):
                 error = ('Unable to process footnotes in '
                          'aphorism {}'.format(k))
                 logger.error(error)
-                raise CommentaryToEpidocException from None
+                raise AphorismsToXMLException from None
 
             # Add the XML
             self.xml.extend(xml_main_to_add)
@@ -579,7 +564,7 @@ class Process(Hyppocratic):
                              'commentary {} for aphorism '
                              '{}'.format(n_com, k))
                     logger.error(error)
-                    raise CommentaryToEpidocException from None
+                    raise AphorismsToXMLException from None
 
                 # Process any _footnotes in line_ref. If this fails with a
                 # CommentaryToEpidocException and log an error
@@ -590,9 +575,9 @@ class Process(Hyppocratic):
                     self.xml_n_offset -= 3
 
                 except (TypeError, AnalysisException):
-                    error = "Unable to proceed Aphorism {}".format(k)
+                    error = "Unable to process Aphorism {}".format(k)
                     logger.error(error)
-                    raise CommentaryToEpidocException from None
+                    raise AphorismsToXMLException from None
 
                 # Add the XML
                 self.xml.extend(xml_main_to_add)
@@ -609,67 +594,3 @@ class Process(Hyppocratic):
         # Save the xmls created
         self.save_xml()
         logger.debug('Save main xml')
-
-    def reset(self):
-        """Reset some of the attributes to be use with process_folder
-        """
-        self.doc_num = None
-        self._introduction = ''
-        self._n_footnote = 1
-        self._next_footnote = 1
-        self.xml = []
-
-    def process_folder(self, folder=None):
-        """
-        A function to process all files with the .txt extension in a directory.
-        These files are expected to be utf-8 text files containing symbols
-        representing references to witnesses and symbols and footnotes defining
-        textual variations, omissions, additions, correxi or conieci.
-        For each text file this function will attempt to use the symbols
-        to produce files containing EpiDoc compatible XML.
-
-        The text file base name is expected to end with an underscore followed
-        by a numerical value, e.g. file_1.txt, file_2.txt, etc.
-        This numerical value is used when creating the title section
-        <div> element, e.g. <div n="1" type="Title_section"> for file_1.txt.
-
-        If processing succeeds two XML files will be created in folder ./XML
-        with file names starting with the text file base name and ending
-        in _main.xml (for the main XML) and _apps.xml (for the apparatus XML).
-        For example for file_1.txt the XML files will be file_1_main.xml and
-        file_1_app.xml.
-
-        Parameters
-        ----------
-
-        folder: str, optional
-            The folder containing the text file
-        """
-
-        if folder is not None:
-            self.folder = folder
-
-        # Test that the working folder exists
-        if not os.path.exists(self.folder):
-            error = 'Error: path {} for text files ' \
-                    'not found'.format(self.folder)
-            logger.error(error)
-            raise CommentaryToEpidocException
-
-        files = os.listdir(self.folder)
-
-        for fname in files:
-            if fname.endswith('.txt'):
-                info = 'Processing: "{}"'.format(fname)
-                logger.info(info)
-                try:
-                    self.reset()
-                    self.fname = fname
-                    self.set_basename()
-                    self.process_file()
-                except (CommentaryToEpidocException, FootnotesException,
-                        AnalysisException):
-                    error = 'Error: unable to process "{}", ' \
-                            'see log file.'.format(self.fname)
-                    logger.error(error)
-        return True

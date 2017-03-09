@@ -1,27 +1,19 @@
 """Module which contains the class which create the XML part related to
-the introduction (if present) in the hyppocratic aphorysm document.
+the introduction (if present) in the hyppocratic aphorism document.
 
 note: pylint analysis 10
 
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
-
-import logging.config
-
 try:
+    from hyppocratic.conf import logger
     from hyppocratic.analysis import references, footnotes
-    from hyppocratic.conf import LOGGING
     from hyppocratic.baseclass import Hyppocratic
 except ImportError:
     from analysis import references, footnotes
-    from conf import LOGGING
+    from conf import logger
     from baseclass import Hyppocratic
-
-# Read logging configuration and create logger
-logging.config.dictConfig(LOGGING)
-# pylint: disable=locally-disabled, invalid-name
-logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
 
 
 # Define an Exception
@@ -38,7 +30,7 @@ class Introduction(Hyppocratic):
     ----------
 
     self.introduction: str
-        string which contain the introduction of the hyppocratic aphorysms
+        string which contain the introduction of the hyppocratic aphorisms
         document.
 
     self.next_footnote: int

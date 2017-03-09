@@ -1,10 +1,9 @@
 import os
 import sys
-from collections import OrderedDict
 import unittest
 import pytest
 
-from context import Process, CommentaryToEpidocException
+from context import Process, AphorismsToXMLException
 
 file_path = os.path.realpath(__file__)
 path = os.path.dirname(file_path)
@@ -108,7 +107,7 @@ class TestProcess(unittest.TestCase):
                   encoding="utf-8") as f:
             self.comtoepi._text = f.read().strip()
 
-        self.assertRaises(CommentaryToEpidocException,
+        self.assertRaises(AphorismsToXMLException,
                           self.comtoepi.divide_document)
 
     # ################# read_template ###################
@@ -132,17 +131,18 @@ class TestProcess(unittest.TestCase):
         self.assertEqual(part1, self.comtoepi._template_part1)
         self.assertEqual(part2, self.comtoepi._template_part2)
 
-    # ################# process_folder ###################
+    # # ################# process_folder ###################
+    # Moved to driver:
+    # TODO: implement unittest for driver
+    # def test_process_folder(self):
+    #     self.comtoepi.template_folder = path_testdata
+    #     self.assertTrue(self.comtoepi.process_folder(path_testdata))
+    #
+    # def test_process_folder_raise_error_folder_not_present(self):
+    #     folder = os.path.join('path_failed')
+    #     self.assertRaises(AphorismsToXMLException,
+    #                       self.comtoepi.process_folder,
+    #                       folder)
 
-    def test_process_folder(self):
-        self.comtoepi.template_folder = path_testdata
-        self.assertTrue(self.comtoepi.process_folder(path_testdata))
-
-    def test_process_folder_raise_error_folder_not_present(self):
-        folder = os.path.join('path_failed')
-        self.assertRaises(CommentaryToEpidocException,
-                          self.comtoepi.process_folder,
-                          folder)
-
-if __name__ == '__main__':
-    pytest.main()
+# if __name__ == '__main__':
+#     pytest.main()

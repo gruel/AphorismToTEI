@@ -3,17 +3,11 @@
 Authors: Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
-import logging.config
-
-try:
-    from hyppocratic.conf import LOGGING, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
-except ImportError:
-    from conf import LOGGING, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
-
-# Read logging configuration and create logger
-logging.config.dictConfig(LOGGING)
 # pylint: disable=locally-disabled, invalid-name
-logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
+try:
+    from hyppocratic.conf import XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
+except ImportError:
+    from conf import XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
 
 
 # Define an Exception
@@ -24,10 +18,26 @@ class HyppocraticException(Exception):
 
 
 class Hyppocratic(object):
-    """
-    self.xml: list
+    """Basic class used for the software.
+
+    Attributes
+    ----------
+
+    self.xml: list, optional
         list of string which contains the XML related to the introduction
         to be include in the main XML part of the document.
+
+    self.xml_n_offset: int, optional
+        define the number of time the oss string is used (see above)
+        default: 3
+
+    self.xml_offset_size: int, optional
+        define the number of times the same string is used to indent.
+        Default: 4
+
+    self.xml_oss: str, optional
+        define the string used to indent xml statement.
+        default ' ' * XML_OFFSET_SIZE.
     """
     def __init__(self):
 
@@ -43,13 +53,18 @@ class Hyppocratic(object):
 
     def note_xml(self, note):
         """Method to create the apparatus note XML
+
+        Parameters
+        ----------
+        note: str
+            contains the string to consider as a note in the XML
         """
         self.xml.append(self.xml_oss + '<note>' + note + '</note>')
 
     def save_xml(self):
         """Method to save the XML in the working directory
         """
-        fname = self.__class__.__name__
+        fname = self.__class__.__name__ + '.xml'
         with open(fname, 'w', encoding="utf-8") as f:
             for s in self.xml:
                 f.write(s + '\n')

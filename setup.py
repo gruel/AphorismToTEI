@@ -14,7 +14,7 @@ setup(name='hyppocratic',
       install_requires=['docopt', 'nose', 'pytest'],
       entry_points={
           'console_scripts': [
-              'CommentaryToEpidoc = hyppocratic.driver:main']
+              'AphorismsToTEI = hyppocratic.main:main']
                     }
       )
 

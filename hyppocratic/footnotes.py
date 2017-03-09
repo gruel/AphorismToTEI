@@ -7,21 +7,16 @@ Note
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
+# pylint: disable=locally-disabled, invalid-name
 import re
-import logging.config
 from collections import OrderedDict
 
 try:
-    from hyppocratic.conf import LOGGING
+    from hyppocratic.conf import logger
     from hyppocratic.baseclass import Hyppocratic
 except ImportError:
-    from conf import LOGGING
+    from conf import logger
     from baseclass import Hyppocratic
-
-# Read logging configuration and create logger
-logging.config.dictConfig(LOGGING)
-# pylint: disable=locally-disabled, invalid-name
-logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
 
 
 # Define an Exception
@@ -38,13 +33,16 @@ class Footnote(Hyppocratic):
     ----------
     self.footnote: str
         String which contains the footnote to treat.
+
     self.n_footnote: int
         Integer which give the reference number of the footnote treated.
+
+    self. xml: list
+        list which contains the app XML file.
     """
     def __init__(self, footnote=None, n_footnote=None, xml=None):
         Hyppocratic.__init__(self)
         self.footnote = footnote
-        self.footnote_com = ''
         self.n_footnote = n_footnote
         if xml is None:
             xml = []
@@ -434,8 +432,7 @@ class Footnotes(object):
                 ft.correction('standard')
 
             self._xml_app += ft.xml
-            if ft.footnote_com != '':
-                self._xml_app += ft.note_xml(ft.footnote_com)
+
             # Close the XML
             self._xml_app.append('</app>')
 

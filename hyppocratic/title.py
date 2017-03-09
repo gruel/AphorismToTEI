@@ -1,28 +1,19 @@
 """Module which contains the class which create the XML part related to
-the title in the hyppocratic aphorysm document.
+the title in the hyppocratic aphorism document.
 
 note: pylint analysis 10
 
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
-
-
-import logging.config
-
 try:
+    from hyppocratic.conf import logger
     from hyppocratic.analysis import references, footnotes
-    from hyppocratic.conf import LOGGING
     from hyppocratic.baseclass import Hyppocratic
 except ImportError:
+    from conf import logger
     from analysis import references, footnotes
-    from conf import LOGGING
     from baseclass import Hyppocratic
-
-# Read logging configuration and create logger
-logging.config.dictConfig(LOGGING)
-# pylint: disable=locally-disabled, invalid-name
-logger = logging.getLogger('hyppocratic.CommentaryToEpidoc')
 
 
 # Define an Exception
@@ -38,7 +29,7 @@ class Title(Hyppocratic):
     Attributes
     ----------
     self.title: str
-        string which contain the title of the hyppocratic aphorysms
+        string which contain the title of the hyppocratic aphorisms
         document.
 
     self.doc_num: int
@@ -49,7 +40,7 @@ class Title(Hyppocratic):
         can be present.
 
     """
-    def __init__(self, title, next_footnote, doc_num):
+    def __init__(self, title, next_footnote=1, doc_num=1):
         Hyppocratic.__init__(self)
         self.title = title
         self.doc_num = doc_num
@@ -59,7 +50,7 @@ class Title(Hyppocratic):
         """Method to treat the title
 
         """
-        self.title = self.title.splitlines()
+        self.title = self.title.strip(' \n').splitlines()
 
         # Now process the title
         # ---------------------

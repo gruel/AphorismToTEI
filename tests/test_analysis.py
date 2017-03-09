@@ -14,7 +14,7 @@ path_testdata = os.path.join(path, 'test_files') + os.sep
 template_file = os.path.join(path, '..', 'hyppocratic', 'xml_template.txt')
 
 
-class TestProcess(unittest.TestCase):
+class TestAnalysis(unittest.TestCase):
 
     def test_references(self):
         """
