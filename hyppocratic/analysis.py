@@ -1,9 +1,9 @@
 """Module which contains the function to analyse aphorism and commentaries line
 
-There are two functions which are treating the references [W1 W2]
+There are two functions which are treating the references ``[W1 W2]``
 and the footnotes *XXX*.
 
-The `references` function has to be used before the `footnotes`.
+The ``references`` function has to be used before the ``footnotes``.
 
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
@@ -37,7 +37,8 @@ def references(line):
 
     Parameters
     ----------
-    line: str
+
+    line : str
         contains the line with the aphorism or the commentary to analyse.
     """
 

@@ -28,14 +28,14 @@ class Title(Hyppocratic):
 
     Attributes
     ----------
-    self.title: str
+    title : str
         string which contain the title of the hyppocratic aphorisms
         document.
 
-    self.doc_num: int
+    doc_num : int
         integer which contain the version of the document.
 
-    self.next_footnote: int
+    next_footnote : int
         integer which contains the footnote reference number which
         can be present.
 

@@ -12,7 +12,7 @@ Welcome to Research IT's Template
 
     :Name: **Research IT template**
     :Release: |release|
-    :version: |version| 
+    :version: |version|
     :Date: |today|
     :Authors: **Nicolas Gruel**
     :Target: Research IT Members
@@ -33,16 +33,14 @@ Welcome to Research IT's Template
    source/introduction
    source/codedownload
    source/commentaries
-   source/commentarytoepidoc
+   source/aphorismstotei
    source/xml_files
+   source/code.rst
 
-.. Modules/index
+Indices and tables
+==================
 
-
-.. Indices and tables
-   ==================
-
-   * :ref:`genindex`
-   * :ref:`modindex`
-   * :ref:`search`
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 

@@ -1,19 +1,22 @@
 """
 This module has been written to convert transcribed commentaries from text
-files to EpiDoc compatible XML, see http://www.stoa.org/epidoc/gl/latest/
-and http://sourceforge.net/p/epidoc/wiki/Home/ for more information on EpiDoc.
+files to TEI compatible XML.
 
 Funding is provided by an ERC funded project studying Arabic commentaries on
 the Hippocratic Aphorisms. The Principal Investigator is Peter E. Pormann,
 The University of Manchester.
 
+It is anticipated the module will be used via the main.py module
+which attempts to to process any input file or directory containing files with
+a .txt extension.
 
-It is anticipated the module will be used via the function process_text_files()
-which attempts to to process any file with a .txt extension within a specified
-directory. Each text file base name should end in an underscore followed by a
+Each text file base name should end in an underscore followed by a
 numerical value, e.g. file_1.txt, file_2.txt, etc. The numerical value is
-subsequently used when creating the title section <div> element, e.g.
-<div n="1" type="Title_section"> for file_1.txt.
+subsequently used when creating the title section ``<div>`` element, e.g.
+``<div n="1" type="Title_section">`` for file_1.txt.
+
+.. note::
+    This is optional, by default the version is set at 1.
 
 If processing succeeds two XML files will be created in a folder called XML.
 The XML file names start with the text file base name and end in _main.xml (for
@@ -22,7 +25,7 @@ the XML files will be file_1_main.xml and file_1_app.xml.
 If processing fails error messages will be saved in the hyppocratic.log file.
 
 The commentaries should be utf-8 text files with the format as documented
-in the associated documentation (doc/_build/index.html).
+in the associated documentation (docs/_build/index.html).
 
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
@@ -62,18 +65,17 @@ class Process(Hyppocratic):
 
     Attributes
     ----------
-
-    fname: str
+    fname : str
         Name of the file to convert.
         The text file base name is expected to end with an underscore followed
         by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical
         value is used when creating the title section <div> element, e.g.
         <div n="1" type="Title_section"> for file_1.txt.
 
-    folder: str, optional
+    folder : str, optional
         Name of the folder where are the files to convert
 
-    doc_num: int, optional
+    doc_num : int, optional
         version of the document treated.
         Default value: 1
     """
@@ -133,22 +135,22 @@ class Process(Hyppocratic):
 
         Parameters
         ----------
-        fname: str, optional
+        fname : str, optional
             name of the file to analyse.
 
         Attributes
         ----------
-        self.folder: str, optional
+        folder : str, optional
             Name of the folder where are the files to convert
 
-        self.fname: str
+        fname : str
             Name of the file to convert.
             The text file base name is expected to end with an underscore
             followed by a numerical value, e.g. file_1.txt, file_2.txt, etc.
             This numerical value is used when creating the title section
             <div> element, e.g. <div n="1" type="Title_section"> for file_1.txt.
 
-        self.text: str
+        text : str
             string which contains the whole file in utf-8 format.
         """
         if fname is not None:
@@ -198,14 +200,18 @@ class Process(Hyppocratic):
 
         Attributes
         ----------
-        self.introduction: str
+
+        introduction : str
             A string which contains the introduction of the document if present
-        self.title: str
+
+        title : str
             A string which contains the title of the document
-        self.text: str
+
+        text : str
             A string which contains the aphorisms and commentaries
             of the document
-        self.footnotes: str
+
+        footnotes : str
             A string which contains the footnotes of the document
         """
 
@@ -335,15 +341,15 @@ class Process(Hyppocratic):
     def read_template(self):
         """Method to read the XML template used for the transformation
 
-        Attribute
-        ---------
+        Attributes
+        ----------
 
-        template: str
-
+        template : str
             Contain the text of the XML template provided.
 
-        Exception
-        ---------
+        Exceptions
+        ----------
+
         SystemExit if template cannot be read.
         """
         _template = os.path.join(self.template_folder, self.template_fname)
@@ -385,10 +391,6 @@ class Process(Hyppocratic):
         format one contain the introduction, title, aphorisms and commentaries.
         The other one contains the footnotes informations.
         This method create the main one.
-
-        Exceptions
-        ==========
-
         """
         # Embed xml_main into the XML in the template
         if self._template_part1 == '':

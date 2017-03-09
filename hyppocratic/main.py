@@ -29,18 +29,21 @@ except ImportError:
 def main(args=None):
     """Run AphorismsToTEI scripts to produce the TEI XML
 
-    Usage:
-        AphorismsToTEI <files> [--xml_template=<tmpl>]
-        AphorismsToTEI -h | --help
-        AphorismsToTEI --version
+    Command line::
 
-    Options:
-        -h --help              Show this screen.
-        --version              Show version.
-        --xml_template=<name>  Name of the XML template [default: xml_template.txt]
+        Usage:
+            AphorismsToTEI <files> [--xml_template=<tmpl>]
+            AphorismsToTEI -h | --help
+            AphorismsToTEI --version
 
-    Example:
-        AphorismsToTEI TextFiles
+        Options:
+            -h --help              Show this screen.
+            --version              Show version.
+            --xml_template=<name>  Name of the XML template [default: xml_template.txt]
+
+        Example:
+            AphorismsToTEI TextFiles
+
     TODO: add an option for the output
     """
 

@@ -1,9 +1,5 @@
 """Module used to treat the footnotes from the hypocratic project.
 
-Note
-----
-- pylint analysis: 10
-
 Authors: Jonathan Boyle, Nicolas Gruel
 Copyright: IT Services, The University of Manchester
 """
@@ -31,13 +27,13 @@ class Footnote(Hyppocratic):
 
     Attributes
     ----------
-    self.footnote: str
+    footnote : str
         String which contains the footnote to treat.
 
-    self.n_footnote: int
+    n_footnote : int
         Integer which give the reference number of the footnote treated.
 
-    self. xml: list
+    xml : list
         list which contains the app XML file.
     """
     def __init__(self, footnote=None, n_footnote=None, xml=None):
@@ -318,7 +314,7 @@ class Footnotes(object):
 
     Attributes
     ----------
-    self.footnotes: list, str, OrderedDict, dict
+    footnotes : list, str, OrderedDict, dict
         List which contains the whole set of footnote from the hyppocratic
         file.
     """
@@ -336,7 +332,7 @@ class Footnotes(object):
 
         Returns
         -------
-        dic: OrderedDict
+        dic : OrderedDict
             contains the footnotes as an Ordered Dictionary.
             Keys are the number of the footnote (integer) and value is
             the footnote.
@@ -391,7 +387,7 @@ class Footnotes(object):
 
         Returns
         -------
-        xml_app: list
+        xml_app : list
             list which contains the lines with the XML related to the footnotes
         """
         for n_footnote in self.footnotes.keys():
@@ -441,7 +437,7 @@ class Footnotes(object):
 
         Parameters
         ----------
-        fname: str (optional)
+        fname : str (optional)
             name of the file where the XML app will be saved.
         """
         with open(fname, 'w', encoding="utf-8") as f:

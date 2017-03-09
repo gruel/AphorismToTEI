@@ -29,19 +29,17 @@ class Introduction(Hyppocratic):
     Attributes
     ----------
 
-    self.introduction: str
+    introduction : str
         string which contain the introduction of the hyppocratic aphorisms
         document.
 
-    self.next_footnote: int
+    next_footnote : int
         integer which contains the footnote reference number which
         can be present.
 
-    self.xml: list
+    xml : list
         list of string which contains the XML related to the introduction
         to be include in the main XML part of the document.
-
-
     """
 
     def __init__(self, introduction, next_footnote):

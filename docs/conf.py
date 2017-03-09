@@ -40,7 +40,8 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    'sphinx.ext.autosummary']
+    'sphinx.ext.autosummary',
+    'numpydoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,10 +56,10 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Manchester Research IT Sphinx Template'
+project = 'Hyppocratic Aphorisms'
 copyright = '2017, Manchester University'
 publisher = 'Manchester University'
-author = 'Nicolas Gruel'
+author = 'Nicolas Gruel, Jonathan Boyle'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -242,7 +243,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'researchit_template.tex', project,
+    (master_doc, 'hyppocratic_aphorisms.tex', project,
      author, 'manual'),
 ]
 
@@ -252,7 +253,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'researchit_template', project,
+    (master_doc, 'hyppocratic_aphorisms', project,
      [author], 1)
 ]
 
@@ -263,8 +264,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Template', project,
-     author, 'Template', 'One line description of project.',
+    (master_doc, 'Hyppocratic', project,
+     author, 'Hyppocratic', 'Hyppocratic aphorisms transformation in XML files.',
      'Miscellaneous'),
 ]
 
@@ -360,7 +361,7 @@ epub_exclude_files = ['search.html']
 #epub_use_index = True
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+#intersphinx_mapping = {'https://docs.python.org/': None}
 
 # -- Options for PDF output --------------------------------------------------
 # Grouping the document tree into PDF files. List of tuples
@@ -440,11 +441,15 @@ pdf_use_coverpage = True
 # Intersphinx configuration
 #-----------------------------------------------------------------------------
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'python': ('http://docs.python.org/', None),
-                      }
+#intersphinx_mapping = {'python': ('http://docs.python.org/', None),
+#                      }
 # -----------------------------------------------------------------------------
 # Autosummary
 # -----------------------------------------------------------------------------
 
 autoclass_content = 'both'
+
+# Numpydoc
+
+numpydoc_show_class_members = False
 

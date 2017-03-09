@@ -23,19 +23,19 @@ class Hyppocratic(object):
     Attributes
     ----------
 
-    self.xml: list, optional
+    xml : list, optional
         list of string which contains the XML related to the introduction
         to be include in the main XML part of the document.
 
-    self.xml_n_offset: int, optional
+    xml_n_offset : int, optional
         define the number of time the oss string is used (see above)
         default: 3
 
-    self.xml_offset_size: int, optional
+    xml_offset_size : int, optional
         define the number of times the same string is used to indent.
         Default: 4
 
-    self.xml_oss: str, optional
+    xml_oss : str, optional
         define the string used to indent xml statement.
         default ' ' * XML_OFFSET_SIZE.
     """
@@ -56,7 +56,7 @@ class Hyppocratic(object):
 
         Parameters
         ----------
-        note: str
+        note : str
             contains the string to consider as a note in the XML
         """
         self.xml.append(self.xml_oss + '<note>' + note + '</note>')
