@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
+"""Main module to treat aphorisms and convert them in XML files.
 
-Authors: Jonathan Boyle, Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
+
+:Copyright: IT Services, The University of Manchester
 """
 import sys
 import os
@@ -65,6 +66,9 @@ def main(args=None):
         if os.path.isdir(fname):
             directory = fname.strip(os.pathsep)
             files = os.listdir(directory)
+            # Remove macos special .DS_Store file.
+            if '.DS_Store' in files:
+                files.remove('.DS_Store')
         else:
             files, directory = [fname], ''
     except FileNotFoundError:

@@ -27,8 +27,9 @@ If processing fails error messages will be saved in the hyppocratic.log file.
 The commentaries should be utf-8 text files with the format as documented
 in the associated documentation (docs/_build/index.html).
 
-Authors: Jonathan Boyle, Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
+
+:Copyright: IT Services, The University of Manchester
 """
 # pylint: disable=locally-disabled, invalid-name
 import os
@@ -307,20 +308,44 @@ class Process(Hyppocratic):
         #    which start with end of line or any space characer
         #    with at least on number ending
         #    with a point and a end of line.
-        p = re.compile(r'\s+[0-9]+.?\n')
+        p = re.compile(r'\s+[0-9]+\.?\n')
+        error = ''
         try:
-            n_aphorism = [
-                int(i.group().strip('.\t\n '))
-                for i in p.finditer('\n' + self._text)]
+            n_aphorism = [int(i.group().strip('.\t\n '))
+                          for i in p.finditer('\n' + self._text)]
+            # Find missing aphorism or badly written (e.g.: 14-)
+            missing = [i for i in list(range(1, max(n_aphorism)))
+                    if i not in n_aphorism]
+            # Find if multiple aphorism with the same number.
+            doublon = list({i for i in n_aphorism if n_aphorism.count(i) > 1})
             if not n_aphorism:
-                raise AphorismsToXMLException
-        except (ValueError, AphorismsToXMLException):
-            error = ("aphorism format does not respect the convention. "
-                     "It should be a number following by a point")
+                error = 'There are no aphorisms detectec'
+                logger.error(error)
+            if max(n_aphorism) != len(n_aphorism):
+                error = 'N aphorism expected {}, got: {}'.format(n_aphorism[-1],
+                                                                 len(n_aphorism)
+                                                                 )
+                logger.error(error)
+            if missing:
+                error = 'Missing or problematic aphorism: {}'.format(missing)
+                logger.error(error)
+                warning = ('Last aphorism can be problematic but '
+                           'not detected by the software.')
+                logger.warning(warning)
+            if doublon:
+                error = 'Aphorism with same number: {}'.format(doublon)
+                logger.error(error)
+            if error:
+                raise AphorismsToXMLException(error)
+        except ValueError:
+            error = ('Aphorism numeration format probably does not respect '
+                     'the convention. '
+                     'It should be a number following by a point')
             logger.error(error)
-            debug = "we got:\n{}".format(self._text.splitlines()[:2])
-            logger.debug(debug)
             raise AphorismsToXMLException
+        except AphorismsToXMLException as e:
+            raise AphorismsToXMLException(e)
+
 
         # create the dictionary with the aphorism (not sure that we need
         # the ordered one)
@@ -435,12 +460,7 @@ class Process(Hyppocratic):
         For example for file_1.txt the XML files will be file_1_main.xml and
         file_1_app.xml.
 
-        Error messages are saved in a file in the ./errors folder.
-
-        After successful processing the function returns True, if an error
-        is detected this function returns False.
-
-        It is intended this function is called by process_folder().
+        Modify the attribute ``xml`` to add the title section in the main XML
         """
 
         # Open and read the hyppocratic document
@@ -462,7 +482,6 @@ class Process(Hyppocratic):
         try:
             self.treat_footnotes()
             self._footnotes_app.save_xml(self.xml_app_file)
-            logger.info('Footnotes app file created')
         except (FootnotesException, AphorismsToXMLException):
             raise AphorismsToXMLException
 
@@ -547,10 +566,10 @@ class Process(Hyppocratic):
 
                 if line[-1] != '.':
 
-                    warning = ('Commentaries should ended with a `.`\n'
-                               'Warning in aphorism {}\n'
-                               'commentary {}'.format(k, line))
-                    logger.warning(warning)
+                    debug = ('Commentaries should ended with a `.`\n'
+                             'Warning in aphorism {}\n'
+                             'commentary {}'.format(k, line))
+                    logger.debug(debug)
 
                 # Add initial XML for this aphorism's commentary
                 self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +

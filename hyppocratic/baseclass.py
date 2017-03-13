@@ -1,7 +1,8 @@
 """Module which will contains the basic classes used in the code
 
-Authors: Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Authors: Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
+
+:Copyright: IT Services, The University of Manchester
 """
 # pylint: disable=locally-disabled, invalid-name
 try:

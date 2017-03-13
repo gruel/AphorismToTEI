@@ -1,10 +1,9 @@
 """Module which contains the class which create the XML part related to
 the introduction (if present) in the hyppocratic aphorism document.
 
-note: pylint analysis 10
+:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
 
-Authors: Jonathan Boyle, Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Copyright: IT Services, The University of Manchester
 """
 try:
     from hyppocratic.conf import logger
@@ -36,10 +35,6 @@ class Introduction(Hyppocratic):
     next_footnote : int
         integer which contains the footnote reference number which
         can be present.
-
-    xml : list
-        list of string which contains the XML related to the introduction
-        to be include in the main XML part of the document.
     """
 
     def __init__(self, introduction, next_footnote):
@@ -49,6 +44,8 @@ class Introduction(Hyppocratic):
 
     def xml_main(self):
         """Method to treat the optional part of the introduction.
+
+        Modify the attribute ``xml`` to add the title section in the main XML
         """
         introduction = self.introduction.splitlines()
 

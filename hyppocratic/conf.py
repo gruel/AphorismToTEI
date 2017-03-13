@@ -2,8 +2,9 @@
 
 TODO: can be transformed in yaml file eventually
 
-Authors: Jonathan Boyle, Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
+
+:Copyright: IT Services, The University of Manchester
 """
 # pylint: disable=locally-disabled, invalid-name
 import logging.config

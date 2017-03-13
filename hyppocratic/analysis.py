@@ -5,8 +5,9 @@ and the footnotes *XXX*.
 
 The ``references`` function has to be used before the ``footnotes``.
 
-Authors: Jonathan Boyle, Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
+
+:Copyright: IT Services, The University of Manchester
 """
 try:
     from hyppocratic.conf import logger, XML_OSS, XML_N_OFFSET

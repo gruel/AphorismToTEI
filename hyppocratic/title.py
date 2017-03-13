@@ -1,10 +1,9 @@
 """Module which contains the class which create the XML part related to
 the title in the hyppocratic aphorism document.
 
-note: pylint analysis 10
+:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
 
-Authors: Jonathan Boyle, Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Copyright: IT Services, The University of Manchester
 """
 try:
     from hyppocratic.conf import logger
@@ -47,8 +46,9 @@ class Title(Hyppocratic):
         self.next_footnote = next_footnote
 
     def xml_main(self):
-        """Method to treat the title
+        """Method to treat the title.
 
+        Modify the attribute ``xml`` to add the title section in the main XML
         """
         self.title = self.title.strip(' \n').splitlines()
 

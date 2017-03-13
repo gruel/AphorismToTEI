@@ -1,7 +1,8 @@
 """Module used to treat the footnotes from the hypocratic project.
 
-Authors: Jonathan Boyle, Nicolas Gruel
-Copyright: IT Services, The University of Manchester
+:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
+
+:Copyright: IT Services, The University of Manchester
 """
 # pylint: disable=locally-disabled, invalid-name
 import re
@@ -258,9 +259,8 @@ class Footnote(Hyppocratic):
             self._correction_xml()
         except (IndexError, FootnotesException):
             self.note_xml(self.footnote)
-            error = 'Error in footnote: {}'.format(self.n_footnote)
-            logger.error(error)
-            error = 'Footnote error: {}'.format(self.footnote)
+            error = 'Footnote error in footnote {}: {}'.format(self.n_footnote,
+                                                               self.footnote)
             logger.error(error)
 
     def _correction_xml(self):
@@ -367,12 +367,21 @@ class Footnotes(object):
             logger.error(error)
             raise FootnotesException
 
-        # Create the ordere dictionary and remove the '.'
+        # Create the ordered dictionary and remove the '.'
         _dic = OrderedDict()
         for line in _tmp:
             try:
-                key, value = line.rsplit('*')[1:]
-            except ValueError:
+                pos_stars = [c.start() for c in re.finditer('\*', line.strip())]
+                if len(pos_stars) < 2 or pos_stars[0] != 0:
+                    raise FootnotesException
+                elif len(pos_stars) > 2:
+                    logger.warning('Problem in footnote: {}'.format(line))
+                    logger.warning('There are a footnote reference inside '
+                                   'the footnote. This case is not treatable '
+                                   'by the actual version of the software')
+                key = line[1:pos_stars[1]]
+                value = line[pos_stars[1]+1:]
+            except FootnotesException:
                 error = 'There are a problem in footnote: {}'.format(line)
                 logger.error(error)
                 raise FootnotesException
