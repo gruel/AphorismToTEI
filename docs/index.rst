@@ -1,26 +1,20 @@
-.. Research IT documentation master file. You can adapt this file
-   completely to your liking, but it should at least contain the root
-   `toctree` directive.
-
-.. |latex| replace:: :math:`LaTeX`
-
-#################################
-Welcome to Research IT's Template
-#################################
+########################
+Hyppocratic aphorisms XML
+########################
 
 .. sidebar:: Summary
 
-    :Name: **Research IT template**
+    :Name: **Hyppocratic Aphorisms software**
     :Release: |release|
     :version: |version|
     :Date: |today|
-    :Authors: **Nicolas Gruel**
-    :Target: Research IT Members
+    :Authors: **Nicolas Gruel**, Jonathan Boyle
+    :Target: Hyppocratic aphorisms research
     :status: draft
 
-.. topic:: Research IT Document Center
+.. topic:: Aphorisms
 
-    * Research IT official documents
+    * Hyppocratic aphorisms research
 
 
 .. toctree::
@@ -43,4 +37,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

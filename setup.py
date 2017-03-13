@@ -11,7 +11,7 @@ setup(name='hyppocratic',
       description='Software to convert text files to EpiDoc compatible XML.',
       author='Johathan Boyle, Nicolas Gruel',
       packages=['hyppocratic'],
-      install_requires=['docopt', 'nose', 'pytest'],
+      install_requires=['docopt', 'nose', 'pytest', 'numpydoc'],
       entry_points={
           'console_scripts': [
               'AphorismsToTEI = hyppocratic.main:main']
