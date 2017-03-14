@@ -12,3 +12,7 @@ _build
 .project
 *.tmp
 *.log
+Examples
+XML
+htmlcov
+.coverage
