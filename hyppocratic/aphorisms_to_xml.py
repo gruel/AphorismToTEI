@@ -168,6 +168,11 @@ class Process(Hyppocratic):
             logger.error("There are no file to convert.")
             raise AphorismsToXMLException
 
+        full_path = os.path.join(self.folder,self.fname)
+        if os.path.isdir(full_path):
+            logger.info('The software does not treat subfolder.')
+            raise AphorismsToXMLException
+
         # Extract the document number, it is expected this is at the end of the
         # base name following an '_'
         try:
@@ -182,10 +187,15 @@ class Process(Hyppocratic):
 
         # Open the file to process
         # pylint: disable=locally-disabled, invalid-name
-        with open(os.path.join(self.folder, self.fname), 'r',
-                  encoding="utf-8") as f:
-            # Read in file
-            self._text = f.read().strip()
+        try:
+            with open(full_path, 'r',
+                      encoding="utf-8") as f:
+                # Read in file
+                self._text = f.read().strip()
+        except UnicodeDecodeError:
+            info = ('File {} is not treatable by the software'.format(
+                self.fname))
+            logger.info(info)
 
     def divide_document(self):
         """Method to divide the document in the three main parts.

@@ -66,9 +66,6 @@ def main(args=None):
         if os.path.isdir(fname):
             directory = fname.strip(os.pathsep)
             files = os.listdir(directory)
-            # Remove macos special .DS_Store file.
-            if '.DS_Store' in files:
-                files.remove('.DS_Store')
         else:
             files, directory = [fname], ''
     except FileNotFoundError:
