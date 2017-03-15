@@ -40,7 +40,7 @@ def main(args=None):
         Options:
             -h --help              Show this screen.
             --version              Show version.
-            --xml_template=<name>  Name of the XML template [default: xml_template.txt]
+            --xml_template=<name>  Name of the XML template
 
         Example:
             AphorismsToTEI TextFiles

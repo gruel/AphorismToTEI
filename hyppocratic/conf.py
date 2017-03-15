@@ -7,6 +7,8 @@ TODO: can be transformed in yaml file eventually
 :Copyright: IT Services, The University of Manchester
 """
 # pylint: disable=locally-disabled, invalid-name
+import os
+import pkg_resources
 import logging.config
 import logging
 
@@ -52,6 +54,11 @@ XML_OFFSET_SIZE = 4
 XML_OSS = ' ' * XML_OFFSET_SIZE
 
 # XML template information
-TEMPLATE_FOLDER = ''
-TEMPLATE_FNAME = 'xml_template.txt'
+try:
+    TEMPLATE_FNAME = pkg_resources.resource_filename('hyppocratic',
+                                                     os.path.join(
+                                                         'template',
+                                                         'xml_template.txt'))
+except ImportError:
+    TEMPLATE_FNAME = 'xml_template.txt'
 TEMPLATE_MARKER = '#INSERT#'

@@ -41,16 +41,14 @@ try:
     from hyppocratic.introduction import Introduction
     from hyppocratic.title import Title
     from hyppocratic.footnotes import Footnotes, FootnotesException
-    from hyppocratic.conf import logger, TEMPLATE_FOLDER, TEMPLATE_FNAME, \
-        TEMPLATE_MARKER
+    from hyppocratic.conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
     from hyppocratic.baseclass import Hyppocratic
 except ImportError:
     from analysis import references, footnotes, AnalysisException
     from introduction import Introduction
     from title import Title
     from footnotes import Footnotes, FootnotesException
-    from conf import logger, TEMPLATE_FOLDER, TEMPLATE_FNAME, \
-        TEMPLATE_MARKER
+    from conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
     from baseclass import Hyppocratic
 
 
@@ -89,7 +87,6 @@ class Process(Hyppocratic):
         self.folder = folder
         self.fname = fname
         self.doc_num = doc_num
-        self.template_folder = TEMPLATE_FOLDER
         self.template_fname = TEMPLATE_FNAME
         self.template_marker = TEMPLATE_MARKER
 
@@ -387,21 +384,18 @@ class Process(Hyppocratic):
 
         SystemExit if template cannot be read.
         """
-        _template = os.path.join(self.template_folder, self.template_fname)
         # Open the template file. Kill the process if not there.
         # Template is not optional.
 
         try:
-            with open(_template, 'r', encoding="utf-8") as f:
+            with open(self.template_fname, 'r', encoding="utf-8") as f:
                 template = f.read()
-                info = 'Template file {} found in the folder {}.'.format(
-                    self.template_fname, self.folder)
+                info = 'Template file {} found.'.format(self.template_fname)
                 logger.info(info)
         except FileNotFoundError:
-            error = 'Template file {} not found in folder {}'.format(
-                self.template_fname, self.template_folder)
+            error = 'Template file {} not found.'.format(self.template_fname)
             logger.error(error)
-            sys.exit(1)
+            raise AphorismsToXMLException
 
         # Split the template at template_marker
         self._template_part1, sep, self._template_part2 = template.partition(
@@ -410,12 +404,10 @@ class Process(Hyppocratic):
         # Test the split worked
         if sep == '':
             error = ('Unable to find template marker text ({}) '
-                     'in the template file {} '
-                     'located in the folder {}.'.format(self.template_marker,
-                                                        self.template_fname,
-                                                        self.template_folder))
+                     'in the template file {}.'.format(self.template_marker,
+                                                       self.template_fname))
             logger.error(error)
-            sys.exit(1)
+            raise AphorismsToXMLException
 
         logger.debug('Template file splitted.')
 
