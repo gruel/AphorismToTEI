@@ -37,7 +37,6 @@ class Title(Hyppocratic):
     next_footnote : int
         integer which contains the footnote reference number which
         can be present.
-
     """
     def __init__(self, title, next_footnote=1, doc_num=1):
         Hyppocratic.__init__(self)

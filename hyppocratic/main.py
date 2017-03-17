@@ -45,7 +45,10 @@ def main(args=None):
         Example:
             AphorismsToTEI TextFiles
 
-    TODO: add an option for the output
+    Raises
+    ------
+    SystemExit
+        if the file or the folder to treat is not available.
     """
 
     arguments = docopt(main.__doc__, argv=args,

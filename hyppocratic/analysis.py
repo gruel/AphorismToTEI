@@ -41,6 +41,16 @@ def references(line):
 
     line : str
         contains the line with the aphorism or the commentary to analyse.
+
+    Raises
+    ------
+    AnalysisException
+        if references does not follow the convention ``[W1 W2]``.
+        e.g. will raise an exception if:
+
+        - ``[W1W2]`` : missing space between the two witnesses
+
+        - ``[W1 W2`` : missing ``]``
     """
 
     # Create a string to contain the return value
@@ -139,6 +149,11 @@ def footnotes(string_to_process, next_footnote):
 
     It is intended this function is called by main() on each line
     of text from the main document body.
+
+    Raises
+    ------
+    AnalysisException
+        if footnote in commentary connot be defined.
     """
     # Create lists to contain the XML
     xml_main = []
@@ -179,8 +194,11 @@ def footnotes(string_to_process, next_footnote):
             # Check we succeeded in partitioning the text before the footnote
             # at '#' or ' '. If we didn't there's an error.
             if sep == '':
-                error = 'Unable to partition text before footnote symbol ' \
-                        '{}'.format(footnote_symbol)
+                error = ('Unable to partition text before footnote symbol '
+                        '{}'.format(footnote_symbol))
+                logger.error(error)
+                error = ('Probably missing a space or the "#" character '
+                         'to determine the word(s) to apply the footnote')
                 logger.error(error)
                 raise AnalysisException
 

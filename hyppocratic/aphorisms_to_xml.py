@@ -149,6 +149,15 @@ class Process(Hyppocratic):
 
         text : str
             string which contains the whole file in utf-8 format.
+
+        Raises
+        ------
+        AphorismsToXMLException
+            if document can not be:
+                - open
+                - there subfolder present in the folder
+                - file not treatable by the software (e.g. .DS_Store)
+                - file does not exist
         """
         if fname is not None:
             self.folder, self.fname = os.path.split(fname)
@@ -212,19 +221,23 @@ class Process(Hyppocratic):
 
         Attributes
         ----------
-
-        introduction : str
+        _introduction : str
             A string which contains the introduction of the document if present
 
-        title : str
+        _title : str
             A string which contains the title of the document
 
-        text : str
+        _text : str
             A string which contains the aphorisms and commentaries
             of the document
 
-        footnotes : str
+        _footnotes : str
             A string which contains the footnotes of the document
+
+        Raises
+        ------
+        AphorismsToXMLException
+            if it is not possible to divide the document.
         """
 
         # Not sure that is the best way to do but this is just a trial
@@ -301,6 +314,17 @@ class Process(Hyppocratic):
     def aphorisms_dict(self):
         """Create an order dictionary (OrderedDict object) with the aphorisms
         and commentaries.
+
+        Attributes
+        ----------
+        _aph_com : dict
+            dictionary which contains the aphorisms and the commentaries
+            associated.
+
+        Raises
+        ------
+        AphorismsToXMLException
+            if it is not possible to create the dictionary.
         """
 
         # \n\d+.\n == \n[0-9]+.\n (\d == [0-9])
@@ -377,14 +401,13 @@ class Process(Hyppocratic):
 
         Attributes
         ----------
-
         template : str
             Contain the text of the XML template provided.
 
-        Exceptions
-        ----------
-
-        SystemExit if template cannot be read.
+        Raises
+        ------
+        AphorismsToXMLException
+            if template cannot be found or read.
         """
         # Open the template file. Kill the process if not there.
         # Template is not optional.
@@ -447,7 +470,7 @@ class Process(Hyppocratic):
             self._footnotes_app = Footnotes(self._footnotes)
             logger.info('Footnotes treated')
 
-            # Create XML app
+            # Create XML app and save in a file
             self._footnotes_app.xml_app()
             logger.info('Footnotes app file created')
 
@@ -465,6 +488,12 @@ class Process(Hyppocratic):
         file_1_app.xml.
 
         Modify the attribute ``xml`` to add the title section in the main XML
+
+        Raises
+        ------
+        AphorismsToXMLException
+            if the processing of the file does not work as expected.
+
         """
 
         # Open and read the hyppocratic document
@@ -581,9 +610,9 @@ class Process(Hyppocratic):
                 try:
                     line_ref = references(line)
                 except AnalysisException:
-                    error = ('Unable to process _references,'
+                    error = ('Unable to process _references, '
                              'commentary {} for aphorism '
-                             '{}'.format(n_com, k))
+                             '{}'.format(n_com+1, k))
                     logger.error(error)
                     raise AphorismsToXMLException from None
 

@@ -23,7 +23,6 @@ class Hyppocratic(object):
 
     Attributes
     ----------
-
     xml : list, optional
         list of string which contains the XML related to the introduction
         to be include in the main XML part of the document.

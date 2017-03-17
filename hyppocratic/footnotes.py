@@ -266,8 +266,10 @@ class Footnote(Hyppocratic):
     def _correction_xml(self):
         """Method to create the XML portion related to footnote (TEI format)
 
-        Parameters
+        Attributes
         ----------
+        xml : list
+            list of strings which contains the XML TEI for the footnote.
         """
         # Add to the XML
         if self._d_footnote['reason'] == 'add':
@@ -336,6 +338,11 @@ class Footnotes(object):
             contains the footnotes as an Ordered Dictionary.
             Keys are the number of the footnote (integer) and value is
             the footnote.
+
+        Raises
+        ------
+        FootnotesException
+            if foot
         """
         # Split the footnotes by lines (in theory one line per footnote)
         # pylint: disable=locally-disabled, no-member

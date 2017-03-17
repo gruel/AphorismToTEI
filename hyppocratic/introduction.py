@@ -35,6 +35,11 @@ class Introduction(Hyppocratic):
     next_footnote : int
         integer which contains the footnote reference number which
         can be present.
+
+    Raises
+    ------
+    IntroductionException
+        if cannot create the xml code for the introduction.
     """
 
     def __init__(self, introduction, next_footnote):
