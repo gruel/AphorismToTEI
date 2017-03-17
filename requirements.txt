@@ -1,1 +1,8 @@
 docopt
+pylint
+nose
+pytest
+testfixtures
+coverage
+sphinx
+numpydoc

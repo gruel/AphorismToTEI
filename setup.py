@@ -26,9 +26,9 @@ setup(name='hyppocratic',
       keywords=[],
       install_requires=['docopt'],
       extra_requires={
-          'dev': ['pylint'],
-          'test': ['nose', 'pytest', 'testfitures', 'coverage'],
-          'doc': ['numpydoc']},
+          'dev': ['pylint', 'nose', 'pytest', 'testfixtures', 'coverage'],
+          'test': ['nose', 'pytest', 'testfixtures', 'coverage'],
+          'doc': ['sphinx', 'numpydoc']},
       entry_points={
           'console_scripts': [
               'AphorismsToTEI = hyppocratic.main:main']
