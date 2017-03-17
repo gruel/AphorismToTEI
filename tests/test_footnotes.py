@@ -51,6 +51,12 @@ class TestFootnote(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
+    def test_omission_bad_first_split(self):
+        """Test coverage
+        """
+        self.ft.footnote = 'addd]'
+        self.ft.omission()
+
     def test_omission_and_correxi(self):
         """
         Runs the function _omission(...) on the text in
@@ -513,16 +519,25 @@ class TestFootnotes(unittest.TestCase):
         self.ft.footnotes = 1
         self.assertRaises(FootnotesException, self.ft._dictionary)
 
-    def test_footnotes_dictionary_istance(self):
+    def test_footnotes_dictionary_is_orderdict(self):
         self.ft.footnotes = '*1*'
+        self.ft._dictionary()
+        self.assertIsInstance(self.ft.footnotes, OrderedDict)
 
-        print(self.ft._dictionary())
-        # self.assertRaises(FootnotesException, self.ft._dictionary)
+    def test_footnotes_is_empty_string(self):
+        self.ft.footnotes = ''
+        self.assertRaises(FootnotesException, self.ft._dictionary)
+
+    def test_footnotes_numeration_agree_with_number(self):
+        self.ft.footnotes = ['*1*aaa', '*4*bbbb']
+        self.assertRaises(FootnotesException, self.ft._dictionary)
+
+    def test_footnote_inside_footnote(self):
+        self.ft.footnotes = ['*1*aaa vvvvv*3*cccc ']
+        self.ft._dictionary()
+        #Do test on log (seems to be a text fixture)
 
     def test_footnotes_xml_app(self):
-        pass
-
-    def test_verification_footnotes(self):
         pass
 
     def test_save_xml(self):

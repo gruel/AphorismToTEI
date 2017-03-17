@@ -348,7 +348,7 @@ class Footnotes(object):
                 return
             _size = len(_tmp)
         except UnboundLocalError:
-            error = ('Attributes footnotes should be a non empty string, '
+            error = ('Footnotes should be a non empty string, '
                      'a list, a dictionary or an OrderedDict '
                      'but is {}'.format(type(self.footnotes)))
             logger.error(error)
@@ -362,8 +362,6 @@ class Footnotes(object):
         except (IndexError, FootnotesException):
             error = 'Number of footnotes {} not in agreement ' \
                     'with their numeration in the file'.format(_size)
-            logger.error(error)
-            error = 'Footnote should be written on only one line.'
             logger.error(error)
             raise FootnotesException
 

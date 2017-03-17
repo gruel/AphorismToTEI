@@ -160,6 +160,7 @@ class TestProcess(unittest.TestCase):
             test = f.read()
 
         self.assertEqual(template, test)
+        os.remove(self.comtoepi.xml_main_file)
 
     def test_treat_footnote(self):
         self.comtoepi._footnotes = ['*1*ssss tttt ] conieci: '
