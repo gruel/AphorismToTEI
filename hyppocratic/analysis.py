@@ -29,7 +29,7 @@ def references(line):
     text with each witness reference replaced with XML with the form
     ``<locus target="WW">LL</locus>``.
 
-    ``\n`` characters are added at the start and end of each XML insertion
+    ``\\n`` characters are added at the start and end of each XML insertion
     so each instance of XML is on its own line.
 
     It is intended this function is called by function main()
