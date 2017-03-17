@@ -88,6 +88,7 @@ def references(line):
                      'because missing " " '
                      'character'.format(reference))
             logger.error(error)
+            raise AnalysisException
 
         # Add the witness and location XML to the result string
         result += '<locus target="' + witness.strip() + \
@@ -211,7 +212,7 @@ def footnotes(string_to_process, next_footnote):
             # Test to see if there is any more text to process
             if string_to_process == '':
                 break
-    except AttributeError:
+    except (AttributeError, AnalysisException):
         error = 'Cannot analyse aphorism or commentary ' \
                 '{}'.format(string_to_process)
         logger.error(error)

@@ -37,3 +37,19 @@ class TestAnalysis(unittest.TestCase):
 
         self.assertEqual(text_out, text_ref)
 
+    def test_reference_empty_line(self):
+        self.assertIsNone(analysis.references(''))
+        self.assertIsNone(analysis.references(None))
+
+    def test_reference_sep_empty(self):
+        self.assertRaises(analysis.AnalysisException,
+                          analysis.references, ' [W1 W2 ')
+
+    def test_reference_missing_space(self):
+        self.assertRaises(analysis.AnalysisException,
+                          analysis.references, ' [W1W2] ')
+
+    # BUG (workaround)
+    def test_footnotes_failed_known_bug(self):
+        self.assertRaises(analysis.AnalysisException,
+                          analysis.footnotes, 'tttt*1*ssss', 1)

@@ -45,7 +45,7 @@ class TestProcess(unittest.TestCase):
 
         # Read full text file
         with open(path_testdata +
-                  'aphorysm_with_intro_title_text_footnotes.txt', 'r',
+                  'aphorism_with_intro_title_text_footnotes.txt', 'r',
                   encoding="utf-8") as f:
             self.comtoepi._text = f.read().strip()
 
@@ -77,7 +77,7 @@ class TestProcess(unittest.TestCase):
 
         # Read full text file
         with open(path_testdata +
-                  'aphorysm_no_intro_title_text_footnotes.txt', 'r',
+                  'aphorism_no_intro_title_text_footnotes.txt', 'r',
                   encoding="utf-8") as f:
             self.comtoepi._text = f.read().strip()
 
@@ -90,20 +90,9 @@ class TestProcess(unittest.TestCase):
             self.assertEqual(line.strip(), footnotes[i].strip())
 
     def test_divide_document_no_footnotes(self):
-
-        # Read test title
-        with open(path_testdata + 'title.txt', 'r',
-                  encoding="utf-8") as f:
-            title = f.read().strip()
-
-        # Read test text
-        with open(path_testdata + 'text.txt', 'r',
-                  encoding="utf-8") as f:
-            text = f.read().strip()
-
         # Read full text file
         with open(path_testdata +
-                  'aphorysm_no_intro_title_text_no_footnotes.txt', 'r',
+                  'aphorism_no_intro_title_text_no_footnotes.txt', 'r',
                   encoding="utf-8") as f:
             self.comtoepi._text = f.read().strip()
 
@@ -113,11 +102,13 @@ class TestProcess(unittest.TestCase):
     # ################# read_template ###################
 
     def test_read_template_missing_template(self):
-        self.comtoepi.template_folder = 'ttttt'
+        self.comtoepi.template_fname = 'ttttt'
 
-        with self.assertRaises(SystemExit) as cm:
-            self.comtoepi.read_template()
-        self.assertEqual(cm.exception.code, 1)
+        self.assertRaises(AphorismsToXMLException,
+                          self.comtoepi.read_template)
+        # with self.assertRaises(SystemExit) as cm:
+        #     self.comtoepi.read_template()
+        # self.assertEqual(cm.exception.code, 1)
 
     def test_read_template(self):
         # Read the template comparison manually
@@ -126,10 +117,81 @@ class TestProcess(unittest.TestCase):
         # split it as in the method
         part1, sep, part2 = template.partition(self.comtoepi.template_marker)
 
-        self.comtoepi.template_folder = path_testdata
         self.comtoepi.read_template()
         self.assertEqual(part1, self.comtoepi._template_part1)
         self.assertEqual(part2, self.comtoepi._template_part2)
+
+    def test_read_template_badsep(self):
+        self.comtoepi.template_marker = 'xxxx'
+        self.assertRaises(AphorismsToXMLException,
+                          self.comtoepi.read_template)
+
+    # #################### save_xml #########################
+
+    def test_save_xml_read_template(self):
+        """Test coverage
+        """
+        with open(path_testdata + 'xml_template.txt', 'r') as f:
+            template = f.read()
+        # split it as in the method
+        part1, sep, part2 = template.partition(self.comtoepi.template_marker)
+
+        self.comtoepi._template_part1 = ''
+        self.comtoepi.save_xml()
+        # Verify that template is read correctly
+        self.assertEqual(part1, self.comtoepi._template_part1)
+        self.assertEqual(part2, self.comtoepi._template_part2)
+
+    def test_save_xml(self):
+        self.comtoepi.xml = [self.comtoepi.template_marker]
+        with open(path_testdata + 'xml_template.txt', 'r') as f:
+            template = f.read()
+
+        # split it as in the method
+        part1, sep, part2 = template.partition(
+                self.comtoepi.template_marker)
+        # Need to add a line to pass the test. In term of XML does not matter
+        template = part1 + sep + '\n' + part2
+
+        self.comtoepi.xml_main_file = 'test_save_xml.txt'
+        self.comtoepi.save_xml()
+
+        with open(self.comtoepi.xml_main_file, 'r') as f:
+            test = f.read()
+
+        self.assertEqual(template, test)
+
+    def test_treat_footnote(self):
+        self.comtoepi._footnotes = ['*1*ssss tttt ] conieci: '
+                                    'aaaa bbbb L5: om. Y']
+        self.comtoepi.treat_footnotes()
+        self.assertIsNotNone(self.comtoepi._footnotes_app.footnotes)
+        self.assertIsNotNone(self.comtoepi._footnotes_app._xml_app)
+
+    def test_main_open_document(self):
+        self.comtoepi.fname = path_testdata + 'aphorisms.txt'
+        self.comtoepi.main()
+        self.assertIsNotNone(self.comtoepi._text)
+
+    def test_main_open_document_failed(self):
+        self.comtoepi.fname = path_testdata + 'do not exit'
+        self.assertRaises(AphorismsToXMLException, self.comtoepi.main)
+
+    def test_main_division_failed(self):
+        self.comtoepi.fname = path_testdata + 'aphorisms_failed_division.txt'
+        self.assertRaises(AphorismsToXMLException, self.comtoepi.main)
+
+    def test_main_no_point_commentaries(self):
+        """test for coverage"""
+        self.comtoepi.fname = (path_testdata +
+                               'aphorisms_no_point_commentaries.txt')
+        self.comtoepi.main()
+        # self.assertRaises(AphorismsToXMLException, self.comtoepi.main)
+
+    def test_main_references(self):
+        self.comtoepi.fname = (path_testdata +
+                               'aphorisms_references_failed.txt')
+        self.comtoepi.main()
 
     # # ################# process_folder ###################
     # Moved to driver:

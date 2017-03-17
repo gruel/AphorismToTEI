@@ -33,7 +33,6 @@ in the associated documentation (docs/_build/index.html).
 """
 # pylint: disable=locally-disabled, invalid-name
 import os
-import sys
 import re
 
 try:
@@ -165,7 +164,7 @@ class Process(Hyppocratic):
             logger.error("There are no file to convert.")
             raise AphorismsToXMLException
 
-        full_path = os.path.join(self.folder,self.fname)
+        full_path = os.path.join(self.folder, self.fname)
         if os.path.isdir(full_path):
             logger.info('The software does not treat subfolder.')
             raise AphorismsToXMLException
@@ -193,6 +192,11 @@ class Process(Hyppocratic):
             info = ('File {} is not treatable by the software'.format(
                 self.fname))
             logger.info(info)
+            raise AphorismsToXMLException
+        except FileNotFoundError:
+            info = ('File {} does not exist'.format(self.fname))
+            logger.info(info)
+            raise AphorismsToXMLException
 
     def divide_document(self):
         """Method to divide the document in the three main parts.
@@ -258,10 +262,9 @@ class Process(Hyppocratic):
 
         try:
             p = re.compile(r'\s+1\.?\n')
-            self._title, self._text = p.split(self._text)
-            # if not self.text:
-            #     raise CommentaryToEpidocException
-            self._text = '1.\n' + self._text.strip()
+            if self._title == '':
+                self._title, self._text = p.split(self._text)
+                self._text = '1.\n' + self._text
         except ValueError as e:
             logger.error('Aphorism should have numeration as 1. or 1')
             raise AphorismsToXMLException(e)
@@ -352,7 +355,6 @@ class Process(Hyppocratic):
             raise AphorismsToXMLException
         except AphorismsToXMLException as e:
             raise AphorismsToXMLException(e)
-
 
         # create the dictionary with the aphorism (not sure that we need
         # the ordered one)
@@ -481,11 +483,8 @@ class Process(Hyppocratic):
             logger.error('Division of the document failed.')
             raise AphorismsToXMLException
 
-        try:
-            self.treat_footnotes()
-            self._footnotes_app.save_xml(self.xml_app_file)
-        except (FootnotesException, AphorismsToXMLException):
-            raise AphorismsToXMLException
+        self.treat_footnotes()
+        self._footnotes_app.save_xml(self.xml_app_file)
 
         self.aphorisms_dict()
         logger.info('Created aphorisms dictionary')
@@ -517,7 +516,6 @@ class Process(Hyppocratic):
         # =====================================
         logger.debug('Start aphorisms and commentaries treatment')
         for k in self._aph_com:
-
             aphorism = self._aph_com[k][0]
             commentaries = self._aph_com[k][1:]
 
@@ -596,7 +594,6 @@ class Process(Hyppocratic):
                     xml_main_to_add, self._next_footnote = \
                         footnotes(line_ref, self._next_footnote)
                     self.xml_n_offset -= 3
-
                 except (TypeError, AnalysisException):
                     error = "Unable to process Aphorism {}".format(k)
                     logger.error(error)

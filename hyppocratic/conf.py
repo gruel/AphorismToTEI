@@ -54,11 +54,8 @@ XML_OFFSET_SIZE = 4
 XML_OSS = ' ' * XML_OFFSET_SIZE
 
 # XML template information
-try:
-    TEMPLATE_FNAME = pkg_resources.resource_filename('hyppocratic',
-                                                     os.path.join(
-                                                         'template',
-                                                         'xml_template.txt'))
-except ImportError:
-    TEMPLATE_FNAME = 'xml_template.txt'
+TEMPLATE_FNAME = pkg_resources.resource_filename('hyppocratic',
+                                                 os.path.join(
+                                                     'template',
+                                                     'xml_template.txt'))
 TEMPLATE_MARKER = '#INSERT#'

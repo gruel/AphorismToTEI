@@ -51,6 +51,8 @@ class Title(Hyppocratic):
         Modify the attribute ``xml`` to add the title section in the main XML
         """
         self.title = self.title.strip(' \n').splitlines()
+        # remove empty line in title if present.
+        self.title = [line for line in self.title if line]
 
         # Now process the title
         # ---------------------

@@ -110,7 +110,7 @@ class Footnote(Hyppocratic):
         try:
             # Split to get the text and remove the space
             _tmp = self.footnote.split(']')
-            if len(_tmp) != 2:
+            if len(_tmp) != 2 or _tmp[1] == '':
                 raise FootnotesException
             text = _tmp[0].strip()
 
