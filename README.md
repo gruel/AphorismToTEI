@@ -1,6 +1,6 @@
 # Hyppocratic Aphorisms
 
-## CommentaryToEpidoc
+## AphorismToTEI
 
 A Python module contained in CommentaryToEpidoc.py to convert text files
 to EpiDoc compatible XML.
