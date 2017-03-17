@@ -27,7 +27,7 @@ setup(name='hyppocratic',
       install_requires=['docopt'],
       extra_requires={
           'dev': ['pylint'],
-          'test': ['nose', 'pytest', 'coverage'],
+          'test': ['nose', 'pytest', 'testfitures', 'coverage'],
           'doc': ['numpydoc']},
       entry_points={
           'console_scripts': [

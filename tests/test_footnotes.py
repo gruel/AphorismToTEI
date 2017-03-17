@@ -3,8 +3,12 @@ import sys
 from collections import OrderedDict
 import unittest
 import pytest
+from testfixtures import log_capture, LogCapture
+import logging
 
 from context import Footnote, Footnotes, FootnotesException
+
+#l = LogCapture()
 
 file_path = os.path.realpath(__file__)
 path = os.path.dirname(file_path)
@@ -532,10 +536,19 @@ class TestFootnotes(unittest.TestCase):
         self.ft.footnotes = ['*1*aaa', '*4*bbbb']
         self.assertRaises(FootnotesException, self.ft._dictionary)
 
-    def test_footnote_inside_footnote(self):
+    @log_capture()
+    def test_footnote_inside_footnote(self, l):
+        logger_root = logging.getLogger()
+
         self.ft.footnotes = ['*1*aaa vvvvv*3*cccc ']
         self.ft._dictionary()
-        #Do test on log (seems to be a text fixture)
+
+        l.check(('hyppocratic', 'WARNING',
+                  'Problem in footnote: *1*aaa vvvvv*3*cccc '),
+                ('hyppocratic', 'WARNING',
+                 'There are a footnote reference inside the footnote. '
+                 'This case is not treatable by the actual version of '
+                 'the software'))
 
     def test_footnotes_xml_app(self):
         pass
