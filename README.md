@@ -2,21 +2,18 @@
 
 ## AphorismToTEI
 
-A Python module contained in CommentaryToEpidoc.py to convert text files
-to EpiDoc compatible XML.
+A Python module which provide a conversion  from aphorisms annotated text files
+to TEI compatible XML.
 
-See the documentation in CommentaryToEpidoc.py and read the ``doos`` folder
-for more information.
+The ``docs`` folder contains more informations for usage and development.
 
-* Example input files can be found in the Example/TextFiles folder
-* the convenience script: driver.py was used to run the module on these files
+* Example input files can be found in the Example folder
+* the convenience script: main.py was used to run the module on these files
   to produce the corresponding output in the XML folder,
-  xml_template.txt is also required.
+  xml_template.txt is optional.
 
-* test_CommentaryToEpidoc.py contains some testing function.
-  The input and reference output for tests are in folder test_files
-
-
+* The input and reference output for the unittests tests are in folder 
+  test_files
 
 ## Installation
 
@@ -38,21 +35,21 @@ go into the project directory:
 cd CommentaryToEpidoc
 ```
 
-Install the required packages using their list available in 
-the file *requirement.txt*:
+Install the package:
 
 ```commandline
-pip install -U -r requirements.txt --user 
+python setup.py install --user
 ```
 
 The ```--user``` is optional but will install the package without the need 
 to be administrator. It will install the package in a user accessible directory
 (plateforme dependant).
 
-Install the package:
+
+For development other python modules are needed and can be installed with:
 
 ```commandline
-python setup.py install --user
+pip install -U -r requirements.txt --user 
 ```
 
 ## Usage
@@ -63,15 +60,22 @@ under the name ```CommentaryToEpidoc```.
 To use it start a terminal and execute the command:
 
 ```commandline
-CommentaryToEpidoc <path> 
+AphorismToXML <path or file> 
 ```
 
 where:
 
-```path``` is the name of the directory which contains the files to treat.
+- ```path``` is the name of the directory which contains the files to analyse 
+  and convert to TEI XML..
+- ```file``` is the name of the individual file to analyse and convert 
+  to TEI XML.
  
-## Log 
+At the end of the treatment a log file called *hyppocratic.log* will be found 
+in the directory of the execution. It will contains information, errors 
+and warning related to  the process. 
 
-At the end of the execution a log file called ```hyppocratic.log``` will be 
-create in the directory where the process was run.
-It will contains informations on the run and errors if any.
+If everything is going well, an XML directory will be also created 
+in the execution file. This directory will contains the two TEI XML files.
+The main one which contains the aphorisms, the commentaries and the annotations.
+An additional one will also be present (called app) which will contains
+the footnotes present in the texts.

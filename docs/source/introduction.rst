@@ -1,5 +1,4 @@
 .. _introduction:
-
 ############
 Introduction
 ############
