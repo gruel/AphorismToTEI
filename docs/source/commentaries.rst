@@ -1,4 +1,5 @@
 .. _commentaries:
+
 #######################
 Format for commentaries
 #######################
@@ -79,6 +80,7 @@ the footnote number, ``W1`` and ``W2`` are witness codes, and ``ssss``,
 one or more words in length).
 
 .. _omissions:
+
 Omissions
 ---------
 
@@ -117,6 +119,7 @@ f. More generally an omission can have the form:
    ``*n*ssss ] W1, W2, W3: om. W4, W5, W6.``
 
 .. _additions:
+
 Additions
 ---------
 
@@ -139,6 +142,7 @@ c. Form 3: ``*n*ssss ] add. tttt W1: uuuu W2.``
   ``W2`` adds ``uuuu``.
 
 .. _correxi:
+
 Correxi
 -------
 Correxi can have two forms, depending on whether witness texts
@@ -174,6 +178,7 @@ b. Form 2: ``*n*ssss ] conieci: tttt W1: uuuu W2.``
   ``ssss``.
 
 .. _variations:
+
 Textual variations
 ------------------
 
