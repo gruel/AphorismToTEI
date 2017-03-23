@@ -1,8 +1,10 @@
 docopt
 pylint
-nose
 pytest
+pytest-cov
 testfixtures
 coverage
 sphinx
+sphinx-bootstrap-theme
 numpydoc
+pyqt5

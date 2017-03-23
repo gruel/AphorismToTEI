@@ -26,8 +26,8 @@ setup(name='hyppocratic',
       keywords=[],
       install_requires=['docopt'],
       extra_requires={
-          'dev': ['pylint', 'nose', 'pytest', 'testfixtures', 'coverage'],
-          'test': ['nose', 'pytest', 'testfixtures', 'coverage'],
+          'dev': ['pylint', 'pytest', 'pytest-cov', 'testfixtures', 'coverage'],
+          'test': ['pytest', 'pytest-cov', 'testfixtures', 'coverage'],
           'doc': ['sphinx', 'numpydoc']},
       entry_points={
           'console_scripts': [
