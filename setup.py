@@ -31,7 +31,7 @@ setup(name='hyppocratic',
           'doc': ['sphinx', 'numpydoc']},
       entry_points={
           'console_scripts': [
-              'AphorismsToTEI = hyppocratic.main:main']
+              'AphorismsToXML = hyppocratic.main:main']
                     },
       package_data={
           'hyppocratic': ['template/xml_template.txt'],

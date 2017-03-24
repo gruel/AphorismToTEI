@@ -28,14 +28,14 @@ except ImportError:
 
 
 def main(args=None):
-    """Run AphorismsToTEI scripts to produce the TEI XML
+    """Run AphorismsToXML scripts to produce the TEI XML
 
     Command line::
 
         Usage:
-            AphorismsToTEI <files> [--xml_template=<tmpl>]
-            AphorismsToTEI -h | --help
-            AphorismsToTEI --version
+            AphorismsToXML <files> [--xml_template=<tmpl>]
+            AphorismsToXML -h | --help
+            AphorismsToXML --version
 
         Options:
             -h --help              Show this screen.
@@ -43,7 +43,7 @@ def main(args=None):
             --xml_template=<name>  Name of the XML template
 
         Example:
-            AphorismsToTEI TextFiles
+            AphorismsToXML TextFiles
 
     Raises
     ------
@@ -52,18 +52,12 @@ def main(args=None):
     """
 
     arguments = docopt(main.__doc__, argv=args,
-                       version="CommentaryToEpidoc testing version")
+                       version="AphorismToXML version 2.0")
 
     # Convert docopt results in the proper variable (change type when needed)
 
     fname = arguments['<files>']
     template_file = arguments['--xml_template']
-
-    # Call ArabicToXML.process_folder with the following arguments
-    # 1st - the folder containing the text file
-    # 2nd - the name of the XML template file
-    # 3rd - the number of offsets to use when adding XML to the <body> element
-    # 4th - the number of space characters to use for each XML offset
 
     try:
         if os.path.isdir(fname):

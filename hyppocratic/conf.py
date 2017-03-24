@@ -1,8 +1,6 @@
-"""Module to contains the configuration of the hyppocrite softeware
+"""Module to contains the configuration of the hyppocratic software
 
-TODO: can be transformed in yaml file eventually
-
-:Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
+:Authors: Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
 
 :Copyright: IT Services, The University of Manchester
 """

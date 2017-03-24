@@ -1,11 +1,11 @@
 # Hyppocratic Aphorisms
 
-## AphorismToTEI
+## AphorismToXML
 
 A Python module which provide a conversion  from aphorisms annotated text files
 to TEI compatible XML.
 
-The ``docs`` folder contains more informations for usage and development.
+The ``docs`` folder contains more information for usage and development.
 
 * Example input files can be found in the Example folder
 * the convenience script: main.py was used to run the module on these files
@@ -55,7 +55,7 @@ pip install -U -r requirements.txt --user
 ## Usage
 
 When the package is installed, it should be available in your ```PATH``` 
-under the name ```CommentaryToEpidoc```. 
+under the name ```AphorismToXML```. 
 
 To use it start a terminal and execute the command:
 

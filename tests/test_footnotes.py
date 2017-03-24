@@ -16,7 +16,8 @@ sys.path.append(path)
 
 path_testdata = os.path.join(path, 'test_files') + os.sep
 # examples = os.path.join(path, '..', 'Examples', 'TextFiles') + os.sep
-template_file = os.path.join(path, '..', 'hyppocratic', 'xml_template.txt')
+template_file = os.path.join(path, '..', 'hyppocratic', 'template',
+                             'xml_template.txt')
 
 
 class TestFootnote(unittest.TestCase):
