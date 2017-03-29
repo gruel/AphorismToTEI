@@ -94,9 +94,8 @@ def references(line):
 
         # If this partition failed there is an error
         if sep == '':
-            error = ('Unable to partition reference {} '
-                     'because missing " " '
-                     'character'.format(reference))
+            error = ('Unable to partition reference [{}] '
+                     'because missing space probably'.format(reference))
             logger.error(error)
             raise AnalysisException
 
@@ -157,7 +156,6 @@ def footnotes(string_to_process, next_footnote):
     """
     # Create lists to contain the XML
     xml_main = []
-
     try:
         while True:
             # Use string partition to try to split this text at

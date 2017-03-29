@@ -562,10 +562,13 @@ class Process(Hyppocratic):
             try:
                 line_ref = references(aphorism)
             except AnalysisException:
-                error = ('Unable to process _references in '
+                error = ('Unable to process references in '
                          'aphorism {}'.format(k))
                 logger.error(error)
                 raise AphorismsToXMLException from None
+
+            if line_ref is None or line_ref == '':
+                continue
 
             # Process any footnotes in line_ref, if there are errors write
             # to the log file and return
