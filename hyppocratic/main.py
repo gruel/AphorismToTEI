@@ -33,14 +33,14 @@ def main(args=None):
     Command line::
 
         Usage:
-            AphorismsToXML <files> [--xml_template=<tmpl>]
+            AphorismsToXML <files> [--xml-template=<tmpl>]
             AphorismsToXML -h | --help
             AphorismsToXML --version
 
         Options:
             -h --help              Show this screen.
             --version              Show version.
-            --xml_template=<name>  Name of the XML template
+            --xml-template=<name>  Name of the XML template
 
         Example:
             AphorismsToXML TextFiles
@@ -57,7 +57,7 @@ def main(args=None):
     # Convert docopt results in the proper variable (change type when needed)
 
     fname = arguments['<files>']
-    template_file = arguments['--xml_template']
+    template_file = arguments['--xml-template']
 
     try:
         if os.path.isdir(fname):
