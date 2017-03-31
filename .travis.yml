@@ -1,14 +1,53 @@
-language: python
-python:
-  - "3.5"
-  - "3.6"
-    # Cannot work because of sphinx requirement which is asking for pyqt not possible on dev branch
-    #  - "3.7-dev" # 3.7 development branch
-    #  - "nightly" # currently points to 3.7-dev
-# command to install dependencies
-install: "pip install -r requirements.txt"
+matrix:
+  include:
+    - os: linux
+      sudo: required
+      language: python
+      python: 3.5
+      env: TOXENV=py35
+    - os: linux
+      sudo: required
+      language: python
+      python: 3.6
+      env: TOXENV=py36
+    - os: osx
+      langage: python
+      python: 3.5
+      env: TOXENV=py35
+    - os: osx
+      langage: python
+      python: 3.6
+      env: TOXENV=py36
+
+install:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+  - case "${TOXENV}" in
+      py35)
+        export TRAVIS_PYTHON_VERSION=3.5
+        ;;
+      py36)
+        export TRAVIS_PYTHON_VERSION=3.6
+        ;;
+    esac
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+  - source activate test-environment
+  - python setup.py install
+  - pip install .
+  - pip install -r requirements.txt
+
 # command to run tests
-script: 
+script:
         - pytest
         # Command to build documentation
         - cd docs
