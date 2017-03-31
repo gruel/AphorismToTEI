@@ -10,7 +10,7 @@ The ``references`` function has to be used before the ``footnotes``.
 :Copyright: IT Services, The University of Manchester
 """
 try:
-    from hyppocratic.conf import logger, XML_OSS, XML_N_OFFSET
+    from .conf import logger, XML_OSS, XML_N_OFFSET
 except ImportError:
     from conf import logger, XML_OSS, XML_N_OFFSET
 

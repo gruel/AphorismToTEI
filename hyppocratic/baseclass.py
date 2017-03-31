@@ -6,7 +6,7 @@
 """
 # pylint: disable=locally-disabled, invalid-name
 try:
-    from hyppocratic.conf import XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
+    from .conf import XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
 except ImportError:
     from conf import XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
 

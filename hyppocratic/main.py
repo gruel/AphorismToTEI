@@ -15,11 +15,10 @@ except ImportError:
     sys.exit()
 
 try:
-    from hyppocratic.conf import logger
-    from hyppocratic.aphorisms_to_xml import Process, \
-        AphorismsToXMLException
-    from hyppocratic.analysis import AnalysisException
-    from hyppocratic.footnotes import FootnotesException
+    from .conf import logger
+    from .aphorisms_to_xml import Process, AphorismsToXMLException
+    from .analysis import AnalysisException
+    from .footnotes import FootnotesException
 except ImportError:
     from conf import logger
     from aphorisms_to_xml import Process, AphorismsToXMLException

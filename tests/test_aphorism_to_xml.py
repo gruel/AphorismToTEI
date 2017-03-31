@@ -1,9 +1,8 @@
 import os
 import sys
 import unittest
-import pytest
 
-from context import Process, AphorismsToXMLException
+from .context import Process, AphorismsToXMLException
 
 file_path = os.path.realpath(__file__)
 path = os.path.dirname(file_path)

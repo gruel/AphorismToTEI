@@ -6,9 +6,9 @@ the title in the hyppocratic aphorism document.
 :Copyright: IT Services, The University of Manchester
 """
 try:
-    from hyppocratic.conf import logger
-    from hyppocratic.analysis import references, footnotes
-    from hyppocratic.baseclass import Hyppocratic
+    from .conf import logger
+    from .analysis import references, footnotes
+    from .baseclass import Hyppocratic
 except ImportError:
     from conf import logger
     from analysis import references, footnotes

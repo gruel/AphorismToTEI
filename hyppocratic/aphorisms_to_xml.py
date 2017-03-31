@@ -36,12 +36,12 @@ import os
 import re
 
 try:
-    from hyppocratic.analysis import references, footnotes, AnalysisException
-    from hyppocratic.introduction import Introduction
-    from hyppocratic.title import Title
-    from hyppocratic.footnotes import Footnotes, FootnotesException
-    from hyppocratic.conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
-    from hyppocratic.baseclass import Hyppocratic
+    from .analysis import references, footnotes, AnalysisException
+    from .introduction import Introduction
+    from .title import Title
+    from .footnotes import Footnotes, FootnotesException
+    from .conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
+    from .baseclass import Hyppocratic
 except ImportError:
     from analysis import references, footnotes, AnalysisException
     from introduction import Introduction

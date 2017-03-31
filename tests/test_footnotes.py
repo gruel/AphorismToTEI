@@ -2,11 +2,11 @@ import os
 import sys
 from collections import OrderedDict
 import unittest
-import pytest
 from testfixtures import log_capture, LogCapture
 import logging
 
-from context import Footnote, Footnotes, FootnotesException
+from .context import Footnote, Footnotes, FootnotesException
+
 
 #l = LogCapture()
 
