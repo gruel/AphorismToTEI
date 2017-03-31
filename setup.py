@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 
+
 setup(name='hyppocratic',
       packages=['hyppocratic'],
       version='0.2',
@@ -25,6 +26,8 @@ setup(name='hyppocratic',
                   ],
       keywords=[],
       install_requires=['docopt'],
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest'],
       extra_requires={
           'dev': ['pylint', 'pytest', 'pytest-cov', 'testfixtures', 'coverage'],
           'test': ['pytest', 'pytest-cov', 'testfixtures', 'coverage'],
@@ -34,6 +37,7 @@ setup(name='hyppocratic',
               'AphorismsToXML = hyppocratic.main:main']
                     },
       package_data={
+          '' : ['LICENSE'],
           'hyppocratic': ['template/xml_template.txt'],
                     },
       license='MIT',
