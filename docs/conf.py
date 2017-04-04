@@ -20,9 +20,19 @@
 import os
 import sys
 import re
-sys.path.insert(0, os.path.abspath('..'))
+#sys.path.insert(0, os.path.abspath('..'))
 # sys.path.insert(0, os.path.abspath('.'))
 
+# Get the project root dir, which is the parent dir of this
+cwd = os.getcwd()
+project_root = os.path.dirname(cwd)
+
+# Insert the project root dir as the first element in the PYTHONPATH.
+# This lets us ensure that the source package is imported, and that its
+# version is used.
+sys.path.insert(0, project_root)
+
+import hyppocratic
 
 # -- General configuration ------------------------------------------------
 
@@ -42,7 +52,9 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'sphinx.ext.autosummary',
-    'numpydoc']
+    'sphinx.ext.napoleon',
+    'numpydoc',
+    ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -25,11 +25,13 @@ Hyppocratic aphorisms XML
    source/scope
    source/acronyms
    source/introduction
-   source/codedownload
+   source/installation
    source/commentaries
    source/aphorismstotei
    source/xml_files
-   source/code.rst
+   source/hyppocratic
+..   source/code
+   
 
 Indices and tables
 ==================

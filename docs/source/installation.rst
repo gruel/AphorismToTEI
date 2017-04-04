@@ -1,13 +1,53 @@
-.. _codedownload:
+.. highlight:: shell
 
-######################
-How to obtain the code
-######################
+.. _installation:
 
-The code is available on a GitHub repository.
+============
+Installation
+============
 
-To clone the GitHub repository first set up Git on the local hardware
-(e.g. see https://help.github.com/articles/set-up-git/) and
-run the following command::
 
-    git clone https://github.com/Jonathan3145/CommentaryToEpidoc.git
+Stable release
+--------------
+
+To install Python Boilerplate, run this command in your terminal:
+
+.. code-block:: console
+
+    $ pip install AphorysmtoXML
+
+This is the preferred method to install AphorysmToXML, as it will always install the most recent stable release.
+
+If you don't have `pip`_ installed, this `Python installation guide`_ can guide
+you through the process.
+
+.. _pip: https://pip.pypa.io
+.. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
+
+
+From sources
+------------
+
+The sources for Python Boilerplate can be downloaded from the `Github repo`_.
+
+You can either clone the public repository:
+
+.. code-block:: console
+
+    $ git clone git://github.com/XXXXXX
+
+Or download the `tarball`_:
+
+.. code-block:: console
+
+    $ curl  -OL https://github.com/XXXXXX/tarball/master
+
+Once you have a copy of the source, you can install it with:
+
+.. code-block:: console
+
+    $ python setup.py install
+
+
+.. _Github repo: https://github.com/XXXXX
+.. _tarball: https://github.com/XXXXXX/tarball/master
