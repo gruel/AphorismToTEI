@@ -1,12 +1,26 @@
 #!/usr/bin/env python
 from setuptools import setup
 
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
+
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
+
+requirements = [
+        'docopt',
+        ]
+
+test_requirements = [
+        'pytest',
+        'testfixtures',
+        ]
 
 setup(name='hyppocratic',
       packages=['hyppocratic'],
       version='0.2',
       description=('Software to convert hyppocratic text files '
-                   'to in a TEI compatible XML.'),
+                   'to in XML files.'),
       long_description='',
       author='Nicolas Gruel, Jonathan Boyle',
       author_email='nicolas.gruel@manchester.ac.uk',
@@ -25,9 +39,10 @@ setup(name='hyppocratic',
           'Operating System :: MacOS'
                   ],
       keywords=[],
-      install_requires=['docopt'],
+      install_requires=requirements,
       setup_requires=['pytest-runner'],
-      tests_require=['pytest'],
+      test_suite='test',
+      tests_require=test_requirements,
       extra_requires={
           'dev': ['pylint', 'pytest', 'pytest-cov', 'testfixtures', 'coverage'],
           'test': ['pytest', 'pytest-cov', 'testfixtures', 'coverage'],
@@ -38,7 +53,9 @@ setup(name='hyppocratic',
                     },
       package_data={
           '' : ['LICENSE'],
-          'hyppocratic': ['template/xml_template.txt'],
+          'hyppocratic': ['templatexml_template.txt'],
                     },
+      include_package_data=True,
       license='MIT',
-      plateforms='any')
+      plateforms='any'
+      )
