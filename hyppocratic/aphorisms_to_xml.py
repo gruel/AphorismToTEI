@@ -39,14 +39,14 @@ try:
     from .analysis import references, footnotes, AnalysisException
     from .introduction import Introduction
     from .title import Title
-    from .footnotes import Footnotes, FootnotesException
+    from .footnotes import Footnotes
     from .conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
     from .baseclass import Hyppocratic
 except ImportError:
     from analysis import references, footnotes, AnalysisException
     from introduction import Introduction
     from title import Title
-    from footnotes import Footnotes, FootnotesException
+    from footnotes import Footnotes
     from conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
     from baseclass import Hyppocratic
 
@@ -145,7 +145,8 @@ class Process(Hyppocratic):
             The text file base name is expected to end with an underscore
             followed by a numerical value, e.g. file_1.txt, file_2.txt, etc.
             This numerical value is used when creating the title section
-            <div> element, e.g. <div n="1" type="Title_section"> for file_1.txt.
+            <div> element, e.g. <div n="1" type="Title_section">
+            for file_1.txt.
 
         text : str
             string which contains the whole file in utf-8 format.
@@ -349,16 +350,17 @@ class Process(Hyppocratic):
                           for i in p.finditer('\n' + self._text)]
             # Find missing aphorism or badly written (e.g.: 14-)
             missing = [i for i in list(range(1, max(n_aphorism)))
-                    if i not in n_aphorism]
+                       if i not in n_aphorism]
             # Find if multiple aphorism with the same number.
             doublon = list({i for i in n_aphorism if n_aphorism.count(i) > 1})
             if not n_aphorism:
                 error = 'There are no aphorisms detectec'
                 logger.error(error)
             if max(n_aphorism) != len(n_aphorism):
-                error = 'N aphorism expected {}, got: {}'.format(n_aphorism[-1],
-                                                                 len(n_aphorism)
-                                                                 )
+                error = 'N aphorism expected {}, got: {}'.format(
+                    n_aphorism[-1],
+                    len(n_aphorism)
+                )
                 logger.error(error)
             if missing:
                 error = 'Missing or problematic aphorism: {}'.format(missing)
@@ -635,7 +637,8 @@ class Process(Hyppocratic):
                 self.xml.extend(xml_main_to_add)
 
                 # Close the XML for this commentary
-                self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '</p>')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 2) +
+                                '</p>')
                 self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
                                 '</div>')
 

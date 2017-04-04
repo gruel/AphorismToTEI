@@ -193,7 +193,7 @@ def footnotes(string_to_process, next_footnote):
             # at '#' or ' '. If we didn't there's an error.
             if sep == '':
                 error = ('Unable to partition text before footnote symbol '
-                        '{}'.format(footnote_symbol))
+                         '{}'.format(footnote_symbol))
                 logger.error(error)
                 error = ('Probably missing a space or the "#" character '
                          'to determine the word(s) to apply the footnote')

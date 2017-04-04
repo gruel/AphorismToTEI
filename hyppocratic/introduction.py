@@ -55,7 +55,8 @@ class Introduction(Hyppocratic):
         introduction = self.introduction.splitlines()
 
         # Generate the opening XML for the intro
-        self.xml.append(self.xml_oss * self.xml_n_offset + '<div type="intro">')
+        self.xml.append(self.xml_oss * self.xml_n_offset +
+                        '<div type="intro">')
         self.xml.append(self.xml_oss * (self.xml_n_offset + 1) + '<p>')
 
         for line in introduction:

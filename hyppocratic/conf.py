@@ -7,9 +7,9 @@
 # pylint: disable=locally-disabled, invalid-name
 import os
 import sys
-import pkg_resources
-import logging.config
 import logging
+import logging.config
+import pkg_resources
 
 # Pure python dictionary with the configuration for the logging
 
@@ -56,8 +56,8 @@ XML_OSS = ' ' * XML_OFFSET_SIZE
 try:
     TEMPLATE_FNAME = pkg_resources.resource_filename('hyppocratic',
                                                      os.path.join(
-                                                        'template',
-                                                        'xml_template.txt'))
+                                                         'template',
+                                                         'xml_template.txt'))
 except ModuleNotFoundError:
     TEMPLATE_FNAME = 'xml_template.txt'
 

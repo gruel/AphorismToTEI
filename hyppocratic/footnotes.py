@@ -274,7 +274,7 @@ class Footnote(Hyppocratic):
         # Add to the XML
         if self._d_footnote['reason'] == 'add':
             for i, wit in enumerate(self._d_footnote['witnesses']):
-                if len(wit) != 0:
+                if wit:
                     for w in wit:
                         self.xml.append(self.xml_oss + '<rdg wit="#' +
                                         w.strip() + '">')
@@ -376,11 +376,13 @@ class Footnotes(object):
         _dic = OrderedDict()
         for line in _tmp:
             try:
-                pos_stars = [c.start() for c in re.finditer('\*', line.strip())]
+                pos_stars = [c.start() for c in re.finditer(r'\*',
+                                                            line.strip())]
                 if len(pos_stars) < 2 or pos_stars[0] != 0:
                     raise FootnotesException
                 elif len(pos_stars) > 2:
-                    logger.warning('Problem in footnote: {}'.format(line))
+                    warning = 'Problem in footnote: {}'.format(line)
+                    logger.warning(warning)
                     logger.warning('There are a footnote reference inside '
                                    'the footnote. This case is not treatable '
                                    'by the actual version of the software')
