@@ -58,7 +58,7 @@ try:
                                                      os.path.join(
                                                          'template',
                                                          'xml_template.txt'))
-except ModuleNotFoundError:
+except (ModuleNotFoundError, KeyError):
     TEMPLATE_FNAME = 'xml_template.txt'
 
 try:

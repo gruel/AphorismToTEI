@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 from setuptools import setup
 
 with open('README.rst') as readme_file:
@@ -53,7 +54,7 @@ setup(name='hyppocratic',
                     },
       package_data={
           '' : ['LICENSE'],
-          'hyppocratic': ['templatexml_template.txt'],
+          'hyppocratic': [os.path.join('template', 'xml_template.txt')],
                     },
       include_package_data=True,
       license='MIT',
