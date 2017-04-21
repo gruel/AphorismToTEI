@@ -194,8 +194,7 @@ class Process(Hyppocratic):
         # Open the file to process
         # pylint: disable=locally-disabled, invalid-name
         try:
-            with open(full_path, 'r',
-                      encoding="utf-8") as f:
+            with open(full_path, 'r', encoding="utf-8") as f:
                 # Read in file
                 self._text = f.read().strip()
         except UnicodeDecodeError:
@@ -275,42 +274,16 @@ class Process(Hyppocratic):
             raise AphorismsToXMLException(e)
 
         try:
-            p = re.compile(r'\s+1\.?\n')
+            p = re.compile(r'\n\s{0,}1\.?\n')
             if self._title == '':
-                self._title, self._text = p.split(self._text)
-                self._text = '1.\n' + self._text
+                _tmp = p.split(self._text)
+                self._title = _tmp[0]
+                self._text = '1.\n' + '1.\n'.join(_tmp[1:])
         except ValueError as e:
             logger.error('Aphorism should have numeration as 1. or 1')
             raise AphorismsToXMLException(e)
 
-    #     def analysis_aphorism_dict(self, com):
-#         """Create an ordered dictionary with the different witness and
-#          footnotes present in a commentary
-#
-#         Returns
-#         -------
-#
-#         """
-#         # Find all the witnesses in the line
-#         # Note on the regex:
-#         #     \w = [a-AA-Z0-9_]
-#         #     \s = any king of space
-#         #     + = one or more
-#         # It match all the witness with form like [WWWWW XXXXX]
-#
-#         # find all the footnote in the line
-#         # It match all the footnote marker like *XXX*
-#         p_foot = re.compile(r'\*\d+\*')
-#         footnotes = p_foot.finditer(com)
-#         footnotes = {int(i.group().strip('*')): i.span() for i in footnotes}
-#
-#         p_wits = re.compile(r'\[\w+\s+\w+\]')
-#         # wits = p.findall(com)
-#         wits = p_wits.finditer(com)
-#         wits = {i.group().strip('*'): i.span() for i in wits}
-#
-#         return footnotes, wits, com
-# #        return footnotes, wits, span_f
+        return
 
     def aphorisms_dict(self):
         """Create an order dictionary (OrderedDict object) with the aphorisms
@@ -327,23 +300,15 @@ class Process(Hyppocratic):
         AphorismsToXMLException
             if it is not possible to create the dictionary.
         """
-
-        # \n\d+.\n == \n[0-9]+.\n (\d == [0-9])
-        aphorism = re.split(r'\s+[0-9]+\.?\n', '\n' + self._text)[1:]
-
-        # n_aphorism = [int(i.strip('\n').strip('.')) for i in
-        #               re.findall('\n[0-9]+.\n', '\n' + self.text)]
-
-        # n_aphorism = [int(i.group().strip('\n').strip('.')) for i in
-        #               re.finditer('\n[0-9]+.\n', '\n' + self.text)]
+        aphorism = re.split(r'\n\s{0,}[0-9]+\.?\n', '\n' + self._text)[1:]
 
         # Split the text in function of the numbers (i.e. the separation
         # of the aphorism.
         # '\s[0-9]+.\n' means 'find string :
-        #    which start with end of line or any space characer
+        #    which start with end of line or any space character
         #    with at least on number ending
         #    with a point and a end of line.
-        p = re.compile(r'\s+[0-9]+\.?\n')
+        p = re.compile(r'\n\s{0,}?[0-9]+\.?\n')
         error = ''
         try:
             n_aphorism = [int(i.group().strip('.\t\n '))
@@ -354,7 +319,7 @@ class Process(Hyppocratic):
             # Find if multiple aphorism with the same number.
             doublon = list({i for i in n_aphorism if n_aphorism.count(i) > 1})
             if not n_aphorism:
-                error = 'There are no aphorisms detectec'
+                error = 'There are no aphorisms detected'
                 logger.error(error)
             if max(n_aphorism) != len(n_aphorism):
                 error = 'N aphorism expected {}, got: {}'.format(
