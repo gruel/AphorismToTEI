@@ -245,7 +245,7 @@ latex_elements = {
 
     # Additional stuff for the LaTeX preamble.
     #
-    # 'preamble': '',
+    'preamble': r'\usepackage{pmboxdraw}',
 
     # Latex figure (float) alignment
     #

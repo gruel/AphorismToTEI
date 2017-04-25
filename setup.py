@@ -8,6 +8,9 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
+package_data = os.path.join('template', '*.xml')
+
+
 requirements = [
         'docopt',
         ]
@@ -19,10 +22,10 @@ test_requirements = [
 
 setup(name='hyppocratic',
       packages=['hyppocratic'],
-      version='0.2',
+      version='0.3',
       description=('Software to convert hyppocratic text files '
                    'to in XML files.'),
-      long_description='',
+      long_description=readme,
       author='Nicolas Gruel, Jonathan Boyle',
       author_email='nicolas.gruel@manchester.ac.uk',
       url='https://github.com/UoMResearchIT/CommentaryToEpidoc',
@@ -53,9 +56,10 @@ setup(name='hyppocratic',
               'AphorismsToXML = hyppocratic.main:main']
                     },
       package_data={
-          '' : ['LICENSE'],
-          'hyppocratic': [os.path.join('template', 'xml_template.txt')],
-                    },
+          '': ['LICENSE'],
+          #'hyppocratic': [os.path.join('template', 'xml_main_template.xml')],
+          'hyppocratic': [package_data],
+      },
       include_package_data=True,
       license='MIT',
       plateforms='any'

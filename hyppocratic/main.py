@@ -15,11 +15,13 @@ except ImportError:
     sys.exit()
 
 try:
+    from .__init__ import __version__
     from .conf import logger
     from .aphorisms_to_xml import Process, AphorismsToXMLException
     from .analysis import AnalysisException
     from .footnotes import FootnotesException
 except ImportError:
+    from __init__ import __version__
     from conf import logger
     from aphorisms_to_xml import Process, AphorismsToXMLException
     from analysis import AnalysisException
@@ -32,14 +34,14 @@ def main(args=None):
     Command line::
 
         Usage:
-            AphorismsToXML <files> [--xml-template=<tmpl>]
+            AphorismsToXML <files> [--xml-main-template=<tmpl>]
             AphorismsToXML -h | --help
             AphorismsToXML --version
 
         Options:
-            -h --help              Show this screen.
-            --version              Show version.
-            --xml-template=<name>  Name of the XML template
+            -h --help                   Show this screen.
+            --version                   Show version.
+            --xml-main-template=<name>  Name of the XML template for the main file
 
         Example:
             AphorismsToXML TextFiles
@@ -51,12 +53,12 @@ def main(args=None):
     """
 
     arguments = docopt(main.__doc__, argv=args,
-                       version="AphorismToXML version 2.0")
+                       version=__version__)
 
     # Convert docopt results in the proper variable (change type when needed)
 
     fname = arguments['<files>']
-    template_file = arguments['--xml-template']
+    template_file = arguments['--xml-main-template']
 
     try:
         if os.path.isdir(fname):

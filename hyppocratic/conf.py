@@ -57,15 +57,14 @@ try:
     TEMPLATE_FNAME = pkg_resources.resource_filename('hyppocratic',
                                                      os.path.join(
                                                          'template',
-                                                         'xml_template.txt'))
+                                                         'xml_main_template.xml'))
 except (ModuleNotFoundError, KeyError):
-    TEMPLATE_FNAME = 'xml_template.txt'
-
+    TEMPLATE_FNAME = os.path.join('template', 'xml_main_template.xml')
 try:
     os.path.isfile(TEMPLATE_FNAME)
 except FileNotFoundError:
     error = "Please provide the xml template to use " \
-            "(option --xml-template=<file name>)"
+            "(option --xml-main-template=<file name>)"
     sys.exit()
 
 TEMPLATE_MARKER = '#INSERT#'

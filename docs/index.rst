@@ -27,11 +27,11 @@ Hyppocratic aphorisms XML
    source/introduction
    source/installation
    source/commentaries
-   source/aphorismstotei
+   source/aphorismstoxml
    source/xml_files
    source/hyppocratic
 ..   source/code
-   
+
 
 Indices and tables
 ==================
