@@ -20,10 +20,10 @@ test_requirements = [
         'testfixtures',
         ]
 
-setup(name='hyppocratic',
-      packages=['hyppocratic'],
+setup(name='hippocratic',
+      packages=['hippocratic'],
       version='0.3',
-      description=('Software to convert hyppocratic text files '
+      description=('Software to convert hippocratic text files '
                    'to in XML files.'),
       long_description=readme,
       author='Nicolas Gruel, Jonathan Boyle',
@@ -53,12 +53,12 @@ setup(name='hyppocratic',
           'doc': ['sphinx', 'numpydoc']},
       entry_points={
           'console_scripts': [
-              'AphorismsToXML = hyppocratic.main:main']
+              'AphorismsToXML = hippocratic.main:main']
                     },
       package_data={
           '': ['LICENSE'],
-          #'hyppocratic': [os.path.join('template', 'xml_main_template.xml')],
-          'hyppocratic': [package_data],
+          #'hippocratic': [os.path.join('template', 'xml_main_template.xml')],
+          'hippocratic': [package_data],
       },
       include_package_data=True,
       license='MIT',

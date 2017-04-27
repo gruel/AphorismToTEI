@@ -1,5 +1,5 @@
 """Module which contains the class which create the XML part related to
-the introduction (if present) in the hyppocratic aphorism document.
+the introduction (if present) in the hippocratic aphorism document.
 
 :Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
 
@@ -8,11 +8,11 @@ the introduction (if present) in the hyppocratic aphorism document.
 try:
     from .conf import logger
     from .analysis import references, footnotes
-    from .baseclass import Hyppocratic
+    from .baseclass import Hippocratic
 except ImportError:
     from analysis import references, footnotes
     from conf import logger
-    from baseclass import Hyppocratic
+    from baseclass import Hippocratic
 
 
 # Define an Exception
@@ -22,14 +22,14 @@ class IntroductionException(Exception):
     pass
 
 
-class Introduction(Hyppocratic):
+class Introduction(Hippocratic):
     """Class Introduction which will create the introduction XML part
 
     Attributes
     ----------
 
     introduction : str
-        string which contain the introduction of the hyppocratic aphorisms
+        string which contain the introduction of the hippocratic aphorisms
         document.
 
     next_footnote : int
@@ -43,7 +43,7 @@ class Introduction(Hyppocratic):
     """
 
     def __init__(self, introduction, next_footnote):
-        Hyppocratic.__init__(self)
+        Hippocratic.__init__(self)
         self.introduction = introduction
         self.next_footnote = next_footnote
 

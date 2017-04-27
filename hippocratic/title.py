@@ -1,5 +1,5 @@
 """Module which contains the class which create the XML part related to
-the title in the hyppocratic aphorism document.
+the title in the hippocratic aphorism document.
 
 :Authors: Jonathan Boyle, Nicolas Gruel <nicolas.gruel@manchester.ac.uk>
 
@@ -8,11 +8,11 @@ the title in the hyppocratic aphorism document.
 try:
     from .conf import logger
     from .analysis import references, footnotes
-    from .baseclass import Hyppocratic
+    from .baseclass import Hippocratic
 except ImportError:
     from conf import logger
     from analysis import references, footnotes
-    from baseclass import Hyppocratic
+    from baseclass import Hippocratic
 
 
 # Define an Exception
@@ -22,13 +22,13 @@ class TitleException(Exception):
     pass
 
 
-class Title(Hyppocratic):
+class Title(Hippocratic):
     """Class Title which will create the title XML part
 
     Attributes
     ----------
     title : str
-        string which contain the title of the hyppocratic aphorisms
+        string which contain the title of the hippocratic aphorisms
         document.
 
     doc_num : int
@@ -39,7 +39,7 @@ class Title(Hyppocratic):
         can be present.
     """
     def __init__(self, title, next_footnote=1, doc_num=1):
-        Hyppocratic.__init__(self)
+        Hippocratic.__init__(self)
         self.title = title
         self.doc_num = doc_num
         self.next_footnote = next_footnote

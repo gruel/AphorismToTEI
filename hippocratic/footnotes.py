@@ -10,10 +10,10 @@ from collections import OrderedDict
 
 try:
     from .conf import logger
-    from .baseclass import Hyppocratic
+    from .baseclass import Hippocratic
 except ImportError:
     from conf import logger
-    from baseclass import Hyppocratic
+    from baseclass import Hippocratic
 
 
 # Define an Exception
@@ -23,7 +23,7 @@ class FootnotesException(Exception):
     pass
 
 
-class Footnote(Hyppocratic):
+class Footnote(Hippocratic):
     """Class Footnote which treat an individual footnote
 
     Attributes
@@ -38,7 +38,7 @@ class Footnote(Hyppocratic):
         list which contains the app XML file.
     """
     def __init__(self, footnote=None, n_footnote=None, xml=None):
-        Hyppocratic.__init__(self)
+        Hippocratic.__init__(self)
         self.footnote = footnote
         self.n_footnote = n_footnote
         if xml is None:
@@ -317,7 +317,7 @@ class Footnotes(object):
     Attributes
     ----------
     footnotes : list, str, OrderedDict, dict
-        List which contains the whole set of footnote from the hyppocratic
+        List which contains the whole set of footnote from the hippocratic
         file.
     """
 

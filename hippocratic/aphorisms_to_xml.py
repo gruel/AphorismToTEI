@@ -22,7 +22,7 @@ If processing succeeds two XML files will be created in a folder called XML.
 The XML file names start with the text file base name and end in _main.xml (for
 the XML files will be file_1_main.xml and file_1_app.xml.
 
-If processing fails error messages will be saved in the hyppocratic.log file.
+If processing fails error messages will be saved in the hippocratic.log file.
 
 The commentaries should be utf-8 text files with the format as documented
 in the associated documentation (docs/_build/index.html).
@@ -41,14 +41,14 @@ try:
     from .title import Title
     from .footnotes import Footnotes
     from .conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
-    from .baseclass import Hyppocratic
+    from .baseclass import Hippocratic
 except ImportError:
     from analysis import references, footnotes, AnalysisException
     from introduction import Introduction
     from title import Title
     from footnotes import Footnotes
     from conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
-    from baseclass import Hyppocratic
+    from baseclass import Hippocratic
 
 
 # Define an Exception
@@ -58,7 +58,7 @@ class AphorismsToXMLException(Exception):
     pass
 
 
-class Process(Hyppocratic):
+class Process(Hippocratic):
     """Class to main hypocratic aphorism text to produce a TEI XML file.
 
     Attributes
@@ -82,7 +82,7 @@ class Process(Hyppocratic):
                  folder=None,
                  doc_num=1):
 
-        Hyppocratic.__init__(self)
+        Hippocratic.__init__(self)
         self.folder = folder
         self.fname = fname
         self.doc_num = doc_num
@@ -128,7 +128,7 @@ class Process(Hyppocratic):
         self.xml_app_file = os.path.join('XML', self.base_name + '_app.xml')
 
     def open_document(self, fname=None):
-        """Method to open and read the hyppocratic document.
+        """Method to open and read the hippocratic document.
 
         Parameters
         ----------
@@ -210,7 +210,7 @@ class Process(Hyppocratic):
     def divide_document(self):
         """Method to divide the document in the three main parts.
 
-        An hyppocratic document si composed in three or four main parts:
+        An hippocratic document si composed in three or four main parts:
 
         - The introduction (optional)
         - The title
@@ -463,7 +463,7 @@ class Process(Hyppocratic):
 
         """
 
-        # Open and read the hyppocratic document
+        # Open and read the hippocratic document
         self.open_document()
 
         debug = 'Open document {}'.format(self.fname)
