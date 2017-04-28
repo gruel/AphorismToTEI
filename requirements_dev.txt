@@ -1,9 +1,19 @@
+# Needed to use the software
 docopt
+
+# Codinstyle (PEP8)
 pylint
+flake8
+
+# Unit tests
 pytest
-pytest-cov
 testfixtures
+
+# Code coverage
+pytest-cov
 coverage
+
+# Documentation
 sphinx
 sphinx-bootstrap-theme
 numpydoc

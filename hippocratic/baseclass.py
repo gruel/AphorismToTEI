@@ -6,9 +6,11 @@
 """
 # pylint: disable=locally-disabled, invalid-name
 try:
-    from .conf import XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
+    from .conf import (logger, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE,
+                       TEMPLATE_FNAME, TEMPLATE_MARKER)
 except ImportError:
-    from conf import XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE
+    from conf import (logger, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE,
+                      TEMPLATE_FNAME, TEMPLATE_MARKER)
 
 
 # Define an Exception

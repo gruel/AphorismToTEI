@@ -9,11 +9,9 @@ import re
 from collections import OrderedDict
 
 try:
-    from .conf import logger
-    from .baseclass import Hippocratic
+    from .baseclass import Hippocratic, logger
 except ImportError:
-    from conf import logger
-    from baseclass import Hippocratic
+    from baseclass import Hippocratic, logger
 
 
 # Define an Exception

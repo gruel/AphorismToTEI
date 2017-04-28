@@ -38,17 +38,15 @@ import re
 try:
     from .analysis import references, footnotes, AnalysisException
     from .introduction import Introduction
-    from .title import Title
-    from .footnotes import Footnotes
-    from .conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
-    from .baseclass import Hippocratic
+    from .title import Title, TitleException
+    from .footnotes import Footnotes, FootnotesException
+    from .baseclass import Hippocratic, logger, TEMPLATE_FNAME, TEMPLATE_MARKER
 except ImportError:
     from analysis import references, footnotes, AnalysisException
-    from introduction import Introduction
-    from title import Title
-    from footnotes import Footnotes
-    from conf import logger, TEMPLATE_FNAME, TEMPLATE_MARKER
-    from baseclass import Hippocratic
+    from introduction import Introduction, IntroductionException
+    from title import Title, TitleException
+    from footnotes import Footnotes, FootnotesException
+    from baseclass import Hippocratic, logger, TEMPLATE_FNAME, TEMPLATE_MARKER
 
 
 # Define an Exception
@@ -105,7 +103,7 @@ class Process(Hippocratic):
         self._title = ''
         self._aph_com = {}  # aphorism and commentaries
         self._text = ''
-        self._footnotes = ''
+        self.footnotes = ''
         self._n_footnote = 1
         self._template_part1 = ''
         self._template_part2 = ''
@@ -250,11 +248,11 @@ class Process(Hippocratic):
         if loc_footnotes == self._text.find(footnotes_sep):
             logger.error('Footnote referenced in the text but '
                          'no footnote section present.')
-            self._footnotes = ''
+            self.footnotes = ''
             raise AphorismsToXMLException
 
         if loc_footnotes != -1:
-            self._footnotes = self._text[loc_footnotes:].strip()
+            self.footnotes = self._text[loc_footnotes:].strip()
             self._text = self._text[:loc_footnotes]
         else:
             logger.info('There are no footnotes present.')
@@ -429,12 +427,15 @@ class Process(Hippocratic):
         Work even if division of the document didn't work properly but
         for the footnotes part.
         """
-        if not self._footnotes == '':
+        if not self.footnotes == '':
             # In most of the file the footnote will be present and can be
             # treated independently from the aphorism.
 
             # Treat the footnote part and create the XML app
-            self._footnotes_app = Footnotes(self._footnotes)
+            try:
+                self._footnotes_app = Footnotes(self.footnotes)
+            except FootnotesException:
+                raise AphorismsToXMLException from None
             logger.info('Footnotes treated')
 
             # Create XML app and save in a file
@@ -486,18 +487,24 @@ class Process(Hippocratic):
         logger.info('Created aphorisms dictionary')
 
         if self._introduction != '':
-            intro = Introduction(self._introduction, self._next_footnote)
-            intro.xml_main()
-            self._next_footnote = intro.next_footnote
-            self.xml += intro.xml
-            logger.debug('Introduction treated')
+            try:
+                intro = Introduction(self._introduction, self._next_footnote)
+                intro.xml_main()
+                self._next_footnote = intro.next_footnote
+                self.xml += intro.xml
+                logger.debug('Introduction treated')
+            except IntroductionException:
+                raise AphorismsToXMLException from None
 
         # Deal with the first block of text which should contain
         # an optional intro
         # and the title
         # =======================================================
 
-        title = Title(self._title, self._next_footnote, self.doc_num)
+        try:
+            title = Title(self._title, self._next_footnote, self.doc_num)
+        except TitleException:
+            raise AphorismsToXMLException from None
         logger.debug('Title treated')
 
         title.xml_main()

@@ -16,16 +16,10 @@ except ImportError:
 
 try:
     from .__init__ import __version__
-    from .conf import logger
-    from .aphorisms_to_xml import Process, AphorismsToXMLException
-    from .analysis import AnalysisException
-    from .footnotes import FootnotesException
+    from .aphorisms_to_xml import logger, Process, AphorismsToXMLException
 except ImportError:
     from __init__ import __version__
-    from conf import logger
-    from aphorisms_to_xml import Process, AphorismsToXMLException
-    from analysis import AnalysisException
-    from footnotes import FootnotesException
+    from aphorisms_to_xml import logger, Process, AphorismsToXMLException
 
 
 def main(args=None):
@@ -78,8 +72,7 @@ def main(args=None):
             if template_file:
                 comtoepi.template_fname = template_file
             comtoepi.main()
-        except (AphorismsToXMLException, FootnotesException,
-                AnalysisException):
+        except AphorismsToXMLException:
             error = 'Error: unable to process "{}", ' \
                     'see log file.'.format(fname)
             logger.error(error)

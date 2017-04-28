@@ -55,7 +55,7 @@ class TestProcess(unittest.TestCase):
         self.assertEqual(self.comtoepi._title, title)
         for i, line in enumerate(self.comtoepi._text.splitlines()):
             self.assertEqual(line.strip(), text[i].strip())
-        for i, line in enumerate(self.comtoepi._footnotes.splitlines()):
+        for i, line in enumerate(self.comtoepi.footnotes.splitlines()):
             self.assertEqual(line.strip(), footnotes[i].strip())
 
     def test_divide_document_no_intro(self):
@@ -86,7 +86,7 @@ class TestProcess(unittest.TestCase):
         self.assertEqual(self.comtoepi._title, title)
         for i, line in enumerate(self.comtoepi._text.splitlines()):
             self.assertEqual(line.strip(), text[i].strip())
-        for i, line in enumerate(self.comtoepi._footnotes.splitlines()):
+        for i, line in enumerate(self.comtoepi.footnotes.splitlines()):
             self.assertEqual(line.strip(), footnotes[i].strip())
 
     def test_divide_document_no_footnotes(self):
@@ -163,7 +163,7 @@ class TestProcess(unittest.TestCase):
         os.remove(self.comtoepi.xml_main_file)
 
     def test_treat_footnote(self):
-        self.comtoepi._footnotes = ['*1*ssss tttt ] conieci: '
+        self.comtoepi.footnotes = ['*1*ssss tttt ] conieci: '
                                     'aaaa bbbb L5: om. Y']
         self.comtoepi.treat_footnotes()
         self.assertIsNotNone(self.comtoepi._footnotes_app.footnotes)

@@ -6,13 +6,11 @@ the title in the hippocratic aphorism document.
 :Copyright: IT Services, The University of Manchester
 """
 try:
-    from .conf import logger
     from .analysis import references, footnotes
-    from .baseclass import Hippocratic
+    from .baseclass import Hippocratic, logger
 except ImportError:
-    from conf import logger
     from analysis import references, footnotes
-    from baseclass import Hippocratic
+    from baseclass import Hippocratic, logger
 
 
 # Define an Exception
