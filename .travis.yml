@@ -45,10 +45,15 @@ install:
   - python setup.py install
   - pip install .
   - pip install -r requirements_dev.txt
+  - wget http://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+  - mkdir docs/utils
+  - mv download docs/utils
 
 # command to run tests
 script:
         - pytest
+        - make uml
         # Command to build documentation
         - cd docs
         - make html
+        - make latexpdf

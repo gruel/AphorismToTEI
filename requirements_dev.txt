@@ -18,3 +18,4 @@ sphinx
 sphinx-bootstrap-theme
 numpydoc
 pyqt5
+sphinxcontrib-plantuml
