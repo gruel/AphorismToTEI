@@ -1,26 +1,31 @@
-.. aphorismstoxml:
+.. _howto:
 
-#####################################
-Python module usage and documentation
-#####################################
+######
+How-To
+######
 
 Usage
 =====
 
-The expected way of using the module is via the process_text_files(…)
-function which attempts to process all files with the .txt extension
-within a specified directory. Input arguments for this function are:
+The expected way of using the module is to run the software ``AphorismsToXML`` in a terminal where you want to save the XML files
+which should be produce at the end of the process.
 
-1. text_folder - the folder containing the text file
+The software is expecting at least one argument which can be:
 
-2. template_file - the name of the XML template file
+1. a folder name which contain the text files
+2. a file name
+
+The text file has to follow a specific structure (XXXXX)
+
+An optional argument can be given to use a specic template which
+will be used to create the XML files.
 
 ::
 
-    AphorismToXML file_to_analyse
-    AphorismToXML file_to_analyse --xml-main-template=xml_main_template.xml
-    AphorismToXML directory
-    AphorismToXML directory --xml-main-template=xml_main_template.xml
+    > AphorismsToXML file_to_analyse
+    > AphorismsToXML file_to_analyse --xml-main-template=xml_main_template.xml
+    > AphorismsToXML directory
+    > AphorismsToXML directory --xml-main-template=xml_main_template.xml
 
 where:
 
@@ -31,9 +36,10 @@ where:
 - ``--xml-main-template=`` is an option to precise the xml template used for
   the treatment (here ``xml_main_template.xml``)
 
-To see the help ow to use this software::
+The software provided the information on how to use it if it is called
+wihtout arguments or with the option ``-h`` or ``--help``::
 
-    AphorismToXML
+    > AphorismsToXML
 
 will give::
 
@@ -51,6 +57,7 @@ to convert it in the XML TEI format. The file is locate in a sub-directory
 called ``texts``.
 
 ::
+
     .
     └── texts
         └── aphorisms.txt
@@ -73,9 +80,9 @@ back to the normal terminal prompt ``>``::
 if there are a problem an error message will appeared in the terminal::
 
     >AphorismsToXML texts/
-    2017-04-25 11:57:05,389 - hyppocratic - ERROR - N aphorism expected 4, got: 3
-    2017-04-25 11:57:05,389 - hyppocratic - ERROR - Missing or problematic aphorism: [2]
-    2017-04-25 11:57:05,389 - hyppocratic - ERROR - Error: unable to process "aphorisms.txt", see log file.
+    2017-04-25 11:57:05,389 - hippocratic - ERROR - N aphorism expected 4, got: 3
+    2017-04-25 11:57:05,389 - hippocratic - ERROR - Missing or problematic aphorism: [2]
+    2017-04-25 11:57:05,389 - hippocratic - ERROR - Error: unable to process "aphorisms.txt", see log file.
     >
 
 In this example, the error message said that the problem is at the aphorism 2.
@@ -85,21 +92,21 @@ needed at this stage and he should verify the ``aphorisms.txt`` file.
 For both results a logging file will be created in the working directory::
 
     .
-    ├── hyppocratic.log
+    ├── hippocratic.log
     ├── texts
-       └── aphorisms.txt
+       └── aphorisms.txt
 
 If the process is running until the end without any problems, a new directory
 will be created in the working directory with the name ``XML``::
 
     .
-    ├── hyppocratic.log
+    ├── hippocratic.log
     ├── texts
-    │   └── aphorisms.txt
+    │   └── aphorisms.txt
     └── XML
         ├── aphorisms_app.xml
         └── aphorisms_main.xml
 
 Two files are presents inside an app file, which contains the footnotes
-informations and the main file which contains the texts and the references
+information and the main file which contains the texts and the references
 to the footnotes.

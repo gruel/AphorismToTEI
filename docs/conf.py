@@ -21,8 +21,6 @@ import os
 import sys
 import re
 
-import hippocratic
-
 # sys.path.insert(0, os.path.abspath('..'))
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -34,6 +32,9 @@ project_root = os.path.dirname(cwd)
 # This lets us ensure that the source package is imported, and that its
 # version is used.
 sys.path.insert(0, project_root)
+
+import hippocratic
+
 
 # -- General configuration ------------------------------------------------
 
@@ -54,8 +55,13 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.githubpages',
               'sphinx.ext.autosummary',
               'sphinx.ext.napoleon',
+              'sphinxcontrib.plantuml',
               'numpydoc',
               ]
+
+# PlantUML
+plantuml = 'java -jar ../utils/plantuml.jar'
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -70,7 +76,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Hyppocratic Aphorisms'
+project = 'Hippocratic Aphorisms'
 copyright = '2017, Manchester University'
 publisher = 'Manchester University'
 author = 'Nicolas Gruel, Jonathan Boyle'
@@ -278,9 +284,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Hyppocratic', project,
-     author, 'Hyppocratic',
-     'Hyppocratic aphorisms transformation in XML files.',
+    (master_doc, 'Hippocratic', project,
+     author, 'Hippocratic',
+     'Hippocratic aphorisms transformation in XML files.',
      'Miscellaneous'),
 ]
 
