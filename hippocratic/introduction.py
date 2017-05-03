@@ -66,7 +66,7 @@ class Introduction(Hippocratic):
             try:
                 line_ref = references(line)
             except IntroductionException:
-                error = ('Unable to process _references in the introduction'
+                error = ('Unable to process references in the introduction'
                          ' (line: {})'.format(line))
                 logger.error(error)
                 raise IntroductionException
@@ -79,7 +79,7 @@ class Introduction(Hippocratic):
                     footnotes(line_ref, self.next_footnote)
                 self.xml_n_offset -= 2
             except IntroductionException:
-                error = ('Unable to process _references in the introduction'
+                error = ('Unable to process footnote in the introduction'
                          ' (line: {})'.format(line))
                 logger.error(error)
                 raise IntroductionException

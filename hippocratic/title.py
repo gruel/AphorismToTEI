@@ -68,7 +68,7 @@ class Title(Hippocratic):
             try:
                 line_ref = references(line)
             except TitleException:
-                error = ('Unable to process title _references '
+                error = ('Unable to process title references '
                          'in line {} '.format(line))
                 logger.error(error)
                 raise TitleException
@@ -81,7 +81,7 @@ class Title(Hippocratic):
                     footnotes(line_ref, self.next_footnote)
                 self.xml_n_offset -= 2
             except(TitleException, TypeError):
-                error = ('Unable to process title _references '
+                error = ('Unable to process title footnote '
                          'in line {} '.format(line))
                 logger.error(error)
                 return

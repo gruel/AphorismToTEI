@@ -587,7 +587,7 @@ class Process(Hippocratic):
                 try:
                     line_ref = references(line)
                 except AnalysisException:
-                    error = ('Unable to process _references, '
+                    error = ('Unable to process references, '
                              'commentary {} for aphorism '
                              '{}'.format(n_com+1, k))
                     logger.error(error)
@@ -601,7 +601,9 @@ class Process(Hippocratic):
                         footnotes(line_ref, self._next_footnote)
                     self.xml_n_offset -= 3
                 except (TypeError, AnalysisException):
-                    error = "Unable to process Aphorism {}".format(k)
+                    error = ('Unable to process footnote, '
+                             'commentary {} for aphorism '
+                             '{}'.format(n_com+1, k))
                     logger.error(error)
                     raise AphorismsToXMLException from None
 
