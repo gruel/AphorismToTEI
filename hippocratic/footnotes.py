@@ -277,9 +277,10 @@ class Footnote(Hippocratic):
                         self.xml.append(self.xml_oss + '<rdg wit="#' +
                                         w.strip() + '">')
                         self.xml.append(self.xml_oss * 2 +
-                                        '<add reason="add_scribe">' +
+                                        '<add>' +
                                         self._d_footnote['corrections'][i] +
                                         '</add>')
+                        self.note_xml('reason="add_scribe"')
                         self.xml.append(self.xml_oss + '</rdg>')
             return
 
@@ -325,7 +326,7 @@ class Footnotes(object):
             self._dictionary()
         elif isinstance(footnotes, (dict, OrderedDict)):
             self.footnotes = footnotes
-        self._xml_app = []
+        self.xml = []
 
     def _dictionary(self):
         """Create an ordered dictionary (OrderedDict object) with the footnotes
@@ -415,7 +416,7 @@ class Footnotes(object):
 
             # Add initial XML to xml_app (for the apparatus XML file)
 
-            self._xml_app.append('<app from="#begin_fn' + str(n_footnote) +
+            self.xml.append('<app from="#begin_fn' + str(n_footnote) +
                                  '" to="#end_fn' + str(n_footnote) + '">')
 
             ft.check_endnote()
@@ -441,10 +442,10 @@ class Footnotes(object):
             else:
                 ft.correction('standard')
 
-            self._xml_app += ft.xml
+            self.xml += ft.xml
 
             # Close the XML
-            self._xml_app.append('</app>')
+            self.xml.append('</app>')
 
     def save_xml(self, fname='xml_app.xml'):
         """Method to save the XML app string in a file
@@ -455,5 +456,5 @@ class Footnotes(object):
             name of the file where the XML app will be saved.
         """
         with open(fname, 'w', encoding="utf-8") as f:
-            for s in self._xml_app:
+            for s in self.xml:
                 f.write(s + '\n')

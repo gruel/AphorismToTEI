@@ -8,11 +8,12 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-package_data = os.path.join('template', '*.xml')
+package_data = os.path.join('template', '*')
 
 
 requirements = [
         'docopt',
+        'lxml'
         ]
 
 test_requirements = [
@@ -22,7 +23,7 @@ test_requirements = [
 
 setup(name='hippocratic',
       packages=['hippocratic'],
-      version='0.3',
+      version='0.4',
       description=('Software to convert hippocratic text files '
                    'to in XML files.'),
       long_description=readme,

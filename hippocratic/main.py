@@ -28,17 +28,22 @@ def main(args=None):
     Command line::
 
         Usage:
-            AphorismsToXML <files> [--xml-main-template=<tmpl>]
+            AphorismsToXML <files> [--xml-template=<tmpl>] [--relaxng=<relax>]
             AphorismsToXML -h | --help
             AphorismsToXML --version
 
         Options:
             -h --help                   Show this screen.
             --version                   Show version.
-            --xml-main-template=<name>  Name of the XML template for the main file
+            --xml-template=<name>       Name of the XML template
+            --relaxng=<name>            Name of the Relaxng file use to validate the resulting XML
 
-        Example:
+        Examples:
             AphorismsToXML TextFiles
+            AphorismsToXML Textfiles --xml-template=template.xml
+            AphorismsToXML Textfiles --relaxng=tei.rng
+            AphorismsToXML Textfiles --xml-template=template.xml --relaxng=tei.rng
+            
 
     Raises
     ------
@@ -52,7 +57,8 @@ def main(args=None):
     # Convert docopt results in the proper variable (change type when needed)
 
     fname = arguments['<files>']
-    template_file = arguments['--xml-main-template']
+    template_file = arguments['--xml-template']
+    relaxng_file = arguments['--relaxng']
 
     try:
         if os.path.isdir(fname):
@@ -71,6 +77,8 @@ def main(args=None):
             comtoepi = Process(fname=fname, folder=directory)
             if template_file:
                 comtoepi.template_fname = template_file
+            if relaxng_file:
+                comtoepi.relaxng_fname = relaxng_file
             comtoepi.main()
         except AphorismsToXMLException:
             error = 'Error: unable to process "{}", ' \

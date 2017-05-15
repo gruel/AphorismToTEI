@@ -34,19 +34,20 @@ in the associated documentation (docs/_build/index.html).
 # pylint: disable=locally-disabled, invalid-name
 import os
 import re
+from lxml import etree
 
 try:
     from .analysis import references, footnotes, AnalysisException
     from .introduction import Introduction
     from .title import Title, TitleException
     from .footnotes import Footnotes, FootnotesException
-    from .baseclass import Hippocratic, logger, TEMPLATE_FNAME, TEMPLATE_MARKER
+    from .baseclass import Hippocratic, logger, TEMPLATE_FNAME, RELAXNG_FNAME
 except ImportError:
     from analysis import references, footnotes, AnalysisException
     from introduction import Introduction, IntroductionException
     from title import Title, TitleException
     from footnotes import Footnotes, FootnotesException
-    from baseclass import Hippocratic, logger, TEMPLATE_FNAME, TEMPLATE_MARKER
+    from baseclass import Hippocratic, logger, TEMPLATE_FNAME, RELAXNG_FNAME
 
 
 # Define an Exception
@@ -85,7 +86,7 @@ class Process(Hippocratic):
         self.fname = fname
         self.doc_num = doc_num
         self.template_fname = TEMPLATE_FNAME
-        self.template_marker = TEMPLATE_MARKER
+        self.relaxng_fname = None
 
         # Create basename file.
         if self.fname is not None:
@@ -93,7 +94,7 @@ class Process(Hippocratic):
         else:
             self.base_name = None
 
-        self._footnotes_app = None
+        self.footnotes_app = None
 
         # Initialise footnote number
         self._next_footnote = 1
@@ -105,8 +106,7 @@ class Process(Hippocratic):
         self._text = ''
         self.footnotes = ''
         self._n_footnote = 1
-        self._template_part1 = ''
-        self._template_part2 = ''
+        self.template = ''
 
         # Initialisation of the xml_main and xml_app list
         # They are created here and not in the __init__ to have
@@ -122,8 +122,7 @@ class Process(Hippocratic):
             os.mkdir('XML')
 
         # Set XML file name
-        self.xml_main_file = os.path.join('XML', self.base_name + '_main.xml')
-        self.xml_app_file = os.path.join('XML', self.base_name + '_app.xml')
+        self.xml_file = os.path.join('XML', self.base_name + '.xml')
 
     def open_document(self, fname=None):
         """Method to open and read the hippocratic document.
@@ -379,7 +378,7 @@ class Process(Hippocratic):
 
         try:
             with open(self.template_fname, 'r', encoding="utf-8") as f:
-                template = f.read()
+                self.template = f.read()
                 info = 'Template file {} found.'.format(self.template_fname)
                 logger.info(info)
         except FileNotFoundError:
@@ -387,39 +386,73 @@ class Process(Hippocratic):
             logger.error(error)
             raise AphorismsToXMLException
 
-        # Split the template at template_marker
-        self._template_part1, sep, self._template_part2 = template.partition(
-            self.template_marker)
+        if self.relaxng_fname is None:
+            tree = etree.parse(self.template_fname)
+            root = tree.getroot()
+            model = root.xpath("/processing-instruction('xml-model')")[0]
 
-        # Test the split worked
-        if sep == '':
-            error = ('Unable to find template marker text ({}) '
-                     'in the template file {}.'.format(self.template_marker,
-                                                       self.template_fname))
-            logger.error(error)
-            raise AphorismsToXMLException
+            self.relaxng_fname = model.text.split('"')[1]
 
-        logger.debug('Template file splitted.')
+        logger.info('Relaxng file '
+                    'use for validation: {} '.format(self.relaxng_fname))
 
-    def save_xml(self):
-        """Method to save the main XML file
+    def _create_xml(self):
 
-        Two XML files are created as result to the transformation in the EPIDOC
-        format one contain the introduction, title, aphorisms and commentaries.
-        The other one contains the footnotes informations.
-        This method create the main one.
-        """
-        # Embed xml_main into the XML in the template
-        if self._template_part1 == '':
+        if self.template == '':
             self.read_template()
 
+        xml = self.template
+
+        if self.wits:
+            wits = set(self.wits)
+            wits = list(wits)
+            wits.sort()
+            info = 'Witnesses found in the aphorisms and ' \
+                   'commentaries {}'.format(wits)
+            logger.info(info)
+            _wits = []
+            for w in wits:
+                _wits.append(self.xml_oss * self.xml_n_offset + '<witness> {} </witness>'.format(w))
+            xml = re.sub('#INSERTWITNESSES#', '\n'.join(_wits), xml)
+
         if self.xml:
-            # Save main XML to file
-            with open(self.xml_main_file, 'w', encoding="utf-8") as f:
-                f.write(self._template_part1)
-                for s in self.xml:
-                    f.write(s + '\n')
-                f.write(self._template_part2)
+            xml = re.sub('#INSERTBODY#', '\n'.join(self.xml), xml)
+        if self.app:
+            xml = re.sub('#INSERTAPP#', '\n'.join(self.app), xml)
+
+        self.xml = xml
+
+    def _validate_xml(self):
+
+        try:
+            relaxng_doc = etree.parse(self.relaxng_fname)
+        except OSError:
+            relaxng_doc = etree.parse(RELAXNG_FNAME)
+            self.relaxng_fname = RELAXNG_FNAME
+
+
+        relaxng = etree.RelaxNG(relaxng_doc)
+        xml = etree.parse(self.xml_file)
+        #relaxng.validate(xml)
+        # if not relaxng(xml):
+        #     logger.error("INVALID")
+        # else:
+        #     logger.error(self.xml_file)
+        #     logger.error("VALID")
+
+        try:
+            relaxng.assertValid(xml)
+            logger.info('The document {} created is '
+                         'valide corresponding '
+                         'to the Relaxng declared '
+                        'or used'.format(self.xml_file))
+
+        except etree.DocumentInvalid:
+            logger.error('The document {} created is '
+                         'not valide corresponding '
+                         'to the Relaxng declared '
+                         'or used'.format(self.xml_file))
+            raise AphorismsToXMLException
 
     def treat_footnotes(self):
         """Method to treat Footnote.
@@ -433,13 +466,14 @@ class Process(Hippocratic):
 
             # Treat the footnote part and create the XML app
             try:
-                self._footnotes_app = Footnotes(self.footnotes)
+                self.footnotes_app = Footnotes(self.footnotes)
             except FootnotesException:
                 raise AphorismsToXMLException from None
             logger.info('Footnotes treated')
 
-            # Create XML app and save in a file
-            self._footnotes_app.xml_app()
+            # Create XML app
+            self.footnotes_app.xml_app()
+            self.app = self.footnotes_app.xml
             logger.info('Footnotes app file created')
 
     def main(self):
@@ -481,7 +515,6 @@ class Process(Hippocratic):
             raise AphorismsToXMLException
 
         self.treat_footnotes()
-        self._footnotes_app.save_xml(self.xml_app_file)
 
         self.aphorisms_dict()
         logger.info('Created aphorisms dictionary')
@@ -531,10 +564,11 @@ class Process(Hippocratic):
                             '<div type="aphorism">')
             self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '<p>')
 
-            # Now process any witnesses in it. If this fails with a
-            # CommentaryToEpidocException print an error and return
+            # Now process any witnesses in it. If this fails with an
+            # Exception print an error and return
             try:
-                line_ref = references(aphorism)
+                line_ref, wits = references(aphorism)
+                self.wits += wits
             except AnalysisException:
                 error = ('Unable to process references in '
                          'aphorism {}'.format(k))
@@ -561,8 +595,8 @@ class Process(Hippocratic):
             self.xml.extend(xml_main_to_add)
 
             # Close the XML for the aphorism
-            self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '</p>')
-            self.xml.append(self.xml_oss * (self.xml_n_offset + 1) + '</div>')
+            self.xml.append(self.xml_oss * (self.xml_n_offset + 1) + '</p>')
+            self.xml.append(self.xml_oss * self.xml_n_offset + '</div>')
 
             # Get the next line of text
             for n_com, line in enumerate(commentaries):
@@ -578,14 +612,15 @@ class Process(Hippocratic):
                     logger.debug(debug)
 
                 # Add initial XML for this aphorism's commentary
-                self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
+                self.xml.append(self.xml_oss * self.xml_n_offset +
                                 '<div type="commentary">')
-                self.xml.append(self.xml_oss * (self.xml_n_offset + 2) + '<p>')
+                self.xml.append(self.xml_oss * (self.xml_n_offset + 1) + '<p>')
 
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    line_ref = references(line)
+                    line_ref, wits = references(line)
+                    self.wits += wits
                 except AnalysisException:
                     error = ('Unable to process references, '
                              'commentary {} for aphorism '
@@ -611,9 +646,9 @@ class Process(Hippocratic):
                 self.xml.extend(xml_main_to_add)
 
                 # Close the XML for this commentary
-                self.xml.append(self.xml_oss * (self.xml_n_offset + 2) +
-                                '</p>')
                 self.xml.append(self.xml_oss * (self.xml_n_offset + 1) +
+                                '</p>')
+                self.xml.append(self.xml_oss * self.xml_n_offset +
                                 '</div>')
 
             # Close the XML for the aphorism + commentary unit
@@ -621,5 +656,8 @@ class Process(Hippocratic):
 
         logger.debug('Finish aphorisms and commentaries treatment')
         # Save the xmls created
-        self.save_xml()
+
+        self._create_xml()
+        self.save_xml(self.xml_file)
+        self._validate_xml()
         logger.debug('Save main xml')

@@ -64,7 +64,8 @@ class Introduction(Hippocratic):
             # Process any witnesses in this line. If this fails with a
             # IntroductionException print an error and return
             try:
-                line_ref = references(line)
+                line_ref, wits = references(line)
+                self.wits += wits
             except IntroductionException:
                 error = ('Unable to process references in the introduction'
                          ' (line: {})'.format(line))
