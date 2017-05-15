@@ -86,7 +86,7 @@ author = 'Nicolas Gruel, Jonathan Boyle'
 # built documents.
 #
 # The short X.Y version.
-version = ''
+version = '0.4'
 # The full version, including alpha/beta/rc tags.
 release = ''
 

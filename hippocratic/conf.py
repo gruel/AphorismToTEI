@@ -57,14 +57,30 @@ try:
     TEMPLATE_FNAME = pkg_resources.resource_filename('hippocratic',
                                                      os.path.join(
                                                          'template',
-                                                         'xml_main_template.xml'))
+                                                         'xml_template.xml'))
 except (ModuleNotFoundError, KeyError):
-    TEMPLATE_FNAME = os.path.join('template', 'xml_main_template.xml')
+    TEMPLATE_FNAME = os.path.join('template', 'xml_template.xml')
+
 try:
     os.path.isfile(TEMPLATE_FNAME)
 except FileNotFoundError:
     error = "Please provide the xml template to use " \
-            "(option --xml-main-template=<file name>)"
+            "(option --xml--template=<file name>)"
     sys.exit()
 
-TEMPLATE_MARKER = '#INSERT#'
+# Relaxng
+try:
+    RELAXNG_FNAME = pkg_resources.resource_filename('hippocratic',
+                                                     os.path.join(
+                                                         'template',
+                                                         'tei_all.rng'))
+except (ModuleNotFoundError, KeyError):
+    RELAXNG_FNAME = os.path.join('template', 'tei_all.rng')
+
+try:
+    os.path.isfile(RELAXNG_FNAME)
+except FileNotFoundError:
+    error = "Please provide the Relaxng file to use " \
+            "(option --relaxng=<file name>)"
+    sys.exit()
+

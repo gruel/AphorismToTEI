@@ -568,7 +568,8 @@ class Process(Hippocratic):
             # Now process any witnesses in it. If this fails with an
             # Exception print an error and return
             try:
-                line_ref = references(aphorism)
+                line_ref, wits = references(aphorism)
+                self.wits += wits
             except AnalysisException:
                 error = ('Unable to process references in '
                          'aphorism {}'.format(k))
@@ -619,7 +620,8 @@ class Process(Hippocratic):
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    line_ref = references(line)
+                    line_ref, wits = references(line)
+                    self.wits += wits
                 except AnalysisException:
                     error = ('Unable to process references, '
                              'commentary {} for aphorism '

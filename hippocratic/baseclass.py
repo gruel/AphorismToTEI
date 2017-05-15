@@ -7,10 +7,10 @@
 # pylint: disable=locally-disabled, invalid-name
 try:
     from .conf import (logger, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE,
-                       TEMPLATE_FNAME, TEMPLATE_MARKER)
+                       TEMPLATE_FNAME, RELAXNG_FNAME)
 except ImportError:
     from conf import (logger, XML_OSS, XML_N_OFFSET, XML_OFFSET_SIZE,
-                      TEMPLATE_FNAME, TEMPLATE_MARKER)
+                      TEMPLATE_FNAME, RELAXNG_FNAME)
 
 
 # Define an Exception
@@ -47,6 +47,7 @@ class Hippocratic(object):
         self.xml_oss = XML_OSS
         self.xml_n_offset = XML_N_OFFSET
         self.xml_offset_size = XML_OFFSET_SIZE
+        self.wits = []
 
     def xml_main(self):
         """Method which will create the XML file.
@@ -63,10 +64,17 @@ class Hippocratic(object):
         """
         self.xml.append(self.xml_oss + '<note>' + note + '</note>')
 
-    def save_xml(self):
+    def save_xml(self, fname=None, xml=None):
         """Method to save the XML in the working directory
         """
-        fname = self.__class__.__name__ + '.xml'
+        if fname is None:
+            fname = self.__class__.__name__ + '.xml'
+
+        if xml is None:
+            if self.xml is list:
+                xml = '\n'.join(self.xml)
+            else:
+                xml = self.xml
+
         with open(fname, 'w', encoding="utf-8") as f:
-            for s in self.xml:
-                f.write(s + '\n')
+            f.write(xml)

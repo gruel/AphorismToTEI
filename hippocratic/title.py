@@ -66,7 +66,8 @@ class Title(Hippocratic):
             # If this raises an exception then print an error message
             # and return
             try:
-                line_ref = references(line)
+                line_ref, wits = references(line)
+                self.wits += wits
             except TitleException:
                 error = ('Unable to process title references '
                          'in line {} '.format(line))
