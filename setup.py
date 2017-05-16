@@ -23,7 +23,7 @@ test_requirements = [
 
 setup(name='hippocratic',
       packages=['hippocratic'],
-      version='0.4',
+      version='0.5.0',
       description=('Software to convert hippocratic text files '
                    'to in XML files.'),
       long_description=readme,
