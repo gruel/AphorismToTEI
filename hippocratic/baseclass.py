@@ -47,7 +47,6 @@ class Hippocratic(object):
         self.xml_oss = XML_OSS
         self.xml_n_offset = XML_N_OFFSET
         self.xml_offset_size = XML_OFFSET_SIZE
-        self.wits = []
 
     def xml_main(self):
         """Method which will create the XML file.

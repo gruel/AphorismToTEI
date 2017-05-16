@@ -474,6 +474,7 @@ class Process(Hippocratic):
             # Create XML app
             self.footnotes_app.xml_app()
             self.app = self.footnotes_app.xml
+            self.wits = self.footnotes_app.wits
             logger.info('Footnotes app file created')
 
     def main(self):
@@ -567,8 +568,7 @@ class Process(Hippocratic):
             # Now process any witnesses in it. If this fails with an
             # Exception print an error and return
             try:
-                line_ref, wits = references(aphorism)
-                self.wits += wits
+                line_ref = references(aphorism)
             except AnalysisException:
                 error = ('Unable to process references in '
                          'aphorism {}'.format(k))
@@ -619,8 +619,7 @@ class Process(Hippocratic):
                 # Now process any witnesses in this line. If this fails with a
                 # CommentaryToEpidocException and log an error
                 try:
-                    line_ref, wits = references(line)
-                    self.wits += wits
+                    line_ref = references(line)
                 except AnalysisException:
                     error = ('Unable to process references, '
                              'commentary {} for aphorism '

@@ -33,9 +33,8 @@ class TestAnalysis(unittest.TestCase):
             text_ref = f.read()
 
         # Run the function with the input
-        text_out, witnesses = analysis.references(text_in)
+        text_out = analysis.references(text_in)
 
-        self.assertEqual(witnesses, ['WW1', 'LL1', 'WW2', 'LL2'])
         self.assertEqual(text_out, text_ref)
 
     def test_reference_empty_line(self):

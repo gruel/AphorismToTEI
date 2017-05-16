@@ -55,7 +55,6 @@ def references(line):
 
     # Create a string to contain the return value
     result = ''
-    allwitnesses = []
 
     if not line:
         return
@@ -103,8 +102,6 @@ def references(line):
         # Add the witness and location XML to the result string
         result += '<locus target="' + witness.strip() + \
                   '">' + page.strip() + '</locus>'
-        allwitnesses.append(witness.strip())
-        allwitnesses.append(page.strip())
 
         # If text has zero length we can stop
         if line == '':
@@ -113,7 +110,7 @@ def references(line):
             # There is more text to process so start a new line
             result += '\n'
 
-    return result, allwitnesses
+    return result
 
 
 def footnotes(string_to_process, next_footnote):
