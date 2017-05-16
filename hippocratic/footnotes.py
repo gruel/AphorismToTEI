@@ -42,6 +42,7 @@ class Footnote(Hippocratic):
         if xml is None:
             xml = []
         self.xml = xml
+        self.wits = []
 
         self._d_footnote = {}
 
@@ -79,8 +80,6 @@ class Footnote(Hippocratic):
         2. ``*n*`` (where n is the footnote number) from the start of
            the string
         3. ``.`` character from the end of the string
-
-        TODO: update that dosctring this is wrong
 
         The footnote is expected to contain a single ':' character and have the
         following format:
@@ -170,6 +169,7 @@ class Footnote(Hippocratic):
         if wits1 is not None:
             for w in wits1:
                 _str = self.xml_oss + '<rdg wit="#' + w.strip() + '">'
+                self.wits.append(w)
                 if self._d_footnote['corrections']:
                     _str += self._d_footnote['corrections'] + '</rdg>'
                 else:
@@ -179,6 +179,7 @@ class Footnote(Hippocratic):
 
         for w in wits2:
             _str = self.xml_oss + '<rdg wit="#' + w + '">'
+            self.wits.append(w)
             _str += '\n' + self.xml_oss * 2 + '<gap reason="omission"/>'
             _str += '\n' + self.xml_oss + '</rdg>'
             self.xml.append(_str)
@@ -251,7 +252,6 @@ class Footnote(Hippocratic):
                                 'text': text,
                                 'witnesses': [wits1, wits2],
                                 'corrections': [corr1, corr2]}
-
             if self._d_footnote['reason'] == 'standard':
                 self._d_footnote['corrections'][0] = self._d_footnote['text']
             self._correction_xml()
@@ -304,6 +304,7 @@ class Footnote(Hippocratic):
 
         for i in range(len(self._d_footnote['witnesses'])):
             for w in self._d_footnote['witnesses'][i]:
+                self.wits.append(w)
                 self.xml.append(self.xml_oss +
                                 '<rdg wit="#' + w.strip() + '">' +
                                 self._d_footnote['corrections'][i] + '</rdg>')
@@ -327,6 +328,7 @@ class Footnotes(object):
         elif isinstance(footnotes, (dict, OrderedDict)):
             self.footnotes = footnotes
         self.xml = []
+        self.wits = []
 
     def _dictionary(self):
         """Create an ordered dictionary (OrderedDict object) with the footnotes
@@ -443,6 +445,7 @@ class Footnotes(object):
                 ft.correction('standard')
 
             self.xml += ft.xml
+            self.wits += ft.wits
 
             # Close the XML
             self.xml.append('</app>')
