@@ -1,5 +1,6 @@
 # Needed to use the software
 docopt
+lxml
 
 # Codinstyle (PEP8)
 pylint
