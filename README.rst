@@ -1,6 +1,16 @@
 Hyppocratic Aphorisms
 =====================
 
+.. image:: https://travis-ci.org/gruel/AphorismToTEI.svg?branch=master
+   :target: https://travis-ci.org/gruel/AphorismToTEI
+
+.. image:: https://ci.appveyor.com/api/projects/status/4t9ncyaqcm8g470i?svg=true
+   :target: https://ci.appveyor.com/project/gruel/aphorismtotei
+
+.. image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
+   :target: https://opensource.org/licenses/BSD-3-Clause
+
+
 AphorismToXML
 -------------
 
