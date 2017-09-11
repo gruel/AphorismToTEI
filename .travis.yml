@@ -4,8 +4,20 @@ matrix:
       dist: trusty
       sudo: required
       language: python
-      python: 3.5
+      python: 3.2
       env: TOXENV=py35
+    - os: linux
+      dist: trusty
+      sudo: required
+      language: python
+      python: 3.3
+      env: TOXENV=py35
+    - os: linux
+      dist: trusty
+      sudo: required
+      language: python
+      python: 3.4
+      env: TOXENV=py34
     - os: linux
       dist: trusty
       sudo: required
@@ -47,8 +59,19 @@ install:
   - python setup.py install
   - pip install .
   - pip install -r requirements_dev.txt
-  
-# command to run tests
+
+build_script:
+  # Build the compiled extension
+  - python setup.py build"
+
+test_script:
+    # Run the project tests
+    - pytest
+
+after_test:
+  # If tests are successful, create binary packages for the project.
+  - python setup.py bdist_wheel
+
 script:
     - pytest
     - if [  "$TRAVIS_OS_NAME" != "osx" ]; then
