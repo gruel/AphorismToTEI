@@ -50,19 +50,21 @@ install:
   - pip install .
   - pip install -r requirements_dev.txt
   
-build_script:
+before_script:
   # Build the compiled extension
   - python setup.py build
-
-test_script:
-    # Run the project tests
-    - pytest
 
 after_test:
   # If tests are successful, create binary packages for the project.
   - python setup.py bdist_wheel
 
 script:
+
+  # Run the project tests
+  - pytest
+
+
+after_test:
   # Build documentation on linux
   - if [  "$TRAVIS_OS_NAME" != "osx" ]; then
         sudo apt-get update -qy;
@@ -78,4 +80,8 @@ script:
         cd docs;
         make html;
         make latexpdf;
-     fi
+    fi
+
+before_deploy:
+  # If tests are successful, create binary packages for the project.
+  - python setup.py bdist_wheel
