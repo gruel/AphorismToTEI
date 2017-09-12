@@ -143,6 +143,15 @@ class TestProcess(unittest.TestCase):
                                'aphorisms_references_failed.txt')
         self.comtoepi.main()
 
+    def test_main_aphorism_point_number(self):
+        '''Function to test that the program return an error if the aphorism
+        is wrongly number (1. or 1 is ok but .1 is not)
+        '''
+        self.comtoepi.fname = (path_testdata +
+                               'aphorisms_wrong_numeration.txt')
+        self.assertRaises(AphorismsToXMLException, self.comtoepi.main)
+
+
     # # ################# process_folder ###################
     # Moved to driver:
     # TODO: implement unittest for driver

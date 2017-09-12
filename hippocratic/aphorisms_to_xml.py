@@ -430,10 +430,9 @@ class Process(Hippocratic):
             relaxng_doc = etree.parse(RELAXNG_FNAME)
             self.relaxng_fname = RELAXNG_FNAME
 
-
         relaxng = etree.RelaxNG(relaxng_doc)
         xml = etree.parse(self.xml_file)
-        #relaxng.validate(xml)
+        # relaxng.validate(xml)
         # if not relaxng(xml):
         #     logger.error("INVALID")
         # else:
@@ -553,6 +552,14 @@ class Process(Hippocratic):
         # =====================================
         logger.debug('Start aphorisms and commentaries treatment')
         for k in self._aph_com:
+            if not len(self._aph_com[k]):
+                error = ('There are no aphorisms  in the file. '
+                         'It can be because of the numeration. '
+                         'Verify that the it is starting at 1 or 1. not .1 '
+                         '(the point can be after the number but not before.')
+                logger.error(error)
+                raise AphorismsToXMLException
+
             aphorism = self._aph_com[k][0]
             commentaries = self._aph_com[k][1:]
 
