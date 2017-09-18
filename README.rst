@@ -1,4 +1,4 @@
-Hyppocratic Aphorisms
+Hippocratic Aphorisms
 =====================
 
 .. image:: https://travis-ci.org/gruel/AphorismToTEI.svg?branch=master
@@ -65,7 +65,7 @@ with:
 
 .. code:: commandline
 
-    pip install -U -r requirements.txt --user 
+    pip install -U -r requirements.txt --user
 
 Usage
 -----
@@ -77,7 +77,7 @@ To use it start a terminal and execute the command:
 
 .. code:: commandline
 
-    AphorismToXML <path or file> 
+    AphorismToXML <path or file>
 
 where:
 
