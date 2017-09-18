@@ -12,10 +12,9 @@ Hippocratic aphorisms XML
     :Target: Hippocratic aphorisms research
     :status: draft
 
-######
-README
-######
-
+########
+Overview
+########
 
 A Python module called AphorismToXML has been written by Jonathan
 Boyle and Nicolas Gruel (University of Manchester) to convert transcribed
