@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Format for commentaries &#8212; Hippocratic Aphorismsv0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/manchesterit.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="XML files" href="xml_files.html" />
+    <link rel="prev" title="How-To" href="howto.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/logo.svg"></span>
+           </a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Hippocratic Aphorisms <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../management/approvals.html">Approval Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management/changes.html">Change Records</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto.html">How-To</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Format for commentaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xml_files.html">XML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Informations for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hippocratic.html">hippocratic package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="format-for-commentaries">
+<span id="commentaries"></span><h1>Format for commentaries<a class="headerlink" href="#format-for-commentaries" title="Permalink to this headline">¶</a></h1>
+<p>It is assumed the commentaries are utf-8 text files consisting of a
+main body of text, followed by a list of numbered and ordered
+footnotes describing:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#omissions"><span class="std std-ref">Omissions</span></a></li>
+<li><a class="reference internal" href="#additions"><span class="std std-ref">Additions</span></a></li>
+<li><a class="reference internal" href="#correxi"><span class="std std-ref">Correxi</span></a></li>
+<li><a class="reference internal" href="#conieci"><span class="std std-ref">Conieci</span></a></li>
+<li><a class="reference internal" href="#variations"><span class="std std-ref">Other textual variations from two source documents.</span></a></li>
+</ol>
+<p>The main body of text should have a block of text containing an
+optional introduction and the document title followed by a series of
+numbered aphorisms and commentaries. If an introduction is included it
+should be separated from the title by a line containing the two plus
+symbols, i.e. <code class="docutils literal"><span class="pre">++</span></code>, the title can be more than one line of text.</p>
+<p>The aphorisms and commentaries should have the following format.</p>
+<ol class="arabic simple">
+<li>A single line contains the aphorism number followed by a period <code class="docutils literal"><span class="pre">.</span></code>
+character, e.g. <code class="docutils literal"><span class="pre">1.</span></code> for aphorism 1.</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li>The next line contains the aphorism text</li>
+<li>The next line (or lines) contain one or more commentaries
+associated with that aphorism, with each commentary on a single
+line</li>
+<li>This is repeated for any additional aphorisms</li>
+</ol>
+<p>This main text (title, aphorisms and commentaries) contains symbols
+referring to witnesses (<code class="docutils literal"><span class="pre">WW</span></code>) and footnotes.</p>
+<ol class="arabic simple">
+<li>Witness symbols have the form <code class="docutils literal"><span class="pre">[WW</span> <span class="pre">LL]</span></code> where <code class="docutils literal"><span class="pre">WW</span></code> is a code to
+identify the document and <code class="docutils literal"><span class="pre">LL</span></code> is a location in the
+document. Witness codes should be listed in the <code class="docutils literal"><span class="pre">&lt;listWit&gt;</span></code>
+element in the XML template file described below.</li>
+<li>Footnote symbols have one of two forms depending on whether
+they refer to single word or multiple word variations. If <code class="docutils literal"><span class="pre">tttt</span></code>
+represent a word of text without a variant, <code class="docutils literal"><span class="pre">vvvv</span></code> represent a
+word of text with a variant, and <code class="docutils literal"><span class="pre">n</span></code> is the footnote number then
+single word variants use form (a) and multiple word variations
+use form (b) where the <code class="docutils literal"><span class="pre">#</span></code> marks the end of the variation.<ol class="loweralpha">
+<li><code class="docutils literal"><span class="pre">ttt</span> <span class="pre">tttt</span> <span class="pre">*n*vvvv</span> <span class="pre">tttt</span> <span class="pre">tttt</span></code></li>
+<li><code class="docutils literal"><span class="pre">ttt</span> <span class="pre">tttt</span> <span class="pre">*n*vvvv</span> <span class="pre">vvvv</span> <span class="pre">vvvv#</span> <span class="pre">tttt</span> <span class="pre">tttt</span></code></li>
+</ol>
+</li>
+</ol>
+<p>After the main body of text is a list of numbered and ordered
+footnotes, each footnote has a corresponding reference in the main
+text. A footnote is a single line with the following format.</p>
+<ol class="arabic simple">
+<li>At the start is the footnote number enclosed within a pair of
+asterisks, e.g. for footnote 1 the line starts with <code class="docutils literal"><span class="pre">*1*</span></code></li>
+<li>Following the footnote number is a mix of witness text
+(i.e. title, aphorism or commentary) and symbols defining
+omissions, additions, correxi, conieci and other variations</li>
+<li>The footnote line ends with a period <code class="docutils literal"><span class="pre">.</span></code> character</li>
+</ol>
+<p>The formats for the five footnote types are now described where <code class="docutils literal"><span class="pre">n</span></code> is
+the footnote number, <code class="docutils literal"><span class="pre">W1</span></code> and <code class="docutils literal"><span class="pre">W2</span></code> are witness codes, and <code class="docutils literal"><span class="pre">ssss</span></code>,
+<code class="docutils literal"><span class="pre">tttt</span></code> and <code class="docutils literal"><span class="pre">uuuu</span></code> represent segments of witness text (segments can be
+one or more words in length).</p>
+<div class="section" id="omissions">
+<span id="id1"></span><h2>Omissions<a class="headerlink" href="#omissions" title="Permalink to this headline">¶</a></h2>
+<p>Omissions can have the following forms, i.e.</p>
+<ol class="loweralpha">
+<li><p class="first"><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">W1:</span> <span class="pre">om.</span> <span class="pre">W2.</span></code></p>
+<p>This means the segment of text <code class="docutils literal"><span class="pre">ssss</span></code> is found in witness <code class="docutils literal"><span class="pre">W1</span></code> but
+not <code class="docutils literal"><span class="pre">W2</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">correxi:</span> <span class="pre">tttt</span> <span class="pre">W1:</span> <span class="pre">om.</span> <span class="pre">W2.</span></code></p>
+<p>This means the segment of text <code class="docutils literal"><span class="pre">ssss</span></code> is found in witness <code class="docutils literal"><span class="pre">W1</span></code> but
+not <code class="docutils literal"><span class="pre">W2</span></code> however the editor has corrected <code class="docutils literal"><span class="pre">ssss</span></code> to <code class="docutils literal"><span class="pre">tttt</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">conieci:</span> <span class="pre">tttt</span> <span class="pre">W1:</span> <span class="pre">om.</span> <span class="pre">W2.</span></code></p>
+<p>This means the segment of text <code class="docutils literal"><span class="pre">ssss</span></code> is found in witness <code class="docutils literal"><span class="pre">W1</span></code> but
+not <code class="docutils literal"><span class="pre">W2</span></code> however the editor has conjonctured that it should be <code class="docutils literal"><span class="pre">ssss</span></code>
+instead of <code class="docutils literal"><span class="pre">tttt</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">correxi:</span> <span class="pre">om.</span> <span class="pre">W1.</span></code> or <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">correxi:</span> <span class="pre">om.</span> <span class="pre">W1,</span> <span class="pre">W2.</span></code></p>
+<p>This means add the text <code class="docutils literal"><span class="pre">ssss</span></code> which is missing in witness <code class="docutils literal"><span class="pre">W1</span></code> or
+missing in witness <code class="docutils literal"><span class="pre">W1</span></code> and <code class="docutils literal"><span class="pre">w2</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">conieci:</span> <span class="pre">om.</span> <span class="pre">W1.</span></code> or <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">correxi:</span> <span class="pre">om.</span> <span class="pre">W1,</span> <span class="pre">W2.</span></code></p>
+<p>This means add a conjonctured text <code class="docutils literal"><span class="pre">ssss</span></code> which is missing in witness
+<code class="docutils literal"><span class="pre">W1</span></code> or missing in witness <code class="docutils literal"><span class="pre">W1</span></code> and <code class="docutils literal"><span class="pre">w2</span></code>.</p>
+</li>
+<li><p class="first">More generally an omission can have the form:</p>
+<p><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">conieci:</span> <span class="pre">tttt</span> <span class="pre">W1,</span> <span class="pre">W2,</span> <span class="pre">W3:</span> <span class="pre">om.</span> <span class="pre">W4,</span> <span class="pre">W5,</span> <span class="pre">W6.</span></code> or
+<code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">correxi:</span> <span class="pre">tttt</span> <span class="pre">W1,</span> <span class="pre">W2,</span> <span class="pre">W3:</span> <span class="pre">om.</span> <span class="pre">W4,</span> <span class="pre">W5,</span> <span class="pre">W6.</span></code> or
+<code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">W1,</span> <span class="pre">W2,</span> <span class="pre">W3:</span> <span class="pre">om.</span> <span class="pre">W4,</span> <span class="pre">W5,</span> <span class="pre">W6.</span></code></p>
+</li>
+</ol>
+</div>
+<div class="section" id="additions">
+<span id="id2"></span><h2>Additions<a class="headerlink" href="#additions" title="Permalink to this headline">¶</a></h2>
+<p>Additions have three forms depending on whether the addition
+applies to one or both witnesses, and for the latter case
+whether the addition is the same or not for both witnesses.</p>
+<ol class="loweralpha simple">
+<li>Form 1: <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">add.</span> <span class="pre">tttt</span> <span class="pre">W1.</span></code></li>
+</ol>
+<blockquote>
+<div>This means both witnesses have <code class="docutils literal"><span class="pre">ssss</span></code> and W1 adds <code class="docutils literal"><span class="pre">tttt</span></code>.</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>Form 2: <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">add.</span> <span class="pre">tttt</span> <span class="pre">W1,</span> <span class="pre">W2.</span></code></li>
+</ol>
+<blockquote>
+<div>This means both witnesses have <code class="docutils literal"><span class="pre">ssss</span></code> and both add <code class="docutils literal"><span class="pre">tttt</span></code>,
+however the editor felt the need to omit <code class="docutils literal"><span class="pre">tttt</span></code>.</div></blockquote>
+<ol class="loweralpha simple" start="3">
+<li>Form 3: <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">add.</span> <span class="pre">tttt</span> <span class="pre">W1:</span> <span class="pre">uuuu</span> <span class="pre">W2.</span></code></li>
+</ol>
+<blockquote>
+<div>This means both witnesses have <code class="docutils literal"><span class="pre">ssss</span></code>, <code class="docutils literal"><span class="pre">W1</span></code> adds <code class="docutils literal"><span class="pre">tttt</span></code> whereas
+<code class="docutils literal"><span class="pre">W2</span></code> adds <code class="docutils literal"><span class="pre">uuuu</span></code>.</div></blockquote>
+</div>
+<div class="section" id="correxi">
+<span id="id3"></span><h2>Correxi<a class="headerlink" href="#correxi" title="Permalink to this headline">¶</a></h2>
+<p>Correxi can have two forms, depending on whether witness texts
+are the same or not.</p>
+<ol class="loweralpha simple">
+<li>Form 1: <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">correxi:</span> <span class="pre">tttt</span> <span class="pre">W1,</span> <span class="pre">W2.</span></code></li>
+</ol>
+<blockquote>
+<div>This means the text <code class="docutils literal"><span class="pre">tttt</span></code> is found in witnesses <code class="docutils literal"><span class="pre">W1</span></code> and <code class="docutils literal"><span class="pre">W2</span></code>
+and the editor has corrected this to <code class="docutils literal"><span class="pre">ssss</span></code>.</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>Form 2: <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">correxi:</span> <span class="pre">tttt</span> <span class="pre">W1:</span> <span class="pre">uuuu</span> <span class="pre">W2.</span></code></li>
+</ol>
+<blockquote>
+<div>This means the text <code class="docutils literal"><span class="pre">tttt</span></code> is found in witness <code class="docutils literal"><span class="pre">W1</span></code>, whereas <code class="docutils literal"><span class="pre">W2</span></code>
+has <code class="docutils literal"><span class="pre">uuuu</span></code>. The editor has corrected these to <code class="docutils literal"><span class="pre">ssss</span></code>.</div></blockquote>
+</div>
+<div class="section" id="conieci">
+<span id="id4"></span><h2>Conieci<a class="headerlink" href="#conieci" title="Permalink to this headline">¶</a></h2>
+<p>Conieci can have two forms, depending on whether the witness texts are
+the same or not.</p>
+<ol class="loweralpha simple">
+<li>Form 1: <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">conieci:</span> <span class="pre">tttt</span> <span class="pre">W1,</span> <span class="pre">W2.</span></code></li>
+</ol>
+<blockquote>
+<div>This means the text ‘tttt’ is found in witnesses <code class="docutils literal"><span class="pre">W1</span></code> and <code class="docutils literal"><span class="pre">W2</span></code>,
+the editor conjectures that this should be <code class="docutils literal"><span class="pre">ssss</span></code>.</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>Form 2: <code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">conieci:</span> <span class="pre">tttt</span> <span class="pre">W1:</span> <span class="pre">uuuu</span> <span class="pre">W2.</span></code></li>
+</ol>
+<blockquote>
+<div>This means the text <code class="docutils literal"><span class="pre">tttt</span></code> is found in witness <code class="docutils literal"><span class="pre">W1</span></code>, whereas
+<code class="docutils literal"><span class="pre">W2</span></code> has <code class="docutils literal"><span class="pre">uuuu</span></code>. The editor conjectures that these should be
+<code class="docutils literal"><span class="pre">ssss</span></code>.</div></blockquote>
+</div>
+<div class="section" id="textual-variations">
+<span id="variations"></span><h2>Textual variations<a class="headerlink" href="#textual-variations" title="Permalink to this headline">¶</a></h2>
+<p>Standard variations have only two forms:</p>
+<ol class="loweralpha">
+<li><p class="first"><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">W1:</span> <span class="pre">tttt</span> <span class="pre">W2.</span></code></p>
+<p>This means witness <code class="docutils literal"><span class="pre">W1</span></code> has text <code class="docutils literal"><span class="pre">ssss</span></code> whereas <code class="docutils literal"><span class="pre">W2</span></code> has <code class="docutils literal"><span class="pre">tttt</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">*n*ssss</span> <span class="pre">]</span> <span class="pre">W1,</span> <span class="pre">W2,</span> <span class="pre">W3:</span> <span class="pre">tttt</span> <span class="pre">W4,</span> <span class="pre">W5,</span> <span class="pre">W6.</span></code></p>
+<p>This means witnesses <code class="docutils literal"><span class="pre">W1</span></code>, <code class="docutils literal"><span class="pre">W2</span></code> and <code class="docutils literal"><span class="pre">W3</span></code> have text <code class="docutils literal"><span class="pre">ssss</span></code>
+whereas <code class="docutils literal"><span class="pre">W4</span></code>, <code class="docutils literal"><span class="pre">W5</span></code>, <code class="docutils literal"><span class="pre">W6</span></code> have <code class="docutils literal"><span class="pre">tttt</span></code>.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+  </body>
+</html>

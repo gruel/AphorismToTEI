@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Informations for developers &#8212; Hippocratic Aphorismsv0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/manchesterit.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture" href="uml.html" />
+    <link rel="prev" title="XML files" href="xml_files.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/logo.svg"></span>
+           </a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Hippocratic Aphorisms <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../management/approvals.html">Approval Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management/changes.html">Change Records</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto.html">How-To</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commentaries.html">Format for commentaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xml_files.html">XML files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Informations for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hippocratic.html">hippocratic package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="informations-for-developers">
+<span id="develop"></span><h1>Informations for developers<a class="headerlink" href="#informations-for-developers" title="Permalink to this headline">¶</a></h1>
+<p>The software was developed in <a class="reference external" href="https://www.python.org/">Python 3</a> (v3.5 and above).</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>To install the required package for the development:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>That will install the following package:</p>
+<p>Needed to use the software:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docopt.org/">docopt</a></li>
+</ul>
+<p>Needed to build the documentation:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.sphinx-doc.org/en/stable/#">sphinx</a></li>
+<li>sphinx-bootstrap-theme</li>
+<li>numpydoc</li>
+<li>pyqt5</li>
+</ul>
+<p>Advised for development:</p>
+<ul class="simple">
+<li>to check that that the code source followed <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP8</a>.</li>
+</ul>
+<ul class="simple">
+<li><a class="reference external" href="https://www.pylint.org/">pylint</a></li>
+<li>flake8</li>
+</ul>
+<p>pylint does offer more advise to improve the code and give a note at
+the code which reflected some good coding practice.
+It is advised to be as close to 10 as possible.</p>
+<p>For the unit test the following packages are needed:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a></li>
+<li><a class="reference external" href="http://testfixtures.readthedocs.io/en/latest/">testfixture</a></li>
+</ul>
+<p>To run all the tests present in the <code class="docutils literal"><span class="pre">tests</span></code> directory:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pytest</span>
+</pre></div>
+</div>
+<p>When modifiying the code it is important to verify that all
+the tests are still working. It is also strongly advised to
+expand them when adding or modifying the codes.</p>
+<p>It is also encouraged to use:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.python.org/pypi/pytest-cov">pytest-cov</a></li>
+<li><a class="reference external" href="https://pypi.python.org/pypi/coverage">coverage</a></li>
+</ul>
+<p>It is also advised to use <a class="reference external" href="https://tox.readthedocs.io/en/latest/">tox</a>
+to automate testing using a virtual environment.</p>
+<p>To use it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tox</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+  </body>
+</html>

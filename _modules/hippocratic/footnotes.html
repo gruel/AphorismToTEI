@@ -1,0 +1,580 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>hippocratic.footnotes &#8212; Hippocratic Aphorismsv0.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.6/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/manchesterit.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/logo.svg"></span>
+           </a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Hippocratic Aphorisms <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../management/approvals.html">Approval Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../management/changes.html">Change Records</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/scope.html">Scope</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/acronyms.html">Acronyms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/howto.html">How-To</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/commentaries.html">Format for commentaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/xml_files.html">XML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/develop.html">Informations for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/uml.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/hippocratic.html">hippocratic package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for hippocratic.footnotes</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module used to treat the footnotes from the hypocratic project.</span>
+
+<span class="sd">:Authors: Jonathan Boyle, Nicolas Gruel &lt;nicolas.gruel@manchester.ac.uk&gt;</span>
+
+<span class="sd">:Copyright: IT Services, The University of Manchester</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># pylint: disable=locally-disabled, invalid-name</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.baseclass</span> <span class="k">import</span> <span class="n">Hippocratic</span><span class="p">,</span> <span class="n">logger</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">baseclass</span> <span class="k">import</span> <span class="n">Hippocratic</span><span class="p">,</span> <span class="n">logger</span>
+
+
+<span class="c1"># Define an Exception</span>
+<div class="viewcode-block" id="FootnotesException"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.FootnotesException">[docs]</a><span class="k">class</span> <span class="nc">FootnotesException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for exception</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Footnote"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.Footnote">[docs]</a><span class="k">class</span> <span class="nc">Footnote</span><span class="p">(</span><span class="n">Hippocratic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class Footnote which treat an individual footnote</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    footnote : str</span>
+<span class="sd">        String which contains the footnote to treat.</span>
+
+<span class="sd">    n_footnote : int</span>
+<span class="sd">        Integer which give the reference number of the footnote treated.</span>
+
+<span class="sd">    xml : list</span>
+<span class="sd">        list which contains the app XML file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">footnote</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_footnote</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xml</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">Hippocratic</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span> <span class="o">=</span> <span class="n">footnote</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_footnote</span> <span class="o">=</span> <span class="n">n_footnote</span>
+        <span class="k">if</span> <span class="n">xml</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xml</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">=</span> <span class="n">xml</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wits</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="Footnote.check_endnote"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.Footnote.check_endnote">[docs]</a>    <span class="k">def</span> <span class="nf">check_endnote</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to check if there are a note at the end of a footnote</span>
+
+<span class="sd">        If the symbol `;` is present in the footnote. Everything after is</span>
+<span class="sd">        considered as a note and will be added as that in the &lt;app&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create footnote commentary if present (after `;` symbol)</span>
+        <span class="n">loc_com</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">loc_com</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">note_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="p">[</span><span class="n">loc_com</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="p">[:</span><span class="n">loc_com</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Footnote.omission"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.Footnote.omission">[docs]</a>    <span class="k">def</span> <span class="nf">omission</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function processes a footnote line describing an omission</span>
+
+<span class="sd">        This helper function processes a footnote line describing an omission,</span>
+<span class="sd">        i.e. footnotes which contain the string ``om.``.</span>
+
+<span class="sd">        The textual variation MUST include only only two witnesses,</span>
+<span class="sd">        hence omissions with two witnesses are not allowed since it would make</span>
+<span class="sd">        no sense for both witnesses to omit the same text. Therefore</span>
+<span class="sd">        the following should be true:</span>
+
+<span class="sd">        1. The footnote line contains one colon character.</span>
+<span class="sd">        2. The footnote line doesn&#39;t contain commas.</span>
+
+<span class="sd">        The first input argument must be the footnote line with the following</span>
+<span class="sd">        stripped from the start and end of the string:</span>
+
+<span class="sd">        1. All whitespace</span>
+<span class="sd">        2. ``*n*`` (where n is the footnote number) from the start of</span>
+<span class="sd">           the string</span>
+<span class="sd">        3. ``.`` character from the end of the string</span>
+
+<span class="sd">        The footnote is expected to contain a single &#39;:&#39; character and have the</span>
+<span class="sd">        following format:</span>
+
+<span class="sd">        1. The footnote line before the &#39;:&#39; character is a string of witness</span>
+<span class="sd">           text, followed by the &#39;]&#39; character, followed by a single witness</span>
+<span class="sd">           code.</span>
+<span class="sd">        2. The footnote line after the &#39;:&#39; character contains an &#39;om.&#39; followed</span>
+<span class="sd">           by a single witness code.</span>
+
+<span class="sd">        The second input argument should be a list containing</span>
+<span class="sd">        the apparatus XML, this function will add XML to this list.</span>
+
+<span class="sd">        The third input argument is the string defining a unit of offset in</span>
+<span class="sd">        the XML, this defaults to four space characters.</span>
+
+<span class="sd">        It is intended this function is called by _footnotes()</span>
+<span class="sd">        for omission footnotes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reason</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">wits1</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">corrections</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Split the footnote</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Split to get the text and remove the space</span>
+            <span class="n">_tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_tmp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">FootnotesException</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+            <span class="c1"># Split around : to check if correxi or conieci</span>
+            <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;correxi&#39;</span><span class="p">,</span> <span class="s1">&#39;conieci&#39;</span><span class="p">]:</span>
+                <span class="n">reason</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_tmp</span><span class="p">)</span>
+
+            <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;om.&#39;</span><span class="p">)</span>
+
+            <span class="n">wits2</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)]</span>
+            <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; :&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">_ttmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">wits1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">_ttmp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+                <span class="n">corrections</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_ttmp</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reason&#39;</span><span class="p">:</span> <span class="n">reason</span><span class="p">,</span>
+                                <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                                <span class="s1">&#39;witnesses&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">wits1</span><span class="p">,</span> <span class="n">wits2</span><span class="p">],</span>
+                                <span class="s1">&#39;corrections&#39;</span><span class="p">:</span> <span class="n">corrections</span><span class="p">}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_omission_xml</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="n">FootnotesException</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">note_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Omission error in footnote </span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_footnote</span><span class="p">,</span>
+                                                               <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_omission_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to create the XML portion related to footnote (TEI format)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># try:</span>
+        <span class="c1"># Add the correxi or conieci if needed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;correxi&#39;</span><span class="p">:</span>
+            <span class="c1"># Add text self.xml</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;rdg&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="s1">&#39;&lt;choice&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="s1">&#39;&lt;corr&gt;&#39;</span> <span class="o">+</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&lt;/corr&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="s1">&#39;&lt;/choice&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;conieci&#39;</span><span class="p">:</span>
+            <span class="c1"># Add text self.xml</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;rdg&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="s1">&#39;&lt;choice&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="s1">&#39;&lt;corr type=&quot;conjecture&quot;&gt;&#39;</span> <span class="o">+</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&lt;/corr&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="s1">&#39;&lt;/choice&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">FootnotesException</span>
+
+        <span class="n">wits1</span><span class="p">,</span> <span class="n">wits2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;witnesses&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">wits1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wits1</span><span class="p">:</span>
+                <span class="n">_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;rdg wit=&quot;#&#39;</span> <span class="o">+</span> <span class="n">w</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;corrections&#39;</span><span class="p">]:</span>
+                    <span class="n">_str</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;corrections&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># _str += &#39;\n&#39; + self.xml_oss + &#39;&lt;/rdg&gt;&#39;</span>
+                    <span class="n">_str</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_str</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wits2</span><span class="p">:</span>
+            <span class="n">_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;rdg wit=&quot;#&#39;</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">_str</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="s1">&#39;&lt;gap reason=&quot;omission&quot;/&gt;&#39;</span>
+            <span class="n">_str</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_str</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Footnote.correction"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.Footnote.correction">[docs]</a>    <span class="k">def</span> <span class="nf">correction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This helper function processes a footnote line describing correxi, i.e.</span>
+<span class="sd">        corrections by the editor, these contain the string &#39;correxi&#39;.</span>
+
+<span class="sd">        The first input argument must be the footnote line with the following</span>
+<span class="sd">        stripped from the start and end of the string:</span>
+
+<span class="sd">        1. All whitespace</span>
+<span class="sd">        2. ``*n*`` (where n is the footnote number) from the start of</span>
+<span class="sd">           the string</span>
+<span class="sd">        3. ``.`` character from the end of the string</span>
+
+<span class="sd">        The footnote is expected to contain at least one ``:`` character and</span>
+<span class="sd">        have the following format:</span>
+
+<span class="sd">        1. The footnote line before the first ``:`` character contains a string</span>
+<span class="sd">           of witness text, followed by a ``]`` character.</span>
+
+<span class="sd">        2. The footnote line after the &#39;:&#39; character has one of two formats:</span>
+
+<span class="sd">            a. multiple pairs of witness text + witness code, each pair</span>
+<span class="sd">               separated by a ``:`` character</span>
+
+<span class="sd">            b. a single witness text followed by a space and a list of comma</span>
+<span class="sd">               separated witness codes</span>
+
+<span class="sd">        The second input argument should be a list containing</span>
+<span class="sd">        the apparatus XML, this function will add XML to this list.</span>
+
+<span class="sd">        The third input argument is a string defining the unit of offset</span>
+<span class="sd">        for the XML, this defaults to four space characters.</span>
+
+<span class="sd">        It is intended this function is called by _footnotes()</span>
+<span class="sd">        for correxi footnotes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Split to get the text, the reason and remove the space</span>
+            <span class="n">_tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">reason</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;correxi&#39;</span><span class="p">,</span> <span class="s1">&#39;conieci&#39;</span><span class="p">]:</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">reason</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">reason</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;add.&#39;</span><span class="p">)</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+            <span class="c1"># form: w1, w2: tttt w3, w4</span>
+            <span class="n">c1</span> <span class="o">=</span> <span class="n">_tmp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+            <span class="n">d1</span> <span class="o">=</span> <span class="n">c1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">e1</span> <span class="o">=</span> <span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">corr1</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e1</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">wits1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">d2</span> <span class="o">=</span> <span class="n">c1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                <span class="n">e2</span> <span class="o">=</span> <span class="n">d2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">corr2</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e2</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">wits2</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">e2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">corr2</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="n">wits2</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reason&#39;</span><span class="p">:</span> <span class="n">reason</span><span class="p">,</span>
+                                <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                                <span class="s1">&#39;witnesses&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">wits1</span><span class="p">,</span> <span class="n">wits2</span><span class="p">],</span>
+                                <span class="s1">&#39;corrections&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">corr1</span><span class="p">,</span> <span class="n">corr2</span><span class="p">]}</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;corrections&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_correction_xml</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="n">FootnotesException</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">note_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Footnote error in footnote </span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_footnote</span><span class="p">,</span>
+                                                               <span class="bp">self</span><span class="o">.</span><span class="n">footnote</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_correction_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to create the XML portion related to footnote (TEI format)</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xml : list</span>
+<span class="sd">            list of strings which contains the XML TEI for the footnote.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Add to the XML</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">wit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;witnesses&#39;</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">wit</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wit</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;rdg wit=&quot;#&#39;</span> <span class="o">+</span>
+                                        <span class="n">w</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span>
+                                        <span class="s1">&#39;&lt;add&gt;&#39;</span> <span class="o">+</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;corrections&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
+                                        <span class="s1">&#39;&lt;/add&gt;&#39;</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">note_xml</span><span class="p">(</span><span class="s1">&#39;reason=&quot;add_scribe&quot;&#39;</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;correxi&#39;</span> <span class="ow">or</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;conieci&#39;</span><span class="p">):</span>
+
+            <span class="c1"># Add text self.xml</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;rdg&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="s1">&#39;&lt;choice&gt;&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;correxi&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="s1">&#39;&lt;corr&gt;&#39;</span> <span class="o">+</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">+</span>
+                                <span class="s1">&#39;&lt;/corr&gt;&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;conieci&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="s1">&#39;&lt;corr type=&quot;conjecture&quot;&gt;&#39;</span> <span class="o">+</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&lt;/corr&gt;&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="s1">&#39;&lt;/choice&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;witnesses&#39;</span><span class="p">])):</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;witnesses&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">+</span>
+                                <span class="s1">&#39;&lt;rdg wit=&quot;#&#39;</span> <span class="o">+</span> <span class="n">w</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_d_footnote</span><span class="p">[</span><span class="s1">&#39;corrections&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&lt;/rdg&gt;&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Footnotes"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.Footnotes">[docs]</a><span class="k">class</span> <span class="nc">Footnotes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to analyse and create the XML app file for the entire set of</span>
+<span class="sd">    footnotes.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    footnotes : list, str, OrderedDict, dict</span>
+<span class="sd">        List which contains the whole set of footnote from the hippocratic</span>
+<span class="sd">        file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">footnotes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">footnotes</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">=</span> <span class="n">footnotes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dictionary</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">footnotes</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">=</span> <span class="n">footnotes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wits</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create an ordered dictionary (OrderedDict object) with the footnotes</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dic : OrderedDict</span>
+<span class="sd">            contains the footnotes as an Ordered Dictionary.</span>
+<span class="sd">            Keys are the number of the footnote (integer) and value is</span>
+<span class="sd">            the footnote.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        FootnotesException</span>
+<span class="sd">            if foot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Split the footnotes by lines (in theory one line per footnote)</span>
+        <span class="c1"># pylint: disable=locally-disabled, no-member</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">)):</span>
+                <span class="k">return</span>
+            <span class="n">_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_tmp</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">UnboundLocalError</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Footnotes should be a non empty string, &#39;</span>
+                     <span class="s1">&#39;a list, a dictionary or an OrderedDict &#39;</span>
+                     <span class="s1">&#39;but is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="p">)))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">FootnotesException</span>
+
+        <span class="c1"># Check that the number of footnote is in agreement</span>
+        <span class="c1"># with their numeration</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_size</span><span class="p">),</span> <span class="n">_tmp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">_size</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">FootnotesException</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="n">FootnotesException</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Number of footnotes </span><span class="si">{}</span><span class="s1"> not in agreement &#39;</span> \
+                    <span class="s1">&#39;with their numeration in the file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_size</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">FootnotesException</span>
+
+        <span class="c1"># Create the ordered dictionary and remove the &#39;.&#39;</span>
+        <span class="n">_dic</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">_tmp</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pos_stars</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\*&#39;</span><span class="p">,</span>
+                                                            <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_stars</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">pos_stars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">FootnotesException</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_stars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;Problem in footnote: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;There are a footnote reference inside &#39;</span>
+                                   <span class="s1">&#39;the footnote. This case is not treatable &#39;</span>
+                                   <span class="s1">&#39;by the actual version of the software&#39;</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">pos_stars</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="n">pos_stars</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">except</span> <span class="n">FootnotesException</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;There are a problem in footnote: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">FootnotesException</span>
+
+            <span class="c1"># Remove space and &#39;.&#39;</span>
+            <span class="n">_dic</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;. &#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">=</span> <span class="n">_dic</span>
+
+<div class="viewcode-block" id="Footnotes.xml_app"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.Footnotes.xml_app">[docs]</a>    <span class="k">def</span> <span class="nf">xml_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to create the XML add for the footnote</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        xml_app : list</span>
+<span class="sd">            list which contains the lines with the XML related to the footnotes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n_footnote</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+
+            <span class="c1"># Get the corresponding footnote (start at 1)</span>
+            <span class="n">footnote_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="p">[</span><span class="n">n_footnote</span><span class="p">]</span>
+
+            <span class="c1"># Now process the footnote line - deal with each case individually</span>
+            <span class="c1"># to aid readability and make future additions easier</span>
+            <span class="n">ft</span> <span class="o">=</span> <span class="n">Footnote</span><span class="p">(</span><span class="n">footnote_line</span><span class="p">,</span> <span class="n">n_footnote</span><span class="p">,</span> <span class="n">xml</span><span class="o">=</span><span class="p">[])</span>
+
+            <span class="c1"># Add initial XML to xml_app (for the apparatus XML file)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;app from=&quot;#begin_fn&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_footnote</span><span class="p">)</span> <span class="o">+</span>
+                                 <span class="s1">&#39;&quot; to=&quot;#end_fn&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_footnote</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span><span class="p">)</span>
+
+            <span class="n">ft</span><span class="o">.</span><span class="n">check_endnote</span><span class="p">()</span>
+
+            <span class="c1"># Now process the footnote</span>
+            <span class="c1"># Case 1 - omission</span>
+            <span class="k">if</span> <span class="s1">&#39;om.&#39;</span> <span class="ow">in</span> <span class="n">ft</span><span class="o">.</span><span class="n">footnote</span><span class="p">:</span>
+                <span class="n">ft</span><span class="o">.</span><span class="n">omission</span><span class="p">()</span>
+
+            <span class="c1"># Case 2 - addition</span>
+            <span class="k">elif</span> <span class="s1">&#39;add.&#39;</span> <span class="ow">in</span> <span class="n">ft</span><span class="o">.</span><span class="n">footnote</span><span class="p">:</span>
+                <span class="n">ft</span><span class="o">.</span><span class="n">correction</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Case 3 - correxi</span>
+            <span class="k">elif</span> <span class="s1">&#39;correxi&#39;</span> <span class="ow">in</span> <span class="n">ft</span><span class="o">.</span><span class="n">footnote</span><span class="p">:</span>
+                <span class="n">ft</span><span class="o">.</span><span class="n">correction</span><span class="p">(</span><span class="s1">&#39;correxi&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Case4 - conieci</span>
+            <span class="k">elif</span> <span class="s1">&#39;conieci&#39;</span> <span class="ow">in</span> <span class="n">ft</span><span class="o">.</span><span class="n">footnote</span><span class="p">:</span>
+                <span class="n">ft</span><span class="o">.</span><span class="n">correction</span><span class="p">(</span><span class="s1">&#39;conieci&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Remaining case - standard variation</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ft</span><span class="o">.</span><span class="n">correction</span><span class="p">(</span><span class="s1">&#39;standard&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">+=</span> <span class="n">ft</span><span class="o">.</span><span class="n">xml</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wits</span> <span class="o">+=</span> <span class="n">ft</span><span class="o">.</span><span class="n">wits</span>
+
+            <span class="c1"># Close the XML</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/app&gt;&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Footnotes.save_xml"><a class="viewcode-back" href="../../source/hippocratic.html#hippocratic.footnotes.Footnotes.save_xml">[docs]</a>    <span class="k">def</span> <span class="nf">save_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;xml_app.xml&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to save the XML app string in a file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fname : str (optional)</span>
+<span class="sd">            name of the file where the XML app will be saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+  </body>
+</html>

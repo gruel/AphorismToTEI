@@ -1,0 +1,902 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>hippocratic package &#8212; Hippocratic Aphorismsv0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/manchesterit.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Architecture" href="uml.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/logo.svg"></span>
+           </a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Hippocratic Aphorisms <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../management/approvals.html">Approval Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management/changes.html">Change Records</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto.html">How-To</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commentaries.html">Format for commentaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xml_files.html">XML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Informations for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">hippocratic package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="hippocratic-package">
+<h1>hippocratic package<a class="headerlink" href="#hippocratic-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hippocratic.analysis">
+<span id="hippocratic-analysis-module"></span><h2>hippocratic.analysis module<a class="headerlink" href="#module-hippocratic.analysis" title="Permalink to this headline">¶</a></h2>
+<p>Module which contains the function to analyse aphorism and commentaries line</p>
+<p>There are two functions which are treating the references <code class="docutils literal"><span class="pre">[W1</span> <span class="pre">W2]</span></code>
+and the footnotes <em>XXX</em>.</p>
+<p>The <code class="docutils literal"><span class="pre">references</span></code> function has to be used before the <code class="docutils literal"><span class="pre">footnotes</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Jonathan Boyle, Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+<dl class="exception">
+<dt id="hippocratic.analysis.AnalysisException">
+<em class="property">exception </em><code class="descclassname">hippocratic.analysis.</code><code class="descname">AnalysisException</code><a class="reference internal" href="../_modules/hippocratic/analysis.html#AnalysisException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.analysis.AnalysisException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Class for exception</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hippocratic.analysis.footnotes">
+<code class="descclassname">hippocratic.analysis.</code><code class="descname">footnotes</code><span class="sig-paren">(</span><em>string_to_process</em>, <em>next_footnote</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/analysis.html#footnotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.analysis.footnotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>This helper function takes a single string containing text and
+processes any embedded footnote symbols (describing additions,
+omissions, correxi, conieci and standard textual variations)
+to generate XML. It also deals with any XML generated using
+function _references().</p>
+<p>The output is two lists of XML, one for the main text, the other
+for the apparatus.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>string_to_process</strong> (<em>str</em>) – This string contains the text to be processed. This should contain
+a single line from the text file being processed, e.g. a title,
+aphorism or commentary. This string may already contain XML
+generated using the _references() function i.e. XML
+identifying witnesses with each &lt;locus&gt; XML on a new line.</li>
+<li><strong>next_footnote</strong> (<em>int</em>) – reference the footnote to find.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><ul class="simple">
+<li><em>1. A Python list containing XML for the main text.</em></li>
+<li><em>2. A Python list containing XML for the critical apparatus.</em></li>
+<li><em>3. The number of the next footnote to be processed when this function</em> – complete.</li>
+<li><em>It is intended this function is called by main() on each line</em></li>
+<li><em>of text from the main document body.</em></li>
+</ul>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#hippocratic.analysis.AnalysisException" title="hippocratic.analysis.AnalysisException"><code class="xref py py-exc docutils literal"><span class="pre">AnalysisException</span></code></a> – if footnote in commentary connot be defined.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hippocratic.analysis.references">
+<code class="descclassname">hippocratic.analysis.</code><code class="descname">references</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/analysis.html#references"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.analysis.references" title="Permalink to this definition">¶</a></dt>
+<dd><p>This helper function searches a line of text for witness references
+with the form <code class="docutils literal"><span class="pre">[WW</span> <span class="pre">LL]</span></code> and returns a string containing the original
+text with each witness reference replaced with XML with the form
+<code class="docutils literal"><span class="pre">&lt;locus</span> <span class="pre">target=&quot;WW&quot;&gt;LL&lt;/locus&gt;</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">\n</span></code> characters are added at the start and end of each XML insertion
+so each instance of XML is on its own line.</p>
+<p>It is intended this function is called by function main()
+for each line of text from the main body of the text document before
+processing footnote references using the _footnotes() function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>line</strong> (<em>str</em>) – contains the line with the aphorism or the commentary to analyse.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference internal" href="#hippocratic.analysis.AnalysisException" title="hippocratic.analysis.AnalysisException"><code class="xref py py-exc docutils literal"><span class="pre">AnalysisException</span></code></a> – if references does not follow the convention <code class="docutils literal"><span class="pre">[W1</span> <span class="pre">W2]</span></code>.
+e.g. will raise an exception if:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">[W1W2]</span></code> : missing space between the two witnesses</li>
+<li><code class="docutils literal"><span class="pre">[W1</span> <span class="pre">W2</span></code> : missing <code class="docutils literal"><span class="pre">]</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hippocratic.aphorisms_to_xml">
+<span id="hippocratic-aphorisms-to-xml-module"></span><h2>hippocratic.aphorisms_to_xml module<a class="headerlink" href="#module-hippocratic.aphorisms_to_xml" title="Permalink to this headline">¶</a></h2>
+<p>This module has been written to convert transcribed commentaries from text
+files to TEI compatible XML.</p>
+<p>Funding is provided by an ERC funded project studying Arabic commentaries on
+the Hippocratic Aphorisms. The Principal Investigator is Peter E. Pormann,
+The University of Manchester.</p>
+<p>It is anticipated the module will be used via the main.py module
+which attempts to to process any input file or directory containing files with
+a .txt extension.</p>
+<p>Each text file base name should end in an underscore followed by a
+numerical value, e.g. file_1.txt, file_2.txt, etc. The numerical value is
+subsequently used when creating the title section <code class="docutils literal"><span class="pre">&lt;div&gt;</span></code> element, e.g.
+<code class="docutils literal"><span class="pre">&lt;div</span> <span class="pre">n=&quot;1&quot;</span> <span class="pre">type=&quot;Title_section&quot;&gt;</span></code> for file_1.txt.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is optional, by default the version is set at 1.</p>
+</div>
+<p>If processing succeeds two XML files will be created in a folder called XML.
+The XML file names start with the text file base name and end in _main.xml (for
+the XML files will be file_1_main.xml and file_1_app.xml.</p>
+<p>If processing fails error messages will be saved in the hippocratic.log file.</p>
+<p>The commentaries should be utf-8 text files with the format as documented
+in the associated documentation (docs/_build/index.html).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Jonathan Boyle, Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+<dl class="exception">
+<dt id="hippocratic.aphorisms_to_xml.AphorismsToXMLException">
+<em class="property">exception </em><code class="descclassname">hippocratic.aphorisms_to_xml.</code><code class="descname">AphorismsToXMLException</code><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#AphorismsToXMLException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.AphorismsToXMLException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Class for exception</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hippocratic.aphorisms_to_xml.Process">
+<em class="property">class </em><code class="descclassname">hippocratic.aphorisms_to_xml.</code><code class="descname">Process</code><span class="sig-paren">(</span><em>fname=None</em>, <em>folder=None</em>, <em>doc_num=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hippocratic.baseclass.Hippocratic" title="hippocratic.baseclass.Hippocratic"><code class="xref py py-class docutils literal"><span class="pre">hippocratic.baseclass.Hippocratic</span></code></a></p>
+<p>Class to main hypocratic aphorism text to produce a TEI XML file.</p>
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process.fname">
+<code class="descname">fname</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.fname" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – Name of the file to convert.
+The text file base name is expected to end with an underscore followed
+by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical
+value is used when creating the title section &lt;div&gt; element, e.g.
+&lt;div n=”1” type=”Title_section”&gt; for file_1.txt.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process.folder">
+<code class="descname">folder</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.folder" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str, optional</em> – Name of the folder where are the files to convert</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process.doc_num">
+<code class="descname">doc_num</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.doc_num" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int, optional</em> – version of the document treated.
+Default value: 1</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.aphorisms_to_xml.Process.aphorisms_dict">
+<code class="descname">aphorisms_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process.aphorisms_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.aphorisms_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an order dictionary (OrderedDict object) with the aphorisms
+and commentaries.</p>
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process._aph_com">
+<code class="descname">_aph_com</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process._aph_com" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> – dictionary which contains the aphorisms and the commentaries
+associated.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#hippocratic.aphorisms_to_xml.AphorismsToXMLException" title="hippocratic.aphorisms_to_xml.AphorismsToXMLException"><code class="xref py py-exc docutils literal"><span class="pre">AphorismsToXMLException</span></code></a> – if it is not possible to create the dictionary.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.aphorisms_to_xml.Process.divide_document">
+<code class="descname">divide_document</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process.divide_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.divide_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to divide the document in the three main parts.</p>
+<p>An hippocratic document si composed in three or four main parts:</p>
+<ul class="simple">
+<li>The introduction (optional)</li>
+<li>The title</li>
+<li>The aphorisms</li>
+<li>The footnotes</li>
+</ul>
+<p>This method will divide the document in the three or four parts.</p>
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process._introduction">
+<code class="descname">_introduction</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process._introduction" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – A string which contains the introduction of the document if present</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process._title">
+<code class="descname">_title</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process._title" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – A string which contains the title of the document</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process._text">
+<code class="descname">_text</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process._text" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – A string which contains the aphorisms and commentaries
+of the document</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process._footnotes">
+<code class="descname">_footnotes</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process._footnotes" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – A string which contains the footnotes of the document</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#hippocratic.aphorisms_to_xml.AphorismsToXMLException" title="hippocratic.aphorisms_to_xml.AphorismsToXMLException"><code class="xref py py-exc docutils literal"><span class="pre">AphorismsToXMLException</span></code></a> – if it is not possible to divide the document.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.aphorisms_to_xml.Process.main">
+<code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process.main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to process a text file containing symbols representing
+references to witnesses and symbols and footnotes defining textual
+variations, omissions, additions, correxi or conieci. This function
+uses these symbols to produce files containing EpiDoc compatible XML.</p>
+<p>If processing succeeds two XML files will be created in folder ./XML
+with file names that start with the text file base name and ending in
+_main.xml (for the main XML) and _apps.xml (for the apparatus XML).
+For example for file_1.txt the XML files will be file_1_main.xml and
+file_1_app.xml.</p>
+<p>Modify the attribute <code class="docutils literal"><span class="pre">xml</span></code> to add the title section in the main XML</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#hippocratic.aphorisms_to_xml.AphorismsToXMLException" title="hippocratic.aphorisms_to_xml.AphorismsToXMLException"><code class="xref py py-exc docutils literal"><span class="pre">AphorismsToXMLException</span></code></a> – if the processing of the file does not work as expected.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.aphorisms_to_xml.Process.open_document">
+<code class="descname">open_document</code><span class="sig-paren">(</span><em>fname=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process.open_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.open_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to open and read the hippocratic document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<em>str</em><em>, </em><em>optional</em>) – name of the file to analyse.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt>
+<code class="descname">folder</code></dt>
+<dd><p><em>str, optional</em> – Name of the folder where are the files to convert</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">fname</code></dt>
+<dd><p><em>str</em> – Name of the file to convert.
+The text file base name is expected to end with an underscore
+followed by a numerical value, e.g. file_1.txt, file_2.txt, etc.
+This numerical value is used when creating the title section
+&lt;div&gt; element, e.g. &lt;div n=”1” type=”Title_section”&gt;
+for file_1.txt.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process.text">
+<code class="descname">text</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.text" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – string which contains the whole file in utf-8 format.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#hippocratic.aphorisms_to_xml.AphorismsToXMLException" title="hippocratic.aphorisms_to_xml.AphorismsToXMLException"><code class="xref py py-exc docutils literal"><span class="pre">AphorismsToXMLException</span></code></a> – if document can not be:
+- open
+- there subfolder present in the folder
+- file not treatable by the software (e.g. .DS_Store)
+- file does not exist</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.aphorisms_to_xml.Process.read_template">
+<code class="descname">read_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process.read_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.read_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to read the XML template used for the transformation</p>
+<dl class="attribute">
+<dt id="hippocratic.aphorisms_to_xml.Process.template">
+<code class="descname">template</code><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.template" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – Contain the text of the XML template provided.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#hippocratic.aphorisms_to_xml.AphorismsToXMLException" title="hippocratic.aphorisms_to_xml.AphorismsToXMLException"><code class="xref py py-exc docutils literal"><span class="pre">AphorismsToXMLException</span></code></a> – if template cannot be found or read.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.aphorisms_to_xml.Process.set_basename">
+<code class="descname">set_basename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process.set_basename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.set_basename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to set the basename attribute if fname is not None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.aphorisms_to_xml.Process.treat_footnotes">
+<code class="descname">treat_footnotes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/aphorisms_to_xml.html#Process.treat_footnotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.aphorisms_to_xml.Process.treat_footnotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to treat Footnote.</p>
+<p>Work even if division of the document didn’t work properly but
+for the footnotes part.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hippocratic.baseclass">
+<span id="hippocratic-baseclass-module"></span><h2>hippocratic.baseclass module<a class="headerlink" href="#module-hippocratic.baseclass" title="Permalink to this headline">¶</a></h2>
+<p>Module which will contains the basic classes used in the code</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="hippocratic.baseclass.Hippocratic">
+<em class="property">class </em><code class="descclassname">hippocratic.baseclass.</code><code class="descname">Hippocratic</code><a class="reference internal" href="../_modules/hippocratic/baseclass.html#Hippocratic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.baseclass.Hippocratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Basic class used for the software.</p>
+<dl class="attribute">
+<dt id="hippocratic.baseclass.Hippocratic.xml">
+<code class="descname">xml</code><a class="headerlink" href="#hippocratic.baseclass.Hippocratic.xml" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list, optional</em> – list of string which contains the XML related to the introduction
+to be include in the main XML part of the document.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.baseclass.Hippocratic.xml_n_offset">
+<code class="descname">xml_n_offset</code><a class="headerlink" href="#hippocratic.baseclass.Hippocratic.xml_n_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int, optional</em> – define the number of time the oss string is used (see above)
+default: 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.baseclass.Hippocratic.xml_offset_size">
+<code class="descname">xml_offset_size</code><a class="headerlink" href="#hippocratic.baseclass.Hippocratic.xml_offset_size" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int, optional</em> – define the number of times the same string is used to indent.
+Default: 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.baseclass.Hippocratic.xml_oss">
+<code class="descname">xml_oss</code><a class="headerlink" href="#hippocratic.baseclass.Hippocratic.xml_oss" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str, optional</em> – define the string used to indent xml statement.
+default ‘ ‘ * XML_OFFSET_SIZE.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.baseclass.Hippocratic.note_xml">
+<code class="descname">note_xml</code><span class="sig-paren">(</span><em>note</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/baseclass.html#Hippocratic.note_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.baseclass.Hippocratic.note_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to create the apparatus note XML</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>note</strong> (<em>str</em>) – contains the string to consider as a note in the XML</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.baseclass.Hippocratic.save_xml">
+<code class="descname">save_xml</code><span class="sig-paren">(</span><em>fname=None</em>, <em>xml=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/baseclass.html#Hippocratic.save_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.baseclass.Hippocratic.save_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to save the XML in the working directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.baseclass.Hippocratic.xml_main">
+<code class="descname">xml_main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/baseclass.html#Hippocratic.xml_main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.baseclass.Hippocratic.xml_main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method which will create the XML file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="hippocratic.baseclass.HippocraticException">
+<em class="property">exception </em><code class="descclassname">hippocratic.baseclass.</code><code class="descname">HippocraticException</code><a class="reference internal" href="../_modules/hippocratic/baseclass.html#HippocraticException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.baseclass.HippocraticException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Class for exception</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hippocratic.conf">
+<span id="hippocratic-conf-module"></span><h2>hippocratic.conf module<a class="headerlink" href="#module-hippocratic.conf" title="Permalink to this headline">¶</a></h2>
+<p>Module to contains the configuration of the hippocratic software</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-hippocratic.footnotes">
+<span id="hippocratic-footnotes-module"></span><h2>hippocratic.footnotes module<a class="headerlink" href="#module-hippocratic.footnotes" title="Permalink to this headline">¶</a></h2>
+<p>Module used to treat the footnotes from the hypocratic project.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Jonathan Boyle, Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="hippocratic.footnotes.Footnote">
+<em class="property">class </em><code class="descclassname">hippocratic.footnotes.</code><code class="descname">Footnote</code><span class="sig-paren">(</span><em>footnote=None</em>, <em>n_footnote=None</em>, <em>xml=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/footnotes.html#Footnote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.Footnote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hippocratic.baseclass.Hippocratic" title="hippocratic.baseclass.Hippocratic"><code class="xref py py-class docutils literal"><span class="pre">hippocratic.baseclass.Hippocratic</span></code></a></p>
+<p>Class Footnote which treat an individual footnote</p>
+<dl class="attribute">
+<dt id="hippocratic.footnotes.Footnote.footnote">
+<code class="descname">footnote</code><a class="headerlink" href="#hippocratic.footnotes.Footnote.footnote" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – String which contains the footnote to treat.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.footnotes.Footnote.n_footnote">
+<code class="descname">n_footnote</code><a class="headerlink" href="#hippocratic.footnotes.Footnote.n_footnote" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – Integer which give the reference number of the footnote treated.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.footnotes.Footnote.xml">
+<code class="descname">xml</code><a class="headerlink" href="#hippocratic.footnotes.Footnote.xml" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> – list which contains the app XML file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.footnotes.Footnote.check_endnote">
+<code class="descname">check_endnote</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/footnotes.html#Footnote.check_endnote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.Footnote.check_endnote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to check if there are a note at the end of a footnote</p>
+<p>If the symbol <cite>;</cite> is present in the footnote. Everything after is
+considered as a note and will be added as that in the &lt;app&gt;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.footnotes.Footnote.correction">
+<code class="descname">correction</code><span class="sig-paren">(</span><em>reason</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/footnotes.html#Footnote.correction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.Footnote.correction" title="Permalink to this definition">¶</a></dt>
+<dd><p>This helper function processes a footnote line describing correxi, i.e.
+corrections by the editor, these contain the string ‘correxi’.</p>
+<p>The first input argument must be the footnote line with the following
+stripped from the start and end of the string:</p>
+<ol class="arabic simple">
+<li>All whitespace</li>
+<li><code class="docutils literal"><span class="pre">*n*</span></code> (where n is the footnote number) from the start of
+the string</li>
+<li><code class="docutils literal"><span class="pre">.</span></code> character from the end of the string</li>
+</ol>
+<p>The footnote is expected to contain at least one <code class="docutils literal"><span class="pre">:</span></code> character and
+have the following format:</p>
+<ol class="arabic">
+<li><p class="first">The footnote line before the first <code class="docutils literal"><span class="pre">:</span></code> character contains a string
+of witness text, followed by a <code class="docutils literal"><span class="pre">]</span></code> character.</p>
+</li>
+<li><p class="first">The footnote line after the ‘:’ character has one of two formats:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>multiple pairs of witness text + witness code, each pair
+separated by a <code class="docutils literal"><span class="pre">:</span></code> character</li>
+<li>a single witness text followed by a space and a list of comma
+separated witness codes</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<p>The second input argument should be a list containing
+the apparatus XML, this function will add XML to this list.</p>
+<p>The third input argument is a string defining the unit of offset
+for the XML, this defaults to four space characters.</p>
+<p>It is intended this function is called by _footnotes()
+for correxi footnotes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.footnotes.Footnote.omission">
+<code class="descname">omission</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/footnotes.html#Footnote.omission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.Footnote.omission" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function processes a footnote line describing an omission</p>
+<p>This helper function processes a footnote line describing an omission,
+i.e. footnotes which contain the string <code class="docutils literal"><span class="pre">om.</span></code>.</p>
+<p>The textual variation MUST include only only two witnesses,
+hence omissions with two witnesses are not allowed since it would make
+no sense for both witnesses to omit the same text. Therefore
+the following should be true:</p>
+<ol class="arabic simple">
+<li>The footnote line contains one colon character.</li>
+<li>The footnote line doesn’t contain commas.</li>
+</ol>
+<p>The first input argument must be the footnote line with the following
+stripped from the start and end of the string:</p>
+<ol class="arabic simple">
+<li>All whitespace</li>
+<li><code class="docutils literal"><span class="pre">*n*</span></code> (where n is the footnote number) from the start of
+the string</li>
+<li><code class="docutils literal"><span class="pre">.</span></code> character from the end of the string</li>
+</ol>
+<p>The footnote is expected to contain a single ‘:’ character and have the
+following format:</p>
+<ol class="arabic simple">
+<li>The footnote line before the ‘:’ character is a string of witness
+text, followed by the ‘]’ character, followed by a single witness
+code.</li>
+<li>The footnote line after the ‘:’ character contains an ‘om.’ followed
+by a single witness code.</li>
+</ol>
+<p>The second input argument should be a list containing
+the apparatus XML, this function will add XML to this list.</p>
+<p>The third input argument is the string defining a unit of offset in
+the XML, this defaults to four space characters.</p>
+<p>It is intended this function is called by _footnotes()
+for omission footnotes.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="hippocratic.footnotes.Footnotes">
+<em class="property">class </em><code class="descclassname">hippocratic.footnotes.</code><code class="descname">Footnotes</code><span class="sig-paren">(</span><em>footnotes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/footnotes.html#Footnotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.Footnotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Class to analyse and create the XML app file for the entire set of
+footnotes.</p>
+<dl class="attribute">
+<dt id="hippocratic.footnotes.Footnotes.footnotes">
+<code class="descname">footnotes</code><a class="headerlink" href="#hippocratic.footnotes.Footnotes.footnotes" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list, str, OrderedDict, dict</em> – List which contains the whole set of footnote from the hippocratic
+file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.footnotes.Footnotes.save_xml">
+<code class="descname">save_xml</code><span class="sig-paren">(</span><em>fname='xml_app.xml'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/footnotes.html#Footnotes.save_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.Footnotes.save_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to save the XML app string in a file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<em>str</em><em> (</em><em>optional</em><em>)</em>) – name of the file where the XML app will be saved.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.footnotes.Footnotes.xml_app">
+<code class="descname">xml_app</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/footnotes.html#Footnotes.xml_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.Footnotes.xml_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to create the XML add for the footnote</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>xml_app</strong> – list which contains the lines with the XML related to the footnotes</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="hippocratic.footnotes.FootnotesException">
+<em class="property">exception </em><code class="descclassname">hippocratic.footnotes.</code><code class="descname">FootnotesException</code><a class="reference internal" href="../_modules/hippocratic/footnotes.html#FootnotesException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.footnotes.FootnotesException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Class for exception</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hippocratic.introduction">
+<span id="hippocratic-introduction-module"></span><h2>hippocratic.introduction module<a class="headerlink" href="#module-hippocratic.introduction" title="Permalink to this headline">¶</a></h2>
+<p>Module which contains the class which create the XML part related to
+the introduction (if present) in the hippocratic aphorism document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Jonathan Boyle, Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="hippocratic.introduction.Introduction">
+<em class="property">class </em><code class="descclassname">hippocratic.introduction.</code><code class="descname">Introduction</code><span class="sig-paren">(</span><em>introduction</em>, <em>next_footnote</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/introduction.html#Introduction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.introduction.Introduction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hippocratic.baseclass.Hippocratic" title="hippocratic.baseclass.Hippocratic"><code class="xref py py-class docutils literal"><span class="pre">hippocratic.baseclass.Hippocratic</span></code></a></p>
+<p>Class Introduction which will create the introduction XML part</p>
+<dl class="attribute">
+<dt id="hippocratic.introduction.Introduction.introduction">
+<code class="descname">introduction</code><a class="headerlink" href="#hippocratic.introduction.Introduction.introduction" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – string which contain the introduction of the hippocratic aphorisms
+document.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.introduction.Introduction.next_footnote">
+<code class="descname">next_footnote</code><a class="headerlink" href="#hippocratic.introduction.Introduction.next_footnote" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – integer which contains the footnote reference number which
+can be present.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#hippocratic.introduction.IntroductionException" title="hippocratic.introduction.IntroductionException"><code class="xref py py-exc docutils literal"><span class="pre">IntroductionException</span></code></a> – if cannot create the xml code for the introduction.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="hippocratic.introduction.Introduction.xml_main">
+<code class="descname">xml_main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/introduction.html#Introduction.xml_main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.introduction.Introduction.xml_main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to treat the optional part of the introduction.</p>
+<p>Modify the attribute <code class="docutils literal"><span class="pre">xml</span></code> to add the title section in the main XML</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="hippocratic.introduction.IntroductionException">
+<em class="property">exception </em><code class="descclassname">hippocratic.introduction.</code><code class="descname">IntroductionException</code><a class="reference internal" href="../_modules/hippocratic/introduction.html#IntroductionException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.introduction.IntroductionException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Class for exception</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hippocratic.main">
+<span id="hippocratic-main-module"></span><h2>hippocratic.main module<a class="headerlink" href="#module-hippocratic.main" title="Permalink to this headline">¶</a></h2>
+<p>Main module to treat aphorisms and convert them in XML files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Jonathan Boyle, Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="hippocratic.main.main">
+<code class="descclassname">hippocratic.main.</code><code class="descname">main</code><span class="sig-paren">(</span><em>args=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/main.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.main.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run AphorismsToXML scripts to produce the TEI XML</p>
+<p>Command line:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span>
+    <span class="n">AphorismsToXML</span> <span class="o">&lt;</span><span class="n">files</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=&lt;</span><span class="n">tmpl</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">relaxng</span><span class="o">=&lt;</span><span class="n">relax</span><span class="o">&gt;</span><span class="p">]</span>
+    <span class="n">AphorismsToXML</span> <span class="o">-</span><span class="n">h</span> <span class="o">|</span> <span class="o">--</span><span class="n">help</span>
+    <span class="n">AphorismsToXML</span> <span class="o">--</span><span class="n">version</span>
+
+<span class="n">Options</span><span class="p">:</span>
+    <span class="o">-</span><span class="n">h</span> <span class="o">--</span><span class="n">help</span>                   <span class="n">Show</span> <span class="n">this</span> <span class="n">screen</span><span class="o">.</span>
+    <span class="o">--</span><span class="n">version</span>                   <span class="n">Show</span> <span class="n">version</span><span class="o">.</span>
+    <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=&lt;</span><span class="n">name</span><span class="o">&gt;</span>       <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">XML</span> <span class="n">template</span>
+    <span class="o">--</span><span class="n">relaxng</span><span class="o">=&lt;</span><span class="n">name</span><span class="o">&gt;</span>            <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Relaxng</span> <span class="n">file</span> <span class="n">use</span> <span class="n">to</span> <span class="n">validate</span> <span class="n">the</span> <span class="n">resulting</span> <span class="n">XML</span>
+
+<span class="n">Examples</span><span class="p">:</span>
+    <span class="n">AphorismsToXML</span> <span class="n">TextFiles</span>
+    <span class="n">AphorismsToXML</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">xml</span>
+    <span class="n">AphorismsToXML</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">relaxng</span><span class="o">=</span><span class="n">tei</span><span class="o">.</span><span class="n">rng</span>
+    <span class="n">AphorismsToXML</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">relaxng</span><span class="o">=</span><span class="n">tei</span><span class="o">.</span><span class="n">rng</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SystemExit</span></code> – if the file or the folder to treat is not available.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hippocratic.title">
+<span id="hippocratic-title-module"></span><h2>hippocratic.title module<a class="headerlink" href="#module-hippocratic.title" title="Permalink to this headline">¶</a></h2>
+<p>Module which contains the class which create the XML part related to
+the title in the hippocratic aphorism document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Jonathan Boyle, Nicolas Gruel &lt;<a class="reference external" href="mailto:nicolas&#46;gruel&#37;&#52;&#48;manchester&#46;ac&#46;uk">nicolas<span>&#46;</span>gruel<span>&#64;</span>manchester<span>&#46;</span>ac<span>&#46;</span>uk</a>&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Copyright:</th><td class="field-body">IT Services, The University of Manchester</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="hippocratic.title.Title">
+<em class="property">class </em><code class="descclassname">hippocratic.title.</code><code class="descname">Title</code><span class="sig-paren">(</span><em>title</em>, <em>next_footnote=1</em>, <em>doc_num=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/title.html#Title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.title.Title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hippocratic.baseclass.Hippocratic" title="hippocratic.baseclass.Hippocratic"><code class="xref py py-class docutils literal"><span class="pre">hippocratic.baseclass.Hippocratic</span></code></a></p>
+<p>Class Title which will create the title XML part</p>
+<dl class="attribute">
+<dt id="hippocratic.title.Title.title">
+<code class="descname">title</code><a class="headerlink" href="#hippocratic.title.Title.title" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – string which contain the title of the hippocratic aphorisms
+document.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.title.Title.doc_num">
+<code class="descname">doc_num</code><a class="headerlink" href="#hippocratic.title.Title.doc_num" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – integer which contain the version of the document.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hippocratic.title.Title.next_footnote">
+<code class="descname">next_footnote</code><a class="headerlink" href="#hippocratic.title.Title.next_footnote" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – integer which contains the footnote reference number which
+can be present.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hippocratic.title.Title.xml_main">
+<code class="descname">xml_main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/title.html#Title.xml_main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.title.Title.xml_main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to treat the title.</p>
+<p>Modify the attribute <code class="docutils literal"><span class="pre">xml</span></code> to add the title section in the main XML</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="hippocratic.title.TitleException">
+<em class="property">exception </em><code class="descclassname">hippocratic.title.</code><code class="descname">TitleException</code><a class="reference internal" href="../_modules/hippocratic/title.html#TitleException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.title.TitleException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Class for exception</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hippocratic">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-hippocratic" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+  </body>
+</html>
