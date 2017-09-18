@@ -26,6 +26,11 @@ SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
 
+GITHUBBUILDDIR      = ../../AphorismToTEI-html
+PDFBUILDDIR   = /tmp
+PDFNAME       = hippocratic_aphorisms.pdf
+PDF           = ../manual.pdf
+
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
@@ -60,6 +65,17 @@ html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+gh-pages: $(PDFs)
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(GITHUBBUILDDIR)
+	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(PDFBUILDDIR)/latex
+	@echo "Running LaTeX files through pdflatex..."
+	make -C $(PDFBUILDDIR)/latex all-pdf
+	cp $(PDFBUILDDIR)/latex/$(PDFNAME) $(PDF)
+	@echo
+	@echo "Build finished. The HTML pages are in $(GITHUBBUILDDIR)."
+	@echo "Update gh-pages and push to github"
+	cd $(GITHUBBUILDDIR) ; git add . ; git commit -m "rebuilt docs" ; git push origin gh-pages
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
@@ -155,5 +171,5 @@ doctest:
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
 clean:
-	-rm -rf $(BUILDDIR)/*
+	-rm -rf $(BUILDDIR)/* $(GITHUBBUILDDIR)/html
 	-rm $(PDFs)

@@ -73,6 +73,9 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
+gh-pages: ## generate and push sphinx HTML documentation to gh-pages on github
+	cd docs && make gh-pages
+
 uml: ## Generate UML diagrams (png and svg format)
 	rm -f ./docs/images/classes_hippocratic.svg ./docs/images/classes_hippocratic.png
 	rm -f ./docs/images/packages_hippocratic.svg ./docs/images/packages_hippocratic.png
