@@ -16,18 +16,14 @@ Hippocratic aphorisms XML
 README
 ######
 
-.. toctree::
-   :maxdepth: 2
 
-   source/includeme
+A Python module called AphorismToXML has been written by Jonathan
+Boyle and Nicolas Gruel (University of Manchester) to convert transcribed
+commentaries to `TEI <http://www.tei-c.org/index.xml>`_ compatible XML.
 
-.. A Python module called AphorismToXML has been written by Jonathan
-   Boyle and Nicolas Gruel (University of Manchester) to convert transcribed
-   commentaries to `TEI <http://www.tei-c.org/index.xml>`_ compatible XML.
-
-.. The work was funded from an ERC funded project studying Arabic
-   commentaries on the Hippocratic Aphorisms, the Principal Investigator
-   was Peter E. Pormann (The University of Manchester).
+The work was funded from an ERC funded project studying Arabic
+commentaries on the Hippocratic Aphorisms, the Principal Investigator
+was Peter E. Pormann (The University of Manchester).
 
 ##################
 Tables of Contents
