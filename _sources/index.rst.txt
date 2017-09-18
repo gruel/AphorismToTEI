@@ -18,8 +18,8 @@ README
 
 .. toctree::
    :maxdepth: 2
-   
-   includeme
+
+   source/includeme
 
 .. A Python module called AphorismToXML has been written by Jonathan
    Boyle and Nicolas Gruel (University of Manchester) to convert transcribed
