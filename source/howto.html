@@ -112,7 +112,7 @@
 <span id="howto"></span><h1>How-To<a class="headerlink" href="#how-to" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>The expected way of using the module is to run the software <code class="docutils literal"><span class="pre">AphorismsToXML</span></code> in a terminal where you want to save the XML files
+<p>The expected way of using the module is to run the software <code class="docutils literal"><span class="pre">eXegis</span></code> in a terminal where you want to save the XML files
 which should be produce at the end of the process.</p>
 <p>The software is expecting at least one argument which can be:</p>
 <ol class="arabic simple">
@@ -122,10 +122,10 @@ which should be produce at the end of the process.</p>
 <p>The text file has to follow a specific structure (XXXXX)</p>
 <p>An optional argument can be given to use a specic template which
 will be used to create the XML files.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">AphorismsToXML</span> <span class="n">file_to_analyse</span>
-<span class="o">&gt;</span> <span class="n">AphorismsToXML</span> <span class="n">file_to_analyse</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">main</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">xml_main_template</span><span class="o">.</span><span class="n">xml</span>
-<span class="o">&gt;</span> <span class="n">AphorismsToXML</span> <span class="n">directory</span>
-<span class="o">&gt;</span> <span class="n">AphorismsToXML</span> <span class="n">directory</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">main</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">xml_main_template</span><span class="o">.</span><span class="n">xml</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">exegis</span> <span class="n">file_to_analyse</span>
+<span class="o">&gt;</span> <span class="n">exegis</span> <span class="n">file_to_analyse</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">main</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">xml_main_template</span><span class="o">.</span><span class="n">xml</span>
+<span class="o">&gt;</span> <span class="n">exegis</span> <span class="n">directory</span>
+<span class="o">&gt;</span> <span class="n">exegis</span> <span class="n">directory</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">main</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">xml_main_template</span><span class="o">.</span><span class="n">xml</span>
 </pre></div>
 </div>
 <p>where:</p>
@@ -139,14 +139,14 @@ the treatment (here <code class="docutils literal"><span class="pre">xml_main_te
 </ul>
 <p>The software provided the information on how to use it if it is called
 wihtout arguments or with the option <code class="docutils literal"><span class="pre">-h</span></code> or <code class="docutils literal"><span class="pre">--help</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">AphorismsToXML</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">exegis</span>
 </pre></div>
 </div>
 <p>will give:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span>
-        <span class="n">AphorismsToXML</span> <span class="o">&lt;</span><span class="n">files</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">main</span><span class="o">-</span><span class="n">template</span><span class="o">=&lt;</span><span class="n">tmpl</span><span class="o">&gt;</span><span class="p">]</span>
-        <span class="n">AphorismsToXML</span> <span class="o">-</span><span class="n">h</span> <span class="o">|</span> <span class="o">--</span><span class="n">help</span>
-        <span class="n">AphorismsToXML</span> <span class="o">--</span><span class="n">version</span>
+        <span class="n">exegis</span> <span class="o">&lt;</span><span class="n">files</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">main</span><span class="o">-</span><span class="n">template</span><span class="o">=&lt;</span><span class="n">tmpl</span><span class="o">&gt;</span><span class="p">]</span>
+        <span class="n">exegis</span> <span class="o">-</span><span class="n">h</span> <span class="o">|</span> <span class="o">--</span><span class="n">help</span>
+        <span class="n">exegis</span> <span class="o">--</span><span class="n">version</span>
 </pre></div>
 </div>
 </div>
@@ -161,21 +161,21 @@ called <code class="docutils literal"><span class="pre">texts</span></code>.</p>
 </pre></div>
 </div>
 <p>to achieve the transformation in a terminal:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">AphorismsToXML</span> <span class="n">texts</span><span class="o">/</span><span class="n">aphorisms</span><span class="o">.</span><span class="n">txt</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">exegis</span> <span class="n">texts</span><span class="o">/</span><span class="n">aphorisms</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
 </div>
 <p>or just use the name of the directory (All the files inside it will be treated):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">AphorismsToXML</span> <span class="n">texts</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">exegis</span> <span class="n">texts</span>
 </pre></div>
 </div>
 <p>If everything is running well the user will not get any message but will come
 back to the normal terminal prompt <code class="docutils literal"><span class="pre">&gt;</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">AphorismsToXML</span> <span class="n">texts</span><span class="o">/</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">exegis</span> <span class="n">texts</span><span class="o">/</span>
 <span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>if there are a problem an error message will appeared in the terminal:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">AphorismsToXML</span> <span class="n">texts</span><span class="o">/</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">exegis</span> <span class="n">texts</span><span class="o">/</span>
 <span class="mi">2017</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">25</span> <span class="mi">11</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">05</span><span class="p">,</span><span class="mi">389</span> <span class="o">-</span> <span class="n">hippocratic</span> <span class="o">-</span> <span class="n">ERROR</span> <span class="o">-</span> <span class="n">N</span> <span class="n">aphorism</span> <span class="n">expected</span> <span class="mi">4</span><span class="p">,</span> <span class="n">got</span><span class="p">:</span> <span class="mi">3</span>
 <span class="mi">2017</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">25</span> <span class="mi">11</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">05</span><span class="p">,</span><span class="mi">389</span> <span class="o">-</span> <span class="n">hippocratic</span> <span class="o">-</span> <span class="n">ERROR</span> <span class="o">-</span> <span class="n">Missing</span> <span class="ow">or</span> <span class="n">problematic</span> <span class="n">aphorism</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="mi">2017</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">25</span> <span class="mi">11</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">05</span><span class="p">,</span><span class="mi">389</span> <span class="o">-</span> <span class="n">hippocratic</span> <span class="o">-</span> <span class="n">ERROR</span> <span class="o">-</span> <span class="n">Error</span><span class="p">:</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">process</span> <span class="s2">&quot;aphorisms.txt&quot;</span><span class="p">,</span> <span class="n">see</span> <span class="n">log</span> <span class="n">file</span><span class="o">.</span>

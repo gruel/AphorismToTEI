@@ -801,12 +801,12 @@ can be present.</p>
 <dl class="function">
 <dt id="hippocratic.main.main">
 <code class="descclassname">hippocratic.main.</code><code class="descname">main</code><span class="sig-paren">(</span><em>args=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hippocratic/main.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hippocratic.main.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run AphorismsToXML scripts to produce the TEI XML</p>
+<dd><p>Run eXegis scripts to produce the TEI XML</p>
 <p>Command line:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span>
-    <span class="n">AphorismsToXML</span> <span class="o">&lt;</span><span class="n">files</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=&lt;</span><span class="n">tmpl</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">relaxng</span><span class="o">=&lt;</span><span class="n">relax</span><span class="o">&gt;</span><span class="p">]</span>
-    <span class="n">AphorismsToXML</span> <span class="o">-</span><span class="n">h</span> <span class="o">|</span> <span class="o">--</span><span class="n">help</span>
-    <span class="n">AphorismsToXML</span> <span class="o">--</span><span class="n">version</span>
+    <span class="n">exegis</span> <span class="o">&lt;</span><span class="n">files</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=&lt;</span><span class="n">tmpl</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">relaxng</span><span class="o">=&lt;</span><span class="n">relax</span><span class="o">&gt;</span><span class="p">]</span>
+    <span class="n">exegis</span> <span class="o">-</span><span class="n">h</span> <span class="o">|</span> <span class="o">--</span><span class="n">help</span>
+    <span class="n">exegis</span> <span class="o">--</span><span class="n">version</span>
 
 <span class="n">Options</span><span class="p">:</span>
     <span class="o">-</span><span class="n">h</span> <span class="o">--</span><span class="n">help</span>                   <span class="n">Show</span> <span class="n">this</span> <span class="n">screen</span><span class="o">.</span>
@@ -815,10 +815,10 @@ can be present.</p>
     <span class="o">--</span><span class="n">relaxng</span><span class="o">=&lt;</span><span class="n">name</span><span class="o">&gt;</span>            <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Relaxng</span> <span class="n">file</span> <span class="n">use</span> <span class="n">to</span> <span class="n">validate</span> <span class="n">the</span> <span class="n">resulting</span> <span class="n">XML</span>
 
 <span class="n">Examples</span><span class="p">:</span>
-    <span class="n">AphorismsToXML</span> <span class="n">TextFiles</span>
-    <span class="n">AphorismsToXML</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">xml</span>
-    <span class="n">AphorismsToXML</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">relaxng</span><span class="o">=</span><span class="n">tei</span><span class="o">.</span><span class="n">rng</span>
-    <span class="n">AphorismsToXML</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">relaxng</span><span class="o">=</span><span class="n">tei</span><span class="o">.</span><span class="n">rng</span>
+    <span class="n">exegis</span> <span class="n">TextFiles</span>
+    <span class="n">exegis</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">xml</span>
+    <span class="n">exegis</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">relaxng</span><span class="o">=</span><span class="n">tei</span><span class="o">.</span><span class="n">rng</span>
+    <span class="n">exegis</span> <span class="n">Textfiles</span> <span class="o">--</span><span class="n">xml</span><span class="o">-</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">relaxng</span><span class="o">=</span><span class="n">tei</span><span class="o">.</span><span class="n">rng</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
