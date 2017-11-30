@@ -42,13 +42,13 @@ Clone the code from the github repository:
 
 .. code:: commandline
 
-    git clone https://github.com/UoMResearchIT/CommentaryToEpidoc.git
+    git clone https://github.com/UoMResearchIT/eXegis.git
 
 go into the project directory:
 
 .. code:: commandline
 
-    cd CommentaryToEpidoc
+    cd eXegis
 
 Install the package:
 
@@ -65,19 +65,19 @@ with:
 
 .. code:: commandline
 
-    pip install -U -r requirements.txt --user
+    pip install -U -r requirements-dev.txt --user
 
 Usage
 -----
 
 When the package is installed, it should be available in your ``PATH``
-under the name ``AphorismToXML``.
+under the name ``eXegis``.
 
 To use it start a terminal and execute the command:
 
 .. code:: commandline
 
-    AphorismToXML <path or file>
+    exegis <path or file>
 
 where:
 

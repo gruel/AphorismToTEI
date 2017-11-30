@@ -54,7 +54,7 @@ setup(name='hippocratic',
           'doc': ['sphinx', 'numpydoc']},
       entry_points={
           'console_scripts': [
-              'AphorismsToXML = hippocratic.main:main']
+              'exegis = hippocratic.main:main']
                     },
       package_data={
           '': ['LICENSE'],

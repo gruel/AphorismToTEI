@@ -62,7 +62,6 @@ extensions = ['sphinx.ext.autodoc',
 # PlantUML
 plantuml = 'java -jar ../utils/plantuml.jar'
 
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
