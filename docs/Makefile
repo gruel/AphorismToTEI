@@ -47,6 +47,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  html      to make standalone HTML files"
+	@echo "  gh-pages to create the html pages compatible with github gh-pages and upload them to github gh-pages"
 	@echo "  dirhtml   to make HTML files named index.html in directories"
 	@echo "  singlehtml to make a single large HTML file"
 	@echo "  pickle    to make pickle files"
@@ -63,6 +64,7 @@ help:
 	@echo "  changes   to make an overview of all changed/added/deprecated items"
 	@echo "  linkcheck to check all external links for integrity"
 	@echo "  doctest   to run all doctests embedded in the documentation (if enabled)"
+	@echo "  plantuml.jar to download plantuml file if needed"
 
 clean:
 	-rm -rf $(BUILDDIR)/*
