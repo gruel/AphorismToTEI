@@ -48,8 +48,8 @@ install:
   - source activate test-environment
   - python setup.py install
   - pip install .
-  - pip install -r requirements_dev.txt
-  
+  - pip install -r requirements-dev.txt
+
 before_script:
   # Build the compiled extension
   - python setup.py build
