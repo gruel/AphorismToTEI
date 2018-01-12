@@ -21,10 +21,10 @@ test_requirements = [
         'testfixtures',
         ]
 
-setup(name='hippocratic',
-      packages=['hippocratic'],
+setup(name='exegis',
+      packages=['exegis'],
       version='0.5.0',
-      description=('Software to convert hippocratic text files '
+      description=('Software to convert exegis text files '
                    'to in XML files.'),
       long_description=readme,
       author='Nicolas Gruel, Jonathan Boyle',
@@ -54,12 +54,12 @@ setup(name='hippocratic',
           'doc': ['sphinx', 'numpydoc']},
       entry_points={
           'console_scripts': [
-              'exegis = hippocratic.main:main']
+              'exegis = exegis.main:main']
                     },
       package_data={
           '': ['LICENSE'],
-          #'hippocratic': [os.path.join('template', 'xml_main_template.xml')],
-          'hippocratic': [package_data],
+          #'exegis': [os.path.join('template', 'xml_main_template.xml')],
+          'exegis': [package_data],
       },
       include_package_data=True,
       license='MIT',

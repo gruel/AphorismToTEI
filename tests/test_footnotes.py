@@ -5,7 +5,7 @@ import pytest
 from testfixtures import LogCapture
 import logging
 
-from .context import Footnote, Footnotes, FootnotesException
+from .conftest import Footnote, Footnotes, FootnotesException
 
 
 file_path = os.path.realpath(__file__)
@@ -14,7 +14,7 @@ sys.path.append(path)
 
 path_testdata = os.path.join(path, 'test_files') + os.sep
 # examples = os.path.join(path, '..', 'Examples', 'TextFiles') + os.sep
-template_file = os.path.join(path, '..', 'hippocratic', 'template',
+template_file = os.path.join(path, '..', 'exegis', 'template',
                              'xml_template.txt')
 
 
@@ -570,9 +570,9 @@ def test_footnote_inside_footnote():
     ft.footnotes = ['*1*aaa vvvvv*3*cccc ']
     ft._dictionary()
 
-    logcapture.check(('hippocratic', 'WARNING',
+    logcapture.check(('exegis', 'WARNING',
               'Problem in footnote: *1*aaa vvvvv*3*cccc '),
-            ('hippocratic', 'WARNING',
+            ('exegis', 'WARNING',
              'There are a footnote reference inside the footnote. '
              'This case is not treatable by the actual version of '
              'the software'))

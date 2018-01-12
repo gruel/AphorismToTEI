@@ -2,7 +2,7 @@ import os
 import sys
 import pytest
 
-from .context import analysis
+from .conftest import analysis
 
 file_path = os.path.realpath(__file__)
 path = os.path.dirname(file_path)
@@ -10,7 +10,7 @@ sys.path.append(path)
 
 path_testdata = os.path.join(path, 'test_files') + os.sep
 # examples = os.path.join(path, '..', 'Examples', 'TextFiles') + os.sep
-template_file = os.path.join(path, '..', 'hippocratic', 'template',
+template_file = os.path.join(path, '..', 'exegis', 'template',
                              'xml_template.txt')
 
 
