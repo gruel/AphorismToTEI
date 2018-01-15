@@ -34,7 +34,7 @@ ifeq ($(strip $(GITHUBBUILDDIR)),)
 endif
 
 PDFBUILDDIR   = /tmp
-PDFNAME       = hippocratic_aphorisms.pdf
+PDFNAME       = eXegis_manual.pdf
 PDF           = ../manual.pdf
 
 # Internal variables.

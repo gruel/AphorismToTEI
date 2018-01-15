@@ -28,7 +28,7 @@ def main(args=None):
     Command line::
 
         Usage:
-            exegis <files> [--xml-template=<tmpl>] [--relaxng=<relax>]
+            exegis <files>  [--relaxng=<relax>]
             exegis -h | --help
             exegis --version
 

@@ -80,9 +80,9 @@ back to the normal terminal prompt ``>``::
 if there are a problem an error message will appeared in the terminal::
 
     >exegis texts/
-    2017-04-25 11:57:05,389 - hippocratic - ERROR - N aphorism expected 4, got: 3
-    2017-04-25 11:57:05,389 - hippocratic - ERROR - Missing or problematic aphorism: [2]
-    2017-04-25 11:57:05,389 - hippocratic - ERROR - Error: unable to process "aphorisms.txt", see log file.
+    2017-04-25 11:57:05,389 - exegis - ERROR - N aphorism expected 4, got: 3
+    2017-04-25 11:57:05,389 - exegis - ERROR - Missing or problematic aphorism: [2]
+    2017-04-25 11:57:05,389 - exegis - ERROR - Error: unable to process "aphorisms.txt", see log file.
     >
 
 In this example, the error message said that the problem is at the aphorism 2.
@@ -92,7 +92,7 @@ needed at this stage and he should verify the ``aphorisms.txt`` file.
 For both results a logging file will be created in the working directory::
 
     .
-    ├── hippocratic.log
+    ├── exegis.log
     ├── texts
        └── aphorisms.txt
 
@@ -100,7 +100,7 @@ If the process is running until the end without any problems, a new directory
 will be created in the working directory with the name ``XML``::
 
     .
-    ├── hippocratic.log
+    ├── exegis.log
     ├── texts
     │   └── aphorisms.txt
     └── XML

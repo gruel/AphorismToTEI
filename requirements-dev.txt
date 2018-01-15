@@ -15,11 +15,11 @@ pytest-cov
 coverage
 
 # Documentation
-sphinx==1.5.5
+sphinx
 sphinx-bootstrap-theme
 numpydoc
 pyqt5
 sphinxcontrib-plantuml
 
-# Distribution 
+# Distribution
 wheel

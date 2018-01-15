@@ -1,8 +1,8 @@
 Hippocratic Aphorisms
 =====================
 
-.. image:: https://travis-ci.org/gruel/AphorismToTEI.svg?branch=master
-   :target: https://travis-ci.org/gruel/AphorismToTEI
+.. image:: https://travis-ci.org/gruel/eXegis.svg?branch=master
+   :target: https://travis-ci.org/gruel/eXegis
 
 .. image:: https://ci.appveyor.com/api/projects/status/4t9ncyaqcm8g470i?svg=true
    :target: https://ci.appveyor.com/project/gruel/aphorismtotei
@@ -86,7 +86,7 @@ where:
 -  ``file`` is the name of the individual file to analyse and convert to
    XML.
 
-At the end of the treatment a log file called *hippocratic.log* will be
+At the end of the treatment a log file called *exegis.log* will be
 found in the directory of the execution. It will contains information,
 errors and warning related to the process.
 

@@ -1,69 +1,69 @@
-hippocratic package
-===================
+eXegis package
+==============
 
 Submodules
 ----------
 
-hippocratic\.analysis module
+exegis\.analysis module
 ----------------------------
 
-.. automodule:: hippocratic.analysis
+.. automodule:: exegis.analysis
     :members:
     :undoc-members:
     :show-inheritance:
 
-hippocratic\.aphorisms\_to\_xml module
+exegis\.aphorisms\_to\_xml module
 --------------------------------------
 
-.. automodule:: hippocratic.aphorisms_to_xml
+.. automodule:: exegis.aphorisms_to_xml
     :members:
     :undoc-members:
     :show-inheritance:
 
-hippocratic\.baseclass module
+exegis\.baseclass module
 -----------------------------
 
-.. automodule:: hippocratic.baseclass
+.. automodule:: exegis.baseclass
     :members:
     :undoc-members:
     :show-inheritance:
 
-hippocratic\.conf module
+exegis\.conf module
 ------------------------
 
-.. automodule:: hippocratic.conf
+.. automodule:: exegis.conf
     :members:
     :undoc-members:
     :show-inheritance:
 
-hippocratic\.footnotes module
+exegis\.footnotes module
 -----------------------------
 
-.. automodule:: hippocratic.footnotes
+.. automodule:: exegis.footnotes
     :members:
     :undoc-members:
     :show-inheritance:
 
-hippocratic\.introduction module
+exegis\.introduction module
 --------------------------------
 
-.. automodule:: hippocratic.introduction
+.. automodule:: exegis.introduction
     :members:
     :undoc-members:
     :show-inheritance:
 
-hippocratic\.main module
+exegis\.main module
 ------------------------
 
-.. automodule:: hippocratic.main
+.. automodule:: exegis.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-hippocratic\.title module
+exegis\.title module
 -------------------------
 
-.. automodule:: hippocratic.title
+.. automodule:: exegis.title
     :members:
     :undoc-members:
     :show-inheritance:
@@ -72,7 +72,7 @@ hippocratic\.title module
 Module contents
 ---------------
 
-.. automodule:: hippocratic
+.. automodule:: exegis
     :members:
     :undoc-members:
     :show-inheritance:
