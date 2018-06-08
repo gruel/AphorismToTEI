@@ -10,15 +10,14 @@ with open('HISTORY.rst') as history_file:
 
 package_data = os.path.join('template', '*')
 
-
 requirements = [
-        'docopt',
-        'lxml'
+        'docopt>=0.6',
+        'lxml>=4.2'
         ]
 
 test_requirements = [
-        'pytest',
-        'testfixtures',
+        'pytest>=3.6',
+        'testfixtures>=6.1',
         ]
 
 setup(name='exegis',

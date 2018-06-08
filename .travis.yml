@@ -46,9 +46,6 @@ install:
     esac
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
-  - python setup.py install
-  #- pip install .
-  #- pip install -r requirements-dev.txt
 
 before_script:
   # Build the compiled extension
@@ -59,12 +56,14 @@ after_test:
   - python setup.py bdist_wheel
 
 script:
-
+  - pip install -r requirements.txt
+  - pip install pytest testfixtures
+  - python setup.py install
   # Run the project tests
   - pytest
 
-
 after_test:
+  - pip install -r requirements-dev.txt
   # Build documentation on linux
   - if [  "$TRAVIS_OS_NAME" != "osx" ]; then
         sudo apt-get update -qy;
