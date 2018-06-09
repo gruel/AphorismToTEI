@@ -1,0 +1,786 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>exegis.aphorisms_to_xml &#8212; Hippocratic Aphorismsv0.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/logo.svg"></span>
+           </a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Hippocratic Aphorisms <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../management/approvals.html">Approval Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../management/changes.html">Change Records</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/scope.html">Scope</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/acronyms.html">Acronyms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/howto.html">How-To</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/commentaries.html">Format for commentaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/xml_files.html">XML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/develop.html">Informations for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/uml.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/exegis.html">exegis package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+<form action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <h1>Source code for exegis.aphorisms_to_xml</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module has been written to convert transcribed commentaries from text</span>
+<span class="sd">files to TEI compatible XML.</span>
+
+<span class="sd">Funding is provided by an ERC funded project studying Arabic commentaries on</span>
+<span class="sd">the Hippocratic Aphorisms. The Principal Investigator is Peter E. Pormann,</span>
+<span class="sd">The University of Manchester.</span>
+
+<span class="sd">It is anticipated the module will be used via the main.py module</span>
+<span class="sd">which attempts to to process any input file or directory containing files with</span>
+<span class="sd">a .txt extension.</span>
+
+<span class="sd">Each text file base name should end in an underscore followed by a</span>
+<span class="sd">numerical value, e.g. file_1.txt, file_2.txt, etc. The numerical value is</span>
+<span class="sd">subsequently used when creating the title section ``&lt;div&gt;`` element, e.g.</span>
+<span class="sd">``&lt;div n=&quot;1&quot; type=&quot;Title_section&quot;&gt;`` for file_1.txt.</span>
+
+<span class="sd">.. note::</span>
+<span class="sd">    This is optional, by default the version is set at 1.</span>
+
+<span class="sd">If processing succeeds two XML files will be created in a folder called XML.</span>
+<span class="sd">The XML file names start with the text file base name and end in _main.xml (for</span>
+<span class="sd">the XML files will be file_1_main.xml and file_1_app.xml.</span>
+
+<span class="sd">If processing fails error messages will be saved in the exegis.log file.</span>
+
+<span class="sd">The commentaries should be utf-8 text files with the format as documented</span>
+<span class="sd">in the associated documentation (docs/_build/index.html).</span>
+
+<span class="sd">:Authors: Jonathan Boyle, Nicolas Gruel &lt;nicolas.gruel@manchester.ac.uk&gt;</span>
+
+<span class="sd">:Copyright: IT Services, The University of Manchester</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># pylint: disable=locally-disabled, invalid-name</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="k">import</span> <span class="n">etree</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.analysis</span> <span class="k">import</span> <span class="n">references</span><span class="p">,</span> <span class="n">footnotes</span><span class="p">,</span> <span class="n">AnalysisException</span>
+    <span class="kn">from</span> <span class="nn">.introduction</span> <span class="k">import</span> <span class="n">Introduction</span>
+    <span class="kn">from</span> <span class="nn">.title</span> <span class="k">import</span> <span class="n">Title</span><span class="p">,</span> <span class="n">TitleException</span>
+    <span class="kn">from</span> <span class="nn">.footnotes</span> <span class="k">import</span> <span class="n">Footnotes</span><span class="p">,</span> <span class="n">FootnotesException</span>
+    <span class="kn">from</span> <span class="nn">.baseclass</span> <span class="k">import</span> <span class="n">Exegis</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">TEMPLATE_FNAME</span><span class="p">,</span> <span class="n">RELAXNG_FNAME</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">analysis</span> <span class="k">import</span> <span class="n">references</span><span class="p">,</span> <span class="n">footnotes</span><span class="p">,</span> <span class="n">AnalysisException</span>
+    <span class="kn">from</span> <span class="nn">introduction</span> <span class="k">import</span> <span class="n">Introduction</span><span class="p">,</span> <span class="n">IntroductionException</span>
+    <span class="kn">from</span> <span class="nn">title</span> <span class="k">import</span> <span class="n">Title</span><span class="p">,</span> <span class="n">TitleException</span>
+    <span class="kn">from</span> <span class="nn">footnotes</span> <span class="k">import</span> <span class="n">Footnotes</span><span class="p">,</span> <span class="n">FootnotesException</span>
+    <span class="kn">from</span> <span class="nn">baseclass</span> <span class="k">import</span> <span class="n">Exegis</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">TEMPLATE_FNAME</span><span class="p">,</span> <span class="n">RELAXNG_FNAME</span>
+
+
+<span class="c1"># Define an Exception</span>
+<div class="viewcode-block" id="AphorismsToXMLException"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.AphorismsToXMLException">[docs]</a><span class="k">class</span> <span class="nc">AphorismsToXMLException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for exception</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Process"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process">[docs]</a><span class="k">class</span> <span class="nc">Process</span><span class="p">(</span><span class="n">Exegis</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to main hypocratic aphorism text to produce a TEI XML file.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname : str</span>
+<span class="sd">        Name of the file to convert.</span>
+<span class="sd">        The text file base name is expected to end with an underscore followed</span>
+<span class="sd">        by a numerical value, e.g. file_1.txt, file_2.txt, etc. This numerical</span>
+<span class="sd">        value is used when creating the title section &lt;div&gt; element, e.g.</span>
+<span class="sd">        &lt;div n=&quot;1&quot; type=&quot;Title_section&quot;&gt; for file_1.txt.</span>
+
+<span class="sd">    folder : str, optional</span>
+<span class="sd">        Name of the folder where are the files to convert</span>
+
+<span class="sd">    doc_num : int, optional</span>
+<span class="sd">        version of the document treated.</span>
+<span class="sd">        Default value: 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">fname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">doc_num</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">Exegis</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc_num</span> <span class="o">=</span> <span class="n">doc_num</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template_fname</span> <span class="o">=</span> <span class="n">TEMPLATE_FNAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relaxng_fname</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Create basename file.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_basename</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_name</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">footnotes_app</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Initialise footnote number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># other attributes used</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_introduction</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aph_com</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># aphorism and commentaries</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_footnote</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="c1"># Initialisation of the xml_main and xml_app list</span>
+        <span class="c1"># They are created here and not in the __init__ to have</span>
+        <span class="c1"># the reinitialisation where it is needed.</span>
+
+<div class="viewcode-block" id="Process.set_basename"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process.set_basename">[docs]</a>    <span class="k">def</span> <span class="nf">set_basename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to set the basename attribute if fname is not None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Create folder for XML</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;XML&#39;</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;XML&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Set XML file name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;XML&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_name</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Process.open_document"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process.open_document">[docs]</a>    <span class="k">def</span> <span class="nf">open_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to open and read the exegis document.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fname : str, optional</span>
+<span class="sd">            name of the file to analyse.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str, optional</span>
+<span class="sd">            Name of the folder where are the files to convert</span>
+
+<span class="sd">        fname : str</span>
+<span class="sd">            Name of the file to convert.</span>
+<span class="sd">            The text file base name is expected to end with an underscore</span>
+<span class="sd">            followed by a numerical value, e.g. file_1.txt, file_2.txt, etc.</span>
+<span class="sd">            This numerical value is used when creating the title section</span>
+<span class="sd">            &lt;div&gt; element, e.g. &lt;div n=&quot;1&quot; type=&quot;Title_section&quot;&gt;</span>
+<span class="sd">            for file_1.txt.</span>
+
+<span class="sd">        text : str</span>
+<span class="sd">            string which contains the whole file in utf-8 format.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AphorismsToXMLException</span>
+<span class="sd">            if document can not be:</span>
+<span class="sd">                - open</span>
+<span class="sd">                - there subfolder present in the folder</span>
+<span class="sd">                - file not treatable by the software (e.g. .DS_Store)</span>
+<span class="sd">                - file does not exist</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_basename</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_basename</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;There are no file to convert.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+
+        <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">full_path</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;The software does not treat subfolder.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+
+        <span class="c1"># Extract the document number, it is expected this is at the end of the</span>
+        <span class="c1"># base name following an &#39;_&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sep</span><span class="p">,</span> <span class="n">doc_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_name</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">doc_num</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sep</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;File name </span><span class="si">{}</span><span class="s1"> does not provide version information. &#39;</span>
+                    <span class="s1">&#39;Use version 1 by default&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+
+        <span class="c1"># Open the file to process</span>
+        <span class="c1"># pylint: disable=locally-disabled, invalid-name</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="c1"># Read in file</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;File </span><span class="si">{}</span><span class="s1"> is not treatable by the software&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;File </span><span class="si">{}</span><span class="s1"> does not exist&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span></div>
+
+<div class="viewcode-block" id="Process.divide_document"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process.divide_document">[docs]</a>    <span class="k">def</span> <span class="nf">divide_document</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to divide the document in the three main parts.</span>
+
+<span class="sd">        An exegis document si composed in three or four main parts:</span>
+
+<span class="sd">        - The introduction (optional)</span>
+<span class="sd">        - The title</span>
+<span class="sd">        - The aphorisms</span>
+<span class="sd">        - The footnotes</span>
+
+<span class="sd">        This method will divide the document in the three or four parts.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        _introduction : str</span>
+<span class="sd">            A string which contains the introduction of the document if present</span>
+
+<span class="sd">        _title : str</span>
+<span class="sd">            A string which contains the title of the document</span>
+
+<span class="sd">        _text : str</span>
+<span class="sd">            A string which contains the aphorisms and commentaries</span>
+<span class="sd">            of the document</span>
+
+<span class="sd">        _footnotes : str</span>
+<span class="sd">            A string which contains the footnotes of the document</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AphorismsToXMLException</span>
+<span class="sd">            if it is not possible to divide the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Not sure that is the best way to do but this is just a trial</span>
+
+        <span class="c1"># cut the portion of the test, starting from the end, until the</span>
+        <span class="c1"># characters footnotes_sep</span>
+        <span class="n">footnotes_sep</span> <span class="o">=</span> <span class="s1">&#39;*1*&#39;</span>
+        <span class="n">loc_footnotes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="n">footnotes_sep</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">loc_footnotes</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">footnotes_sep</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Footnote referenced in the text but &#39;</span>
+                         <span class="s1">&#39;no footnote section present.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+
+        <span class="k">if</span> <span class="n">loc_footnotes</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="p">[</span><span class="n">loc_footnotes</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="p">[:</span><span class="n">loc_footnotes</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;There are no footnotes present.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Cut the intro (if present)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\+\+\n&#39;</span><span class="p">)</span>
+            <span class="n">_tmp</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_tmp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_introduction</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">_tmp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_introduction</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s{0,}1\.?\n&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">_tmp</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">=</span> <span class="n">_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="s1">&#39;1.</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;1.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Aphorism should have numeration as 1. or 1&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Process.aphorisms_dict"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process.aphorisms_dict">[docs]</a>    <span class="k">def</span> <span class="nf">aphorisms_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create an order dictionary (OrderedDict object) with the aphorisms</span>
+<span class="sd">        and commentaries.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        _aph_com : dict</span>
+<span class="sd">            dictionary which contains the aphorisms and the commentaries</span>
+<span class="sd">            associated.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AphorismsToXMLException</span>
+<span class="sd">            if it is not possible to create the dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aphorism</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s{0,}[0-9]+\.?\n&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+
+        <span class="c1"># Split the text in function of the numbers (i.e. the separation</span>
+        <span class="c1"># of the aphorism.</span>
+        <span class="c1"># &#39;\s[0-9]+.\n&#39; means &#39;find string :</span>
+        <span class="c1">#    which start with end of line or any space character</span>
+        <span class="c1">#    with at least on number ending</span>
+        <span class="c1">#    with a point and a end of line.</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n\s{0,}?[0-9]+\.?\n&#39;</span><span class="p">)</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">n_aphorism</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">group</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;.</span><span class="se">\t\n</span><span class="s1"> &#39;</span><span class="p">))</span>
+                          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="p">)]</span>
+            <span class="c1"># Find missing aphorism or badly written (e.g.: 14-)</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">n_aphorism</span><span class="p">)))</span>
+                       <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">n_aphorism</span><span class="p">]</span>
+            <span class="c1"># Find if multiple aphorism with the same number.</span>
+            <span class="n">doublon</span> <span class="o">=</span> <span class="nb">list</span><span class="p">({</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n_aphorism</span> <span class="k">if</span> <span class="n">n_aphorism</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">})</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">n_aphorism</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;There are no aphorisms detected&#39;</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">n_aphorism</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_aphorism</span><span class="p">):</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;N aphorism expected </span><span class="si">{}</span><span class="s1">, got: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">n_aphorism</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">n_aphorism</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Missing or problematic aphorism: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="n">warning</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Last aphorism can be problematic but &#39;</span>
+                           <span class="s1">&#39;not detected by the software.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">doublon</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Aphorism with same number: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">doublon</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AphorismsToXMLException</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Aphorism numeration format probably does not respect &#39;</span>
+                     <span class="s1">&#39;the convention. &#39;</span>
+                     <span class="s1">&#39;It should be a number following by a point&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+        <span class="k">except</span> <span class="n">AphorismsToXMLException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># create the dictionary with the aphorism (not sure that we need</span>
+        <span class="c1"># the ordered one)</span>
+        <span class="c1"># use n_aphorism to be sure that there are no error</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_aph_com</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">aph</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">aphorism</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_aph_com</span><span class="p">[</span><span class="n">n_aphorism</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                                                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">aph</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="n">AphorismsToXMLException</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Problem in the creation of the dictionary which&#39;</span>
+                     <span class="s1">&#39;which contains the aphorisms&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span></div>
+
+<div class="viewcode-block" id="Process.read_template"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process.read_template">[docs]</a>    <span class="k">def</span> <span class="nf">read_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to read the XML template used for the transformation</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        template : str</span>
+<span class="sd">            Contain the text of the XML template provided.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AphorismsToXMLException</span>
+<span class="sd">            if template cannot be found or read.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Open the template file. Kill the process if not there.</span>
+        <span class="c1"># Template is not optional.</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template_fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;Template file </span><span class="si">{}</span><span class="s1"> found.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template_fname</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Template file </span><span class="si">{}</span><span class="s1"> not found.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template_fname</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">relaxng_fname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template_fname</span><span class="p">)</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;/processing-instruction(&#39;xml-model&#39;)&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">relaxng_fname</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Relaxng file &#39;</span>
+                    <span class="s1">&#39;use for validation: </span><span class="si">{}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relaxng_fname</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_template</span><span class="p">()</span>
+
+        <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wits</span><span class="p">:</span>
+            <span class="n">wits</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wits</span><span class="p">)</span>
+            <span class="n">wits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">wits</span><span class="p">)</span>
+            <span class="n">wits</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;Witnesses found in the aphorisms and &#39;</span> \
+                   <span class="s1">&#39;commentaries </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wits</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+            <span class="n">_wits</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wits</span><span class="p">:</span>
+                <span class="n">_wits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span>
+                             <span class="s1">&#39;&lt;witness&gt; </span><span class="si">{}</span><span class="s1"> &lt;/witness&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+            <span class="n">xml</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;#INSERTWITNESSES#&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_wits</span><span class="p">),</span> <span class="n">xml</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">:</span>
+            <span class="n">xml</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;#INSERTBODY#&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">),</span> <span class="n">xml</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="p">:</span>
+            <span class="n">xml</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;#INSERTAPP#&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="p">),</span> <span class="n">xml</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">=</span> <span class="n">xml</span>
+
+    <span class="k">def</span> <span class="nf">_validate_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">relaxng_doc</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relaxng_fname</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="n">relaxng_doc</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">RELAXNG_FNAME</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">relaxng_fname</span> <span class="o">=</span> <span class="n">RELAXNG_FNAME</span>
+
+        <span class="n">relaxng</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">RelaxNG</span><span class="p">(</span><span class="n">relaxng_doc</span><span class="p">)</span>
+        <span class="n">xml</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_file</span><span class="p">)</span>
+        <span class="c1"># relaxng.validate(xml)</span>
+        <span class="c1"># if not relaxng(xml):</span>
+        <span class="c1">#     logger.error(&quot;INVALID&quot;)</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     logger.error(self.xml_file)</span>
+        <span class="c1">#     logger.error(&quot;VALID&quot;)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">relaxng</span><span class="o">.</span><span class="n">assertValid</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;The document </span><span class="si">{}</span><span class="s1"> created is &#39;</span>
+                        <span class="s1">&#39;valid corresponding &#39;</span>
+                        <span class="s1">&#39;to the Relaxng declared &#39;</span>
+                        <span class="s1">&#39;or used&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_file</span><span class="p">))</span>
+
+        <span class="k">except</span> <span class="n">etree</span><span class="o">.</span><span class="n">DocumentInvalid</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;The document </span><span class="si">{}</span><span class="s1"> created is &#39;</span>
+                         <span class="s1">&#39;not valid corresponding &#39;</span>
+                         <span class="s1">&#39;to the Relaxng declared &#39;</span>
+                         <span class="s1">&#39;or used&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_file</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+
+<div class="viewcode-block" id="Process.treat_footnotes"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process.treat_footnotes">[docs]</a>    <span class="k">def</span> <span class="nf">treat_footnotes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method to treat Footnote.</span>
+
+<span class="sd">        Work even if division of the document didn&#39;t work properly but</span>
+<span class="sd">        for the footnotes part.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="c1"># In most of the file the footnote will be present and can be</span>
+            <span class="c1"># treated independently from the aphorism.</span>
+
+            <span class="c1"># Treat the footnote part and create the XML app</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">footnotes_app</span> <span class="o">=</span> <span class="n">Footnotes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">footnotes</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">FootnotesException</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AphorismsToXMLException</span> <span class="kn">from</span> <span class="nn">None</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Footnotes treated&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Create XML app</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">footnotes_app</span><span class="o">.</span><span class="n">xml_app</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes_app</span><span class="o">.</span><span class="n">xml</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footnotes_app</span><span class="o">.</span><span class="n">wits</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Footnotes app file created&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Process.main"><a class="viewcode-back" href="../../source/exegis.html#exegis.aphorisms_to_xml.Process.main">[docs]</a>    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A function to process a text file containing symbols representing</span>
+<span class="sd">        references to witnesses and symbols and footnotes defining textual</span>
+<span class="sd">        variations, omissions, additions, correxi or conieci. This function</span>
+<span class="sd">        uses these symbols to produce files containing EpiDoc compatible XML.</span>
+
+<span class="sd">        If processing succeeds two XML files will be created in folder ./XML</span>
+<span class="sd">        with file names that start with the text file base name and ending in</span>
+<span class="sd">        _main.xml (for the main XML) and _apps.xml (for the apparatus XML).</span>
+<span class="sd">        For example for file_1.txt the XML files will be file_1_main.xml and</span>
+<span class="sd">        file_1_app.xml.</span>
+
+<span class="sd">        Modify the attribute ``xml`` to add the title section in the main XML</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AphorismsToXMLException</span>
+<span class="sd">            if the processing of the file does not work as expected.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Open and read the exegis document</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open_document</span><span class="p">()</span>
+
+        <span class="n">debug</span> <span class="o">=</span> <span class="s1">&#39;Open document </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+
+        <span class="c1"># Divide the document in the different part (intro, title,</span>
+        <span class="c1"># text, footnotes)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">divide_document</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Division of the document ok.&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AphorismsToXMLException</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Division of the document failed.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treat_footnotes</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">aphorisms_dict</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Created aphorisms dictionary&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_introduction</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">intro</span> <span class="o">=</span> <span class="n">Introduction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_introduction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span><span class="p">)</span>
+                <span class="n">intro</span><span class="o">.</span><span class="n">xml_main</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span> <span class="o">=</span> <span class="n">intro</span><span class="o">.</span><span class="n">next_footnote</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">+=</span> <span class="n">intro</span><span class="o">.</span><span class="n">xml</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Introduction treated&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">IntroductionException</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AphorismsToXMLException</span> <span class="kn">from</span> <span class="nn">None</span>
+
+        <span class="c1"># Deal with the first block of text which should contain</span>
+        <span class="c1"># an optional intro</span>
+        <span class="c1"># and the title</span>
+        <span class="c1"># =======================================================</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">Title</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc_num</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TitleException</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AphorismsToXMLException</span> <span class="kn">from</span> <span class="nn">None</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Title treated&#39;</span><span class="p">)</span>
+
+        <span class="n">title</span><span class="o">.</span><span class="n">xml_main</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Title xml created&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">next_footnote</span>
+
+        <span class="c1"># Add title to the xml main</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">+=</span> <span class="n">title</span><span class="o">.</span><span class="n">xml</span>
+
+        <span class="c1"># Now process the rest of the main text</span>
+        <span class="c1"># =====================================</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Start aphorisms and commentaries treatment&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aph_com</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_aph_com</span><span class="p">[</span><span class="n">k</span><span class="p">]):</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;There are no aphorisms  in the file. &#39;</span>
+                         <span class="s1">&#39;It can be because of the numeration. &#39;</span>
+                         <span class="s1">&#39;Verify that the it is starting at 1 or 1. not .1 &#39;</span>
+                         <span class="s1">&#39;(the point can be after the number but not before.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AphorismsToXMLException</span>
+
+            <span class="n">aphorism</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aph_com</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">commentaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aph_com</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+
+            <span class="c1"># Add initial XML for the aphorism + commentary unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="s1">&#39;&lt;div n=&quot;&#39;</span> <span class="o">+</span>
+                            <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot; type=&quot;aphorism_commentary_unit&quot;&gt;&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Add initial XML for this aphorism</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                            <span class="s1">&#39;&lt;div type=&quot;aphorism&quot;&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&lt;p&gt;&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Now process any witnesses in it. If this fails with an</span>
+            <span class="c1"># Exception print an error and return</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">line_ref</span> <span class="o">=</span> <span class="n">references</span><span class="p">(</span><span class="n">aphorism</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">AnalysisException</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Unable to process references in &#39;</span>
+                         <span class="s1">&#39;aphorism </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AphorismsToXMLException</span> <span class="kn">from</span> <span class="nn">None</span>
+
+            <span class="k">if</span> <span class="n">line_ref</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">line_ref</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Process any footnotes in line_ref, if there are errors write</span>
+            <span class="c1"># to the log file and return</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+=</span> <span class="mi">3</span>
+                <span class="n">xml_main_to_add</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span> <span class="o">=</span> \
+                    <span class="n">footnotes</span><span class="p">(</span><span class="n">line_ref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">-=</span> <span class="mi">3</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="n">AnalysisException</span><span class="p">):</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Unable to process footnotes in &#39;</span>
+                         <span class="s1">&#39;aphorism </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">AphorismsToXMLException</span> <span class="kn">from</span> <span class="nn">None</span>
+
+            <span class="c1"># Add the XML</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">xml_main_to_add</span><span class="p">)</span>
+
+            <span class="c1"># Close the XML for the aphorism</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Get the next line of text</span>
+            <span class="k">for</span> <span class="n">n_com</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">commentaries</span><span class="p">):</span>
+
+                <span class="c1"># Workaround footnote on first word</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">line</span>
+
+                <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;.&#39;</span><span class="p">:</span>
+
+                    <span class="n">debug</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Commentaries should ended with a `.`</span><span class="se">\n</span><span class="s1">&#39;</span>
+                             <span class="s1">&#39;Warning in aphorism </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                             <span class="s1">&#39;commentary </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">line</span><span class="p">))</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+
+                <span class="c1"># Add initial XML for this aphorism&#39;s commentary</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span>
+                                <span class="s1">&#39;&lt;div type=&quot;commentary&quot;&gt;&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&lt;p&gt;&#39;</span><span class="p">)</span>
+
+                <span class="c1"># Now process any witnesses in this line. If this fails with a</span>
+                <span class="c1"># CommentaryToEpidocException and log an error</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">line_ref</span> <span class="o">=</span> <span class="n">references</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">AnalysisException</span><span class="p">:</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Unable to process references, &#39;</span>
+                             <span class="s1">&#39;commentary </span><span class="si">{}</span><span class="s1"> for aphorism &#39;</span>
+                             <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_com</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">AphorismsToXMLException</span> <span class="kn">from</span> <span class="nn">None</span>
+
+                <span class="c1"># Process any _footnotes in line_ref. If this fails with a</span>
+                <span class="c1"># CommentaryToEpidocException and log an error</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+=</span> <span class="mi">3</span>
+                    <span class="n">xml_main_to_add</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span> <span class="o">=</span> \
+                        <span class="n">footnotes</span><span class="p">(</span><span class="n">line_ref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_footnote</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">-=</span> <span class="mi">3</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="n">AnalysisException</span><span class="p">):</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Unable to process footnote, &#39;</span>
+                             <span class="s1">&#39;commentary </span><span class="si">{}</span><span class="s1"> for aphorism &#39;</span>
+                             <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_com</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">AphorismsToXMLException</span> <span class="kn">from</span> <span class="nn">None</span>
+
+                <span class="c1"># Add the XML</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">xml_main_to_add</span><span class="p">)</span>
+
+                <span class="c1"># Close the XML for this commentary</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                                <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span>
+                                <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Close the XML for the aphorism + commentary unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_oss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_n_offset</span> <span class="o">+</span> <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Finish aphorisms and commentaries treatment&#39;</span><span class="p">)</span>
+        <span class="c1"># Save the xmls created</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_xml</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_xml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_xml</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Save main xml&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+  </body>
+</html>

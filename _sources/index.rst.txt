@@ -43,7 +43,7 @@ Tables of Contents
    source/xml_files
    source/develop
    source/uml
-   source/hippocratic
+   source/exegis
 ..   source/code
 
 
