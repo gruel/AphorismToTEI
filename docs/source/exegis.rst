@@ -1,67 +1,67 @@
-eXegis package
+exegis package
 ==============
 
 Submodules
 ----------
 
-exegis\.analysis module
-----------------------------
+exegis.analysis module
+----------------------
 
 .. automodule:: exegis.analysis
     :members:
     :undoc-members:
     :show-inheritance:
 
-exegis\.aphorisms\_to\_xml module
---------------------------------------
+exegis.aphorisms\_to\_xml module
+--------------------------------
 
 .. automodule:: exegis.aphorisms_to_xml
     :members:
     :undoc-members:
     :show-inheritance:
 
-exegis\.baseclass module
------------------------------
+exegis.baseclass module
+-----------------------
 
 .. automodule:: exegis.baseclass
     :members:
     :undoc-members:
     :show-inheritance:
 
-exegis\.conf module
-------------------------
+exegis.conf module
+------------------
 
 .. automodule:: exegis.conf
     :members:
     :undoc-members:
     :show-inheritance:
 
-exegis\.footnotes module
------------------------------
+exegis.footnotes module
+-----------------------
 
 .. automodule:: exegis.footnotes
     :members:
     :undoc-members:
     :show-inheritance:
 
-exegis\.introduction module
---------------------------------
+exegis.introduction module
+--------------------------
 
 .. automodule:: exegis.introduction
     :members:
     :undoc-members:
     :show-inheritance:
 
-exegis\.main module
-------------------------
+exegis.main module
+------------------
 
 .. automodule:: exegis.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-exegis\.title module
--------------------------
+exegis.title module
+-------------------
 
 .. automodule:: exegis.title
     :members:
